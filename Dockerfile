@@ -1,13 +1,10 @@
-FROM golang:1.21 AS build
+FROM golang:1.25.6 AS build
 
 ARG COMMIT_TXT
 ARG BUILD_DATE
 ARG BUILD_ENV
 ARG SERVER_HOST
 ARG JOB_TOKEN
-
-RUN git config --global url.https://gitlab-ci-token:${JOB_TOKEN}@${SERVER_HOST}.insteadOf https://${SERVER_HOST}
-RUN export GOPRIVATE=${SERVER_HOST}
 
 WORKDIR $GOPATH/src/
 COPY . .

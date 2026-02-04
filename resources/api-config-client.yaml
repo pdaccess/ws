@@ -1,0 +1,11 @@
+package: http
+generate:
+  client: true
+  models: true
+  embedded-spec: true
+import-mapping:
+  # ./packageA/spec.yaml: github.com/deepmap/oapi-codegen/internal/test/externalref/packageA
+  # ./packageB/spec.yaml: github.com/deepmap/oapi-codegen/internal/test/externalref/packageB
+output: pkg/http/client.gen.go
+output-options:
+  skip-prune: true

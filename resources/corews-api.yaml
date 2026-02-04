@@ -1,0 +1,1348 @@
+openapi: 3.0.3
+info:
+  title: PDAccess Core Service - OpenAPI 3.0
+  description: |-
+    Core services for PDAccess.
+  termsOfService: http://www.pdaccess.com/terms/
+  contact:
+    email: support@pdaccess.com
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Swagger
+  url: http://www.pdaccess.com
+servers:
+  - url: /api/v1/ws
+tags:
+  - name: service
+    description: Service data related endpoints
+  - name: group
+    description: Group and membership management
+  - name: config
+    description: Realm based configuration management
+  - name: alarm
+    description: Alarm configuration and listing
+  - name: snippet
+    description: Secure Copy Paste service
+paths:
+  /service:
+    post:
+      tags:
+        - service
+      summary: New Service
+      description: Create Service for related types/os/versions
+      operationId: newService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateServiceRequest"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateServiceResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /service/index:
+    post:
+      tags:
+        - service
+      summary: Search Service
+      description: Search service for logged user
+      operationId: searchService
+      parameters:
+        - name: group
+          in: query
+          description: Group Id
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: delete
+          in: query
+          description: Show deleted Service
+          required: false
+          explode: true
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          description: limit count of results
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset of the page count
+          required: false
+          schema:
+            type: integer
+            format: int32
+
+        - name: startDate
+          in: query
+          description: start date of log range
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          description: end date of log range
+          required: false
+          schema:
+            type: string
+            format: date-time
+
+        - name: filter
+          in: query
+          description: Filter string for service data. For example name, ip address or port number
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceSearchResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /service/{service}:
+    get:
+      tags:
+        - service
+      summary: Find service by id
+      description: Returns a single service info
+      operationId: serviceById
+      parameters:
+        - name: service
+          in: path
+          description: ID of service to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleServiceResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "404":
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    post:
+      tags:
+        - service
+      summary: Update a service
+      description: Single service update logic
+      operationId: serviceUpdate
+      parameters:
+        - name: service
+          in: path
+          description: ID of service that needs to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateServiceRequest"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    delete:
+      tags:
+        - service
+      summary: Deletes a service
+      description: delete a service using soft delete
+      operationId: deleteService
+      parameters:
+        - name: service
+          in: path
+          description: service id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /service/{service}/message:
+    get:
+      tags:
+        - service
+      summary: Message of the day, show message for related service.
+      description: Returns MOTD
+      operationId: serviceActiveMessage
+      parameters:
+        - name: service
+          in: path
+          description: ID of service to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "404":
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /service/{service}/alarm:
+    get:
+      tags:
+        - alarm
+      summary: Message of the day, show message for related service.
+      description: Returns MOTD
+      operationId: serviceMessage
+      parameters:
+        - name: service
+          in: path
+          description: ID of service to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "404":
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /group:
+    post:
+      tags:
+        - group
+      summary: New Group
+      description: Create Group with parent
+      operationId: newGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGroupRequest"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateGroupResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /group/index:
+    post:
+      tags:
+        - group
+      summary: Search Group
+      description: Search group for logged user
+      operationId: searchGroup
+      parameters:
+        - name: parent
+          in: query
+          description: Parent Group Id
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: delete
+          in: query
+          description: Show deleted Service
+          required: false
+          explode: true
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          description: limit count of results
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset of the page count
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: startDate
+          in: query
+          description: start date of log range
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          description: end date of log range
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: filter
+          in: query
+          description: Filter string for group data. For example name, ip address or port number
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupSearchResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /group/{groupId}:
+    get:
+      tags:
+        - group
+      summary: Get Single Group
+      description: Get Single Group Info
+      operationId: getConfiguration
+      parameters:
+        - name: groupId
+          in: path
+          description: Group Id
+          required: true
+          explode: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleGroupResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    delete:
+      tags:
+        - group
+      summary: Deletes a group
+      description: delete a group using soft delete
+      operationId: deleteGroup
+      parameters:
+        - name: groupId
+          in: path
+          description: Group Id
+          required: true
+          explode: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /group/{group}/member:
+    post:
+      tags:
+        - group
+      summary: new group member
+      description: add new group member
+      operationId: createGroupMember
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GroupMemberRequest"
+      responses:
+        "200":
+          description: group member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    get:
+      tags:
+        - group
+      summary: get group members
+      description: get group members
+      operationId: groupMembers
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit count of results
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset of the page count
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: group members
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupMemebersResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+    delete:
+      tags:
+        - group
+      summary: delete group members
+      description: delete group members
+      operationId: deleteGroupMembers
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GroupMemberDeleteRequest"
+      responses:
+        "200":
+          description: group member deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /group/{group}/message:
+    post:
+      tags:
+        - group
+      summary: new group message
+      description: add new group message
+      operationId: createGroupMessage
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GroupMessageRequest"
+      responses:
+        "200":
+          description: group member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    get:
+      tags:
+        - group
+      summary: get group messages
+      description: get group messages
+      operationId: searchMessage
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit count of results
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset of the page count
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: group messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupMessagesResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+    delete:
+      tags:
+        - group
+      summary: delete group message
+      description: delete group message
+      operationId: deleteGroupMessage
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example:
+                description: group message id
+      responses:
+        "200":
+          description: group message deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /group/{group}/alarm:
+    post:
+      tags:
+        - alarm
+      summary: new group alarm
+      description: add new group alarm
+      operationId: createGroupAlarm
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlarmCreateRequest"
+      responses:
+        "200":
+          description: group alarm create
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    get:
+      tags:
+        - alarm
+      summary: get group alarm definitions
+      description: get group alarm definitions
+      operationId: fetchGroupAlarms
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: group messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupAlarmsResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+    delete:
+      tags:
+        - alarm
+      summary: delete group alarm
+      description: delete group alarm
+      operationId: deleteGroupAlarm
+      parameters:
+        - name: group
+          in: path
+          description: ID of group ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example:
+                description: group alarm id
+      responses:
+        "200":
+          description: group alarm deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /snippet:
+    post:
+      tags:
+        - snippet
+      summary: New snippet text
+      description: New snippet text
+      operationId: newSnippet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SnippetRequest"
+      responses:
+        "200":
+          description: create snippet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SnippetResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    get:
+      tags:
+        - snippet
+      summary: get user snippets
+      description: get user snippets
+      operationId: userSnippets
+      parameters:
+        - name: limit
+          in: query
+          description: limit count of results
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset of the page count
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: marked
+          in: query
+          description: filter of snippet with marked
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: snippet response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchSnippetResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /snippet/{snippet}:
+    get:
+      tags:
+        - snippet
+      summary: get user snippet
+      description: get user snippet
+      operationId: getSnippet
+      parameters:
+        - name: snippet
+          in: path
+          description: snippet ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          description: limit count of results
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset of the page count
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: marked
+          in: query
+          description: filter of snippet with marked
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: snippet response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SnippetResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+    delete:
+      tags:
+        - snippet
+      summary: delete snippet
+      description: delete snippet
+      operationId: deleteSnippet
+      parameters:
+        - name: snippet
+          in: path
+          description: snippet ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: group member deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /config/{realm}/{configContext}:
+    get:
+      tags:
+        - config
+      summary: fetch config context data
+      description: fetch config context data
+      operationId: fetchContext
+      parameters:
+        - name: realm
+          in: path
+          description: realm of the config
+          required: true
+          schema:
+            type: string
+        - name: configContext
+          in: path
+          description: config context
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: snippet response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConfigContextResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+    post:
+      tags:
+        - config
+      summary: upsert config context data
+      description: upsert config context data
+      operationId: upsertContext
+      parameters:
+        - name: realm
+          in: path
+          description: realm of the config
+          required: true
+          schema:
+            type: string
+        - name: configContext
+          in: path
+          description: config context
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigContextRequest"
+      responses:
+        "200":
+          description: snippet response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+  /alarm:
+    get:
+      tags:
+        - alarm
+      summary: current alarm for user
+      description: current alarm for user
+      operationId: alarmIndex
+      parameters:
+        - name: limit
+          in: query
+          description: limit count of results
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset of the page count
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: filter
+          in: query
+          description: filter of alarm
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: alarm response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlarmsResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+components:
+  schemas:
+    AccessProtocol:
+      type: string
+      description: When you want to connect a service using pdaccess, you must give procol type. none means don't want to use proxy access for this service
+      enum:
+        - "ssh"
+        - "sql"
+        - "vnc"
+        - "rdp"
+        - "http"
+        - "none"
+    AuthProtocol:
+      type: string
+      description: one of protocol is used for authenticate service.
+      enum:
+        - "radius"
+        - "oauth2"
+        - "ldap"
+        - "tacacs"
+        - "none"
+    CreateServiceRequest:
+      type: object
+      description: Service is a main artifact for pdaccess.
+      required:
+        - name
+        - groupId
+        - accessProtocol
+        - authProtocol
+        - vendor
+        - host
+      properties:
+        name:
+          type: string
+          example: new server
+        description:
+          type: string
+          example: new server description
+        groupId:
+          type: string
+          format: uuid
+          example: 4ff2d0ee-5479-433e-84c0-f6f8f44a8f50
+        accessProtocol:
+          $ref: "#/components/schemas/AccessProtocol"
+          example: ssh
+        authProtocol:
+          $ref: "#/components/schemas/AuthProtocol"
+          example: radius
+        vendor:
+          type: string
+          description: Name of the service type
+          example: Redhat
+        version:
+          type: string
+          description: Version of the service
+          example: 9
+        host:
+          type: string
+          example: demo.pdaccess.com
+          description: host parameter can be ip or hostname.
+        port:
+          type: integer
+          format: int32
+          example: 22
+
+    CreateServiceResponse:
+      type: object
+      description: seviceId is used in many places to get service data
+      properties:
+        serviceId:
+          type: string
+          format: uuid
+          example: 6e896583-cefd-498b-ab52-3099bf706d83
+    SingleServiceResponse:
+      type: object
+      properties:
+        serviceId:
+          type: string
+    UpdateServiceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        serviceType:
+          type: string
+        serviceOs:
+          type: string
+    UpdateServiceResponse:
+      type: object
+      properties:
+        name:
+          type: string
+    ServiceSearchResponse:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Message of the day
+          description: Daily message content
+    CreateGroupRequest:
+      type: object
+      description: Group is a main object for management in pdaccess. you can create many of object with realted with group. Credentails, Policies, Messages, Alarms etc.
+      required:
+        - name
+        - description
+      properties:
+        parent:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    CreateGroupResponse:
+      type: object
+      properties:
+        groupId:
+          type: string
+          format: uuid
+          example: 4ff2d0ee-5479-433e-84c0-f6f8f44a8f50
+          description: this field return uuid v4 of group id
+    Group:
+      type: object
+      required:
+        - groupId
+        - name
+        - description
+      properties:
+        groupId:
+          type: string
+          format: uuid
+          example: 4ff2d0ee-5479-433e-84c0-f6f8f44a8f50
+        name:
+          type: string
+          example: Default_Group
+        description:
+          type: string
+          example: Default_Group Description
+        parent:
+          type: string
+          format: uuid
+          example: 7d6586ec-3710-4db9-8f5c-bddf2c2721f4
+          description: parent group of the group. Each group might have a parent group. we allow only 3 level of parent groups.
+    GroupSearchResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/Group"
+    SingleGroupResponse:
+      allOf:
+        - $ref: "#/components/schemas/Group"
+
+    GroupMemberType:
+      type: string
+      description: Group Membership Type
+      enum:
+        - "user"
+        - "admin"
+
+    GroupMemberRequest:
+      type: object
+      description: New Group Member Request. userId and role is required.
+      required:
+        - userId
+        - role
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: 06380166-fd45-450e-9c8c-51a69dd2e97c
+        role:
+          $ref: "#/components/schemas/GroupMemberType"
+          example: user
+
+    GroupMemeberItem:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: 06380166-fd45-450e-9c8c-51a69dd2e97c
+        role:
+          type: string
+          example: user
+        membershipTime:
+          type: string
+          format: time
+          example: 2006-01-02T15:04:05Z07:00
+          description: time format for RFC3339
+
+    GroupMemebersResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/GroupMemeberItem"
+
+    GroupMemberDeleteRequest:
+      type: array
+      description: userIds of member to remove from group
+      items:
+        type: string
+        example: 06380166-fd45-450e-9c8c-51a69dd2e97c
+
+    GroupMessage:
+      type: object
+      required:
+        - content
+        - startTime
+        - endTime
+      properties:
+        content:
+          type: string
+        backgroundColor:
+          type: string
+        fontColor:
+          type: string
+        fontSize:
+          type: integer
+          format: int32
+        startTime:
+          type: string
+          format: time
+          example: 2006-01-02T15:04:05Z07:00
+          description: time format for RFC3339
+        endTime:
+          type: string
+          format: time
+          example: 2006-01-03T15:04:05Z07:00
+          description: time format for RFC3339
+    GroupMessageRequest:
+      allOf:
+        - $ref: "#/components/schemas/GroupMessage"
+    GroupMessagesResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/GroupMessage"
+    Alarm:
+      type: object
+      properties:
+        name:
+          type: string
+        pattern:
+          type: string
+    AlarmCreateRequest:
+      allOf:
+        - $ref: "#/components/schemas/Alarm"
+    GroupAlarmItem:
+      allOf:
+        - $ref: "#/components/schemas/Alarm"
+      properties:
+        alarmId:
+          type: string
+          format: uuid
+    GroupAlarmsResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/GroupAlarmItem"
+    SnippetRequest:
+      type: object
+      properties:
+        content:
+          type: string
+    SnippetResponse:
+      type: object
+      properties:
+        content:
+          type: string
+    SearchSnippetResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/SnippetResponse"
+
+    ConfigContext:
+      type: object
+      description: config context is a key and value data for each config enries. we return string value version of config entry.
+      properties:
+        entry:
+          type: string
+          example: "console-logo"
+        value:
+          type: string
+          example: "base64 encoded image"
+
+    ConfigContextResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/ConfigContext"
+
+    ConfigContextRequest:
+      type: array
+      items:
+        $ref: "#/components/schemas/ConfigContext"
+
+    AlarmItem:
+      properties:
+        serviceId:
+          type: string
+        userId:
+          type: string
+        action:
+          type: string
+        createTime:
+          type: string
+          format: time
+          example: 2006-01-03T15:04:05Z07:00
+          description: time format for RFC3339
+
+    AlarmsResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/AlarmItem"
+    ApiResponse:
+      type: object
+      description: Api generic response for success or error responses
+      required:
+        - requestId
+      properties:
+        code:
+          type: string
+        type:
+          type: string
+        message:
+          type: string
+        requestId:
+          type: string
+          format: uuid
+          example: a88b3909-f139-455c-9e38-ce53beb939bc

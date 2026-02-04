@@ -1,0 +1,60 @@
+package app
+
+import (
+	"fmt"
+
+	"github.com/caarlos0/env/v8"
+	"github.com/rs/zerolog/log"
+)
+
+type ServerConfig struct {
+	DatabaseConfig  DatabaseConfig
+	PDAwsConfig     PDAwsConfig
+	AuthwsConfig    AuthwsConfig
+	CManangerConfig CManangerConfig
+
+	HttpListenAddr     string `env:"HTTP_LISTEN_ADDR" envDefault:":8080"`
+	SshListenAddr      string `env:"SSH_LISTEN_ADDR" envDefault:":2222"`
+	TerminalListenAddr string `env:"TERMINAL_LISTEN_ADDR" envDefault:":8081"`
+	GuacdAddr          string `env:"GUACD_ADDR" envDefault:"proxy:8081"`
+
+	ProxyProtocol bool `env:"PROXY_PROTOCOL" envDefault:"false"`
+
+	ServerKeyPath   string `env:"SSH_SERVER_KEY_PATH" envDefault:"/etc/security/ssh-host-key"`
+	ConnectionLimit int    `env:"SSH_CONNECTION_LIMIT" envDefault:"100"`
+	ConnectionRate  int    `env:"SSH_CONNECTION_RATE" envDefault:"3"`
+	LogLevel        string `env:"LOG_LEVEL" envDefault:"INFO"`
+}
+
+type AuthwsConfig struct {
+	Url string `env:"AUTHWS_URL" envDefault:"iauth:55051"`
+}
+
+type PDAwsConfig struct {
+	Url string `env:"PDAWS_URL" envDefault:"http://pdaws:8080"`
+}
+
+type CManangerConfig struct {
+	Url string `env:"CMANAGER_URL" envDefault:"cmanager:50051"`
+}
+
+type DatabaseConfig struct {
+	Host     string `env:"DATASOURCE_HOST" envDefault:"postgresqldb"`
+	Port     int    `env:"DATASOURCE_PORT" envDefault:"5432"`
+	Username string `env:"DATASOURCE_USERNAME" envDefault:"pda"`
+	Password string `env:"DATASOURCE_PASSWORD" envDefault:"pda"`
+	DB       string `env:"DATASOURCE_DB" envDefault:"pda"`
+}
+
+func ParseConfig() (*ServerConfig, error) {
+	cfg := ServerConfig{}
+	if err := env.Parse(&cfg); err != nil {
+		return nil, fmt.Errorf("config parse: %w", err)
+	}
+
+	log.Info().
+		Interface("config", cfg).
+		Msgf("dump current config")
+
+	return &cfg, nil
+}

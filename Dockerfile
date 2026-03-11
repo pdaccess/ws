@@ -1,4 +1,4 @@
-FROM golang:1.25.6 AS build
+FROM golang:1.26-alpine AS build
 
 ARG COMMIT_TXT
 ARG BUILD_DATE
@@ -6,40 +6,19 @@ ARG BUILD_ENV
 ARG SERVER_HOST
 ARG JOB_TOKEN
 
-WORKDIR $GOPATH/src/
-COPY . .
+WORKDIR /build
+COPY go.mod go.sum ./
 RUN go mod download
 
+COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w -X 'main.Commit=${COMMIT_TXT}' -X 'main.BuildTime=${BUILD_DATE}' -X 'main.BuildEnv=${BUILD_ENV}'" -o /ws cmd/main.go
 
-FROM alpine:3.18
-
-ENV USER=pdaccess
-ENV GROUPNAME=$USER
-ENV UID=10001
-ENV GID=10001
-
-RUN addgroup \
-    --gid "$GID" \
-    "$GROUPNAME" \
-&&  adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "$(pwd)" \
-    --ingroup "$GROUPNAME" \
-    --no-create-home \
-    --uid "$UID" \
-    $USER
-
-WORKDIR /
+FROM gcr.io/distroless/static-debian12:nonroot
 
 COPY --from=build /ws /ws
 
-RUN apk add --no-cache libc6-compat tcpdump gcompat
-RUN chmod 755 /ws
-
 EXPOSE 8080
 
-USER pdaccess:pdaccess
+USER nonroot:nonroot
 
 ENTRYPOINT ["/ws"]

@@ -11,15 +11,14 @@ BUILD_ENV := $(shell uname -a)
 
 LOG_LEVEL := DEBUG
 
-GOPRIVATE := git.h2hsecure.com/pda/commons
-
 format: 
 	@go mod tidy -e
 	@go vet ./...
 	@gofmt -s -w .
+	@go fix ./...
 
 unit-tests: format
-	@go test git.h2hsecure.com/core/ws/internal/...
+	@go test github.com/pdaccess/ws/internal/...
 
 cicd-tests: format
 	@LOG_LEVEL=${LOG_LEVEL} ginkgo -v cicd/tests
@@ -45,9 +44,6 @@ generate: internal-generator format
 
 clean:
 	@rm -f corews*
-
-skaffold: format
-	skaffold run --tail
 
 local:
 	@go run cmd/main.go --debug --console

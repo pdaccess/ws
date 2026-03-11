@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"git.h2hsecure.com/core/ws/internal/core/domain"
 	"github.com/google/uuid"
 	"github.com/lib/pq"
+	"github.com/pdaccess/ws/internal/core/domain"
 	"github.com/rs/zerolog/log"
 )
 
@@ -151,7 +151,7 @@ func (r *InventoryRepository) Search(ctx context.Context, opts ...domain.Invento
 		`
 	}
 
-	args := []interface{}{}
+	args := []any{}
 	argCount := 0
 
 	if hasVectorSearch {

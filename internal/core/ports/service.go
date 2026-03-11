@@ -3,8 +3,8 @@ package ports
 import (
 	"context"
 
-	"git.h2hsecure.com/core/ws/internal/core/domain"
 	"github.com/google/uuid"
+	"github.com/pdaccess/ws/internal/core/domain"
 )
 
 type ConfigOperations interface {
@@ -29,11 +29,9 @@ type InventoryOperations interface {
 	GetInventoryMembers(ctx context.Context, inventoryID uuid.UUID, limit, offset int) ([]domain.InventoryMember, error)
 }
 
-type GroupOperations interface {
-}
+type GroupOperations any
 
-type AlarmOperations interface {
-}
+type AlarmOperations any
 
 type Service interface {
 	InventoryOperations

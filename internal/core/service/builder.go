@@ -1,8 +1,8 @@
 package service
 
 import (
-	"git.h2hsecure.com/core/ws/internal/core/ports"
-	"git.h2hsecure.com/core/ws/internal/database"
+	"github.com/pdaccess/ws/internal/core/ports"
+	"github.com/pdaccess/ws/internal/database"
 )
 
 type Impl struct {

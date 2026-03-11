@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"git.h2hsecure.com/core/ws/internal/core/domain"
 	"github.com/google/uuid"
+	"github.com/pdaccess/ws/internal/core/domain"
 )
 
 func (s *Impl) CreateInventory(ctx context.Context, inv *domain.Inventory) error {

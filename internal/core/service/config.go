@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"git.h2hsecure.com/core/ws/internal/core/domain"
+	"github.com/pdaccess/ws/internal/core/domain"
 )
 
 // GetItemContext implements ports.Service.

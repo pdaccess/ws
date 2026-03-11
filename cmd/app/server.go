@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	"git.h2hsecure.com/core/ws/internal/database"
-	"git.h2hsecure.com/core/ws/internal/servers"
+	"github.com/pdaccess/ws/internal/database"
+	"github.com/pdaccess/ws/internal/platform/servers"
 	"github.com/rs/zerolog/log"
 )
 

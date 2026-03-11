@@ -3,10 +3,10 @@ package servers
 import (
 	"net/http"
 
-	"git.h2hsecure.com/core/ws/internal/handlers"
-	"git.h2hsecure.com/core/ws/internal/handlers/custom"
-	"git.h2hsecure.com/core/ws/internal/handlers/external"
 	"github.com/go-chi/chi/v5"
+	"github.com/pdaccess/ws/internal/platform/handlers"
+	"github.com/pdaccess/ws/internal/platform/handlers/custom"
+	"github.com/pdaccess/ws/internal/platform/handlers/external"
 )
 
 func NewHttpServer() http.Handler {
@@ -17,7 +17,7 @@ func NewHttpServer() http.Handler {
 
 	apiCall := router.With()
 
-	Iservice := external.NewStrictHandler(handlers.NewHttpHandler(), nil)
+	Iservice := external.NewStrictHandler(handlers.NewHttpHandlerWithDefault(), nil)
 	external.HandlerWithOptions(Iservice, external.ChiServerOptions{
 		BaseRouter:  apiCall,
 		Middlewares: []external.MiddlewareFunc{},

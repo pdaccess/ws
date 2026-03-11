@@ -7,7 +7,7 @@ import (
 	"syscall"
 	"time"
 
-	"git.h2hsecure.com/core/ws/cmd/app"
+	"github.com/pdaccess/ws/cmd/app"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )

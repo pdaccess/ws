@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	"git.h2hsecure.com/core/ws/internal/core/domain"
 	"github.com/google/uuid"
 	"github.com/lib/pq"
+	"github.com/pdaccess/ws/internal/core/domain"
 	"github.com/rs/zerolog/log"
 )
 

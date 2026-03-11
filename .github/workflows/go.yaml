@@ -19,11 +19,11 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          go get github.com/onsi/ginkgo/v2/ginkgo/generators@v2.8.1
-          go get github.com/onsi/ginkgo/v2/ginkgo/internal@v2.8.1
-          go get github.com/onsi/ginkgo/v2/ginkgo/labels@v2.8.1
-          go get github.com/onsi/ginkgo/v2@v2.8.1
-          go install github.com/onsi/ginkgo/v2/ginkgo@v2.8.1
+          go get github.com/onsi/ginkgo/v2/ginkgo/generators@v2.23.3
+          go get github.com/onsi/ginkgo/v2/ginkgo/internal@v2.23.3
+          go get github.com/onsi/ginkgo/v2/ginkgo/labels@v2.23.3
+          go get github.com/onsi/ginkgo/v2@v2.23.3
+          go install github.com/onsi/ginkgo/v2/ginkgo@v2.23.3
 
       - name: Run unit tests
         run: make unit-tests

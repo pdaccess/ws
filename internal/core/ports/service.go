@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"git.h2hsecure.com/core/ws/internal/core/domain"
+	"github.com/google/uuid"
 )
 
 type ConfigOperations interface {
@@ -17,6 +18,15 @@ type SnippetOperations interface {
 }
 
 type InventoryOperations interface {
+	CreateInventory(ctx context.Context, inv *domain.Inventory) error
+	GetInventory(ctx context.Context, id uuid.UUID) (*domain.Inventory, error)
+	UpdateInventory(ctx context.Context, inv *domain.Inventory) error
+	DeleteInventory(ctx context.Context, id uuid.UUID) error
+	SearchInventory(ctx context.Context, opts ...domain.InventorySearchOption) ([]domain.Inventory, error)
+
+	AddInventoryMember(ctx context.Context, member *domain.InventoryMember) error
+	RemoveInventoryMembers(ctx context.Context, inventoryID uuid.UUID, userIDs []uuid.UUID) error
+	GetInventoryMembers(ctx context.Context, inventoryID uuid.UUID, limit, offset int) ([]domain.InventoryMember, error)
 }
 
 type GroupOperations interface {

@@ -5,16 +5,34 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-
 	"os"
 	"time"
 
+	"git.h2hsecure.com/core/ws/internal/database"
 	"git.h2hsecure.com/core/ws/internal/servers"
 	"github.com/rs/zerolog/log"
 )
 
 func StartServer(config *ServerConfig, signalChan chan os.Signal) error {
 	log.Info().Msgf("Server is starting")
+
+	dbCfg := database.Config{
+		Host:     config.DatabaseConfig.Host,
+		Port:     config.DatabaseConfig.Port,
+		Username: config.DatabaseConfig.Username,
+		Password: config.DatabaseConfig.Password,
+		DB:       config.DatabaseConfig.DB,
+	}
+
+	db, err := database.New(dbCfg)
+	if err != nil {
+		return fmt.Errorf("database connection failed: %w", err)
+	}
+	defer db.Close()
+
+	if err := db.RunMigrations(); err != nil {
+		return fmt.Errorf("database migrations failed: %w", err)
+	}
 
 	routers := servers.NewHttpServer()
 	server := &http.Server{Addr: config.HttpListenAddr, Handler: routers}

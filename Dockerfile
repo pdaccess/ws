@@ -3,8 +3,6 @@ FROM golang:1.26-alpine AS build
 ARG COMMIT_TXT
 ARG BUILD_DATE
 ARG BUILD_ENV
-ARG SERVER_HOST
-ARG JOB_TOKEN
 
 WORKDIR /build
 COPY go.mod go.sum ./

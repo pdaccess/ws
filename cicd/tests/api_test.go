@@ -2,30 +2,13 @@ package tests
 
 import (
 	"net/http/httptest"
-	"testing"
 
 	"github.com/pdaccess/ws/internal/platform/handlers"
 	"github.com/pdaccess/ws/internal/platform/handlers/external"
-	"github.com/pdaccess/ws/internal/platform/servers"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
-
-var server *httptest.Server
-
-func Test_API(t *testing.T) {
-	RegisterFailHandler(Fail)
-	defer GinkgoRecover()
-	RunSpecs(t, "API Suite")
-}
-
-var _ = BeforeSuite(func() {
-	server = httptest.NewServer(servers.NewHttpServer())
-	DeferCleanup(func() {
-		server.Close()
-	})
-})
 
 var _ = Describe("Services API", func() {
 	var handler external.ServerInterface

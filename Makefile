@@ -23,14 +23,14 @@ unit-tests: format
 cicd-tests: format
 	@LOG_LEVEL=${LOG_LEVEL} ginkgo -v cicd/tests
 	
-build: format tidy cmd/main.go
-	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t registry.h2hsecure.com/pda/core/ws:${GIT_COMMIT} -f Dockerfile .
+build: format cmd/main.go
+	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t github.com/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
 	
 ci-build: cmd/main.go
-	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t registry.h2hsecure.com/pda/core/ws:${GIT_COMMIT} -f Dockerfile .
+	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t github.com/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
 
 ci-push:
-	docker push registry.h2hsecure.com/pda/core/ws:${GIT_COMMIT}
+	docker push github.com/pdaccess/ws:${GIT_COMMIT}
 
 internal-generator:
 	@rm -r internal/platform/handlers/external/server.gen.go || true

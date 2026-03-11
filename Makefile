@@ -33,12 +33,12 @@ ci-push:
 	docker push registry.h2hsecure.com/pda/core/ws:${GIT_COMMIT}
 
 internal-generator:
-	@rm -r internal/handlers/external/server.gen.go || true
+	@rm -r internal/platform/handlers/external/server.gen.go || true
 	@rm -r pkg/http/client.gen.go || true
 
 	@oapi-codegen -config resources/api-config-client.yaml resources/corews-api.yaml
 	@oapi-codegen -config resources/api-config-server.yaml resources/corews-api.yaml
-	@cp resources/corews-api.yaml internal/handlers/custom/openapi.yaml
+	@cp resources/corews-api.yaml internal/platform/handlers/custom/openapi.yaml
 
 generate: internal-generator format
 

@@ -8,6 +8,6 @@ generate:
 import-mapping:
   # ./packageA/spec.yaml: github.com/deepmap/oapi-codegen/internal/test/externalref/packageA
   # ./packageB/spec.yaml: github.com/deepmap/oapi-codegen/internal/test/externalref/packageB
-output: internal/handlers/external/server.gen.go
+output: internal/platform/handlers/external/server.gen.go
 output-options:
   skip-prune: true

@@ -1,1348 +1,1532 @@
 openapi: 3.0.3
 info:
-  title: PDAccess Core Service - OpenAPI 3.0
-  description: |-
-    Core services for PDAccess.
-  termsOfService: http://www.pdaccess.com/terms/
+  title: PDAccess API
+  description: Privileged Access Management System API
+  version: 1.0.0
   contact:
-    email: support@pdaccess.com
-  version: 0.0.1
-externalDocs:
-  description: Find out more about Swagger
-  url: http://www.pdaccess.com
+    name: PDAccess Support
+
 servers:
-  - url: /api/v1/ws
+  - url: https://app.pdaccess.com/v1/ws
+    description: Production server
+  - url: http://localhost:3000/v1/ws
+    description: Development server
+
+security:
+  - BearerAuth: []
+
 tags:
-  - name: service
-    description: Service data related endpoints
-  - name: group
-    description: Group and membership management
-  - name: config
-    description: Realm based configuration management
-  - name: alarm
-    description: Alarm configuration and listing
-  - name: snippet
-    description: Secure Copy Paste service
+  - name: Services
+    description: Service management
+  - name: Groups
+    description: Group management
+  - name: Policies
+    description: Policy management
+  - name: Admin
+    description: Administrative functions
+  - name: Activities
+    description: Activity logging
+  - name: Alarms
+    description: Alarm and alert management
+  - name: Paste
+    description: Secure paste functionality
+  - name: Search
+    description: Global search
+
 paths:
-  /service:
+  # ==================== Services ====================
+  /services:
     post:
       tags:
-        - service
-      summary: New Service
-      description: Create Service for related types/os/versions
-      operationId: newService
+        - Services
+      summary: Create service
+      description: Create a new service
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateServiceRequest"
+              $ref: '#/components/schemas/ServiceCreate'
       responses:
-        "200":
-          description: successful operation
+        '201':
+          description: Service created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreateServiceResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
+                $ref: '#/components/schemas/Service'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
 
-  /service/index:
+  /services/{id}:
+    get:
+      tags:
+        - Services
+      summary: Get service
+      description: Get service by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Service details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceDetail'
+
+    put:
+      tags:
+        - Services
+      summary: Update service
+      description: Update service details
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUpdate'
+      responses:
+        '200':
+          description: Service updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    delete:
+      tags:
+        - Services
+      summary: Delete service
+      description: Delete a service
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Service deleted
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  # ==================== Groups ====================
+  /groups:
     post:
       tags:
-        - service
-      summary: Search Service
-      description: Search service for logged user
-      operationId: searchService
+        - Groups
+      summary: Create group
+      description: Create a new group
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreate'
+      responses:
+        '201':
+          description: Group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /groups/{id}:
+    get:
+      tags:
+        - Groups
+      summary: Get group
+      description: Get group by ID
+      security:
+        - BearerAuth: []
       parameters:
-        - name: group
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Group details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDetail'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    delete:
+      tags:
+        - Groups
+      summary: Delete group
+      description: Delete a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Group deleted
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /groups/{id}/members:
+    get:
+      tags:
+        - Groups
+      summary: Get group members
+      description: Get members of a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Group members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    post:
+      tags:
+        - Groups
+      summary: Add group member
+      description: Add a user to a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '201':
+          description: Member added
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /groups/{id}/members/{userId}:
+    delete:
+      tags:
+        - Groups
+      summary: Remove group member
+      description: Remove a user from a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Member removed
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /groups/{id}/policies:
+    get:
+      tags:
+        - Policies
+      summary: Get group policies
+      description: Get policies assigned to a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Group policies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Policy'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    post:
+      tags:
+        - Policies
+      summary: Assign policy to group
+      description: Assign a policy to a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - policyId
+              properties:
+                policyId:
+                  type: integer
+      responses:
+        '201':
+          description: Policy assigned
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /groups/{id}/policies/{policyId}:
+    delete:
+      tags:
+        - Policies
+      summary: Remove policy from group
+      description: Remove a policy from a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Policy removed
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /policies:
+    get:
+      tags:
+        - Policies
+      summary: List policies
+      description: Get all policies
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Policy list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyList'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    post:
+      tags:
+        - Policies
+      summary: Create policy
+      description: Create a new policy
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - type
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                type:
+                  type: string
+                  enum: [Access, Security, Network]
+                scope:
+                  type: string
+                enabled:
+                  type: boolean
+      responses:
+        '201':
+          description: Policy created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /policies/{id}:
+    get:
+      tags:
+        - Policies
+      summary: Get policy
+      description: Get policy by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Policy details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    put:
+      tags:
+        - Policies
+      summary: Update policy
+      description: Update policy details
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                type:
+                  type: string
+                  enum: [Access, Security, Network]
+                scope:
+                  type: string
+                enabled:
+                  type: boolean
+      responses:
+        '200':
+          description: Policy updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    delete:
+      tags:
+        - Policies
+      summary: Delete policy
+      description: Delete a policy
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Policy deleted
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  # ==================== Admin ====================
+  /admin/users:
+    get:
+      tags:
+        - Admin
+      summary: List all users
+      description: Get paginated list of all users in the system
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: role
           in: query
-          description: Group Id
-          required: false
-          explode: true
           schema:
             type: string
-        - name: delete
+            enum: [admin, user]
+        - name: status
           in: query
-          description: Show deleted Service
-          required: false
-          explode: true
           schema:
-            type: boolean
-        - name: limit
-          in: query
-          description: limit count of results
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: offset
-          in: query
-          description: offset of the page count
-          required: false
-          schema:
-            type: integer
-            format: int32
+            type: string
+            enum: [active, inactive, suspended]
+      responses:
+        '200':
+          description: Users list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserList'
 
+    post:
+      tags:
+        - Admin
+      summary: Create user
+      description: Create a new user (admin only)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /admin/users/{id}:
+    get:
+      tags:
+        - Admin
+      summary: Get user details
+      description: Get detailed information about a user
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+
+    put:
+      tags:
+        - Admin
+      summary: Update user
+      description: Update user information
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    delete:
+      tags:
+        - Admin
+      summary: Delete user
+      description: Delete a user
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: User deleted
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /admin/users/{id}/status:
+    put:
+      tags:
+        - Admin
+      summary: Update user status
+      description: Activate, deactivate, or suspend a user
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [active, inactive, suspended]
+      responses:
+        '200':
+          description: User status updated
+
+  /admin/audit-logs:
+    get:
+      tags:
+        - Admin
+      summary: List audit logs
+      description: Get system audit logs for administrative review
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: userId
+          in: query
+          schema:
+            type: integer
+        - name: action
+          in: query
+          schema:
+            type: string
         - name: startDate
           in: query
-          description: start date of log range
-          required: false
           schema:
             type: string
-            format: date-time
+            format: date
         - name: endDate
           in: query
-          description: end date of log range
-          required: false
           schema:
             type: string
-            format: date-time
-
-        - name: filter
-          in: query
-          description: Filter string for service data. For example name, ip address or port number
-          required: false
-          explode: true
-          schema:
-            type: string
+            format: date
       responses:
-        "200":
-          description: successful operation
+        '200':
+          description: Audit logs list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ServiceSearchResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-  /service/{service}:
+                $ref: '#/components/schemas/AuditLogList'
+
+  /admin/system-health:
     get:
       tags:
-        - service
-      summary: Find service by id
-      description: Returns a single service info
-      operationId: serviceById
-      parameters:
-        - name: service
-          in: path
-          description: ID of service to return
-          required: true
-          schema:
-            type: string
+        - Admin
+      summary: Get system health
+      description: Get system health status and metrics
+      security:
+        - BearerAuth: []
       responses:
-        "200":
-          description: successful operation
+        '200':
+          description: System health status
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleServiceResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: Service not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-    post:
+                $ref: '#/components/schemas/SystemHealth'
+
+  /admin/settings:
+    get:
       tags:
-        - service
-      summary: Update a service
-      description: Single service update logic
-      operationId: serviceUpdate
-      parameters:
-        - name: service
-          in: path
-          description: ID of service that needs to be updated
-          required: true
-          schema:
-            type: string
+        - Admin
+      summary: Get system settings
+      description: Get system configuration settings
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: System settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemSettings'
+
+    put:
+      tags:
+        - Admin
+      summary: Update system settings
+      description: Update system configuration settings
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateServiceRequest"
+              $ref: '#/components/schemas/SystemSettingsUpdate'
       responses:
-        "200":
-          description: successful operation
+        '200':
+          description: Settings updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-    delete:
-      tags:
-        - service
-      summary: Deletes a service
-      description: delete a service using soft delete
-      operationId: deleteService
-      parameters:
-        - name: service
-          in: path
-          description: service id to delete
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
+                $ref: '#/components/schemas/SystemSettings'
 
-  /service/{service}/message:
+  # ==================== Activities ====================
+  /activities:
     get:
       tags:
-        - service
-      summary: Message of the day, show message for related service.
-      description: Returns MOTD
-      operationId: serviceActiveMessage
+        - Activities
+      summary: List activities
+      description: Get paginated list of activities, optionally filtered by resource
+      security:
+        - BearerAuth: []
       parameters:
-        - name: service
-          in: path
-          description: ID of service to return
-          required: true
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: severity
+          in: query
           schema:
             type: string
-            format: uuid
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessageResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: Service not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-  /service/{service}/alarm:
-    get:
-      tags:
-        - alarm
-      summary: Message of the day, show message for related service.
-      description: Returns MOTD
-      operationId: serviceMessage
-      parameters:
-        - name: service
-          in: path
-          description: ID of service to return
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MessageResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: Service not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-  /group:
-    post:
-      tags:
-        - group
-      summary: New Group
-      description: Create Group with parent
-      operationId: newGroup
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateGroupRequest"
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CreateGroupResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-  /group/index:
-    post:
-      tags:
-        - group
-      summary: Search Group
-      description: Search group for logged user
-      operationId: searchGroup
-      parameters:
-        - name: parent
+            enum: [all, info, success, warning, error]
+        - name: serviceId
           in: query
-          description: Parent Group Id
-          required: false
-          explode: true
-          schema:
-            type: string
-        - name: delete
-          in: query
-          description: Show deleted Service
-          required: false
-          explode: true
-          schema:
-            type: boolean
-        - name: limit
-          in: query
-          description: limit count of results
-          required: false
           schema:
             type: integer
-            format: int32
-        - name: offset
-          in: query
-          description: offset of the page count
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: startDate
-          in: query
-          description: start date of log range
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: endDate
-          in: query
-          description: end date of log range
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: filter
-          in: query
-          description: Filter string for group data. For example name, ip address or port number
-          required: false
-          explode: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GroupSearchResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-  /group/{groupId}:
-    get:
-      tags:
-        - group
-      summary: Get Single Group
-      description: Get Single Group Info
-      operationId: getConfiguration
-      parameters:
+          description: Filter by service ID
         - name: groupId
-          in: path
-          description: Group Id
-          required: true
-          explode: true
+          in: query
           schema:
-            type: string
-            format: uuid
+            type: integer
+          description: Filter by group ID
       responses:
-        "200":
-          description: successful operation
+        '200':
+          description: Activities list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SingleGroupResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-    delete:
-      tags:
-        - group
-      summary: Deletes a group
-      description: delete a group using soft delete
-      operationId: deleteGroup
-      parameters:
-        - name: groupId
-          in: path
-          description: Group Id
-          required: true
-          explode: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: successful operation
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
+                $ref: '#/components/schemas/ActivityList'
 
-  /group/{group}/member:
+  /activities/{id}:
+    get:
+      tags:
+        - Activities
+      summary: Get activity
+      description: Get activity by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Activity details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityDetail'
+
+  /sessions/{id}/activities:
+    get:
+      tags:
+        - Activities
+      summary: Get session activities
+      description: Get all activities for a specific session (timeline view)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Session ID
+      responses:
+        '200':
+          description: Session activities timeline
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SessionActivity'
+
+  /groups/{id}/activities:
+    get:
+      tags:
+        - Activities
+      summary: Get group activities
+      description: Get activities related to a specific group
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Group activities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityList'
+
+  # ==================== Alarms ====================
+  /alarms:
+    get:
+      tags:
+        - Alarms
+      summary: List alarms
+      description: Get paginated list of alarms
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum: [all, critical, warning, info]
+      responses:
+        '200':
+          description: Alarms list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlarmList'
+
+  /alarms/{id}/acknowledge:
     post:
       tags:
-        - group
-      summary: new group member
-      description: add new group member
-      operationId: createGroupMember
+        - Alarms
+      summary: Acknowledge alarm
+      description: Acknowledge an alarm
+      security:
+        - BearerAuth: []
       parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GroupMemberRequest"
+        - $ref: '#/components/parameters/IdParam'
       responses:
-        "200":
-          description: group member
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
+        '200':
+          description: Alarm acknowledged
 
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
+  /alarms/{id}:
     get:
       tags:
-        - group
-      summary: get group members
-      description: get group members
-      operationId: groupMembers
+        - Alarms
+      summary: Get alarm
+      description: Get alarm by ID
+      security:
+        - BearerAuth: []
       parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-        - name: limit
-          in: query
-          description: limit count of results
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: offset
-          in: query
-          description: offset of the page count
-          required: false
-          schema:
-            type: integer
-            format: int32
+        - $ref: '#/components/parameters/IdParam'
       responses:
-        "200":
-          description: group members
+        '200':
+          description: Alarm details
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GroupMemebersResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
+                $ref: '#/components/schemas/Alarm'
 
-    delete:
-      tags:
-        - group
-      summary: delete group members
-      description: delete group members
-      operationId: deleteGroupMembers
-      parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GroupMemberDeleteRequest"
-      responses:
-        "200":
-          description: group member deleted
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-  /group/{group}/message:
-    post:
-      tags:
-        - group
-      summary: new group message
-      description: add new group message
-      operationId: createGroupMessage
-      parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GroupMessageRequest"
-      responses:
-        "200":
-          description: group member
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
+  # ==================== Paste ====================
+  /paste:
     get:
       tags:
-        - group
-      summary: get group messages
-      description: get group messages
-      operationId: searchMessage
+        - Paste
+      summary: List pastes
+      description: Get paginated list of pastes
+      security:
+        - BearerAuth: []
       parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-        - name: limit
-          in: query
-          description: limit count of results
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: offset
-          in: query
-          description: offset of the page count
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        "200":
-          description: group messages
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GroupMessagesResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-    delete:
-      tags:
-        - group
-      summary: delete group message
-      description: delete group message
-      operationId: deleteGroupMessage
-      parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-                example:
-                description: group message id
-      responses:
-        "200":
-          description: group message deleted
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-  /group/{group}/alarm:
-    post:
-      tags:
-        - alarm
-      summary: new group alarm
-      description: add new group alarm
-      operationId: createGroupAlarm
-      parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AlarmCreateRequest"
-      responses:
-        "200":
-          description: group alarm create
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-    get:
-      tags:
-        - alarm
-      summary: get group alarm definitions
-      description: get group alarm definitions
-      operationId: fetchGroupAlarms
-      parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: group messages
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GroupAlarmsResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-    delete:
-      tags:
-        - alarm
-      summary: delete group alarm
-      description: delete group alarm
-      operationId: deleteGroupAlarm
-      parameters:
-        - name: group
-          in: path
-          description: ID of group ID
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-                example:
-                description: group alarm id
-      responses:
-        "200":
-          description: group alarm deleted
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-  /snippet:
-    post:
-      tags:
-        - snippet
-      summary: New snippet text
-      description: New snippet text
-      operationId: newSnippet
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SnippetRequest"
-      responses:
-        "200":
-          description: create snippet
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SnippetResponse"
-
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-    get:
-      tags:
-        - snippet
-      summary: get user snippets
-      description: get user snippets
-      operationId: userSnippets
-      parameters:
-        - name: limit
-          in: query
-          description: limit count of results
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: offset
-          in: query
-          description: offset of the page count
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: marked
-          in: query
-          description: filter of snippet with marked
-          required: false
-          schema:
-            type: boolean
-      responses:
-        "200":
-          description: snippet response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SearchSnippetResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-  /snippet/{snippet}:
-    get:
-      tags:
-        - snippet
-      summary: get user snippet
-      description: get user snippet
-      operationId: getSnippet
-      parameters:
-        - name: snippet
-          in: path
-          description: snippet ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: limit
-          in: query
-          description: limit count of results
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: offset
-          in: query
-          description: offset of the page count
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: marked
-          in: query
-          description: filter of snippet with marked
-          required: false
-          schema:
-            type: boolean
-      responses:
-        "200":
-          description: snippet response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SnippetResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-    delete:
-      tags:
-        - snippet
-      summary: delete snippet
-      description: delete snippet
-      operationId: deleteSnippet
-      parameters:
-        - name: snippet
-          in: path
-          description: snippet ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: group member deleted
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-  /config/{realm}/{configContext}:
-    get:
-      tags:
-        - config
-      summary: fetch config context data
-      description: fetch config context data
-      operationId: fetchContext
-      parameters:
-        - name: realm
-          in: path
-          description: realm of the config
-          required: true
-          schema:
-            type: string
-        - name: configContext
-          in: path
-          description: config context
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: snippet response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ConfigContextResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-    post:
-      tags:
-        - config
-      summary: upsert config context data
-      description: upsert config context data
-      operationId: upsertContext
-      parameters:
-        - name: realm
-          in: path
-          description: realm of the config
-          required: true
-          schema:
-            type: string
-        - name: configContext
-          in: path
-          description: config context
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ConfigContextRequest"
-      responses:
-        "200":
-          description: snippet response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "400":
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-
-  /alarm:
-    get:
-      tags:
-        - alarm
-      summary: current alarm for user
-      description: current alarm for user
-      operationId: alarmIndex
-      parameters:
-        - name: limit
-          in: query
-          description: limit count of results
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: offset
-          in: query
-          description: offset of the page count
-          required: false
-          schema:
-            type: integer
-            format: int32
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
         - name: filter
           in: query
-          description: filter of alarm
-          required: false
           schema:
             type: string
+            enum: [all, create, expiring]
       responses:
-        "200":
-          description: alarm response
+        '200':
+          description: Pastes list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AlarmsResponse"
-        "400":
-          description: Invalid input
+                $ref: '#/components/schemas/PasteList'
+
+    post:
+      tags:
+        - Paste
+      summary: Create paste
+      description: Create a new secure paste
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasteCreate'
+      responses:
+        '201':
+          description: Paste created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiResponse"
+                $ref: '#/components/schemas/Paste'
+
+  /paste/{id}:
+    get:
+      tags:
+        - Paste
+      summary: Get paste
+      description: Get paste by ID (view once if burn after read)
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Paste details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paste'
+
+    delete:
+      tags:
+        - Paste
+      summary: Delete paste
+      description: Delete a paste
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Paste deleted
+
+  # ==================== Search ====================
+  /search:
+    get:
+      tags:
+        - Search
+      summary: Global search
+      description: Search and list across all resources
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: Search query
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Service, Group, User, Activity]
+          description: Resource type to search/list
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortParam'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [all, active, maintenance, inactive]
+          description: Filter by status (for Service)
+        - name: groupId
+          in: query
+          schema:
+            type: integer
+          description: Filter by group ID (for Service)
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
 
 components:
-  schemas:
-    AccessProtocol:
-      type: string
-      description: When you want to connect a service using pdaccess, you must give procol type. none means don't want to use proxy access for this service
-      enum:
-        - "ssh"
-        - "sql"
-        - "vnc"
-        - "rdp"
-        - "http"
-        - "none"
-    AuthProtocol:
-      type: string
-      description: one of protocol is used for authenticate service.
-      enum:
-        - "radius"
-        - "oauth2"
-        - "ldap"
-        - "tacacs"
-        - "none"
-    CreateServiceRequest:
-      type: object
-      description: Service is a main artifact for pdaccess.
-      required:
-        - name
-        - groupId
-        - accessProtocol
-        - authProtocol
-        - vendor
-        - host
-      properties:
-        name:
-          type: string
-          example: new server
-        description:
-          type: string
-          example: new server description
-        groupId:
-          type: string
-          format: uuid
-          example: 4ff2d0ee-5479-433e-84c0-f6f8f44a8f50
-        accessProtocol:
-          $ref: "#/components/schemas/AccessProtocol"
-          example: ssh
-        authProtocol:
-          $ref: "#/components/schemas/AuthProtocol"
-          example: radius
-        vendor:
-          type: string
-          description: Name of the service type
-          example: Redhat
-        version:
-          type: string
-          description: Version of the service
-          example: 9
-        host:
-          type: string
-          example: demo.pdaccess.com
-          description: host parameter can be ip or hostname.
-        port:
-          type: integer
-          format: int32
-          example: 22
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 20
+      description: Items per page
+    SortParam:
+      name: sort
+      in: query
+      schema:
+        type: string
+      description: Sort field and direction (e.g., "name:asc")
+    SearchParam:
+      name: search
+      in: query
+      schema:
+        type: string
+      description: Search query
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
 
-    CreateServiceResponse:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    ClientError:
+      description: Client Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+
+  schemas:
+    # Common
+    GenericError:
       type: object
-      description: seviceId is used in many places to get service data
+      required:
+        - error
       properties:
-        serviceId:
-          type: string
-          format: uuid
-          example: 6e896583-cefd-498b-ab52-3099bf706d83
-    SingleServiceResponse:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+
+    PaginatedResponse:
       type: object
       properties:
-        serviceId:
-          type: string
-    UpdateServiceRequest:
+        data:
+          type: array
+          items:
+            type: object
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    PaginationMeta:
       type: object
       properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+
+    # Services
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
         name:
           type: string
-        description:
+        hostname:
           type: string
-        serviceType:
+        alias:
           type: string
-        serviceOs:
+        protocol:
           type: string
-    UpdateServiceResponse:
+        groupId:
+          type: integer
+          nullable: true
+        status:
+          type: string
+          enum: [Active, Maintenance, Inactive]
+        type:
+          type: string
+        uptime:
+          type: string
+        lastDeployed:
+          type: string
+          format: date
+
+    ServiceDetail:
+      allOf:
+        - $ref: '#/components/schemas/Service'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/Group'
+
+    ServiceCreate:
       type: object
-      properties:
-        name:
-          type: string
-    ServiceSearchResponse:
-      type: object
-      properties:
-        serviceId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    MessageResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Message of the day
-          description: Daily message content
-    CreateGroupRequest:
-      type: object
-      description: Group is a main object for management in pdaccess. you can create many of object with realted with group. Credentails, Policies, Messages, Alarms etc.
       required:
         - name
-        - description
+        - hostname
+        - protocol
+        - type
       properties:
-        parent:
-          type: string
         name:
           type: string
-        description:
+        hostname:
           type: string
-    CreateGroupResponse:
+        alias:
+          type: string
+        protocol:
+          type: string
+        groupId:
+          type: integer
+          nullable: true
+        type:
+          type: string
+
+    ServiceUpdate:
       type: object
       properties:
-        groupId:
+        name:
           type: string
-          format: uuid
-          example: 4ff2d0ee-5479-433e-84c0-f6f8f44a8f50
-          description: this field return uuid v4 of group id
+        hostname:
+          type: string
+        alias:
+          type: string
+        protocol:
+          type: string
+        groupId:
+          type: integer
+          nullable: true
+        status:
+          type: string
+
+    # Groups
     Group:
       type: object
-      required:
-        - groupId
-        - name
-        - description
       properties:
-        groupId:
-          type: string
-          format: uuid
-          example: 4ff2d0ee-5479-433e-84c0-f6f8f44a8f50
+        id:
+          type: integer
         name:
           type: string
-          example: Default_Group
+        parentId:
+          type: integer
+          nullable: true
+        members:
+          type: integer
         description:
           type: string
-          example: Default_Group Description
-        parent:
+        created:
           type: string
-          format: uuid
-          example: 7d6586ec-3710-4db9-8f5c-bddf2c2721f4
-          description: parent group of the group. Each group might have a parent group. we allow only 3 level of parent groups.
-    GroupSearchResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/Group"
-    SingleGroupResponse:
+          format: date
+
+    GroupDetail:
       allOf:
-        - $ref: "#/components/schemas/Group"
+        - $ref: '#/components/schemas/Group'
+        - type: object
+          properties:
+            parent:
+              $ref: '#/components/schemas/Group'
+            children:
+              type: array
+              items:
+                $ref: '#/components/schemas/Group'
 
-    GroupMemberType:
-      type: string
-      description: Group Membership Type
-      enum:
-        - "user"
-        - "admin"
-
-    GroupMemberRequest:
-      type: object
-      description: New Group Member Request. userId and role is required.
-      required:
-        - userId
-        - role
-      properties:
-        userId:
-          type: string
-          format: uuid
-          example: 06380166-fd45-450e-9c8c-51a69dd2e97c
-        role:
-          $ref: "#/components/schemas/GroupMemberType"
-          example: user
-
-    GroupMemeberItem:
-      type: object
-      properties:
-        userId:
-          type: string
-          format: uuid
-          example: 06380166-fd45-450e-9c8c-51a69dd2e97c
-        role:
-          type: string
-          example: user
-        membershipTime:
-          type: string
-          format: time
-          example: 2006-01-02T15:04:05Z07:00
-          description: time format for RFC3339
-
-    GroupMemebersResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/GroupMemeberItem"
-
-    GroupMemberDeleteRequest:
-      type: array
-      description: userIds of member to remove from group
-      items:
-        type: string
-        example: 06380166-fd45-450e-9c8c-51a69dd2e97c
-
-    GroupMessage:
+    GroupCreate:
       type: object
       required:
-        - content
-        - startTime
-        - endTime
-      properties:
-        content:
-          type: string
-        backgroundColor:
-          type: string
-        fontColor:
-          type: string
-        fontSize:
-          type: integer
-          format: int32
-        startTime:
-          type: string
-          format: time
-          example: 2006-01-02T15:04:05Z07:00
-          description: time format for RFC3339
-        endTime:
-          type: string
-          format: time
-          example: 2006-01-03T15:04:05Z07:00
-          description: time format for RFC3339
-    GroupMessageRequest:
-      allOf:
-        - $ref: "#/components/schemas/GroupMessage"
-    GroupMessagesResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/GroupMessage"
-    Alarm:
-      type: object
+        - name
       properties:
         name:
           type: string
-        pattern:
+        parentId:
+          type: integer
+          nullable: true
+        description:
           type: string
-    AlarmCreateRequest:
-      allOf:
-        - $ref: "#/components/schemas/Alarm"
-    GroupAlarmItem:
-      allOf:
-        - $ref: "#/components/schemas/Alarm"
-      properties:
-        alarmId:
-          type: string
-          format: uuid
-    GroupAlarmsResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/GroupAlarmItem"
-    SnippetRequest:
+
+    # Policies
+    Policy:
       type: object
       properties:
-        content:
+        id:
+          type: integer
+        name:
           type: string
-    SnippetResponse:
-      type: object
-      properties:
-        content:
-          type: string
-    SearchSnippetResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/SnippetResponse"
-
-    ConfigContext:
-      type: object
-      description: config context is a key and value data for each config enries. we return string value version of config entry.
-      properties:
-        entry:
-          type: string
-          example: "console-logo"
-        value:
-          type: string
-          example: "base64 encoded image"
-
-    ConfigContextResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/ConfigContext"
-
-    ConfigContextRequest:
-      type: array
-      items:
-        $ref: "#/components/schemas/ConfigContext"
-
-    AlarmItem:
-      properties:
-        serviceId:
-          type: string
-        userId:
-          type: string
-        action:
-          type: string
-        createTime:
-          type: string
-          format: time
-          example: 2006-01-03T15:04:05Z07:00
-          description: time format for RFC3339
-
-    AlarmsResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/AlarmItem"
-    ApiResponse:
-      type: object
-      description: Api generic response for success or error responses
-      required:
-        - requestId
-      properties:
-        code:
+        description:
           type: string
         type:
           type: string
+          enum: [Access, Security, Network]
+        scope:
+          type: string
+        enabled:
+          type: boolean
+        lastModified:
+          type: string
+          format: date
+
+    PolicyList:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Policy'
+
+    # Admin
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+          enum: [admin, user]
+        status:
+          type: string
+          enum: [active, inactive, suspended]
+        createdAt:
+          type: string
+          format: date-time
+        lastLogin:
+          type: string
+          format: date-time
+
+    UserDetail:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/Group'
+            permissions:
+              type: array
+              items:
+                type: string
+
+    UserCreate:
+      type: object
+      required:
+        - email
+        - name
+        - password
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [admin, user]
+
+    UserUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [admin, user]
+
+    UserList:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+
+    AdminUserList:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+
+    AuditLog:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        userEmail:
+          type: string
+        action:
+          type: string
+        resource:
+          type: string
+        resourceId:
+          type: integer
+          nullable: true
+        details:
+          type: object
+        ipAddress:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    AuditLogList:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/AuditLog'
+
+    SystemHealth:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        uptime:
+          type: string
+        cpu:
+          type: number
+        memory:
+          type: number
+        disk:
+          type: number
+        services:
+          type: object
+
+    SystemSettings:
+      type: object
+      properties:
+        sessionTimeout:
+          type: integer
+        maxLoginAttempts:
+          type: integer
+        passwordMinLength:
+          type: integer
+        passwordRequireMfa:
+          type: boolean
+        allowedIpRanges:
+          type: array
+          items:
+            type: string
+        emailNotifications:
+          type: boolean
+
+    SystemSettingsUpdate:
+      type: object
+      properties:
+        sessionTimeout:
+          type: integer
+        maxLoginAttempts:
+          type: integer
+        passwordMinLength:
+          type: integer
+        passwordRequireMfa:
+          type: boolean
+        allowedIpRanges:
+          type: array
+          items:
+            type: string
+        emailNotifications:
+          type: boolean
+
+    # Activities
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
         message:
           type: string
-        requestId:
+        severity:
           type: string
-          format: uuid
-          example: a88b3909-f139-455c-9e38-ce53beb939bc
+          enum: [info, success, warning, error]
+        source:
+          type: string
+        time:
+          type: string
+
+    ActivityDetail:
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - type: object
+          properties:
+            userId:
+              type: integer
+            user:
+              $ref: '#/components/schemas/User'
+            serviceId:
+              type: integer
+            service:
+              $ref: '#/components/schemas/Service'
+            metadata:
+              type: object
+
+    SessionActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [login, logout, command, file, service, alarm, config, credential]
+        title:
+          type: string
+        description:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [success, warning, error, info]
+        details:
+          type: object
+        serviceId:
+          type: integer
+          nullable: true
+        credentialId:
+          type: integer
+          nullable: true
+
+    ActivityList:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Activity'
+
+    # Alarms
+    Alarm:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        message:
+          type: string
+        severity:
+          type: string
+          enum: [critical, warning, info]
+        source:
+          type: string
+        time:
+          type: string
+        acknowledged:
+          type: boolean
+
+    AlarmList:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Alarm'
+
+    # Paste
+    Paste:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        views:
+          type: integer
+        burnAfterRead:
+          type: boolean
+
+    PasteCreate:
+      type: object
+      required:
+        - content
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        expiresIn:
+          type: integer
+          description: Expiration in hours
+        burnAfterRead:
+          type: boolean
+          default: false
+
+    PasteList:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Paste'
+
+    # Search
+    SearchResults:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'

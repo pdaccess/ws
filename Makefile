@@ -31,13 +31,14 @@ ci-build: cmd/main.go
 
 ci-push:
 	docker push github.com/pdaccess/ws:${GIT_COMMIT}
+	
 
 internal-generator:
 	@rm -r internal/platform/handlers/external/server.gen.go || true
 	@rm -r pkg/http/client.gen.go || true
 
-	@oapi-codegen -config resources/api-config-client.yaml resources/corews-api.yaml
-	@oapi-codegen -config resources/api-config-server.yaml resources/corews-api.yaml
+	@go tool oapi-codegen -config resources/api-config-client.yaml resources/corews-api.yaml
+	@go tool oapi-codegen -config resources/api-config-server.yaml resources/corews-api.yaml
 	@cp resources/corews-api.yaml internal/platform/handlers/custom/openapi.yaml
 
 generate: internal-generator format

@@ -3,13 +3,16 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/pdaccess/ws/internal/core/ports"
 	"github.com/pdaccess/ws/internal/platform/handlers/external"
 )
 
-type httpHandler struct{}
+type httpHandler struct {
+	svc ports.Service
+}
 
-func NewHttpHandler() external.ServerInterface {
-	return &httpHandler{}
+func NewHttpHandler(svc ports.Service) external.ServerInterface {
+	return &httpHandler{svc: svc}
 }
 
 func (h *httpHandler) GetActivities(w http.ResponseWriter, r *http.Request, params external.GetActivitiesParams) {

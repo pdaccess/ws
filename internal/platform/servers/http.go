@@ -4,12 +4,13 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/pdaccess/ws/internal/core/ports"
 	"github.com/pdaccess/ws/internal/platform/handlers"
 	"github.com/pdaccess/ws/internal/platform/handlers/custom"
 	"github.com/pdaccess/ws/internal/platform/handlers/external"
 )
 
-func NewHttpServer() http.Handler {
+func NewHttpServer(svc ports.Service) http.Handler {
 	router := chi.NewRouter()
 
 	healthController := custom.NewHealthController()
@@ -17,7 +18,7 @@ func NewHttpServer() http.Handler {
 
 	apiCall := router.With()
 
-	Iservice := handlers.NewHttpHandler()
+	Iservice := handlers.NewHttpHandler(svc)
 	external.HandlerWithOptions(Iservice, external.ChiServerOptions{
 		BaseRouter:  apiCall,
 		Middlewares: []external.MiddlewareFunc{},

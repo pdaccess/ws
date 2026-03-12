@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/pdaccess/ws/internal/core/service"
 	"github.com/pdaccess/ws/internal/database"
 	"github.com/pdaccess/ws/internal/platform/servers"
 	"github.com/rs/zerolog/log"
@@ -16,15 +17,9 @@ import (
 func StartServer(config *ServerConfig, signalChan chan os.Signal) error {
 	log.Info().Msgf("Server is starting")
 
-	dbCfg := database.Config{
-		Host:     config.DatabaseConfig.Host,
-		Port:     config.DatabaseConfig.Port,
-		Username: config.DatabaseConfig.Username,
-		Password: config.DatabaseConfig.Password,
-		DB:       config.DatabaseConfig.DB,
-	}
+	connStr := config.DatabaseConfig.Url
 
-	db, err := database.New(dbCfg)
+	db, err := database.New(connStr)
 	if err != nil {
 		return fmt.Errorf("database connection failed: %w", err)
 	}
@@ -34,7 +29,9 @@ func StartServer(config *ServerConfig, signalChan chan os.Signal) error {
 		return fmt.Errorf("database migrations failed: %w", err)
 	}
 
-	routers := servers.NewHttpServer()
+	svc := service.New(db.InventoryRepo())
+
+	routers := servers.NewHttpServer(svc)
 	server := &http.Server{Addr: config.HttpListenAddr, Handler: routers}
 
 	errChan := make(chan error)

@@ -39,11 +39,7 @@ type CManangerConfig struct {
 }
 
 type DatabaseConfig struct {
-	Host     string `env:"DATASOURCE_HOST" envDefault:"postgresqldb"`
-	Port     int    `env:"DATASOURCE_PORT" envDefault:"5432"`
-	Username string `env:"DATASOURCE_USERNAME" envDefault:"pda"`
-	Password string `env:"DATASOURCE_PASSWORD" envDefault:"pda"`
-	DB       string `env:"DATASOURCE_DB" envDefault:"pda"`
+	Url string `env:"DATABASE_URL" envDefault:"postgresql://pda:pda@pda:5432/pda?sslmode=disable"`
 }
 
 func ParseConfig() (*ServerConfig, error) {

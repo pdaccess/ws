@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"net/url"
 	"time"
 
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -10,24 +11,23 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type Config struct {
-	Host     string
-	Port     int
-	Username string
-	Password string
-	DB       string
-}
-
 type DB struct {
 	*sql.DB
 }
 
-func New(cfg Config) (*DB, error) {
-	connStr := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		cfg.Host, cfg.Port, cfg.Username, cfg.Password, cfg.DB,
-	)
+func (d *DB) InventoryRepo() *InventoryRepository {
+	return NewInventoryRepository(d)
+}
 
+func (d *DB) UserRepo() *UserRepository {
+	return NewUserRepository(d)
+}
+
+func (d *DB) UserGroupRepo() *UserGroupRepository {
+	return NewUserGroupRepository(d)
+}
+
+func New(connStr string) (*DB, error) {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
@@ -201,11 +201,16 @@ CREATE INDEX IF NOT EXISTS idx_config_contexts_realm_context ON config_contexts(
 	return nil
 }
 
-func (d *DB) InitDatabase(cfg Config) error {
-	connStr := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s sslmode=disable",
-		cfg.Host, cfg.Port, cfg.Username, cfg.Password,
-	)
+func (d *DB) InitDatabase(connStr string) error {
+	u, err := url.Parse(connStr)
+	if err != nil {
+		return fmt.Errorf("failed to parse connection string: %w", err)
+	}
+
+	dbName := u.Path[1:]
+	if dbName == "" {
+		return fmt.Errorf("database name not found in connection string")
+	}
 
 	tempDB, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -213,23 +218,23 @@ func (d *DB) InitDatabase(cfg Config) error {
 	}
 
 	var exists bool
-	err = tempDB.QueryRow("SELECT EXISTS(SELECT datname FROM pg_catalog.pg_database WHERE datname = $1)", cfg.DB).Scan(&exists)
+	err = tempDB.QueryRow("SELECT EXISTS(SELECT datname FROM pg_catalog.pg_database WHERE datname = $1)", dbName).Scan(&exists)
 	if err != nil {
 		tempDB.Close()
 		return fmt.Errorf("failed to check database existence: %w", err)
 	}
 
 	if !exists {
-		_, err = tempDB.Exec(fmt.Sprintf("CREATE DATABASE %s", pq.QuoteIdentifier(cfg.DB)))
+		_, err = tempDB.Exec(fmt.Sprintf("CREATE DATABASE %s", pq.QuoteIdentifier(dbName)))
 		if err != nil {
 			tempDB.Close()
 			return fmt.Errorf("failed to create database: %w", err)
 		}
-		log.Info().Str("database", cfg.DB).Msg("database created")
+		log.Info().Str("database", dbName).Msg("database created")
 	}
 	tempDB.Close()
 
-	db, err := New(cfg)
+	db, err := New(connStr)
 	if err != nil {
 		return err
 	}

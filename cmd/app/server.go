@@ -5,16 +5,39 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/pdaccess/ws/internal/core/service"
 	"github.com/pdaccess/ws/internal/database"
 	"github.com/pdaccess/ws/internal/platform/servers"
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/cobra"
 )
 
-func StartServer(config *ServerConfig, signalChan chan os.Signal) error {
+var ServerCmd = &cobra.Command{
+	Use:   "server",
+	Short: "WebService server for managing inventory and user groups",
+	Args:  cobra.MinimumNArgs(0),
+	Run: func(cmd *cobra.Command, args []string) {
+		if err := RunWebServiceServer(); err != nil {
+			panic(fmt.Errorf("server app: %w", err))
+		}
+	},
+}
+
+func RunWebServiceServer() error {
+	config, err := ParseConfig()
+
+	if err != nil {
+		log.Err(err).Msg("read config")
+		return fmt.Errorf("read config: %w", err)
+	}
+
+	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer cancel()
+
 	log.Info().Msgf("Server is starting")
 
 	connStr := config.DatabaseConfig.Url
@@ -29,7 +52,7 @@ func StartServer(config *ServerConfig, signalChan chan os.Signal) error {
 		return fmt.Errorf("database migrations failed: %w", err)
 	}
 
-	svc := service.New(db.InventoryRepo())
+	svc := service.New(db.InventoryRepo(), db.UserRepo(), db.ActivityRepo(), db.PasteRepo())
 
 	routers := servers.NewHttpServer(svc)
 	server := &http.Server{Addr: config.HttpListenAddr, Handler: routers}
@@ -53,7 +76,7 @@ func StartServer(config *ServerConfig, signalChan chan os.Signal) error {
 	}()
 
 	select {
-	case <-signalChan:
+	case <-ctx.Done():
 		log.Info().Msg("Stopping server")
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()

@@ -2,8 +2,11 @@ package app
 
 import (
 	"fmt"
+	"os"
+	"time"
 
 	"github.com/caarlos0/env/v8"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
@@ -53,4 +56,23 @@ func ParseConfig() (*ServerConfig, error) {
 		Msgf("dump current config")
 
 	return &cfg, nil
+}
+
+func setupLog(debug, console bool) {
+	zerolog.TimeFieldFormat = "2006-01-10,10:01:02"
+
+	zerolog.TimestampFunc = func() time.Time {
+		return time.Now()
+	}
+	level := zerolog.InfoLevel
+	if debug {
+		level = zerolog.DebugLevel
+	}
+
+	if console {
+		log.Logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339}).
+			With().Timestamp().Logger().Level(level)
+	} else {
+		log.Logger = zerolog.New(os.Stdout).With().Timestamp().Logger().Level(level)
+	}
 }

@@ -11,6 +11,8 @@ type ItemType string
 const (
 	ItemTypeGroup   ItemType = "group"
 	ItemTypeService ItemType = "service"
+	ItemTypeVault   ItemType = "vault"
+	ItemTypeUser    ItemType = "user"
 )
 
 type Vector []float32

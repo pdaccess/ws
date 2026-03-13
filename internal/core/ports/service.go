@@ -7,6 +7,13 @@ import (
 	"github.com/pdaccess/ws/internal/core/domain"
 )
 
+type UserOperations interface {
+	SearchUsers(ctx context.Context, limit, offset int) ([]domain.User, error)
+	CreateUser(ctx context.Context, user *domain.User) error
+	GetUser(ctx context.Context, id uuid.UUID) (*domain.User, error)
+	DeleteUser(ctx context.Context, id uuid.UUID) error
+}
+
 type ConfigOperations interface {
 	UpsertItemContext(ctx context.Context, context domain.ItemContext, items []domain.ConfigItem) error
 	GetItemContext(ctx context.Context, context domain.ItemContext) ([]domain.ConfigItem, error)
@@ -29,14 +36,33 @@ type InventoryOperations interface {
 	GetInventoryMembers(ctx context.Context, inventoryID uuid.UUID, limit, offset int) ([]domain.InventoryMember, error)
 }
 
-type GroupOperations any
+type AlarmOperations interface {
+	CreateAlarm(ctx context.Context, alarm *domain.Alarm) error
+	GetAlarm(ctx context.Context, id uuid.UUID) (*domain.Alarm, error)
+	DeleteAlarm(ctx context.Context, id uuid.UUID) error
+	SearchAlarms(ctx context.Context, userID uuid.UUID, limit, offset int) ([]domain.Alarm, error)
+	AcknowledgeAlarm(ctx context.Context, id uuid.UUID) error
+}
 
-type AlarmOperations any
+type ActivityOperations interface {
+	CreateActivity(ctx context.Context, activity *domain.Activity) error
+	SearchActivities(ctx context.Context, opts ...domain.ActivitySearchOption) ([]domain.Activity, error)
+	GetActivitiesByResourceID(ctx context.Context, resourceID uuid.UUID, limit int) ([]domain.Activity, error)
+}
+
+type PasteOperations interface {
+	CreatePaste(ctx context.Context, paste *domain.Paste) error
+	GetPaste(ctx context.Context, id uuid.UUID) (*domain.Paste, error)
+	DeletePaste(ctx context.Context, id uuid.UUID) error
+	SearchPastes(ctx context.Context, opts ...domain.PasteSearchOption) ([]domain.Paste, error)
+}
 
 type Service interface {
+	UserOperations
 	InventoryOperations
-	GroupOperations
 	AlarmOperations
+	ActivityOperations
+	PasteOperations
 
 	ConfigOperations
 	SnippetOperations

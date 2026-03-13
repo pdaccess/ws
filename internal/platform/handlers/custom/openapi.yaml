@@ -7,9 +7,9 @@ info:
     name: PDAccess Support
 
 servers:
-  - url: https://app.pdaccess.com/v1/ws
+  - url: https://api.pdaccess.example.com/v1
     description: Production server
-  - url: http://localhost:3000/v1/ws
+  - url: http://localhost:3000/v1
     description: Development server
 
 security:
@@ -702,6 +702,11 @@ paths:
           schema:
             type: integer
           description: Filter by group ID
+        - name: sessionId
+          in: query
+          schema:
+            type: integer
+          description: Filter by session ID
       responses:
         '200':
           description: Activities list
@@ -727,51 +732,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ActivityDetail'
-
-  /sessions/{id}/activities:
-    get:
-      tags:
-        - Activities
-      summary: Get session activities
-      description: Get all activities for a specific session (timeline view)
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Session ID
-      responses:
-        '200':
-          description: Session activities timeline
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SessionActivity'
-
-  /groups/{id}/activities:
-    get:
-      tags:
-        - Activities
-      summary: Get group activities
-      description: Get activities related to a specific group
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/IdParam'
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-      responses:
-        '200':
-          description: Group activities
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ActivityList'
 
   # ==================== Alarms ====================
   /alarms:
@@ -1395,34 +1355,7 @@ components:
               $ref: '#/components/schemas/Service'
             metadata:
               type: object
-
-    SessionActivity:
-      type: object
-      properties:
-        id:
-          type: integer
-        type:
-          type: string
-          enum: [login, logout, command, file, service, alarm, config, credential]
-        title:
-          type: string
-        description:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum: [success, warning, error, info]
-        details:
-          type: object
-        serviceId:
-          type: integer
-          nullable: true
-        credentialId:
-          type: integer
-          nullable: true
-
+              
     ActivityList:
       allOf:
         - $ref: '#/components/schemas/PaginatedResponse'

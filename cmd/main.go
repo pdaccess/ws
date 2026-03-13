@@ -1,65 +1,31 @@
 package main
 
 import (
-	"flag"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
+	"fmt"
 
 	"github.com/pdaccess/ws/cmd/app"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
+	"github.com/spf13/cobra"
 )
 
 var Commit, BuildTime, BuildEnv string
 
-func setupLog(debug, console bool) {
-	zerolog.TimeFieldFormat = "2006-01-10,10:01:02"
+var AppDescription = fmt.Sprintf(`WebService is a server application for managing inventory and user groups.
+It provides APIs for creating, updating, deleting and listing inventory items and user groups.
 
-	zerolog.TimestampFunc = func() time.Time {
-		return time.Now()
-	}
-	level := zerolog.InfoLevel
-	if debug {
-		level = zerolog.DebugLevel
-	}
+Version: %s
+Build Time: %s
+Build Environment: %s`, Commit, BuildTime, BuildEnv)
 
-	if console {
-		log.Logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339}).
-			With().Timestamp().Logger().Level(level)
-	} else {
-		log.Logger = zerolog.New(os.Stdout).With().Timestamp().Logger().Level(level)
-	}
+var rootCmd = &cobra.Command{
+	Use:   "ws",
+	Short: "Main WebService application for managing inventory and user groups",
+	Long:  AppDescription,
 }
 
 func main() {
-	debug := flag.Bool("debug", false, "sets log level to debug")
-	console := flag.Bool("console", false, "sets log level to debug")
+	rootCmd.AddCommand(app.ServerCmd)
 
-	flag.Parse()
-	setupLog(*debug, *console)
-
-	log.Info().
-		Str("Commnit", Commit).
-		Str("BuildTime", BuildTime).
-		Str("nBuildEnv", BuildEnv).
-		Msg("WS Starting")
-
-	log.Info().Msgf("log level is: %s", zerolog.GlobalLevel())
-
-	config, err := app.ParseConfig()
-
-	if err != nil {
-		log.Err(err).Msg("read config")
-		os.Exit(1)
-	}
-
-	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
-
-	if err := app.StartServer(config, signalChan); err != nil {
-		log.Err(err).Msg("start server")
-		os.Exit(1)
+	if err := rootCmd.Execute(); err != nil {
+		panic(fmt.Errorf("app root: %w", err))
 	}
 }

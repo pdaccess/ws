@@ -27,6 +27,14 @@ func (d *DB) UserGroupRepo() *UserGroupRepository {
 	return NewUserGroupRepository(d)
 }
 
+func (d *DB) ActivityRepo() *ActivityRepository {
+	return NewActivityRepository(d)
+}
+
+func (d *DB) PasteRepo() *PasteRepository {
+	return NewPasteRepository(d)
+}
+
 func New(connStr string) (*DB, error) {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -176,6 +184,40 @@ CREATE TABLE IF NOT EXISTS snippets (
 );
 
 CREATE INDEX IF NOT EXISTS idx_snippets_user_id ON snippets(user_id);
+
+-- Activities table
+CREATE TABLE IF NOT EXISTS activities (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    realm_id UUID NOT NULL,
+    action VARCHAR(100) NOT NULL,
+    resource VARCHAR(100),
+    resource_id UUID,
+    details TEXT,
+    ip_address VARCHAR(45),
+    activity_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_activities_user_id ON activities(user_id);
+CREATE INDEX IF NOT EXISTS idx_activities_realm_id ON activities(realm_id);
+CREATE INDEX IF NOT EXISTS idx_activities_action ON activities(action);
+CREATE INDEX IF NOT EXISTS idx_activities_activity_time ON activities(activity_time);
+
+-- Pastes table (create if not exists, fix FK to allow NULL user_id)
+DROP TABLE IF EXISTS pastes;
+CREATE TABLE pastes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID,
+    content TEXT NOT NULL,
+    language VARCHAR(50),
+    expires_at TIMESTAMP WITH TIME ZONE,
+    views INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_pastes_user_id ON pastes(user_id);
+CREATE INDEX IF NOT EXISTS idx_pastes_expires_at ON pastes(expires_at);
 
 -- Config contexts table
 CREATE TABLE IF NOT EXISTS config_contexts (

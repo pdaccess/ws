@@ -25,7 +25,8 @@ func NewHttpServer(svc ports.Service) http.Handler {
 	apiCall := router.With()
 
 	Iservice := handlers.NewHttpHandler(svc)
-	external.HandlerWithOptions(Iservice, external.ChiServerOptions{
+	handler := external.NewStrictHandler(Iservice, []external.StrictMiddlewareFunc{})
+	external.HandlerWithOptions(handler, external.ChiServerOptions{
 		BaseRouter:  apiCall,
 		Middlewares: []external.MiddlewareFunc{},
 	})

@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"context"
 	"net/http"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -10,43 +11,41 @@ import (
 var _ = Describe("Policies API", func() {
 	Context("GET /policies", func() {
 		It("should list policies", func() {
-			resp, err := http.Get(GetBaseURL() + "/policies")
+			resp, err := GetAPIClient().GetPolicies(context.Background(), nil)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(200))
 		})
 	})
 
 	Context("POST /policies", func() {
-		It("should create policy", func() {
-			resp, err := http.Post(GetBaseURL()+"/policies", "application/json", nil)
+		It("should return 400 for missing body", func() {
+			req, _ := http.NewRequest("POST", GetBaseURL()+"/policies", nil)
+			resp, err := http.DefaultClient.Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(201))
+			Expect(resp.StatusCode).Should(Equal(400))
 		})
 	})
 
 	Context("GET /policies/{id}", func() {
-		It("should return 501", func() {
-			resp, err := http.Get(GetBaseURL() + "/policies/1")
-			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(501))
-		})
-	})
-
-	Context("PUT /policies/{id}", func() {
-		It("should update policy", func() {
-			req, err := http.NewRequest("PUT", GetBaseURL()+"/policies/1", nil)
-			Expect(err).ShouldNot(HaveOccurred())
-			resp, err := http.DefaultClient.Do(req)
+		It("should return 200", func() {
+			resp, err := GetAPIClient().GetPoliciesId(context.Background(), 1)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(200))
 		})
 	})
 
+	Context("PUT /policies/{id}", func() {
+		It("should return 400 for missing body", func() {
+			req, _ := http.NewRequest("PUT", GetBaseURL()+"/policies/1", nil)
+			resp, err := http.DefaultClient.Do(req)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(resp.StatusCode).Should(Equal(400))
+		})
+	})
+
 	Context("DELETE /policies/{id}", func() {
 		It("should delete policy", func() {
-			req, err := http.NewRequest("DELETE", GetBaseURL()+"/policies/1", nil)
-			Expect(err).ShouldNot(HaveOccurred())
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetAPIClient().DeletePoliciesId(context.Background(), 1)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(204))
 		})

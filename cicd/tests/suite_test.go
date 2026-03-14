@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/pdaccess/ws/cmd/app"
+	"github.com/pdaccess/ws/pkg/http"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -18,6 +19,8 @@ import (
 var (
 	dbContainer *postgres.PostgresContainer
 	baseURL     string
+	client      *http.Client
+	apiClient   *http.ClientWithResponses
 )
 
 func Test_API(t *testing.T) {
@@ -62,6 +65,12 @@ var _ = BeforeSuite(func() {
 
 	baseURL = fmt.Sprintf("http://%s", addr)
 
+	client, err = http.NewClient(baseURL)
+	Expect(err).ShouldNot(HaveOccurred())
+
+	apiClient, err = http.NewClientWithResponses(baseURL)
+	Expect(err).ShouldNot(HaveOccurred())
+
 	time.Sleep(500 * time.Millisecond)
 })
 
@@ -73,4 +82,12 @@ var _ = AfterSuite(func() {
 
 func GetBaseURL() string {
 	return baseURL
+}
+
+func GetClient() *http.Client {
+	return client
+}
+
+func GetAPIClient() *http.ClientWithResponses {
+	return apiClient
 }

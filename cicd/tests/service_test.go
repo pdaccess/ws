@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"context"
 	"net/http"
 	"strings"
 
@@ -19,38 +20,33 @@ var _ = Describe("Services API", func() {
 
 	Context("POST /services", func() {
 		It("should create service", func() {
-			req, err := http.NewRequest("POST", GetBaseURL()+"/services", strings.NewReader(`{"name":"test"}`))
-			Expect(err).ShouldNot(HaveOccurred())
-			req.Header.Set("Content-Type", "application/json")
-			resp, err := http.DefaultClient.Do(req)
+			body := strings.NewReader(`{"name":"test"}`)
+			resp, err := GetAPIClient().PostServicesWithBody(context.Background(), "application/json", body)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(201))
 		})
 	})
 
 	Context("GET /services/{id}", func() {
-		It("should return 501", func() {
-			resp, err := http.Get(GetBaseURL() + "/services/1")
+		It("should return 500 (not implemented)", func() {
+			resp, err := GetAPIClient().GetServicesId(context.Background(), 1)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(501))
+			Expect(resp.StatusCode).Should(Equal(500))
 		})
 	})
 
 	Context("PUT /services/{id}", func() {
-		It("should update service", func() {
-			req, err := http.NewRequest("PUT", GetBaseURL()+"/services/1", nil)
-			Expect(err).ShouldNot(HaveOccurred())
+		It("should return 400 for missing body", func() {
+			req, _ := http.NewRequest("PUT", GetBaseURL()+"/services/1", nil)
 			resp, err := http.DefaultClient.Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(200))
+			Expect(resp.StatusCode).Should(Equal(400))
 		})
 	})
 
 	Context("DELETE /services/{id}", func() {
 		It("should delete service", func() {
-			req, err := http.NewRequest("DELETE", GetBaseURL()+"/services/1", nil)
-			Expect(err).ShouldNot(HaveOccurred())
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetAPIClient().DeleteServicesId(context.Background(), 1)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(BeNumerically(">=", 200))
 		})

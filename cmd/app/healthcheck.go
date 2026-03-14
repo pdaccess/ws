@@ -8,20 +8,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	timeout time.Duration
-	url     string
-)
-
 var HealthCmd = &cobra.Command{
 	Use:   "healthcheck",
 	Short: "Check service health",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		client := &http.Client{
-			Timeout: timeout,
+			Timeout: 3 * time.Second,
 		}
 
-		resp, err := client.Get(url)
+		resp, err := client.Get("http://localhost:8080/health")
 		if err != nil {
 			return fmt.Errorf("unhealthy: %w", err)
 		}

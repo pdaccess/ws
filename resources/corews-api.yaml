@@ -7,9 +7,9 @@ info:
     name: PDAccess Support
 
 servers:
-  - url: https://api.pdaccess.example.com/v1
+  - url: https://app.pdaccess.com/api/v1/ws
     description: Production server
-  - url: http://localhost:3000/v1
+  - url: http://localhost:80/v1
     description: Development server
 
 security:
@@ -35,7 +35,7 @@ tags:
 
 paths:
   # ==================== Services ====================
-  /services:
+  /service:
     post:
       tags:
         - Services
@@ -59,7 +59,7 @@ paths:
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /services/{id}:
+  /service/{serviceId}:
     get:
       tags:
         - Services
@@ -68,7 +68,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Service details
@@ -85,7 +90,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -110,7 +120,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Service deleted
@@ -118,7 +133,7 @@ paths:
           $ref: '#/components/responses/ClientError'
 
   # ==================== Groups ====================
-  /groups:
+  /group:
     post:
       tags:
         - Groups
@@ -142,7 +157,7 @@ paths:
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /groups/{id}:
+  /group/{groupId}:
     get:
       tags:
         - Groups
@@ -151,7 +166,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Group details
@@ -170,14 +190,19 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Group deleted
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /groups/{id}/members:
+  /group/{groupId}/members:
     get:
       tags:
         - Groups
@@ -186,7 +211,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/LimitParam'
       responses:
@@ -207,7 +237,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -218,14 +253,15 @@ paths:
                 - userId
               properties:
                 userId:
-                  type: integer
+                  type: string
+                  format: uuid
       responses:
         '201':
           description: Member added
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /groups/{id}/members/{userId}:
+  /group/{groupId}/members/{userId}:
     delete:
       tags:
         - Groups
@@ -234,28 +270,39 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
         - name: userId
           in: path
           required: true
           schema:
-            type: integer
+            type: string
+            format: uuid
       responses:
         '204':
           description: Member removed
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /groups/{id}/policies:
+  /group/{groupId}/policy:
     get:
       tags:
-        - Policies
+        - Groups
       summary: Get group policies
       description: Get policies assigned to a group
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Group policies
@@ -270,13 +317,18 @@ paths:
 
     post:
       tags:
-        - Policies
+        - Groups
       summary: Assign policy to group
       description: Assign a policy to a group
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -287,28 +339,35 @@ paths:
                 - policyId
               properties:
                 policyId:
-                  type: integer
+                  type: string
+                  format: uuid
       responses:
         '201':
           description: Policy assigned
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /groups/{id}/policies/{policyId}:
+  /group/{groupId}/policy/{policyId}:
     delete:
       tags:
-        - Policies
+        - Groups
       summary: Remove policy from group
       description: Remove a policy from a group
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
         - name: policyId
           in: path
           required: true
           schema:
-            type: integer
+            type: string
+            format: uuid
       responses:
         '204':
           description: Policy removed
@@ -374,7 +433,7 @@ paths:
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /policies/{id}:
+  /policies/{policyId}:
     get:
       tags:
         - Policies
@@ -383,7 +442,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Policy details
@@ -402,7 +466,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -439,7 +508,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Policy deleted
@@ -500,7 +574,7 @@ paths:
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /admin/users/{id}:
+  /admin/users/{userId}:
     get:
       tags:
         - Admin
@@ -509,7 +583,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: User details
@@ -526,7 +605,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -549,14 +633,19 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: User deleted
         '4XX':
           $ref: '#/components/responses/ClientError'
 
-  /admin/users/{id}/status:
+  /admin/users/{userId}/status:
     put:
       tags:
         - Admin
@@ -565,7 +654,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -597,7 +691,8 @@ paths:
         - name: userId
           in: query
           schema:
-            type: integer
+            type: string
+            format: uuid
         - name: action
           in: query
           schema:
@@ -695,17 +790,20 @@ paths:
         - name: serviceId
           in: query
           schema:
-            type: integer
+            type: string
+            format: uuid
           description: Filter by service ID
         - name: groupId
           in: query
           schema:
-            type: integer
+            type: string
+            format: uuid
           description: Filter by group ID
         - name: sessionId
           in: query
           schema:
-            type: integer
+            type: string
+            format: uuid
           description: Filter by session ID
       responses:
         '200':
@@ -715,7 +813,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ActivityList'
 
-  /activities/{id}:
+  /activities/{activityId}:
     get:
       tags:
         - Activities
@@ -724,7 +822,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Activity details
@@ -760,7 +863,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AlarmList'
 
-  /alarms/{id}/acknowledge:
+  /alarms/{alarmId}/acknowledge:
     post:
       tags:
         - Alarms
@@ -769,12 +872,17 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: alarmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Alarm acknowledged
 
-  /alarms/{id}:
+  /alarms/{alarmId}:
     get:
       tags:
         - Alarms
@@ -783,7 +891,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: alarmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Alarm details
@@ -836,14 +949,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Paste'
 
-  /paste/{id}:
+  /paste/{pasteId}:
     get:
       tags:
         - Paste
       summary: Get paste
       description: Get paste by ID (view once if burn after read)
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: pasteId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Paste details
@@ -860,7 +978,12 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/IdParam'
+        - name: pasteId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Paste deleted
@@ -871,7 +994,7 @@ paths:
       tags:
         - Search
       summary: Global search
-      description: Search and list across all resources
+      description: Search and list across all resources in inventory
       security:
         - BearerAuth: []
       parameters:
@@ -882,7 +1005,7 @@ paths:
           description: Search query
         - name: type
           in: query
-          required: true
+          required: false
           schema:
             type: string
             enum: [Service, Group, User, Activity]
@@ -899,7 +1022,8 @@ paths:
         - name: groupId
           in: query
           schema:
-            type: integer
+            type: string
+            format: uuid
           description: Filter by group ID (for Service)
       responses:
         '200':
@@ -937,12 +1061,6 @@ components:
       schema:
         type: string
       description: Search query
-    IdParam:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
 
   securitySchemes:
     BearerAuth:
@@ -1003,7 +1121,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
         hostname:
@@ -1013,7 +1132,8 @@ components:
         protocol:
           type: string
         groupId:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
         status:
           type: string
@@ -1051,7 +1171,8 @@ components:
         protocol:
           type: string
         groupId:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
         type:
           type: string
@@ -1068,7 +1189,8 @@ components:
         protocol:
           type: string
         groupId:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
         status:
           type: string
@@ -1078,11 +1200,13 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
         parentId:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
         members:
           type: integer
@@ -1112,7 +1236,8 @@ components:
         name:
           type: string
         parentId:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
         description:
           type: string
@@ -1122,7 +1247,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
         description:
@@ -1153,7 +1279,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         email:
           type: string
         name:
@@ -1239,9 +1366,11 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         userId:
-          type: integer
+          type: string
+          format: uuid
         userEmail:
           type: string
         action:
@@ -1249,7 +1378,8 @@ components:
         resource:
           type: string
         resourceId:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
         details:
           type: object
@@ -1327,7 +1457,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         message:
@@ -1346,11 +1477,13 @@ components:
         - type: object
           properties:
             userId:
-              type: integer
+              type: string
+              format: uuid
             user:
               $ref: '#/components/schemas/User'
             serviceId:
-              type: integer
+              type: string
+              format: uuid
             service:
               $ref: '#/components/schemas/Service'
             metadata:
@@ -1371,7 +1504,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         message:

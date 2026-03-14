@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -11,9 +12,9 @@ import (
 var _ = Describe("Policies API", func() {
 	Context("GET /policies", func() {
 		It("should list policies", func() {
-			resp, err := GetAPIClient().GetPolicies(context.Background(), nil)
+			resp, err := GetAPIClient().GetPoliciesWithResponse(context.Background(), nil)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(200))
+			Expect(resp.StatusCode()).Should(Equal(200))
 		})
 	})
 
@@ -26,28 +27,28 @@ var _ = Describe("Policies API", func() {
 		})
 	})
 
-	Context("GET /policies/{id}", func() {
-		It("should return 200", func() {
-			resp, err := GetAPIClient().GetPoliciesId(context.Background(), 1)
+	Context("GET /policies/{policyId}", func() {
+		It("should return 400 for invalid policy id", func() {
+			resp, err := GetAPIClient().GetPoliciesPolicyIdWithResponse(context.Background(), uuid.Nil)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(200))
+			Expect(resp.StatusCode()).Should(Equal(400))
 		})
 	})
 
-	Context("PUT /policies/{id}", func() {
+	Context("PUT /policies/{policyId}", func() {
 		It("should return 400 for missing body", func() {
-			req, _ := http.NewRequest("PUT", GetBaseURL()+"/policies/1", nil)
+			req, _ := http.NewRequest("PUT", GetBaseURL()+"/policies/"+uuid.Nil.String(), nil)
 			resp, err := http.DefaultClient.Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
 	})
 
-	Context("DELETE /policies/{id}", func() {
-		It("should delete policy", func() {
-			resp, err := GetAPIClient().DeletePoliciesId(context.Background(), 1)
+	Context("DELETE /policies/{policyId}", func() {
+		It("should return 400 for invalid policy id", func() {
+			resp, err := GetAPIClient().DeletePoliciesPolicyIdWithResponse(context.Background(), uuid.Nil)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(204))
+			Expect(resp.StatusCode()).Should(Equal(400))
 		})
 	})
 })

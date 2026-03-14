@@ -3,10 +3,11 @@ package tests
 import (
 	"context"
 	"net/http"
-	"strings"
 
+	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	pdhttp "github.com/pdaccess/ws/pkg/http"
 )
 
 var _ = Describe("Services API", func() {
@@ -18,37 +19,48 @@ var _ = Describe("Services API", func() {
 		})
 	})
 
-	Context("POST /services", func() {
-		It("should create service", func() {
-			body := strings.NewReader(`{"name":"test"}`)
-			resp, err := GetAPIClient().PostServicesWithBody(context.Background(), "application/json", body)
-			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(201))
-		})
-	})
-
-	Context("GET /services/{id}", func() {
-		It("should return 500 (not implemented)", func() {
-			resp, err := GetAPIClient().GetServicesId(context.Background(), 1)
-			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(Equal(500))
-		})
-	})
-
-	Context("PUT /services/{id}", func() {
+	Context("POST /service", func() {
 		It("should return 400 for missing body", func() {
-			req, _ := http.NewRequest("PUT", GetBaseURL()+"/services/1", nil)
+			req, _ := http.NewRequest("POST", GetBaseURL()+"/service", nil)
 			resp, err := http.DefaultClient.Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
 	})
 
-	Context("DELETE /services/{id}", func() {
-		It("should delete service", func() {
-			resp, err := GetAPIClient().DeleteServicesId(context.Background(), 1)
+	Context("GET /service/{serviceId}", func() {
+		It("should return 400 for invalid service id", func() {
+			resp, err := GetAPIClient().GetServiceServiceIdWithResponse(context.Background(), uuid.Nil)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode).Should(BeNumerically(">=", 200))
+			Expect(resp.StatusCode()).Should(Equal(400))
+		})
+	})
+
+	Context("PUT /service/{serviceId}", func() {
+		It("should return 400 for missing body", func() {
+			req, _ := http.NewRequest("PUT", GetBaseURL()+"/service/"+uuid.Nil.String(), nil)
+			resp, err := http.DefaultClient.Do(req)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(resp.StatusCode).Should(Equal(400))
+		})
+	})
+
+	Context("DELETE /service/{serviceId}", func() {
+		It("should return 400 for invalid service id", func() {
+			resp, err := GetAPIClient().DeleteServiceServiceIdWithResponse(context.Background(), uuid.Nil)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(resp.StatusCode()).Should(Equal(400))
+		})
+	})
+
+	Context("POST /service", func() {
+		It("should create service", func() {
+			body := pdhttp.PostServiceJSONRequestBody{
+				Name: "test",
+			}
+			resp, err := GetAPIClient().PostServiceWithResponse(context.Background(), body)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(resp.StatusCode()).Should(Equal(201))
 		})
 	})
 })

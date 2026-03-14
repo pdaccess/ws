@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/pdaccess/ws/internal/core/domain"
 	"github.com/pdaccess/ws/internal/core/ports"
 	"github.com/pdaccess/ws/internal/platform/handlers/external"
@@ -39,14 +40,13 @@ func (h *httpHandler) GetActivities(ctx context.Context, request external.GetAct
 
 	activities, err := h.svc.SearchActivities(ctx, opts...)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to search activities %v: %w", err, domain.ErrInternal)
 	}
 
 	var extActivities []external.Activity
 	for _, a := range activities {
-		id := int(a.ID.ID())
 		extActivities = append(extActivities, external.Activity{
-			Id:       &id,
+			Id:       &a.ID,
 			Message:  &a.Details,
 			Severity: func() *external.ActivitySeverity { s := external.ActivitySeverityInfo; return &s }(),
 			Source:   &a.Resource,
@@ -70,27 +70,26 @@ func (h *httpHandler) GetActivities(ctx context.Context, request external.GetAct
 	}), nil
 }
 
-func (h *httpHandler) GetActivitiesId(ctx context.Context, request external.GetActivitiesIdRequestObject) (external.GetActivitiesIdResponseObject, error) {
-	activityID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid activity id")
+func (h *httpHandler) GetActivitiesActivityId(ctx context.Context, request external.GetActivitiesActivityIdRequestObject) (external.GetActivitiesActivityIdResponseObject, error) {
+	activityID := request.ActivityId
+	if activityID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid activity id", Code: domain.ErrCodeInvalidID}
 	}
 
 	activities, err := h.svc.GetActivitiesByResourceID(ctx, activityID, 1)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get activity %v: %w", err, domain.ErrInternal)
 	}
 
 	if len(activities) == 0 {
-		return nil, fmt.Errorf("activity not found")
+		return nil, domain.NotFoundError{Resource: "activity", ID: request.ActivityId.String(), Code: domain.ErrCodeNotFound}
 	}
 
 	a := activities[0]
-	id := int(a.ID.ID())
 	severity := external.ActivityDetailSeverityInfo
 	timeStr := a.Time.Format("2006-01-02T15:04:05Z")
-	return external.GetActivitiesId200JSONResponse{
-		Id:       &id,
+	return external.GetActivitiesActivityId200JSONResponse{
+		Id:       &a.ID,
 		Message:  &a.Details,
 		Severity: &severity,
 		Source:   &a.Resource,
@@ -172,62 +171,65 @@ func (h *httpHandler) GetAdminUsers(ctx context.Context, request external.GetAdm
 
 func (h *httpHandler) PostAdminUsers(ctx context.Context, request external.PostAdminUsersRequestObject) (external.PostAdminUsersResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 	email := request.Body.Email
-	id := 0
+	var id openapi_types.UUID
 	return external.PostAdminUsers201JSONResponse(external.User{
 		Email: &email,
 		Id:    &id,
 	}), nil
 }
 
-func (h *httpHandler) DeleteAdminUsersId(ctx context.Context, request external.DeleteAdminUsersIdRequestObject) (external.DeleteAdminUsersIdResponseObject, error) {
-	return external.DeleteAdminUsersId204Response{}, nil
+func (h *httpHandler) DeleteAdminUsersUserId(ctx context.Context, request external.DeleteAdminUsersUserIdRequestObject) (external.DeleteAdminUsersUserIdResponseObject, error) {
+	if request.UserId == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid user id", Code: domain.ErrCodeInvalidID}
+	}
+	return external.DeleteAdminUsersUserId204Response{}, nil
 }
 
-func (h *httpHandler) GetAdminUsersId(ctx context.Context, request external.GetAdminUsersIdRequestObject) (external.GetAdminUsersIdResponseObject, error) {
-	userID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid user id")
+func (h *httpHandler) GetAdminUsersUserId(ctx context.Context, request external.GetAdminUsersUserIdRequestObject) (external.GetAdminUsersUserIdResponseObject, error) {
+	userID := request.UserId
+	if userID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid user id", Code: domain.ErrCodeInvalidID}
 	}
 
 	user, err := h.svc.GetUser(ctx, userID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get user: %w", err)
 	}
 
 	if user == nil {
-		return nil, fmt.Errorf("user not found")
+		return nil, domain.NotFoundError{Resource: "user", ID: request.UserId.String(), Code: domain.ErrCodeNotFound}
 	}
 
-	id := int(user.ID.ID())
-	return external.GetAdminUsersId200JSONResponse{
+	id := user.ID
+	return external.GetAdminUsersUserId200JSONResponse{
 		Email: &user.Email,
 		Id:    &id,
 	}, nil
 }
 
-func (h *httpHandler) PutAdminUsersId(ctx context.Context, request external.PutAdminUsersIdRequestObject) (external.PutAdminUsersIdResponseObject, error) {
+func (h *httpHandler) PutAdminUsersUserId(ctx context.Context, request external.PutAdminUsersUserIdRequestObject) (external.PutAdminUsersUserIdResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 	email := ""
 	if request.Body.Email != nil {
 		email = *request.Body.Email
 	}
-	id := int(request.Id)
-	return external.PutAdminUsersId200JSONResponse(external.User{
+	id := request.UserId
+	return external.PutAdminUsersUserId200JSONResponse(external.User{
 		Email: &email,
 		Id:    &id,
 	}), nil
 }
 
-func (h *httpHandler) PutAdminUsersIdStatus(ctx context.Context, request external.PutAdminUsersIdStatusRequestObject) (external.PutAdminUsersIdStatusResponseObject, error) {
+func (h *httpHandler) PutAdminUsersUserIdStatus(ctx context.Context, request external.PutAdminUsersUserIdStatusRequestObject) (external.PutAdminUsersUserIdStatusResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
-	return external.PutAdminUsersIdStatus200Response{}, nil
+	return external.PutAdminUsersUserIdStatus200Response{}, nil
 }
 
 func (h *httpHandler) GetAlarms(ctx context.Context, request external.GetAlarmsRequestObject) (external.GetAlarmsResponseObject, error) {
@@ -239,7 +241,7 @@ func (h *httpHandler) GetAlarms(ctx context.Context, request external.GetAlarmsR
 
 	alarms, err := h.svc.SearchAlarms(ctx, uuid.Nil, limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to search alarms: %w", err)
 	}
 
 	var extAlarms []external.Alarm
@@ -270,26 +272,26 @@ func (h *httpHandler) GetAlarms(ctx context.Context, request external.GetAlarmsR
 	}), nil
 }
 
-func (h *httpHandler) GetAlarmsId(ctx context.Context, request external.GetAlarmsIdRequestObject) (external.GetAlarmsIdResponseObject, error) {
-	alarmID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid alarm id")
+func (h *httpHandler) GetAlarmsAlarmId(ctx context.Context, request external.GetAlarmsAlarmIdRequestObject) (external.GetAlarmsAlarmIdResponseObject, error) {
+	alarmID := request.AlarmId
+	if alarmID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid alarm id", Code: domain.ErrCodeInvalidID}
 	}
 
 	alarm, err := h.svc.GetAlarm(ctx, alarmID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get alarm: %w", err)
 	}
 
 	if alarm == nil {
-		return nil, fmt.Errorf("alarm not found")
+		return nil, domain.NotFoundError{Resource: "alarm", ID: request.AlarmId.String(), Code: domain.ErrCodeNotFound}
 	}
 
 	severity := external.AlarmSeverity(alarm.Severity)
 	timeStr := alarm.Time.Format("2006-01-02T15:04:05Z")
-	return external.GetAlarmsId200JSONResponse{
+	return external.GetAlarmsAlarmId200JSONResponse{
 		Acknowledged: &alarm.Acknowledged,
-		Id:           func() *int { i := int(alarm.ID.ID()); return &i }(),
+		Id:           &alarm.ID,
 		Message:      &alarm.Message,
 		Severity:     &severity,
 		Source:       &alarm.Source,
@@ -298,22 +300,22 @@ func (h *httpHandler) GetAlarmsId(ctx context.Context, request external.GetAlarm
 	}, nil
 }
 
-func (h *httpHandler) PostAlarmsIdAcknowledge(ctx context.Context, request external.PostAlarmsIdAcknowledgeRequestObject) (external.PostAlarmsIdAcknowledgeResponseObject, error) {
-	alarmID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid alarm id")
+func (h *httpHandler) PostAlarmsAlarmIdAcknowledge(ctx context.Context, request external.PostAlarmsAlarmIdAcknowledgeRequestObject) (external.PostAlarmsAlarmIdAcknowledgeResponseObject, error) {
+	alarmID := request.AlarmId
+	if alarmID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid alarm id", Code: domain.ErrCodeInvalidID}
 	}
 
 	if err := h.svc.AcknowledgeAlarm(ctx, alarmID); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to acknowledge alarm: %w", err)
 	}
 
-	return external.PostAlarmsIdAcknowledge200Response{}, nil
+	return external.PostAlarmsAlarmIdAcknowledge200Response{}, nil
 }
 
-func (h *httpHandler) PostGroups(ctx context.Context, request external.PostGroupsRequestObject) (external.PostGroupsResponseObject, error) {
+func (h *httpHandler) PostGroup(ctx context.Context, request external.PostGroupRequestObject) (external.PostGroupResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 
 	desc := ""
@@ -328,57 +330,55 @@ func (h *httpHandler) PostGroups(ctx context.Context, request external.PostGroup
 	}
 
 	if err := h.svc.CreateInventory(ctx, group); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create group: %w", err)
 	}
 
-	id := int(group.ID.ID())
-	return external.PostGroups201JSONResponse(external.Group{
+	return external.PostGroup201JSONResponse(external.Group{
 		Name:        &request.Body.Name,
 		Description: &desc,
-		Id:          &id,
+		Id:          &group.ID,
 	}), nil
 }
 
-func (h *httpHandler) DeleteGroupsId(ctx context.Context, request external.DeleteGroupsIdRequestObject) (external.DeleteGroupsIdResponseObject, error) {
-	groupID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid group id")
+func (h *httpHandler) DeleteGroupGroupId(ctx context.Context, request external.DeleteGroupGroupIdRequestObject) (external.DeleteGroupGroupIdResponseObject, error) {
+	groupID := request.GroupId
+	if groupID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
 	}
 
 	if err := h.svc.DeleteInventory(ctx, groupID); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to delete group: %w", err)
 	}
 
-	return external.DeleteGroupsId204Response{}, nil
+	return external.DeleteGroupGroupId204Response{}, nil
 }
 
-func (h *httpHandler) GetGroupsId(ctx context.Context, request external.GetGroupsIdRequestObject) (external.GetGroupsIdResponseObject, error) {
-	groupID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid group id")
+func (h *httpHandler) GetGroupGroupId(ctx context.Context, request external.GetGroupGroupIdRequestObject) (external.GetGroupGroupIdResponseObject, error) {
+	groupID := request.GroupId
+	if groupID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
 	}
 
 	inv, err := h.svc.GetInventory(ctx, groupID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get group: %w", err)
 	}
 
 	if inv == nil {
-		return nil, fmt.Errorf("group not found")
+		return nil, domain.NotFoundError{Resource: "group", ID: request.GroupId.String(), Code: domain.ErrCodeNotFound}
 	}
 
-	id := int(inv.ID.ID())
-	return external.GetGroupsId200JSONResponse{
+	return external.GetGroupGroupId200JSONResponse{
 		Description: &inv.Description,
-		Id:          &id,
+		Id:          &inv.ID,
 		Name:        &inv.Name,
 	}, nil
 }
 
-func (h *httpHandler) GetGroupsIdMembers(ctx context.Context, request external.GetGroupsIdMembersRequestObject) (external.GetGroupsIdMembersResponseObject, error) {
-	groupID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid group id")
+func (h *httpHandler) GetGroupGroupIdMembers(ctx context.Context, request external.GetGroupGroupIdMembersRequestObject) (external.GetGroupGroupIdMembersResponseObject, error) {
+	groupID := request.GroupId
+	if groupID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
 	}
 
 	limit := 20
@@ -389,7 +389,7 @@ func (h *httpHandler) GetGroupsIdMembers(ctx context.Context, request external.G
 
 	members, err := h.svc.GetInventoryMembers(ctx, groupID, limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get group members: %w", err)
 	}
 
 	page := 1
@@ -399,14 +399,13 @@ func (h *httpHandler) GetGroupsIdMembers(ctx context.Context, request external.G
 	var extUsers []external.User
 	for _, m := range members {
 		email := m.UserID.String()
-		id := int(m.UserID.ID())
 		extUsers = append(extUsers, external.User{
 			Email: &email,
-			Id:    &id,
+			Id:    &m.UserID,
 		})
 	}
 
-	return external.GetGroupsIdMembers200JSONResponse(external.UserList{
+	return external.GetGroupGroupIdMembers200JSONResponse(external.UserList{
 		Data: &extUsers,
 		Meta: &external.PaginationMeta{
 			Limit:      &limit,
@@ -417,20 +416,17 @@ func (h *httpHandler) GetGroupsIdMembers(ctx context.Context, request external.G
 	}), nil
 }
 
-func (h *httpHandler) PostGroupsIdMembers(ctx context.Context, request external.PostGroupsIdMembersRequestObject) (external.PostGroupsIdMembersResponseObject, error) {
-	groupID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid group id")
+func (h *httpHandler) PostGroupGroupIdMembers(ctx context.Context, request external.PostGroupGroupIdMembersRequestObject) (external.PostGroupGroupIdMembersResponseObject, error) {
+	groupID := request.GroupId
+	if groupID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
 	}
 
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 
-	userID := uuid.Nil
-	if request.Body.UserId != 0 {
-		userID = intToUUID(request.Body.UserId)
-	}
+	userID := request.Body.UserId
 
 	member := &domain.InventoryMember{
 		InventoryID: groupID,
@@ -439,29 +435,38 @@ func (h *httpHandler) PostGroupsIdMembers(ctx context.Context, request external.
 	}
 
 	if err := h.svc.AddInventoryMember(ctx, member); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to add group member: %w", err)
 	}
 
-	return external.PostGroupsIdMembers201Response{}, nil
+	return external.PostGroupGroupIdMembers201Response{}, nil
 }
 
-func (h *httpHandler) DeleteGroupsIdMembersUserId(ctx context.Context, request external.DeleteGroupsIdMembersUserIdRequestObject) (external.DeleteGroupsIdMembersUserIdResponseObject, error) {
-	return external.DeleteGroupsIdMembersUserId204Response{}, nil
+func (h *httpHandler) DeleteGroupGroupIdMembersUserId(ctx context.Context, request external.DeleteGroupGroupIdMembersUserIdRequestObject) (external.DeleteGroupGroupIdMembersUserIdResponseObject, error) {
+	if request.GroupId == uuid.Nil || request.UserId == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid id", Code: domain.ErrCodeInvalidID}
+	}
+	return external.DeleteGroupGroupIdMembersUserId204Response{}, nil
 }
 
-func (h *httpHandler) GetGroupsIdPolicies(ctx context.Context, request external.GetGroupsIdPoliciesRequestObject) (external.GetGroupsIdPoliciesResponseObject, error) {
-	return external.GetGroupsIdPolicies200JSONResponse{}, nil
+func (h *httpHandler) GetGroupGroupIdPolicy(ctx context.Context, request external.GetGroupGroupIdPolicyRequestObject) (external.GetGroupGroupIdPolicyResponseObject, error) {
+	if request.GroupId == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
+	}
+	return external.GetGroupGroupIdPolicy200JSONResponse{}, nil
 }
 
-func (h *httpHandler) PostGroupsIdPolicies(ctx context.Context, request external.PostGroupsIdPoliciesRequestObject) (external.PostGroupsIdPoliciesResponseObject, error) {
+func (h *httpHandler) PostGroupGroupIdPolicy(ctx context.Context, request external.PostGroupGroupIdPolicyRequestObject) (external.PostGroupGroupIdPolicyResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
-	return external.PostGroupsIdPolicies201Response{}, nil
+	return external.PostGroupGroupIdPolicy201Response{}, nil
 }
 
-func (h *httpHandler) DeleteGroupsIdPoliciesPolicyId(ctx context.Context, request external.DeleteGroupsIdPoliciesPolicyIdRequestObject) (external.DeleteGroupsIdPoliciesPolicyIdResponseObject, error) {
-	return external.DeleteGroupsIdPoliciesPolicyId204Response{}, nil
+func (h *httpHandler) DeleteGroupGroupIdPolicyPolicyId(ctx context.Context, request external.DeleteGroupGroupIdPolicyPolicyIdRequestObject) (external.DeleteGroupGroupIdPolicyPolicyIdResponseObject, error) {
+	if request.GroupId == uuid.Nil || request.PolicyId == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid id", Code: domain.ErrCodeInvalidID}
+	}
+	return external.DeleteGroupGroupIdPolicyPolicyId204Response{}, nil
 }
 
 func (h *httpHandler) GetPaste(ctx context.Context, request external.GetPasteRequestObject) (external.GetPasteResponseObject, error) {
@@ -478,7 +483,7 @@ func (h *httpHandler) GetPaste(ctx context.Context, request external.GetPasteReq
 
 	pastes, err := h.svc.SearchPastes(ctx, opts...)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to search pastes: %w", err)
 	}
 
 	var extPastes []external.Paste
@@ -509,7 +514,7 @@ func (h *httpHandler) GetPaste(ctx context.Context, request external.GetPasteReq
 
 func (h *httpHandler) PostPaste(ctx context.Context, request external.PostPasteRequestObject) (external.PostPasteResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 
 	paste := domain.Paste{
@@ -523,7 +528,7 @@ func (h *httpHandler) PostPaste(ctx context.Context, request external.PostPasteR
 	}
 
 	if err := h.svc.CreatePaste(ctx, &paste); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create paste: %w", err)
 	}
 
 	id := paste.ID.String()
@@ -536,30 +541,30 @@ func (h *httpHandler) PostPaste(ctx context.Context, request external.PostPasteR
 	}), nil
 }
 
-func (h *httpHandler) DeletePasteId(ctx context.Context, request external.DeletePasteIdRequestObject) (external.DeletePasteIdResponseObject, error) {
-	pasteID := intToUUID(int(request.Id))
+func (h *httpHandler) DeletePastePasteId(ctx context.Context, request external.DeletePastePasteIdRequestObject) (external.DeletePastePasteIdResponseObject, error) {
+	pasteID := request.PasteId
 
 	if err := h.svc.DeletePaste(ctx, pasteID); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to delete paste: %w", err)
 	}
 
-	return external.DeletePasteId204Response{}, nil
+	return external.DeletePastePasteId204Response{}, nil
 }
 
-func (h *httpHandler) GetPasteId(ctx context.Context, request external.GetPasteIdRequestObject) (external.GetPasteIdResponseObject, error) {
-	pasteID := intToUUID(int(request.Id))
+func (h *httpHandler) GetPastePasteId(ctx context.Context, request external.GetPastePasteIdRequestObject) (external.GetPastePasteIdResponseObject, error) {
+	pasteID := request.PasteId
 
 	paste, err := h.svc.GetPaste(ctx, pasteID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get paste: %w", err)
 	}
 
 	if paste == nil {
-		return nil, fmt.Errorf("paste not found")
+		return nil, domain.NotFoundError{Resource: "paste", ID: request.PasteId.String(), Code: domain.ErrCodeNotFound}
 	}
 
 	id := paste.ID.String()
-	return external.GetPasteId200JSONResponse(external.Paste{
+	return external.GetPastePasteId200JSONResponse(external.Paste{
 		Content:   &paste.Content,
 		CreatedAt: &paste.CreatedAt,
 		ExpiresAt: paste.ExpiresAt,
@@ -587,38 +592,44 @@ func (h *httpHandler) GetPolicies(ctx context.Context, request external.GetPolic
 
 func (h *httpHandler) PostPolicies(ctx context.Context, request external.PostPoliciesRequestObject) (external.PostPoliciesResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
-	id := 0
+	var id openapi_types.UUID
 	return external.PostPolicies201JSONResponse(external.Policy{
 		Name: &request.Body.Name,
 		Id:   &id,
 	}), nil
 }
 
-func (h *httpHandler) DeletePoliciesId(ctx context.Context, request external.DeletePoliciesIdRequestObject) (external.DeletePoliciesIdResponseObject, error) {
-	return external.DeletePoliciesId204Response{}, nil
+func (h *httpHandler) DeletePoliciesPolicyId(ctx context.Context, request external.DeletePoliciesPolicyIdRequestObject) (external.DeletePoliciesPolicyIdResponseObject, error) {
+	if request.PolicyId == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid policy id", Code: domain.ErrCodeInvalidID}
+	}
+	return external.DeletePoliciesPolicyId204Response{}, nil
 }
 
-func (h *httpHandler) GetPoliciesId(ctx context.Context, request external.GetPoliciesIdRequestObject) (external.GetPoliciesIdResponseObject, error) {
-	id := int(request.Id)
+func (h *httpHandler) GetPoliciesPolicyId(ctx context.Context, request external.GetPoliciesPolicyIdRequestObject) (external.GetPoliciesPolicyIdResponseObject, error) {
+	if request.PolicyId == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid policy id", Code: domain.ErrCodeInvalidID}
+	}
+	id := request.PolicyId
 	name := ""
-	return external.GetPoliciesId200JSONResponse{
+	return external.GetPoliciesPolicyId200JSONResponse{
 		Id:   &id,
 		Name: &name,
 	}, nil
 }
 
-func (h *httpHandler) PutPoliciesId(ctx context.Context, request external.PutPoliciesIdRequestObject) (external.PutPoliciesIdResponseObject, error) {
+func (h *httpHandler) PutPoliciesPolicyId(ctx context.Context, request external.PutPoliciesPolicyIdRequestObject) (external.PutPoliciesPolicyIdResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 	name := ""
 	if request.Body.Name != nil {
 		name = *request.Body.Name
 	}
-	id := int(request.Id)
-	return external.PutPoliciesId200JSONResponse(external.Policy{
+	id := request.PolicyId
+	return external.PutPoliciesPolicyId200JSONResponse(external.Policy{
 		Name: &name,
 		Id:   &id,
 	}), nil
@@ -652,15 +663,15 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 			domain.WithLimit(limit),
 			domain.WithOffset(offset),
 		)
-		if err == nil {
-			for _, i := range svcItems {
-				id := int(i.ID.ID())
-				services = append(services, external.Service{
-					Id:       &id,
-					Name:     &i.Name,
-					Hostname: &i.Name,
-				})
-			}
+		if err != nil {
+			return nil, fmt.Errorf("failed to search services: %w", err)
+		}
+		for _, i := range svcItems {
+			services = append(services, external.Service{
+				Id:       &i.ID,
+				Name:     &i.Name,
+				Hostname: &i.Name,
+			})
 		}
 
 		groupItems, err := h.svc.SearchInventory(ctx,
@@ -669,41 +680,45 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 			domain.WithLimit(limit),
 			domain.WithOffset(offset),
 		)
-		if err == nil {
-			for _, i := range groupItems {
-				id := int(i.ID.ID())
-				groups = append(groups, external.Group{
-					Id:   &id,
-					Name: &i.Name,
-				})
-			}
+		if err != nil {
+			return nil, fmt.Errorf("failed to search groups: %w", err)
 		}
-	} else if request.Params.Type != "" {
-		switch request.Params.Type {
+		for _, i := range groupItems {
+			groups = append(groups, external.Group{
+				Id:   &i.ID,
+				Name: &i.Name,
+			})
+		}
+	} else if request.Params.Type != nil {
+		switch *request.Params.Type {
 		case external.GetSearchParamsTypeService:
-			svcItems, _ := h.svc.SearchInventory(ctx,
+			svcItems, err := h.svc.SearchInventory(ctx,
 				domain.WithItemType(domain.ItemTypeService),
 				domain.WithLimit(limit),
 				domain.WithOffset(offset),
 			)
+			if err != nil {
+				return nil, fmt.Errorf("failed to search services: %w", err)
+			}
 			for _, i := range svcItems {
-				id := int(i.ID.ID())
 				services = append(services, external.Service{
-					Id:       &id,
+					Id:       &i.ID,
 					Name:     &i.Name,
 					Hostname: &i.Name,
 				})
 			}
 		case external.GetSearchParamsTypeGroup:
-			groupItems, _ := h.svc.SearchInventory(ctx,
+			groupItems, err := h.svc.SearchInventory(ctx,
 				domain.WithItemType(domain.ItemTypeGroup),
 				domain.WithLimit(limit),
 				domain.WithOffset(offset),
 			)
+			if err != nil {
+				return nil, fmt.Errorf("failed to search groups: %w", err)
+			}
 			for _, i := range groupItems {
-				id := int(i.ID.ID())
 				groups = append(groups, external.Group{
-					Id:   &id,
+					Id:   &i.ID,
 					Name: &i.Name,
 				})
 			}
@@ -718,9 +733,9 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 	}), nil
 }
 
-func (h *httpHandler) PostServices(ctx context.Context, request external.PostServicesRequestObject) (external.PostServicesResponseObject, error) {
+func (h *httpHandler) PostService(ctx context.Context, request external.PostServiceRequestObject) (external.PostServiceResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 
 	inv := &domain.Inventory{
@@ -729,58 +744,56 @@ func (h *httpHandler) PostServices(ctx context.Context, request external.PostSer
 	}
 
 	if err := h.svc.CreateInventory(ctx, inv); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create service: %w", err)
 	}
 
-	id := int(inv.ID.ID())
-	return external.PostServices201JSONResponse(external.Service{
-		Id:   &id,
+	return external.PostService201JSONResponse(external.Service{
+		Id:   &inv.ID,
 		Name: &request.Body.Name,
 	}), nil
 }
 
-func (h *httpHandler) DeleteServicesId(ctx context.Context, request external.DeleteServicesIdRequestObject) (external.DeleteServicesIdResponseObject, error) {
-	inventoryID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid inventory id")
+func (h *httpHandler) DeleteServiceServiceId(ctx context.Context, request external.DeleteServiceServiceIdRequestObject) (external.DeleteServiceServiceIdResponseObject, error) {
+	inventoryID := request.ServiceId
+	if inventoryID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid inventory id", Code: domain.ErrCodeInvalidID}
 	}
 
 	if err := h.svc.DeleteInventory(ctx, inventoryID); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to delete service: %w", err)
 	}
 
-	return external.DeleteServicesId204Response{}, nil
+	return external.DeleteServiceServiceId204Response{}, nil
 }
 
-func (h *httpHandler) GetServicesId(ctx context.Context, request external.GetServicesIdRequestObject) (external.GetServicesIdResponseObject, error) {
-	svcID, err := uuid.Parse(fmt.Sprint(request.Id))
-	if err != nil {
-		return nil, fmt.Errorf("invalid service id")
+func (h *httpHandler) GetServiceServiceId(ctx context.Context, request external.GetServiceServiceIdRequestObject) (external.GetServiceServiceIdResponseObject, error) {
+	serviceID := request.ServiceId
+	if serviceID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid service id", Code: domain.ErrCodeInvalidID}
 	}
 
-	inv, err := h.svc.GetInventory(ctx, svcID)
+	inv, err := h.svc.GetInventory(ctx, serviceID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get service: %w", err)
 	}
 
 	if inv == nil {
-		return nil, fmt.Errorf("service not found")
+		return nil, domain.NotFoundError{Resource: "service", ID: request.ServiceId.String(), Code: domain.ErrCodeNotFound}
 	}
 
-	id := int(inv.ID.ID())
-	return external.GetServicesId200JSONResponse{
+	return external.GetServiceServiceId200JSONResponse{
 		Hostname: &inv.Name,
-		Id:       &id,
+		Id:       &inv.ID,
 		Name:     &inv.Name,
 	}, nil
 }
 
-func (h *httpHandler) PutServicesId(ctx context.Context, request external.PutServicesIdRequestObject) (external.PutServicesIdResponseObject, error) {
+func (h *httpHandler) PutServiceServiceId(ctx context.Context, request external.PutServiceServiceIdRequestObject) (external.PutServiceServiceIdResponseObject, error) {
 	if request.Body == nil {
-		return nil, fmt.Errorf("missing request body")
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
-	id := int(request.Id)
-	return external.PutServicesId200JSONResponse(external.Service{
+	id := request.ServiceId
+	return external.PutServiceServiceId200JSONResponse(external.Service{
 		Id: &id,
 	}), nil
 }

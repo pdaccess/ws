@@ -2,6 +2,8 @@ package database
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
@@ -59,8 +61,8 @@ func (r *PasteRepository) GetByID(ctx context.Context, id uuid.UUID) (*domain.Pa
 		&paste.ExpiresAt, &paste.Views, &paste.CreatedAt,
 	)
 	if err != nil {
-		if err.Error() == "sql: no rows in result set" {
-			return nil, nil
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, domain.ErrNotFound
 		}
 		return nil, fmt.Errorf("failed to get paste: %w", err)
 	}
@@ -119,9 +121,17 @@ func (r *PasteRepository) Search(ctx context.Context, opts ...domain.PasteSearch
 func (r *PasteRepository) Delete(ctx context.Context, id uuid.UUID) error {
 	query := `DELETE FROM pastes WHERE id = $1`
 
-	_, err := r.db.ExecContext(ctx, query, id)
+	rs, err := r.db.ExecContext(ctx, query, id)
 	if err != nil {
 		return fmt.Errorf("failed to delete paste: %w", err)
+	}
+
+	count, err := rs.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get affected rows: %w", err)
+	}
+	if count == 0 {
+		return domain.ErrNotFound
 	}
 
 	log.Debug().Str("id", id.String()).Msg("paste deleted")

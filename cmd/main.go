@@ -24,6 +24,7 @@ var rootCmd = &cobra.Command{
 
 func main() {
 	rootCmd.AddCommand(app.ServerCmd)
+	rootCmd.AddCommand(app.HealthCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		panic(fmt.Errorf("app root: %w", err))

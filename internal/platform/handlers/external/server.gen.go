@@ -360,21 +360,21 @@ func (e GetAdminUsersParamsStatus) Valid() bool {
 	}
 }
 
-// Defines values for PutAdminUsersIdStatusJSONBodyStatus.
+// Defines values for PutAdminUsersUserIdStatusJSONBodyStatus.
 const (
-	PutAdminUsersIdStatusJSONBodyStatusActive    PutAdminUsersIdStatusJSONBodyStatus = "active"
-	PutAdminUsersIdStatusJSONBodyStatusInactive  PutAdminUsersIdStatusJSONBodyStatus = "inactive"
-	PutAdminUsersIdStatusJSONBodyStatusSuspended PutAdminUsersIdStatusJSONBodyStatus = "suspended"
+	PutAdminUsersUserIdStatusJSONBodyStatusActive    PutAdminUsersUserIdStatusJSONBodyStatus = "active"
+	PutAdminUsersUserIdStatusJSONBodyStatusInactive  PutAdminUsersUserIdStatusJSONBodyStatus = "inactive"
+	PutAdminUsersUserIdStatusJSONBodyStatusSuspended PutAdminUsersUserIdStatusJSONBodyStatus = "suspended"
 )
 
-// Valid indicates whether the value is a known member of the PutAdminUsersIdStatusJSONBodyStatus enum.
-func (e PutAdminUsersIdStatusJSONBodyStatus) Valid() bool {
+// Valid indicates whether the value is a known member of the PutAdminUsersUserIdStatusJSONBodyStatus enum.
+func (e PutAdminUsersUserIdStatusJSONBodyStatus) Valid() bool {
 	switch e {
-	case PutAdminUsersIdStatusJSONBodyStatusActive:
+	case PutAdminUsersUserIdStatusJSONBodyStatusActive:
 		return true
-	case PutAdminUsersIdStatusJSONBodyStatusInactive:
+	case PutAdminUsersUserIdStatusJSONBodyStatusInactive:
 		return true
-	case PutAdminUsersIdStatusJSONBodyStatusSuspended:
+	case PutAdminUsersUserIdStatusJSONBodyStatusSuspended:
 		return true
 	default:
 		return false
@@ -447,15 +447,15 @@ func (e PostPoliciesJSONBodyType) Valid() bool {
 	}
 }
 
-// Defines values for PutPoliciesIdJSONBodyType.
+// Defines values for PutPoliciesPolicyIdJSONBodyType.
 const (
-	Access   PutPoliciesIdJSONBodyType = "Access"
-	Network  PutPoliciesIdJSONBodyType = "Network"
-	Security PutPoliciesIdJSONBodyType = "Security"
+	Access   PutPoliciesPolicyIdJSONBodyType = "Access"
+	Network  PutPoliciesPolicyIdJSONBodyType = "Network"
+	Security PutPoliciesPolicyIdJSONBodyType = "Security"
 )
 
-// Valid indicates whether the value is a known member of the PutPoliciesIdJSONBodyType enum.
-func (e PutPoliciesIdJSONBodyType) Valid() bool {
+// Valid indicates whether the value is a known member of the PutPoliciesPolicyIdJSONBodyType enum.
+func (e PutPoliciesPolicyIdJSONBodyType) Valid() bool {
 	switch e {
 	case Access:
 		return true
@@ -518,12 +518,12 @@ func (e GetSearchParamsStatus) Valid() bool {
 
 // Activity defines model for Activity.
 type Activity struct {
-	Id       *int              `json:"id,omitempty"`
-	Message  *string           `json:"message,omitempty"`
-	Severity *ActivitySeverity `json:"severity,omitempty"`
-	Source   *string           `json:"source,omitempty"`
-	Time     *string           `json:"time,omitempty"`
-	Title    *string           `json:"title,omitempty"`
+	Id       *openapi_types.UUID `json:"id,omitempty"`
+	Message  *string             `json:"message,omitempty"`
+	Severity *ActivitySeverity   `json:"severity,omitempty"`
+	Source   *string             `json:"source,omitempty"`
+	Time     *string             `json:"time,omitempty"`
+	Title    *string             `json:"title,omitempty"`
 }
 
 // ActivitySeverity defines model for Activity.Severity.
@@ -531,17 +531,17 @@ type ActivitySeverity string
 
 // ActivityDetail defines model for ActivityDetail.
 type ActivityDetail struct {
-	Id        *int                    `json:"id,omitempty"`
+	Id        *openapi_types.UUID     `json:"id,omitempty"`
 	Message   *string                 `json:"message,omitempty"`
 	Metadata  *map[string]interface{} `json:"metadata,omitempty"`
 	Service   *Service                `json:"service,omitempty"`
-	ServiceId *int                    `json:"serviceId,omitempty"`
+	ServiceId *openapi_types.UUID     `json:"serviceId,omitempty"`
 	Severity  *ActivityDetailSeverity `json:"severity,omitempty"`
 	Source    *string                 `json:"source,omitempty"`
 	Time      *string                 `json:"time,omitempty"`
 	Title     *string                 `json:"title,omitempty"`
 	User      *User                   `json:"user,omitempty"`
-	UserId    *int                    `json:"userId,omitempty"`
+	UserId    *openapi_types.UUID     `json:"userId,omitempty"`
 }
 
 // ActivityDetailSeverity defines model for ActivityDetail.Severity.
@@ -561,13 +561,13 @@ type AdminUserList struct {
 
 // Alarm defines model for Alarm.
 type Alarm struct {
-	Acknowledged *bool          `json:"acknowledged,omitempty"`
-	Id           *int           `json:"id,omitempty"`
-	Message      *string        `json:"message,omitempty"`
-	Severity     *AlarmSeverity `json:"severity,omitempty"`
-	Source       *string        `json:"source,omitempty"`
-	Time         *string        `json:"time,omitempty"`
-	Title        *string        `json:"title,omitempty"`
+	Acknowledged *bool               `json:"acknowledged,omitempty"`
+	Id           *openapi_types.UUID `json:"id,omitempty"`
+	Message      *string             `json:"message,omitempty"`
+	Severity     *AlarmSeverity      `json:"severity,omitempty"`
+	Source       *string             `json:"source,omitempty"`
+	Time         *string             `json:"time,omitempty"`
+	Title        *string             `json:"title,omitempty"`
 }
 
 // AlarmSeverity defines model for Alarm.Severity.
@@ -583,13 +583,13 @@ type AlarmList struct {
 type AuditLog struct {
 	Action     *string                 `json:"action,omitempty"`
 	Details    *map[string]interface{} `json:"details,omitempty"`
-	Id         *int                    `json:"id,omitempty"`
+	Id         *openapi_types.UUID     `json:"id,omitempty"`
 	IpAddress  *string                 `json:"ipAddress,omitempty"`
 	Resource   *string                 `json:"resource,omitempty"`
-	ResourceId *int                    `json:"resourceId,omitempty"`
+	ResourceId *openapi_types.UUID     `json:"resourceId,omitempty"`
 	Timestamp  *time.Time              `json:"timestamp,omitempty"`
 	UserEmail  *string                 `json:"userEmail,omitempty"`
-	UserId     *int                    `json:"userId,omitempty"`
+	UserId     *openapi_types.UUID     `json:"userId,omitempty"`
 }
 
 // AuditLogList defines model for AuditLogList.
@@ -610,17 +610,17 @@ type GenericError struct {
 type Group struct {
 	Created     *openapi_types.Date `json:"created,omitempty"`
 	Description *string             `json:"description,omitempty"`
-	Id          *int                `json:"id,omitempty"`
+	Id          *openapi_types.UUID `json:"id,omitempty"`
 	Members     *int                `json:"members,omitempty"`
 	Name        *string             `json:"name,omitempty"`
-	ParentId    *int                `json:"parentId,omitempty"`
+	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
 }
 
 // GroupCreate defines model for GroupCreate.
 type GroupCreate struct {
-	Description *string `json:"description,omitempty"`
-	Name        string  `json:"name"`
-	ParentId    *int    `json:"parentId,omitempty"`
+	Description *string             `json:"description,omitempty"`
+	Name        string              `json:"name"`
+	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
 }
 
 // GroupDetail defines model for GroupDetail.
@@ -628,11 +628,11 @@ type GroupDetail struct {
 	Children    *[]Group            `json:"children,omitempty"`
 	Created     *openapi_types.Date `json:"created,omitempty"`
 	Description *string             `json:"description,omitempty"`
-	Id          *int                `json:"id,omitempty"`
+	Id          *openapi_types.UUID `json:"id,omitempty"`
 	Members     *int                `json:"members,omitempty"`
 	Name        *string             `json:"name,omitempty"`
 	Parent      *Group              `json:"parent,omitempty"`
-	ParentId    *int                `json:"parentId,omitempty"`
+	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
 }
 
 // PaginatedResponse defines model for PaginatedResponse.
@@ -680,7 +680,7 @@ type PasteList struct {
 type Policy struct {
 	Description  *string             `json:"description,omitempty"`
 	Enabled      *bool               `json:"enabled,omitempty"`
-	Id           *int                `json:"id,omitempty"`
+	Id           *openapi_types.UUID `json:"id,omitempty"`
 	LastModified *openapi_types.Date `json:"lastModified,omitempty"`
 	Name         *string             `json:"name,omitempty"`
 	Scope        *string             `json:"scope,omitempty"`
@@ -707,9 +707,9 @@ type SearchResults struct {
 // Service defines model for Service.
 type Service struct {
 	Alias        *string             `json:"alias,omitempty"`
-	GroupId      *int                `json:"groupId,omitempty"`
+	GroupId      *openapi_types.UUID `json:"groupId,omitempty"`
 	Hostname     *string             `json:"hostname,omitempty"`
-	Id           *int                `json:"id,omitempty"`
+	Id           *openapi_types.UUID `json:"id,omitempty"`
 	LastDeployed *openapi_types.Date `json:"lastDeployed,omitempty"`
 	Name         *string             `json:"name,omitempty"`
 	Protocol     *string             `json:"protocol,omitempty"`
@@ -723,21 +723,21 @@ type ServiceStatus string
 
 // ServiceCreate defines model for ServiceCreate.
 type ServiceCreate struct {
-	Alias    *string `json:"alias,omitempty"`
-	GroupId  *int    `json:"groupId,omitempty"`
-	Hostname string  `json:"hostname"`
-	Name     string  `json:"name"`
-	Protocol string  `json:"protocol"`
-	Type     string  `json:"type"`
+	Alias    *string             `json:"alias,omitempty"`
+	GroupId  *openapi_types.UUID `json:"groupId,omitempty"`
+	Hostname string              `json:"hostname"`
+	Name     string              `json:"name"`
+	Protocol string              `json:"protocol"`
+	Type     string              `json:"type"`
 }
 
 // ServiceDetail defines model for ServiceDetail.
 type ServiceDetail struct {
 	Alias        *string              `json:"alias,omitempty"`
 	Group        *Group               `json:"group,omitempty"`
-	GroupId      *int                 `json:"groupId,omitempty"`
+	GroupId      *openapi_types.UUID  `json:"groupId,omitempty"`
 	Hostname     *string              `json:"hostname,omitempty"`
-	Id           *int                 `json:"id,omitempty"`
+	Id           *openapi_types.UUID  `json:"id,omitempty"`
 	LastDeployed *openapi_types.Date  `json:"lastDeployed,omitempty"`
 	Name         *string              `json:"name,omitempty"`
 	Protocol     *string              `json:"protocol,omitempty"`
@@ -751,12 +751,12 @@ type ServiceDetailStatus string
 
 // ServiceUpdate defines model for ServiceUpdate.
 type ServiceUpdate struct {
-	Alias    *string `json:"alias,omitempty"`
-	GroupId  *int    `json:"groupId,omitempty"`
-	Hostname *string `json:"hostname,omitempty"`
-	Name     *string `json:"name,omitempty"`
-	Protocol *string `json:"protocol,omitempty"`
-	Status   *string `json:"status,omitempty"`
+	Alias    *string             `json:"alias,omitempty"`
+	GroupId  *openapi_types.UUID `json:"groupId,omitempty"`
+	Hostname *string             `json:"hostname,omitempty"`
+	Name     *string             `json:"name,omitempty"`
+	Protocol *string             `json:"protocol,omitempty"`
+	Status   *string             `json:"status,omitempty"`
 }
 
 // SystemHealth defines model for SystemHealth.
@@ -794,13 +794,13 @@ type SystemSettingsUpdate struct {
 
 // User defines model for User.
 type User struct {
-	CreatedAt *time.Time  `json:"createdAt,omitempty"`
-	Email     *string     `json:"email,omitempty"`
-	Id        *int        `json:"id,omitempty"`
-	LastLogin *time.Time  `json:"lastLogin,omitempty"`
-	Name      *string     `json:"name,omitempty"`
-	Role      *UserRole   `json:"role,omitempty"`
-	Status    *UserStatus `json:"status,omitempty"`
+	CreatedAt *time.Time          `json:"createdAt,omitempty"`
+	Email     *string             `json:"email,omitempty"`
+	Id        *openapi_types.UUID `json:"id,omitempty"`
+	LastLogin *time.Time          `json:"lastLogin,omitempty"`
+	Name      *string             `json:"name,omitempty"`
+	Role      *UserRole           `json:"role,omitempty"`
+	Status    *UserStatus         `json:"status,omitempty"`
 }
 
 // UserRole defines model for User.Role.
@@ -822,15 +822,15 @@ type UserCreateRole string
 
 // UserDetail defines model for UserDetail.
 type UserDetail struct {
-	CreatedAt   *time.Time        `json:"createdAt,omitempty"`
-	Email       *string           `json:"email,omitempty"`
-	Groups      *[]Group          `json:"groups,omitempty"`
-	Id          *int              `json:"id,omitempty"`
-	LastLogin   *time.Time        `json:"lastLogin,omitempty"`
-	Name        *string           `json:"name,omitempty"`
-	Permissions *[]string         `json:"permissions,omitempty"`
-	Role        *UserDetailRole   `json:"role,omitempty"`
-	Status      *UserDetailStatus `json:"status,omitempty"`
+	CreatedAt   *time.Time          `json:"createdAt,omitempty"`
+	Email       *string             `json:"email,omitempty"`
+	Groups      *[]Group            `json:"groups,omitempty"`
+	Id          *openapi_types.UUID `json:"id,omitempty"`
+	LastLogin   *time.Time          `json:"lastLogin,omitempty"`
+	Name        *string             `json:"name,omitempty"`
+	Permissions *[]string           `json:"permissions,omitempty"`
+	Role        *UserDetailRole     `json:"role,omitempty"`
+	Status      *UserDetailStatus   `json:"status,omitempty"`
 }
 
 // UserDetailRole defines model for UserDetail.Role.
@@ -855,9 +855,6 @@ type UserUpdate struct {
 
 // UserUpdateRole defines model for UserUpdate.Role.
 type UserUpdateRole string
-
-// IdParam defines model for IdParam.
-type IdParam = int
 
 // LimitParam defines model for LimitParam.
 type LimitParam = int
@@ -890,13 +887,13 @@ type GetActivitiesParams struct {
 	Severity *GetActivitiesParamsSeverity `form:"severity,omitempty" json:"severity,omitempty"`
 
 	// ServiceId Filter by service ID
-	ServiceId *int `form:"serviceId,omitempty" json:"serviceId,omitempty"`
+	ServiceId *openapi_types.UUID `form:"serviceId,omitempty" json:"serviceId,omitempty"`
 
 	// GroupId Filter by group ID
-	GroupId *int `form:"groupId,omitempty" json:"groupId,omitempty"`
+	GroupId *openapi_types.UUID `form:"groupId,omitempty" json:"groupId,omitempty"`
 
 	// SessionId Filter by session ID
-	SessionId *int `form:"sessionId,omitempty" json:"sessionId,omitempty"`
+	SessionId *openapi_types.UUID `form:"sessionId,omitempty" json:"sessionId,omitempty"`
 }
 
 // GetActivitiesParamsSeverity defines parameters for GetActivities.
@@ -912,7 +909,7 @@ type GetAdminAuditLogsParams struct {
 
 	// Search Search query
 	Search    *SearchParam        `form:"search,omitempty" json:"search,omitempty"`
-	UserId    *int                `form:"userId,omitempty" json:"userId,omitempty"`
+	UserId    *openapi_types.UUID `form:"userId,omitempty" json:"userId,omitempty"`
 	Action    *string             `form:"action,omitempty" json:"action,omitempty"`
 	StartDate *openapi_types.Date `form:"startDate,omitempty" json:"startDate,omitempty"`
 	EndDate   *openapi_types.Date `form:"endDate,omitempty" json:"endDate,omitempty"`
@@ -938,13 +935,13 @@ type GetAdminUsersParamsRole string
 // GetAdminUsersParamsStatus defines parameters for GetAdminUsers.
 type GetAdminUsersParamsStatus string
 
-// PutAdminUsersIdStatusJSONBody defines parameters for PutAdminUsersIdStatus.
-type PutAdminUsersIdStatusJSONBody struct {
-	Status PutAdminUsersIdStatusJSONBodyStatus `json:"status"`
+// PutAdminUsersUserIdStatusJSONBody defines parameters for PutAdminUsersUserIdStatus.
+type PutAdminUsersUserIdStatusJSONBody struct {
+	Status PutAdminUsersUserIdStatusJSONBodyStatus `json:"status"`
 }
 
-// PutAdminUsersIdStatusJSONBodyStatus defines parameters for PutAdminUsersIdStatus.
-type PutAdminUsersIdStatusJSONBodyStatus string
+// PutAdminUsersUserIdStatusJSONBodyStatus defines parameters for PutAdminUsersUserIdStatus.
+type PutAdminUsersUserIdStatusJSONBodyStatus string
 
 // GetAlarmsParams defines parameters for GetAlarms.
 type GetAlarmsParams struct {
@@ -965,8 +962,8 @@ type GetAlarmsParams struct {
 // GetAlarmsParamsSeverity defines parameters for GetAlarms.
 type GetAlarmsParamsSeverity string
 
-// GetGroupsIdMembersParams defines parameters for GetGroupsIdMembers.
-type GetGroupsIdMembersParams struct {
+// GetGroupGroupIdMembersParams defines parameters for GetGroupGroupIdMembers.
+type GetGroupGroupIdMembersParams struct {
 	// Page Page number
 	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
 
@@ -974,14 +971,14 @@ type GetGroupsIdMembersParams struct {
 	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
-// PostGroupsIdMembersJSONBody defines parameters for PostGroupsIdMembers.
-type PostGroupsIdMembersJSONBody struct {
-	UserId int `json:"userId"`
+// PostGroupGroupIdMembersJSONBody defines parameters for PostGroupGroupIdMembers.
+type PostGroupGroupIdMembersJSONBody struct {
+	UserId openapi_types.UUID `json:"userId"`
 }
 
-// PostGroupsIdPoliciesJSONBody defines parameters for PostGroupsIdPolicies.
-type PostGroupsIdPoliciesJSONBody struct {
-	PolicyId int `json:"policyId"`
+// PostGroupGroupIdPolicyJSONBody defines parameters for PostGroupGroupIdPolicy.
+type PostGroupGroupIdPolicyJSONBody struct {
+	PolicyId openapi_types.UUID `json:"policyId"`
 }
 
 // GetPasteParams defines parameters for GetPaste.
@@ -1018,17 +1015,17 @@ type PostPoliciesJSONBody struct {
 // PostPoliciesJSONBodyType defines parameters for PostPolicies.
 type PostPoliciesJSONBodyType string
 
-// PutPoliciesIdJSONBody defines parameters for PutPoliciesId.
-type PutPoliciesIdJSONBody struct {
-	Description *string                    `json:"description,omitempty"`
-	Enabled     *bool                      `json:"enabled,omitempty"`
-	Name        *string                    `json:"name,omitempty"`
-	Scope       *string                    `json:"scope,omitempty"`
-	Type        *PutPoliciesIdJSONBodyType `json:"type,omitempty"`
+// PutPoliciesPolicyIdJSONBody defines parameters for PutPoliciesPolicyId.
+type PutPoliciesPolicyIdJSONBody struct {
+	Description *string                          `json:"description,omitempty"`
+	Enabled     *bool                            `json:"enabled,omitempty"`
+	Name        *string                          `json:"name,omitempty"`
+	Scope       *string                          `json:"scope,omitempty"`
+	Type        *PutPoliciesPolicyIdJSONBodyType `json:"type,omitempty"`
 }
 
-// PutPoliciesIdJSONBodyType defines parameters for PutPoliciesId.
-type PutPoliciesIdJSONBodyType string
+// PutPoliciesPolicyIdJSONBodyType defines parameters for PutPoliciesPolicyId.
+type PutPoliciesPolicyIdJSONBodyType string
 
 // GetSearchParams defines parameters for GetSearch.
 type GetSearchParams struct {
@@ -1036,7 +1033,7 @@ type GetSearchParams struct {
 	Q *string `form:"q,omitempty" json:"q,omitempty"`
 
 	// Type Resource type to search/list
-	Type GetSearchParamsType `form:"type" json:"type"`
+	Type *GetSearchParamsType `form:"type,omitempty" json:"type,omitempty"`
 
 	// Page Page number
 	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
@@ -1051,7 +1048,7 @@ type GetSearchParams struct {
 	Status *GetSearchParamsStatus `form:"status,omitempty" json:"status,omitempty"`
 
 	// GroupId Filter by group ID (for Service)
-	GroupId *int `form:"groupId,omitempty" json:"groupId,omitempty"`
+	GroupId *openapi_types.UUID `form:"groupId,omitempty" json:"groupId,omitempty"`
 }
 
 // GetSearchParamsType defines parameters for GetSearch.
@@ -1066,20 +1063,20 @@ type PutAdminSettingsJSONRequestBody = SystemSettingsUpdate
 // PostAdminUsersJSONRequestBody defines body for PostAdminUsers for application/json ContentType.
 type PostAdminUsersJSONRequestBody = UserCreate
 
-// PutAdminUsersIdJSONRequestBody defines body for PutAdminUsersId for application/json ContentType.
-type PutAdminUsersIdJSONRequestBody = UserUpdate
+// PutAdminUsersUserIdJSONRequestBody defines body for PutAdminUsersUserId for application/json ContentType.
+type PutAdminUsersUserIdJSONRequestBody = UserUpdate
 
-// PutAdminUsersIdStatusJSONRequestBody defines body for PutAdminUsersIdStatus for application/json ContentType.
-type PutAdminUsersIdStatusJSONRequestBody PutAdminUsersIdStatusJSONBody
+// PutAdminUsersUserIdStatusJSONRequestBody defines body for PutAdminUsersUserIdStatus for application/json ContentType.
+type PutAdminUsersUserIdStatusJSONRequestBody PutAdminUsersUserIdStatusJSONBody
 
-// PostGroupsJSONRequestBody defines body for PostGroups for application/json ContentType.
-type PostGroupsJSONRequestBody = GroupCreate
+// PostGroupJSONRequestBody defines body for PostGroup for application/json ContentType.
+type PostGroupJSONRequestBody = GroupCreate
 
-// PostGroupsIdMembersJSONRequestBody defines body for PostGroupsIdMembers for application/json ContentType.
-type PostGroupsIdMembersJSONRequestBody PostGroupsIdMembersJSONBody
+// PostGroupGroupIdMembersJSONRequestBody defines body for PostGroupGroupIdMembers for application/json ContentType.
+type PostGroupGroupIdMembersJSONRequestBody PostGroupGroupIdMembersJSONBody
 
-// PostGroupsIdPoliciesJSONRequestBody defines body for PostGroupsIdPolicies for application/json ContentType.
-type PostGroupsIdPoliciesJSONRequestBody PostGroupsIdPoliciesJSONBody
+// PostGroupGroupIdPolicyJSONRequestBody defines body for PostGroupGroupIdPolicy for application/json ContentType.
+type PostGroupGroupIdPolicyJSONRequestBody PostGroupGroupIdPolicyJSONBody
 
 // PostPasteJSONRequestBody defines body for PostPaste for application/json ContentType.
 type PostPasteJSONRequestBody = PasteCreate
@@ -1087,14 +1084,14 @@ type PostPasteJSONRequestBody = PasteCreate
 // PostPoliciesJSONRequestBody defines body for PostPolicies for application/json ContentType.
 type PostPoliciesJSONRequestBody PostPoliciesJSONBody
 
-// PutPoliciesIdJSONRequestBody defines body for PutPoliciesId for application/json ContentType.
-type PutPoliciesIdJSONRequestBody PutPoliciesIdJSONBody
+// PutPoliciesPolicyIdJSONRequestBody defines body for PutPoliciesPolicyId for application/json ContentType.
+type PutPoliciesPolicyIdJSONRequestBody PutPoliciesPolicyIdJSONBody
 
-// PostServicesJSONRequestBody defines body for PostServices for application/json ContentType.
-type PostServicesJSONRequestBody = ServiceCreate
+// PostServiceJSONRequestBody defines body for PostService for application/json ContentType.
+type PostServiceJSONRequestBody = ServiceCreate
 
-// PutServicesIdJSONRequestBody defines body for PutServicesId for application/json ContentType.
-type PutServicesIdJSONRequestBody = ServiceUpdate
+// PutServiceServiceIdJSONRequestBody defines body for PutServiceServiceId for application/json ContentType.
+type PutServiceServiceIdJSONRequestBody = ServiceUpdate
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -1102,8 +1099,8 @@ type ServerInterface interface {
 	// (GET /activities)
 	GetActivities(w http.ResponseWriter, r *http.Request, params GetActivitiesParams)
 	// Get activity
-	// (GET /activities/{id})
-	GetActivitiesId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /activities/{activityId})
+	GetActivitiesActivityId(w http.ResponseWriter, r *http.Request, activityId openapi_types.UUID)
 	// List audit logs
 	// (GET /admin/audit-logs)
 	GetAdminAuditLogs(w http.ResponseWriter, r *http.Request, params GetAdminAuditLogsParams)
@@ -1123,53 +1120,53 @@ type ServerInterface interface {
 	// (POST /admin/users)
 	PostAdminUsers(w http.ResponseWriter, r *http.Request)
 	// Delete user
-	// (DELETE /admin/users/{id})
-	DeleteAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (DELETE /admin/users/{userId})
+	DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
 	// Get user details
-	// (GET /admin/users/{id})
-	GetAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /admin/users/{userId})
+	GetAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
 	// Update user
-	// (PUT /admin/users/{id})
-	PutAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (PUT /admin/users/{userId})
+	PutAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
 	// Update user status
-	// (PUT /admin/users/{id}/status)
-	PutAdminUsersIdStatus(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (PUT /admin/users/{userId}/status)
+	PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
 	// List alarms
 	// (GET /alarms)
 	GetAlarms(w http.ResponseWriter, r *http.Request, params GetAlarmsParams)
 	// Get alarm
-	// (GET /alarms/{id})
-	GetAlarmsId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /alarms/{alarmId})
+	GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID)
 	// Acknowledge alarm
-	// (POST /alarms/{id}/acknowledge)
-	PostAlarmsIdAcknowledge(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (POST /alarms/{alarmId}/acknowledge)
+	PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID)
 	// Create group
-	// (POST /groups)
-	PostGroups(w http.ResponseWriter, r *http.Request)
+	// (POST /group)
+	PostGroup(w http.ResponseWriter, r *http.Request)
 	// Delete group
-	// (DELETE /groups/{id})
-	DeleteGroupsId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (DELETE /group/{groupId})
+	DeleteGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
 	// Get group
-	// (GET /groups/{id})
-	GetGroupsId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /group/{groupId})
+	GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
 	// Get group members
-	// (GET /groups/{id}/members)
-	GetGroupsIdMembers(w http.ResponseWriter, r *http.Request, id IdParam, params GetGroupsIdMembersParams)
+	// (GET /group/{groupId}/members)
+	GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetGroupGroupIdMembersParams)
 	// Add group member
-	// (POST /groups/{id}/members)
-	PostGroupsIdMembers(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (POST /group/{groupId}/members)
+	PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
 	// Remove group member
-	// (DELETE /groups/{id}/members/{userId})
-	DeleteGroupsIdMembersUserId(w http.ResponseWriter, r *http.Request, id IdParam, userId int)
+	// (DELETE /group/{groupId}/members/{userId})
+	DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, userId openapi_types.UUID)
 	// Get group policies
-	// (GET /groups/{id}/policies)
-	GetGroupsIdPolicies(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /group/{groupId}/policy)
+	GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
 	// Assign policy to group
-	// (POST /groups/{id}/policies)
-	PostGroupsIdPolicies(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (POST /group/{groupId}/policy)
+	PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
 	// Remove policy from group
-	// (DELETE /groups/{id}/policies/{policyId})
-	DeleteGroupsIdPoliciesPolicyId(w http.ResponseWriter, r *http.Request, id IdParam, policyId int)
+	// (DELETE /group/{groupId}/policy/{policyId})
+	DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, policyId openapi_types.UUID)
 	// List pastes
 	// (GET /paste)
 	GetPaste(w http.ResponseWriter, r *http.Request, params GetPasteParams)
@@ -1177,11 +1174,11 @@ type ServerInterface interface {
 	// (POST /paste)
 	PostPaste(w http.ResponseWriter, r *http.Request)
 	// Delete paste
-	// (DELETE /paste/{id})
-	DeletePasteId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (DELETE /paste/{pasteId})
+	DeletePastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID)
 	// Get paste
-	// (GET /paste/{id})
-	GetPasteId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /paste/{pasteId})
+	GetPastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID)
 	// List policies
 	// (GET /policies)
 	GetPolicies(w http.ResponseWriter, r *http.Request, params GetPoliciesParams)
@@ -1189,29 +1186,29 @@ type ServerInterface interface {
 	// (POST /policies)
 	PostPolicies(w http.ResponseWriter, r *http.Request)
 	// Delete policy
-	// (DELETE /policies/{id})
-	DeletePoliciesId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (DELETE /policies/{policyId})
+	DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID)
 	// Get policy
-	// (GET /policies/{id})
-	GetPoliciesId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /policies/{policyId})
+	GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID)
 	// Update policy
-	// (PUT /policies/{id})
-	PutPoliciesId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (PUT /policies/{policyId})
+	PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID)
 	// Global search
 	// (GET /search)
 	GetSearch(w http.ResponseWriter, r *http.Request, params GetSearchParams)
 	// Create service
-	// (POST /services)
-	PostServices(w http.ResponseWriter, r *http.Request)
+	// (POST /service)
+	PostService(w http.ResponseWriter, r *http.Request)
 	// Delete service
-	// (DELETE /services/{id})
-	DeleteServicesId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (DELETE /service/{serviceId})
+	DeleteServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID)
 	// Get service
-	// (GET /services/{id})
-	GetServicesId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (GET /service/{serviceId})
+	GetServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID)
 	// Update service
-	// (PUT /services/{id})
-	PutServicesId(w http.ResponseWriter, r *http.Request, id IdParam)
+	// (PUT /service/{serviceId})
+	PutServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
@@ -1225,8 +1222,8 @@ func (_ Unimplemented) GetActivities(w http.ResponseWriter, r *http.Request, par
 }
 
 // Get activity
-// (GET /activities/{id})
-func (_ Unimplemented) GetActivitiesId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /activities/{activityId})
+func (_ Unimplemented) GetActivitiesActivityId(w http.ResponseWriter, r *http.Request, activityId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1267,26 +1264,26 @@ func (_ Unimplemented) PostAdminUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 // Delete user
-// (DELETE /admin/users/{id})
-func (_ Unimplemented) DeleteAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (DELETE /admin/users/{userId})
+func (_ Unimplemented) DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get user details
-// (GET /admin/users/{id})
-func (_ Unimplemented) GetAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /admin/users/{userId})
+func (_ Unimplemented) GetAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Update user
-// (PUT /admin/users/{id})
-func (_ Unimplemented) PutAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (PUT /admin/users/{userId})
+func (_ Unimplemented) PutAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Update user status
-// (PUT /admin/users/{id}/status)
-func (_ Unimplemented) PutAdminUsersIdStatus(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (PUT /admin/users/{userId}/status)
+func (_ Unimplemented) PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1297,68 +1294,68 @@ func (_ Unimplemented) GetAlarms(w http.ResponseWriter, r *http.Request, params 
 }
 
 // Get alarm
-// (GET /alarms/{id})
-func (_ Unimplemented) GetAlarmsId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /alarms/{alarmId})
+func (_ Unimplemented) GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Acknowledge alarm
-// (POST /alarms/{id}/acknowledge)
-func (_ Unimplemented) PostAlarmsIdAcknowledge(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (POST /alarms/{alarmId}/acknowledge)
+func (_ Unimplemented) PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Create group
-// (POST /groups)
-func (_ Unimplemented) PostGroups(w http.ResponseWriter, r *http.Request) {
+// (POST /group)
+func (_ Unimplemented) PostGroup(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Delete group
-// (DELETE /groups/{id})
-func (_ Unimplemented) DeleteGroupsId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (DELETE /group/{groupId})
+func (_ Unimplemented) DeleteGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get group
-// (GET /groups/{id})
-func (_ Unimplemented) GetGroupsId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /group/{groupId})
+func (_ Unimplemented) GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get group members
-// (GET /groups/{id}/members)
-func (_ Unimplemented) GetGroupsIdMembers(w http.ResponseWriter, r *http.Request, id IdParam, params GetGroupsIdMembersParams) {
+// (GET /group/{groupId}/members)
+func (_ Unimplemented) GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetGroupGroupIdMembersParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Add group member
-// (POST /groups/{id}/members)
-func (_ Unimplemented) PostGroupsIdMembers(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (POST /group/{groupId}/members)
+func (_ Unimplemented) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Remove group member
-// (DELETE /groups/{id}/members/{userId})
-func (_ Unimplemented) DeleteGroupsIdMembersUserId(w http.ResponseWriter, r *http.Request, id IdParam, userId int) {
+// (DELETE /group/{groupId}/members/{userId})
+func (_ Unimplemented) DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, userId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get group policies
-// (GET /groups/{id}/policies)
-func (_ Unimplemented) GetGroupsIdPolicies(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /group/{groupId}/policy)
+func (_ Unimplemented) GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Assign policy to group
-// (POST /groups/{id}/policies)
-func (_ Unimplemented) PostGroupsIdPolicies(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (POST /group/{groupId}/policy)
+func (_ Unimplemented) PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Remove policy from group
-// (DELETE /groups/{id}/policies/{policyId})
-func (_ Unimplemented) DeleteGroupsIdPoliciesPolicyId(w http.ResponseWriter, r *http.Request, id IdParam, policyId int) {
+// (DELETE /group/{groupId}/policy/{policyId})
+func (_ Unimplemented) DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, policyId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1375,14 +1372,14 @@ func (_ Unimplemented) PostPaste(w http.ResponseWriter, r *http.Request) {
 }
 
 // Delete paste
-// (DELETE /paste/{id})
-func (_ Unimplemented) DeletePasteId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (DELETE /paste/{pasteId})
+func (_ Unimplemented) DeletePastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get paste
-// (GET /paste/{id})
-func (_ Unimplemented) GetPasteId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /paste/{pasteId})
+func (_ Unimplemented) GetPastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1399,20 +1396,20 @@ func (_ Unimplemented) PostPolicies(w http.ResponseWriter, r *http.Request) {
 }
 
 // Delete policy
-// (DELETE /policies/{id})
-func (_ Unimplemented) DeletePoliciesId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (DELETE /policies/{policyId})
+func (_ Unimplemented) DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get policy
-// (GET /policies/{id})
-func (_ Unimplemented) GetPoliciesId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /policies/{policyId})
+func (_ Unimplemented) GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Update policy
-// (PUT /policies/{id})
-func (_ Unimplemented) PutPoliciesId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (PUT /policies/{policyId})
+func (_ Unimplemented) PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1423,26 +1420,26 @@ func (_ Unimplemented) GetSearch(w http.ResponseWriter, r *http.Request, params 
 }
 
 // Create service
-// (POST /services)
-func (_ Unimplemented) PostServices(w http.ResponseWriter, r *http.Request) {
+// (POST /service)
+func (_ Unimplemented) PostService(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Delete service
-// (DELETE /services/{id})
-func (_ Unimplemented) DeleteServicesId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (DELETE /service/{serviceId})
+func (_ Unimplemented) DeleteServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get service
-// (GET /services/{id})
-func (_ Unimplemented) GetServicesId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (GET /service/{serviceId})
+func (_ Unimplemented) GetServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Update service
-// (PUT /services/{id})
-func (_ Unimplemented) PutServicesId(w http.ResponseWriter, r *http.Request, id IdParam) {
+// (PUT /service/{serviceId})
+func (_ Unimplemented) PutServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1511,7 +1508,7 @@ func (siw *ServerInterfaceWrapper) GetActivities(w http.ResponseWriter, r *http.
 
 	// ------------- Optional query parameter "serviceId" -------------
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "serviceId", r.URL.Query(), &params.ServiceId, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "serviceId", r.URL.Query(), &params.ServiceId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
 		return
@@ -1519,7 +1516,7 @@ func (siw *ServerInterfaceWrapper) GetActivities(w http.ResponseWriter, r *http.
 
 	// ------------- Optional query parameter "groupId" -------------
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "groupId", r.URL.Query(), &params.GroupId, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "groupId", r.URL.Query(), &params.GroupId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
@@ -1527,7 +1524,7 @@ func (siw *ServerInterfaceWrapper) GetActivities(w http.ResponseWriter, r *http.
 
 	// ------------- Optional query parameter "sessionId" -------------
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "sessionId", r.URL.Query(), &params.SessionId, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "sessionId", r.URL.Query(), &params.SessionId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sessionId", Err: err})
 		return
@@ -1544,17 +1541,17 @@ func (siw *ServerInterfaceWrapper) GetActivities(w http.ResponseWriter, r *http.
 	handler.ServeHTTP(w, r)
 }
 
-// GetActivitiesId operation middleware
-func (siw *ServerInterfaceWrapper) GetActivitiesId(w http.ResponseWriter, r *http.Request) {
+// GetActivitiesActivityId operation middleware
+func (siw *ServerInterfaceWrapper) GetActivitiesActivityId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "activityId" -------------
+	var activityId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "activityId", chi.URLParam(r, "activityId"), &activityId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "activityId", Err: err})
 		return
 	}
 
@@ -1565,7 +1562,7 @@ func (siw *ServerInterfaceWrapper) GetActivitiesId(w http.ResponseWriter, r *htt
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetActivitiesId(w, r, id)
+		siw.Handler.GetActivitiesActivityId(w, r, activityId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1615,7 +1612,7 @@ func (siw *ServerInterfaceWrapper) GetAdminAuditLogs(w http.ResponseWriter, r *h
 
 	// ------------- Optional query parameter "userId" -------------
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "userId", r.URL.Query(), &params.UserId, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "userId", r.URL.Query(), &params.UserId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
 		return
@@ -1801,17 +1798,17 @@ func (siw *ServerInterfaceWrapper) PostAdminUsers(w http.ResponseWriter, r *http
 	handler.ServeHTTP(w, r)
 }
 
-// DeleteAdminUsersId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteAdminUsersId(w http.ResponseWriter, r *http.Request) {
+// DeleteAdminUsersUserId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "userId" -------------
+	var userId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
 		return
 	}
 
@@ -1822,7 +1819,7 @@ func (siw *ServerInterfaceWrapper) DeleteAdminUsersId(w http.ResponseWriter, r *
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteAdminUsersId(w, r, id)
+		siw.Handler.DeleteAdminUsersUserId(w, r, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1832,17 +1829,17 @@ func (siw *ServerInterfaceWrapper) DeleteAdminUsersId(w http.ResponseWriter, r *
 	handler.ServeHTTP(w, r)
 }
 
-// GetAdminUsersId operation middleware
-func (siw *ServerInterfaceWrapper) GetAdminUsersId(w http.ResponseWriter, r *http.Request) {
+// GetAdminUsersUserId operation middleware
+func (siw *ServerInterfaceWrapper) GetAdminUsersUserId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "userId" -------------
+	var userId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
 		return
 	}
 
@@ -1853,7 +1850,7 @@ func (siw *ServerInterfaceWrapper) GetAdminUsersId(w http.ResponseWriter, r *htt
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAdminUsersId(w, r, id)
+		siw.Handler.GetAdminUsersUserId(w, r, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1863,17 +1860,17 @@ func (siw *ServerInterfaceWrapper) GetAdminUsersId(w http.ResponseWriter, r *htt
 	handler.ServeHTTP(w, r)
 }
 
-// PutAdminUsersId operation middleware
-func (siw *ServerInterfaceWrapper) PutAdminUsersId(w http.ResponseWriter, r *http.Request) {
+// PutAdminUsersUserId operation middleware
+func (siw *ServerInterfaceWrapper) PutAdminUsersUserId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "userId" -------------
+	var userId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
 		return
 	}
 
@@ -1884,7 +1881,7 @@ func (siw *ServerInterfaceWrapper) PutAdminUsersId(w http.ResponseWriter, r *htt
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutAdminUsersId(w, r, id)
+		siw.Handler.PutAdminUsersUserId(w, r, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1894,17 +1891,17 @@ func (siw *ServerInterfaceWrapper) PutAdminUsersId(w http.ResponseWriter, r *htt
 	handler.ServeHTTP(w, r)
 }
 
-// PutAdminUsersIdStatus operation middleware
-func (siw *ServerInterfaceWrapper) PutAdminUsersIdStatus(w http.ResponseWriter, r *http.Request) {
+// PutAdminUsersUserIdStatus operation middleware
+func (siw *ServerInterfaceWrapper) PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "userId" -------------
+	var userId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
 		return
 	}
 
@@ -1915,7 +1912,7 @@ func (siw *ServerInterfaceWrapper) PutAdminUsersIdStatus(w http.ResponseWriter, 
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutAdminUsersIdStatus(w, r, id)
+		siw.Handler.PutAdminUsersUserIdStatus(w, r, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1990,17 +1987,17 @@ func (siw *ServerInterfaceWrapper) GetAlarms(w http.ResponseWriter, r *http.Requ
 	handler.ServeHTTP(w, r)
 }
 
-// GetAlarmsId operation middleware
-func (siw *ServerInterfaceWrapper) GetAlarmsId(w http.ResponseWriter, r *http.Request) {
+// GetAlarmsAlarmId operation middleware
+func (siw *ServerInterfaceWrapper) GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "alarmId" -------------
+	var alarmId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "alarmId", chi.URLParam(r, "alarmId"), &alarmId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "alarmId", Err: err})
 		return
 	}
 
@@ -2011,7 +2008,7 @@ func (siw *ServerInterfaceWrapper) GetAlarmsId(w http.ResponseWriter, r *http.Re
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAlarmsId(w, r, id)
+		siw.Handler.GetAlarmsAlarmId(w, r, alarmId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2021,17 +2018,17 @@ func (siw *ServerInterfaceWrapper) GetAlarmsId(w http.ResponseWriter, r *http.Re
 	handler.ServeHTTP(w, r)
 }
 
-// PostAlarmsIdAcknowledge operation middleware
-func (siw *ServerInterfaceWrapper) PostAlarmsIdAcknowledge(w http.ResponseWriter, r *http.Request) {
+// PostAlarmsAlarmIdAcknowledge operation middleware
+func (siw *ServerInterfaceWrapper) PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "alarmId" -------------
+	var alarmId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "alarmId", chi.URLParam(r, "alarmId"), &alarmId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "alarmId", Err: err})
 		return
 	}
 
@@ -2042,7 +2039,7 @@ func (siw *ServerInterfaceWrapper) PostAlarmsIdAcknowledge(w http.ResponseWriter
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostAlarmsIdAcknowledge(w, r, id)
+		siw.Handler.PostAlarmsAlarmIdAcknowledge(w, r, alarmId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2052,8 +2049,8 @@ func (siw *ServerInterfaceWrapper) PostAlarmsIdAcknowledge(w http.ResponseWriter
 	handler.ServeHTTP(w, r)
 }
 
-// PostGroups operation middleware
-func (siw *ServerInterfaceWrapper) PostGroups(w http.ResponseWriter, r *http.Request) {
+// PostGroup operation middleware
+func (siw *ServerInterfaceWrapper) PostGroup(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
 
@@ -2062,7 +2059,7 @@ func (siw *ServerInterfaceWrapper) PostGroups(w http.ResponseWriter, r *http.Req
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroups(w, r)
+		siw.Handler.PostGroup(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2072,17 +2069,17 @@ func (siw *ServerInterfaceWrapper) PostGroups(w http.ResponseWriter, r *http.Req
 	handler.ServeHTTP(w, r)
 }
 
-// DeleteGroupsId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteGroupsId(w http.ResponseWriter, r *http.Request) {
+// DeleteGroupGroupId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGroupGroupId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
@@ -2093,7 +2090,7 @@ func (siw *ServerInterfaceWrapper) DeleteGroupsId(w http.ResponseWriter, r *http
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteGroupsId(w, r, id)
+		siw.Handler.DeleteGroupGroupId(w, r, groupId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2103,17 +2100,17 @@ func (siw *ServerInterfaceWrapper) DeleteGroupsId(w http.ResponseWriter, r *http
 	handler.ServeHTTP(w, r)
 }
 
-// GetGroupsId operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupsId(w http.ResponseWriter, r *http.Request) {
+// GetGroupGroupId operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupGroupId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
@@ -2124,7 +2121,7 @@ func (siw *ServerInterfaceWrapper) GetGroupsId(w http.ResponseWriter, r *http.Re
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupsId(w, r, id)
+		siw.Handler.GetGroupGroupId(w, r, groupId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2134,17 +2131,17 @@ func (siw *ServerInterfaceWrapper) GetGroupsId(w http.ResponseWriter, r *http.Re
 	handler.ServeHTTP(w, r)
 }
 
-// GetGroupsIdMembers operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupsIdMembers(w http.ResponseWriter, r *http.Request) {
+// GetGroupGroupIdMembers operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
@@ -2155,7 +2152,7 @@ func (siw *ServerInterfaceWrapper) GetGroupsIdMembers(w http.ResponseWriter, r *
 	r = r.WithContext(ctx)
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params GetGroupsIdMembersParams
+	var params GetGroupGroupIdMembersParams
 
 	// ------------- Optional query parameter "page" -------------
 
@@ -2174,7 +2171,7 @@ func (siw *ServerInterfaceWrapper) GetGroupsIdMembers(w http.ResponseWriter, r *
 	}
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupsIdMembers(w, r, id, params)
+		siw.Handler.GetGroupGroupIdMembers(w, r, groupId, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2184,17 +2181,17 @@ func (siw *ServerInterfaceWrapper) GetGroupsIdMembers(w http.ResponseWriter, r *
 	handler.ServeHTTP(w, r)
 }
 
-// PostGroupsIdMembers operation middleware
-func (siw *ServerInterfaceWrapper) PostGroupsIdMembers(w http.ResponseWriter, r *http.Request) {
+// PostGroupGroupIdMembers operation middleware
+func (siw *ServerInterfaceWrapper) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
@@ -2205,7 +2202,7 @@ func (siw *ServerInterfaceWrapper) PostGroupsIdMembers(w http.ResponseWriter, r 
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroupsIdMembers(w, r, id)
+		siw.Handler.PostGroupGroupIdMembers(w, r, groupId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2215,24 +2212,24 @@ func (siw *ServerInterfaceWrapper) PostGroupsIdMembers(w http.ResponseWriter, r 
 	handler.ServeHTTP(w, r)
 }
 
-// DeleteGroupsIdMembersUserId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteGroupsIdMembersUserId(w http.ResponseWriter, r *http.Request) {
+// DeleteGroupGroupIdMembersUserId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
 	// ------------- Path parameter "userId" -------------
-	var userId int
+	var userId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
 		return
@@ -2245,7 +2242,7 @@ func (siw *ServerInterfaceWrapper) DeleteGroupsIdMembersUserId(w http.ResponseWr
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteGroupsIdMembersUserId(w, r, id, userId)
+		siw.Handler.DeleteGroupGroupIdMembersUserId(w, r, groupId, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2255,17 +2252,17 @@ func (siw *ServerInterfaceWrapper) DeleteGroupsIdMembersUserId(w http.ResponseWr
 	handler.ServeHTTP(w, r)
 }
 
-// GetGroupsIdPolicies operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupsIdPolicies(w http.ResponseWriter, r *http.Request) {
+// GetGroupGroupIdPolicy operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
@@ -2276,7 +2273,7 @@ func (siw *ServerInterfaceWrapper) GetGroupsIdPolicies(w http.ResponseWriter, r 
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupsIdPolicies(w, r, id)
+		siw.Handler.GetGroupGroupIdPolicy(w, r, groupId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2286,17 +2283,17 @@ func (siw *ServerInterfaceWrapper) GetGroupsIdPolicies(w http.ResponseWriter, r 
 	handler.ServeHTTP(w, r)
 }
 
-// PostGroupsIdPolicies operation middleware
-func (siw *ServerInterfaceWrapper) PostGroupsIdPolicies(w http.ResponseWriter, r *http.Request) {
+// PostGroupGroupIdPolicy operation middleware
+func (siw *ServerInterfaceWrapper) PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
@@ -2307,7 +2304,7 @@ func (siw *ServerInterfaceWrapper) PostGroupsIdPolicies(w http.ResponseWriter, r
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroupsIdPolicies(w, r, id)
+		siw.Handler.PostGroupGroupIdPolicy(w, r, groupId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2317,24 +2314,24 @@ func (siw *ServerInterfaceWrapper) PostGroupsIdPolicies(w http.ResponseWriter, r
 	handler.ServeHTTP(w, r)
 }
 
-// DeleteGroupsIdPoliciesPolicyId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteGroupsIdPoliciesPolicyId(w http.ResponseWriter, r *http.Request) {
+// DeleteGroupGroupIdPolicyPolicyId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
 	// ------------- Path parameter "policyId" -------------
-	var policyId int
+	var policyId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
 		return
@@ -2347,7 +2344,7 @@ func (siw *ServerInterfaceWrapper) DeleteGroupsIdPoliciesPolicyId(w http.Respons
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteGroupsIdPoliciesPolicyId(w, r, id, policyId)
+		siw.Handler.DeleteGroupGroupIdPolicyPolicyId(w, r, groupId, policyId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2426,17 +2423,17 @@ func (siw *ServerInterfaceWrapper) PostPaste(w http.ResponseWriter, r *http.Requ
 	handler.ServeHTTP(w, r)
 }
 
-// DeletePasteId operation middleware
-func (siw *ServerInterfaceWrapper) DeletePasteId(w http.ResponseWriter, r *http.Request) {
+// DeletePastePasteId operation middleware
+func (siw *ServerInterfaceWrapper) DeletePastePasteId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "pasteId" -------------
+	var pasteId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "pasteId", chi.URLParam(r, "pasteId"), &pasteId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "pasteId", Err: err})
 		return
 	}
 
@@ -2447,7 +2444,7 @@ func (siw *ServerInterfaceWrapper) DeletePasteId(w http.ResponseWriter, r *http.
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeletePasteId(w, r, id)
+		siw.Handler.DeletePastePasteId(w, r, pasteId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2457,17 +2454,17 @@ func (siw *ServerInterfaceWrapper) DeletePasteId(w http.ResponseWriter, r *http.
 	handler.ServeHTTP(w, r)
 }
 
-// GetPasteId operation middleware
-func (siw *ServerInterfaceWrapper) GetPasteId(w http.ResponseWriter, r *http.Request) {
+// GetPastePasteId operation middleware
+func (siw *ServerInterfaceWrapper) GetPastePasteId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "pasteId" -------------
+	var pasteId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "pasteId", chi.URLParam(r, "pasteId"), &pasteId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "pasteId", Err: err})
 		return
 	}
 
@@ -2478,7 +2475,7 @@ func (siw *ServerInterfaceWrapper) GetPasteId(w http.ResponseWriter, r *http.Req
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetPasteId(w, r, id)
+		siw.Handler.GetPastePasteId(w, r, pasteId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2549,17 +2546,17 @@ func (siw *ServerInterfaceWrapper) PostPolicies(w http.ResponseWriter, r *http.R
 	handler.ServeHTTP(w, r)
 }
 
-// DeletePoliciesId operation middleware
-func (siw *ServerInterfaceWrapper) DeletePoliciesId(w http.ResponseWriter, r *http.Request) {
+// DeletePoliciesPolicyId operation middleware
+func (siw *ServerInterfaceWrapper) DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "policyId" -------------
+	var policyId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
 		return
 	}
 
@@ -2570,7 +2567,7 @@ func (siw *ServerInterfaceWrapper) DeletePoliciesId(w http.ResponseWriter, r *ht
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeletePoliciesId(w, r, id)
+		siw.Handler.DeletePoliciesPolicyId(w, r, policyId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2580,17 +2577,17 @@ func (siw *ServerInterfaceWrapper) DeletePoliciesId(w http.ResponseWriter, r *ht
 	handler.ServeHTTP(w, r)
 }
 
-// GetPoliciesId operation middleware
-func (siw *ServerInterfaceWrapper) GetPoliciesId(w http.ResponseWriter, r *http.Request) {
+// GetPoliciesPolicyId operation middleware
+func (siw *ServerInterfaceWrapper) GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "policyId" -------------
+	var policyId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
 		return
 	}
 
@@ -2601,7 +2598,7 @@ func (siw *ServerInterfaceWrapper) GetPoliciesId(w http.ResponseWriter, r *http.
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetPoliciesId(w, r, id)
+		siw.Handler.GetPoliciesPolicyId(w, r, policyId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2611,17 +2608,17 @@ func (siw *ServerInterfaceWrapper) GetPoliciesId(w http.ResponseWriter, r *http.
 	handler.ServeHTTP(w, r)
 }
 
-// PutPoliciesId operation middleware
-func (siw *ServerInterfaceWrapper) PutPoliciesId(w http.ResponseWriter, r *http.Request) {
+// PutPoliciesPolicyId operation middleware
+func (siw *ServerInterfaceWrapper) PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "policyId" -------------
+	var policyId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
 		return
 	}
 
@@ -2632,7 +2629,7 @@ func (siw *ServerInterfaceWrapper) PutPoliciesId(w http.ResponseWriter, r *http.
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutPoliciesId(w, r, id)
+		siw.Handler.PutPoliciesPolicyId(w, r, policyId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2664,16 +2661,9 @@ func (siw *ServerInterfaceWrapper) GetSearch(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// ------------- Required query parameter "type" -------------
+	// ------------- Optional query parameter "type" -------------
 
-	if paramValue := r.URL.Query().Get("type"); paramValue != "" {
-
-	} else {
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "type"})
-		return
-	}
-
-	err = runtime.BindQueryParameterWithOptions("form", true, true, "type", r.URL.Query(), &params.Type, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "type", r.URL.Query(), &params.Type, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "type", Err: err})
 		return
@@ -2713,7 +2703,7 @@ func (siw *ServerInterfaceWrapper) GetSearch(w http.ResponseWriter, r *http.Requ
 
 	// ------------- Optional query parameter "groupId" -------------
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "groupId", r.URL.Query(), &params.GroupId, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "groupId", r.URL.Query(), &params.GroupId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
@@ -2730,8 +2720,8 @@ func (siw *ServerInterfaceWrapper) GetSearch(w http.ResponseWriter, r *http.Requ
 	handler.ServeHTTP(w, r)
 }
 
-// PostServices operation middleware
-func (siw *ServerInterfaceWrapper) PostServices(w http.ResponseWriter, r *http.Request) {
+// PostService operation middleware
+func (siw *ServerInterfaceWrapper) PostService(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
 
@@ -2740,7 +2730,7 @@ func (siw *ServerInterfaceWrapper) PostServices(w http.ResponseWriter, r *http.R
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostServices(w, r)
+		siw.Handler.PostService(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2750,17 +2740,17 @@ func (siw *ServerInterfaceWrapper) PostServices(w http.ResponseWriter, r *http.R
 	handler.ServeHTTP(w, r)
 }
 
-// DeleteServicesId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteServicesId(w http.ResponseWriter, r *http.Request) {
+// DeleteServiceServiceId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteServiceServiceId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "serviceId" -------------
+	var serviceId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "serviceId", chi.URLParam(r, "serviceId"), &serviceId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
 		return
 	}
 
@@ -2771,7 +2761,7 @@ func (siw *ServerInterfaceWrapper) DeleteServicesId(w http.ResponseWriter, r *ht
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteServicesId(w, r, id)
+		siw.Handler.DeleteServiceServiceId(w, r, serviceId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2781,17 +2771,17 @@ func (siw *ServerInterfaceWrapper) DeleteServicesId(w http.ResponseWriter, r *ht
 	handler.ServeHTTP(w, r)
 }
 
-// GetServicesId operation middleware
-func (siw *ServerInterfaceWrapper) GetServicesId(w http.ResponseWriter, r *http.Request) {
+// GetServiceServiceId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceServiceId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "serviceId" -------------
+	var serviceId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "serviceId", chi.URLParam(r, "serviceId"), &serviceId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
 		return
 	}
 
@@ -2802,7 +2792,7 @@ func (siw *ServerInterfaceWrapper) GetServicesId(w http.ResponseWriter, r *http.
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetServicesId(w, r, id)
+		siw.Handler.GetServiceServiceId(w, r, serviceId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2812,17 +2802,17 @@ func (siw *ServerInterfaceWrapper) GetServicesId(w http.ResponseWriter, r *http.
 	handler.ServeHTTP(w, r)
 }
 
-// PutServicesId operation middleware
-func (siw *ServerInterfaceWrapper) PutServicesId(w http.ResponseWriter, r *http.Request) {
+// PutServiceServiceId operation middleware
+func (siw *ServerInterfaceWrapper) PutServiceServiceId(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id IdParam
+	// ------------- Path parameter "serviceId" -------------
+	var serviceId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "integer", Format: ""})
+	err = runtime.BindStyledParameterWithOptions("simple", "serviceId", chi.URLParam(r, "serviceId"), &serviceId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
 		return
 	}
 
@@ -2833,7 +2823,7 @@ func (siw *ServerInterfaceWrapper) PutServicesId(w http.ResponseWriter, r *http.
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutServicesId(w, r, id)
+		siw.Handler.PutServiceServiceId(w, r, serviceId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2960,7 +2950,7 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Get(options.BaseURL+"/activities", wrapper.GetActivities)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/activities/{id}", wrapper.GetActivitiesId)
+		r.Get(options.BaseURL+"/activities/{activityId}", wrapper.GetActivitiesActivityId)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/admin/audit-logs", wrapper.GetAdminAuditLogs)
@@ -2981,52 +2971,52 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/admin/users", wrapper.PostAdminUsers)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/admin/users/{id}", wrapper.DeleteAdminUsersId)
+		r.Delete(options.BaseURL+"/admin/users/{userId}", wrapper.DeleteAdminUsersUserId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/admin/users/{id}", wrapper.GetAdminUsersId)
+		r.Get(options.BaseURL+"/admin/users/{userId}", wrapper.GetAdminUsersUserId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/admin/users/{id}", wrapper.PutAdminUsersId)
+		r.Put(options.BaseURL+"/admin/users/{userId}", wrapper.PutAdminUsersUserId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/admin/users/{id}/status", wrapper.PutAdminUsersIdStatus)
+		r.Put(options.BaseURL+"/admin/users/{userId}/status", wrapper.PutAdminUsersUserIdStatus)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/alarms", wrapper.GetAlarms)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/alarms/{id}", wrapper.GetAlarmsId)
+		r.Get(options.BaseURL+"/alarms/{alarmId}", wrapper.GetAlarmsAlarmId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/alarms/{id}/acknowledge", wrapper.PostAlarmsIdAcknowledge)
+		r.Post(options.BaseURL+"/alarms/{alarmId}/acknowledge", wrapper.PostAlarmsAlarmIdAcknowledge)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/groups", wrapper.PostGroups)
+		r.Post(options.BaseURL+"/group", wrapper.PostGroup)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/groups/{id}", wrapper.DeleteGroupsId)
+		r.Delete(options.BaseURL+"/group/{groupId}", wrapper.DeleteGroupGroupId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/groups/{id}", wrapper.GetGroupsId)
+		r.Get(options.BaseURL+"/group/{groupId}", wrapper.GetGroupGroupId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/groups/{id}/members", wrapper.GetGroupsIdMembers)
+		r.Get(options.BaseURL+"/group/{groupId}/members", wrapper.GetGroupGroupIdMembers)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/groups/{id}/members", wrapper.PostGroupsIdMembers)
+		r.Post(options.BaseURL+"/group/{groupId}/members", wrapper.PostGroupGroupIdMembers)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/groups/{id}/members/{userId}", wrapper.DeleteGroupsIdMembersUserId)
+		r.Delete(options.BaseURL+"/group/{groupId}/members/{userId}", wrapper.DeleteGroupGroupIdMembersUserId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/groups/{id}/policies", wrapper.GetGroupsIdPolicies)
+		r.Get(options.BaseURL+"/group/{groupId}/policy", wrapper.GetGroupGroupIdPolicy)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/groups/{id}/policies", wrapper.PostGroupsIdPolicies)
+		r.Post(options.BaseURL+"/group/{groupId}/policy", wrapper.PostGroupGroupIdPolicy)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/groups/{id}/policies/{policyId}", wrapper.DeleteGroupsIdPoliciesPolicyId)
+		r.Delete(options.BaseURL+"/group/{groupId}/policy/{policyId}", wrapper.DeleteGroupGroupIdPolicyPolicyId)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/paste", wrapper.GetPaste)
@@ -3035,10 +3025,10 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/paste", wrapper.PostPaste)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/paste/{id}", wrapper.DeletePasteId)
+		r.Delete(options.BaseURL+"/paste/{pasteId}", wrapper.DeletePastePasteId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/paste/{id}", wrapper.GetPasteId)
+		r.Get(options.BaseURL+"/paste/{pasteId}", wrapper.GetPastePasteId)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/policies", wrapper.GetPolicies)
@@ -3047,28 +3037,28 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/policies", wrapper.PostPolicies)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/policies/{id}", wrapper.DeletePoliciesId)
+		r.Delete(options.BaseURL+"/policies/{policyId}", wrapper.DeletePoliciesPolicyId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/policies/{id}", wrapper.GetPoliciesId)
+		r.Get(options.BaseURL+"/policies/{policyId}", wrapper.GetPoliciesPolicyId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/policies/{id}", wrapper.PutPoliciesId)
+		r.Put(options.BaseURL+"/policies/{policyId}", wrapper.PutPoliciesPolicyId)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/search", wrapper.GetSearch)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/services", wrapper.PostServices)
+		r.Post(options.BaseURL+"/service", wrapper.PostService)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/services/{id}", wrapper.DeleteServicesId)
+		r.Delete(options.BaseURL+"/service/{serviceId}", wrapper.DeleteServiceServiceId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/services/{id}", wrapper.GetServicesId)
+		r.Get(options.BaseURL+"/service/{serviceId}", wrapper.GetServiceServiceId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/services/{id}", wrapper.PutServicesId)
+		r.Put(options.BaseURL+"/service/{serviceId}", wrapper.PutServiceServiceId)
 	})
 
 	return r
@@ -3093,17 +3083,17 @@ func (response GetActivities200JSONResponse) VisitGetActivitiesResponse(w http.R
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetActivitiesIdRequestObject struct {
-	Id IdParam `json:"id"`
+type GetActivitiesActivityIdRequestObject struct {
+	ActivityId openapi_types.UUID `json:"activityId"`
 }
 
-type GetActivitiesIdResponseObject interface {
-	VisitGetActivitiesIdResponse(w http.ResponseWriter) error
+type GetActivitiesActivityIdResponseObject interface {
+	VisitGetActivitiesActivityIdResponse(w http.ResponseWriter) error
 }
 
-type GetActivitiesId200JSONResponse ActivityDetail
+type GetActivitiesActivityId200JSONResponse ActivityDetail
 
-func (response GetActivitiesId200JSONResponse) VisitGetActivitiesIdResponse(w http.ResponseWriter) error {
+func (response GetActivitiesActivityId200JSONResponse) VisitGetActivitiesActivityIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
@@ -3222,82 +3212,82 @@ func (response PostAdminUsers4XXJSONResponse) VisitPostAdminUsersResponse(w http
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type DeleteAdminUsersIdRequestObject struct {
-	Id IdParam `json:"id"`
+type DeleteAdminUsersUserIdRequestObject struct {
+	UserId openapi_types.UUID `json:"userId"`
 }
 
-type DeleteAdminUsersIdResponseObject interface {
-	VisitDeleteAdminUsersIdResponse(w http.ResponseWriter) error
+type DeleteAdminUsersUserIdResponseObject interface {
+	VisitDeleteAdminUsersUserIdResponse(w http.ResponseWriter) error
 }
 
-type DeleteAdminUsersId204Response struct {
+type DeleteAdminUsersUserId204Response struct {
 }
 
-func (response DeleteAdminUsersId204Response) VisitDeleteAdminUsersIdResponse(w http.ResponseWriter) error {
+func (response DeleteAdminUsersUserId204Response) VisitDeleteAdminUsersUserIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type DeleteAdminUsersId4XXJSONResponse struct {
+type DeleteAdminUsersUserId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response DeleteAdminUsersId4XXJSONResponse) VisitDeleteAdminUsersIdResponse(w http.ResponseWriter) error {
+func (response DeleteAdminUsersUserId4XXJSONResponse) VisitDeleteAdminUsersUserIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type GetAdminUsersIdRequestObject struct {
-	Id IdParam `json:"id"`
+type GetAdminUsersUserIdRequestObject struct {
+	UserId openapi_types.UUID `json:"userId"`
 }
 
-type GetAdminUsersIdResponseObject interface {
-	VisitGetAdminUsersIdResponse(w http.ResponseWriter) error
+type GetAdminUsersUserIdResponseObject interface {
+	VisitGetAdminUsersUserIdResponse(w http.ResponseWriter) error
 }
 
-type GetAdminUsersId200JSONResponse UserDetail
+type GetAdminUsersUserId200JSONResponse UserDetail
 
-func (response GetAdminUsersId200JSONResponse) VisitGetAdminUsersIdResponse(w http.ResponseWriter) error {
+func (response GetAdminUsersUserId200JSONResponse) VisitGetAdminUsersUserIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PutAdminUsersIdRequestObject struct {
-	Id   IdParam `json:"id"`
-	Body *PutAdminUsersIdJSONRequestBody
+type PutAdminUsersUserIdRequestObject struct {
+	UserId openapi_types.UUID `json:"userId"`
+	Body   *PutAdminUsersUserIdJSONRequestBody
 }
 
-type PutAdminUsersIdResponseObject interface {
-	VisitPutAdminUsersIdResponse(w http.ResponseWriter) error
+type PutAdminUsersUserIdResponseObject interface {
+	VisitPutAdminUsersUserIdResponse(w http.ResponseWriter) error
 }
 
-type PutAdminUsersId200JSONResponse User
+type PutAdminUsersUserId200JSONResponse User
 
-func (response PutAdminUsersId200JSONResponse) VisitPutAdminUsersIdResponse(w http.ResponseWriter) error {
+func (response PutAdminUsersUserId200JSONResponse) VisitPutAdminUsersUserIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PutAdminUsersIdStatusRequestObject struct {
-	Id   IdParam `json:"id"`
-	Body *PutAdminUsersIdStatusJSONRequestBody
+type PutAdminUsersUserIdStatusRequestObject struct {
+	UserId openapi_types.UUID `json:"userId"`
+	Body   *PutAdminUsersUserIdStatusJSONRequestBody
 }
 
-type PutAdminUsersIdStatusResponseObject interface {
-	VisitPutAdminUsersIdStatusResponse(w http.ResponseWriter) error
+type PutAdminUsersUserIdStatusResponseObject interface {
+	VisitPutAdminUsersUserIdStatusResponse(w http.ResponseWriter) error
 }
 
-type PutAdminUsersIdStatus200Response struct {
+type PutAdminUsersUserIdStatus200Response struct {
 }
 
-func (response PutAdminUsersIdStatus200Response) VisitPutAdminUsersIdStatusResponse(w http.ResponseWriter) error {
+func (response PutAdminUsersUserIdStatus200Response) VisitPutAdminUsersUserIdStatusResponse(w http.ResponseWriter) error {
 	w.WriteHeader(200)
 	return nil
 }
@@ -3319,294 +3309,294 @@ func (response GetAlarms200JSONResponse) VisitGetAlarmsResponse(w http.ResponseW
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetAlarmsIdRequestObject struct {
-	Id IdParam `json:"id"`
+type GetAlarmsAlarmIdRequestObject struct {
+	AlarmId openapi_types.UUID `json:"alarmId"`
 }
 
-type GetAlarmsIdResponseObject interface {
-	VisitGetAlarmsIdResponse(w http.ResponseWriter) error
+type GetAlarmsAlarmIdResponseObject interface {
+	VisitGetAlarmsAlarmIdResponse(w http.ResponseWriter) error
 }
 
-type GetAlarmsId200JSONResponse Alarm
+type GetAlarmsAlarmId200JSONResponse Alarm
 
-func (response GetAlarmsId200JSONResponse) VisitGetAlarmsIdResponse(w http.ResponseWriter) error {
+func (response GetAlarmsAlarmId200JSONResponse) VisitGetAlarmsAlarmIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostAlarmsIdAcknowledgeRequestObject struct {
-	Id IdParam `json:"id"`
+type PostAlarmsAlarmIdAcknowledgeRequestObject struct {
+	AlarmId openapi_types.UUID `json:"alarmId"`
 }
 
-type PostAlarmsIdAcknowledgeResponseObject interface {
-	VisitPostAlarmsIdAcknowledgeResponse(w http.ResponseWriter) error
+type PostAlarmsAlarmIdAcknowledgeResponseObject interface {
+	VisitPostAlarmsAlarmIdAcknowledgeResponse(w http.ResponseWriter) error
 }
 
-type PostAlarmsIdAcknowledge200Response struct {
+type PostAlarmsAlarmIdAcknowledge200Response struct {
 }
 
-func (response PostAlarmsIdAcknowledge200Response) VisitPostAlarmsIdAcknowledgeResponse(w http.ResponseWriter) error {
+func (response PostAlarmsAlarmIdAcknowledge200Response) VisitPostAlarmsAlarmIdAcknowledgeResponse(w http.ResponseWriter) error {
 	w.WriteHeader(200)
 	return nil
 }
 
-type PostGroupsRequestObject struct {
-	Body *PostGroupsJSONRequestBody
+type PostGroupRequestObject struct {
+	Body *PostGroupJSONRequestBody
 }
 
-type PostGroupsResponseObject interface {
-	VisitPostGroupsResponse(w http.ResponseWriter) error
+type PostGroupResponseObject interface {
+	VisitPostGroupResponse(w http.ResponseWriter) error
 }
 
-type PostGroups201JSONResponse Group
+type PostGroup201JSONResponse Group
 
-func (response PostGroups201JSONResponse) VisitPostGroupsResponse(w http.ResponseWriter) error {
+func (response PostGroup201JSONResponse) VisitPostGroupResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(201)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostGroups4XXJSONResponse struct {
+type PostGroup4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response PostGroups4XXJSONResponse) VisitPostGroupsResponse(w http.ResponseWriter) error {
+func (response PostGroup4XXJSONResponse) VisitPostGroupResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type DeleteGroupsIdRequestObject struct {
-	Id IdParam `json:"id"`
+type DeleteGroupGroupIdRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
 }
 
-type DeleteGroupsIdResponseObject interface {
-	VisitDeleteGroupsIdResponse(w http.ResponseWriter) error
+type DeleteGroupGroupIdResponseObject interface {
+	VisitDeleteGroupGroupIdResponse(w http.ResponseWriter) error
 }
 
-type DeleteGroupsId204Response struct {
+type DeleteGroupGroupId204Response struct {
 }
 
-func (response DeleteGroupsId204Response) VisitDeleteGroupsIdResponse(w http.ResponseWriter) error {
+func (response DeleteGroupGroupId204Response) VisitDeleteGroupGroupIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type DeleteGroupsId4XXJSONResponse struct {
+type DeleteGroupGroupId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response DeleteGroupsId4XXJSONResponse) VisitDeleteGroupsIdResponse(w http.ResponseWriter) error {
+func (response DeleteGroupGroupId4XXJSONResponse) VisitDeleteGroupGroupIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type GetGroupsIdRequestObject struct {
-	Id IdParam `json:"id"`
+type GetGroupGroupIdRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
 }
 
-type GetGroupsIdResponseObject interface {
-	VisitGetGroupsIdResponse(w http.ResponseWriter) error
+type GetGroupGroupIdResponseObject interface {
+	VisitGetGroupGroupIdResponse(w http.ResponseWriter) error
 }
 
-type GetGroupsId200JSONResponse GroupDetail
+type GetGroupGroupId200JSONResponse GroupDetail
 
-func (response GetGroupsId200JSONResponse) VisitGetGroupsIdResponse(w http.ResponseWriter) error {
+func (response GetGroupGroupId200JSONResponse) VisitGetGroupGroupIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetGroupsId4XXJSONResponse struct {
+type GetGroupGroupId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response GetGroupsId4XXJSONResponse) VisitGetGroupsIdResponse(w http.ResponseWriter) error {
+func (response GetGroupGroupId4XXJSONResponse) VisitGetGroupGroupIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type GetGroupsIdMembersRequestObject struct {
-	Id     IdParam `json:"id"`
-	Params GetGroupsIdMembersParams
+type GetGroupGroupIdMembersRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
+	Params  GetGroupGroupIdMembersParams
 }
 
-type GetGroupsIdMembersResponseObject interface {
-	VisitGetGroupsIdMembersResponse(w http.ResponseWriter) error
+type GetGroupGroupIdMembersResponseObject interface {
+	VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error
 }
 
-type GetGroupsIdMembers200JSONResponse UserList
+type GetGroupGroupIdMembers200JSONResponse UserList
 
-func (response GetGroupsIdMembers200JSONResponse) VisitGetGroupsIdMembersResponse(w http.ResponseWriter) error {
+func (response GetGroupGroupIdMembers200JSONResponse) VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetGroupsIdMembers4XXJSONResponse struct {
+type GetGroupGroupIdMembers4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response GetGroupsIdMembers4XXJSONResponse) VisitGetGroupsIdMembersResponse(w http.ResponseWriter) error {
+func (response GetGroupGroupIdMembers4XXJSONResponse) VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type PostGroupsIdMembersRequestObject struct {
-	Id   IdParam `json:"id"`
-	Body *PostGroupsIdMembersJSONRequestBody
+type PostGroupGroupIdMembersRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
+	Body    *PostGroupGroupIdMembersJSONRequestBody
 }
 
-type PostGroupsIdMembersResponseObject interface {
-	VisitPostGroupsIdMembersResponse(w http.ResponseWriter) error
+type PostGroupGroupIdMembersResponseObject interface {
+	VisitPostGroupGroupIdMembersResponse(w http.ResponseWriter) error
 }
 
-type PostGroupsIdMembers201Response struct {
+type PostGroupGroupIdMembers201Response struct {
 }
 
-func (response PostGroupsIdMembers201Response) VisitPostGroupsIdMembersResponse(w http.ResponseWriter) error {
+func (response PostGroupGroupIdMembers201Response) VisitPostGroupGroupIdMembersResponse(w http.ResponseWriter) error {
 	w.WriteHeader(201)
 	return nil
 }
 
-type PostGroupsIdMembers4XXJSONResponse struct {
+type PostGroupGroupIdMembers4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response PostGroupsIdMembers4XXJSONResponse) VisitPostGroupsIdMembersResponse(w http.ResponseWriter) error {
+func (response PostGroupGroupIdMembers4XXJSONResponse) VisitPostGroupGroupIdMembersResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type DeleteGroupsIdMembersUserIdRequestObject struct {
-	Id     IdParam `json:"id"`
-	UserId int     `json:"userId"`
+type DeleteGroupGroupIdMembersUserIdRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
+	UserId  openapi_types.UUID `json:"userId"`
 }
 
-type DeleteGroupsIdMembersUserIdResponseObject interface {
-	VisitDeleteGroupsIdMembersUserIdResponse(w http.ResponseWriter) error
+type DeleteGroupGroupIdMembersUserIdResponseObject interface {
+	VisitDeleteGroupGroupIdMembersUserIdResponse(w http.ResponseWriter) error
 }
 
-type DeleteGroupsIdMembersUserId204Response struct {
+type DeleteGroupGroupIdMembersUserId204Response struct {
 }
 
-func (response DeleteGroupsIdMembersUserId204Response) VisitDeleteGroupsIdMembersUserIdResponse(w http.ResponseWriter) error {
+func (response DeleteGroupGroupIdMembersUserId204Response) VisitDeleteGroupGroupIdMembersUserIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type DeleteGroupsIdMembersUserId4XXJSONResponse struct {
+type DeleteGroupGroupIdMembersUserId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response DeleteGroupsIdMembersUserId4XXJSONResponse) VisitDeleteGroupsIdMembersUserIdResponse(w http.ResponseWriter) error {
+func (response DeleteGroupGroupIdMembersUserId4XXJSONResponse) VisitDeleteGroupGroupIdMembersUserIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type GetGroupsIdPoliciesRequestObject struct {
-	Id IdParam `json:"id"`
+type GetGroupGroupIdPolicyRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
 }
 
-type GetGroupsIdPoliciesResponseObject interface {
-	VisitGetGroupsIdPoliciesResponse(w http.ResponseWriter) error
+type GetGroupGroupIdPolicyResponseObject interface {
+	VisitGetGroupGroupIdPolicyResponse(w http.ResponseWriter) error
 }
 
-type GetGroupsIdPolicies200JSONResponse []Policy
+type GetGroupGroupIdPolicy200JSONResponse []Policy
 
-func (response GetGroupsIdPolicies200JSONResponse) VisitGetGroupsIdPoliciesResponse(w http.ResponseWriter) error {
+func (response GetGroupGroupIdPolicy200JSONResponse) VisitGetGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetGroupsIdPolicies4XXJSONResponse struct {
+type GetGroupGroupIdPolicy4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response GetGroupsIdPolicies4XXJSONResponse) VisitGetGroupsIdPoliciesResponse(w http.ResponseWriter) error {
+func (response GetGroupGroupIdPolicy4XXJSONResponse) VisitGetGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type PostGroupsIdPoliciesRequestObject struct {
-	Id   IdParam `json:"id"`
-	Body *PostGroupsIdPoliciesJSONRequestBody
+type PostGroupGroupIdPolicyRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
+	Body    *PostGroupGroupIdPolicyJSONRequestBody
 }
 
-type PostGroupsIdPoliciesResponseObject interface {
-	VisitPostGroupsIdPoliciesResponse(w http.ResponseWriter) error
+type PostGroupGroupIdPolicyResponseObject interface {
+	VisitPostGroupGroupIdPolicyResponse(w http.ResponseWriter) error
 }
 
-type PostGroupsIdPolicies201Response struct {
+type PostGroupGroupIdPolicy201Response struct {
 }
 
-func (response PostGroupsIdPolicies201Response) VisitPostGroupsIdPoliciesResponse(w http.ResponseWriter) error {
+func (response PostGroupGroupIdPolicy201Response) VisitPostGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
 	w.WriteHeader(201)
 	return nil
 }
 
-type PostGroupsIdPolicies4XXJSONResponse struct {
+type PostGroupGroupIdPolicy4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response PostGroupsIdPolicies4XXJSONResponse) VisitPostGroupsIdPoliciesResponse(w http.ResponseWriter) error {
+func (response PostGroupGroupIdPolicy4XXJSONResponse) VisitPostGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type DeleteGroupsIdPoliciesPolicyIdRequestObject struct {
-	Id       IdParam `json:"id"`
-	PolicyId int     `json:"policyId"`
+type DeleteGroupGroupIdPolicyPolicyIdRequestObject struct {
+	GroupId  openapi_types.UUID `json:"groupId"`
+	PolicyId openapi_types.UUID `json:"policyId"`
 }
 
-type DeleteGroupsIdPoliciesPolicyIdResponseObject interface {
-	VisitDeleteGroupsIdPoliciesPolicyIdResponse(w http.ResponseWriter) error
+type DeleteGroupGroupIdPolicyPolicyIdResponseObject interface {
+	VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w http.ResponseWriter) error
 }
 
-type DeleteGroupsIdPoliciesPolicyId204Response struct {
+type DeleteGroupGroupIdPolicyPolicyId204Response struct {
 }
 
-func (response DeleteGroupsIdPoliciesPolicyId204Response) VisitDeleteGroupsIdPoliciesPolicyIdResponse(w http.ResponseWriter) error {
+func (response DeleteGroupGroupIdPolicyPolicyId204Response) VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type DeleteGroupsIdPoliciesPolicyId4XXJSONResponse struct {
+type DeleteGroupGroupIdPolicyPolicyId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response DeleteGroupsIdPoliciesPolicyId4XXJSONResponse) VisitDeleteGroupsIdPoliciesPolicyIdResponse(w http.ResponseWriter) error {
+func (response DeleteGroupGroupIdPolicyPolicyId4XXJSONResponse) VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
@@ -3647,33 +3637,33 @@ func (response PostPaste201JSONResponse) VisitPostPasteResponse(w http.ResponseW
 	return json.NewEncoder(w).Encode(response)
 }
 
-type DeletePasteIdRequestObject struct {
-	Id IdParam `json:"id"`
+type DeletePastePasteIdRequestObject struct {
+	PasteId openapi_types.UUID `json:"pasteId"`
 }
 
-type DeletePasteIdResponseObject interface {
-	VisitDeletePasteIdResponse(w http.ResponseWriter) error
+type DeletePastePasteIdResponseObject interface {
+	VisitDeletePastePasteIdResponse(w http.ResponseWriter) error
 }
 
-type DeletePasteId204Response struct {
+type DeletePastePasteId204Response struct {
 }
 
-func (response DeletePasteId204Response) VisitDeletePasteIdResponse(w http.ResponseWriter) error {
+func (response DeletePastePasteId204Response) VisitDeletePastePasteIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type GetPasteIdRequestObject struct {
-	Id IdParam `json:"id"`
+type GetPastePasteIdRequestObject struct {
+	PasteId openapi_types.UUID `json:"pasteId"`
 }
 
-type GetPasteIdResponseObject interface {
-	VisitGetPasteIdResponse(w http.ResponseWriter) error
+type GetPastePasteIdResponseObject interface {
+	VisitGetPastePasteIdResponse(w http.ResponseWriter) error
 }
 
-type GetPasteId200JSONResponse Paste
+type GetPastePasteId200JSONResponse Paste
 
-func (response GetPasteId200JSONResponse) VisitGetPasteIdResponse(w http.ResponseWriter) error {
+func (response GetPastePasteId200JSONResponse) VisitGetPastePasteIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
@@ -3738,87 +3728,87 @@ func (response PostPolicies4XXJSONResponse) VisitPostPoliciesResponse(w http.Res
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type DeletePoliciesIdRequestObject struct {
-	Id IdParam `json:"id"`
+type DeletePoliciesPolicyIdRequestObject struct {
+	PolicyId openapi_types.UUID `json:"policyId"`
 }
 
-type DeletePoliciesIdResponseObject interface {
-	VisitDeletePoliciesIdResponse(w http.ResponseWriter) error
+type DeletePoliciesPolicyIdResponseObject interface {
+	VisitDeletePoliciesPolicyIdResponse(w http.ResponseWriter) error
 }
 
-type DeletePoliciesId204Response struct {
+type DeletePoliciesPolicyId204Response struct {
 }
 
-func (response DeletePoliciesId204Response) VisitDeletePoliciesIdResponse(w http.ResponseWriter) error {
+func (response DeletePoliciesPolicyId204Response) VisitDeletePoliciesPolicyIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type DeletePoliciesId4XXJSONResponse struct {
+type DeletePoliciesPolicyId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response DeletePoliciesId4XXJSONResponse) VisitDeletePoliciesIdResponse(w http.ResponseWriter) error {
+func (response DeletePoliciesPolicyId4XXJSONResponse) VisitDeletePoliciesPolicyIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type GetPoliciesIdRequestObject struct {
-	Id IdParam `json:"id"`
+type GetPoliciesPolicyIdRequestObject struct {
+	PolicyId openapi_types.UUID `json:"policyId"`
 }
 
-type GetPoliciesIdResponseObject interface {
-	VisitGetPoliciesIdResponse(w http.ResponseWriter) error
+type GetPoliciesPolicyIdResponseObject interface {
+	VisitGetPoliciesPolicyIdResponse(w http.ResponseWriter) error
 }
 
-type GetPoliciesId200JSONResponse Policy
+type GetPoliciesPolicyId200JSONResponse Policy
 
-func (response GetPoliciesId200JSONResponse) VisitGetPoliciesIdResponse(w http.ResponseWriter) error {
+func (response GetPoliciesPolicyId200JSONResponse) VisitGetPoliciesPolicyIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetPoliciesId4XXJSONResponse struct {
+type GetPoliciesPolicyId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response GetPoliciesId4XXJSONResponse) VisitGetPoliciesIdResponse(w http.ResponseWriter) error {
+func (response GetPoliciesPolicyId4XXJSONResponse) VisitGetPoliciesPolicyIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type PutPoliciesIdRequestObject struct {
-	Id   IdParam `json:"id"`
-	Body *PutPoliciesIdJSONRequestBody
+type PutPoliciesPolicyIdRequestObject struct {
+	PolicyId openapi_types.UUID `json:"policyId"`
+	Body     *PutPoliciesPolicyIdJSONRequestBody
 }
 
-type PutPoliciesIdResponseObject interface {
-	VisitPutPoliciesIdResponse(w http.ResponseWriter) error
+type PutPoliciesPolicyIdResponseObject interface {
+	VisitPutPoliciesPolicyIdResponse(w http.ResponseWriter) error
 }
 
-type PutPoliciesId200JSONResponse Policy
+type PutPoliciesPolicyId200JSONResponse Policy
 
-func (response PutPoliciesId200JSONResponse) VisitPutPoliciesIdResponse(w http.ResponseWriter) error {
+func (response PutPoliciesPolicyId200JSONResponse) VisitPutPoliciesPolicyIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PutPoliciesId4XXJSONResponse struct {
+type PutPoliciesPolicyId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response PutPoliciesId4XXJSONResponse) VisitPutPoliciesIdResponse(w http.ResponseWriter) error {
+func (response PutPoliciesPolicyId4XXJSONResponse) VisitPutPoliciesPolicyIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
@@ -3842,104 +3832,104 @@ func (response GetSearch200JSONResponse) VisitGetSearchResponse(w http.ResponseW
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostServicesRequestObject struct {
-	Body *PostServicesJSONRequestBody
+type PostServiceRequestObject struct {
+	Body *PostServiceJSONRequestBody
 }
 
-type PostServicesResponseObject interface {
-	VisitPostServicesResponse(w http.ResponseWriter) error
+type PostServiceResponseObject interface {
+	VisitPostServiceResponse(w http.ResponseWriter) error
 }
 
-type PostServices201JSONResponse Service
+type PostService201JSONResponse Service
 
-func (response PostServices201JSONResponse) VisitPostServicesResponse(w http.ResponseWriter) error {
+func (response PostService201JSONResponse) VisitPostServiceResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(201)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostServices4XXJSONResponse struct {
+type PostService4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response PostServices4XXJSONResponse) VisitPostServicesResponse(w http.ResponseWriter) error {
+func (response PostService4XXJSONResponse) VisitPostServiceResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type DeleteServicesIdRequestObject struct {
-	Id IdParam `json:"id"`
+type DeleteServiceServiceIdRequestObject struct {
+	ServiceId openapi_types.UUID `json:"serviceId"`
 }
 
-type DeleteServicesIdResponseObject interface {
-	VisitDeleteServicesIdResponse(w http.ResponseWriter) error
+type DeleteServiceServiceIdResponseObject interface {
+	VisitDeleteServiceServiceIdResponse(w http.ResponseWriter) error
 }
 
-type DeleteServicesId204Response struct {
+type DeleteServiceServiceId204Response struct {
 }
 
-func (response DeleteServicesId204Response) VisitDeleteServicesIdResponse(w http.ResponseWriter) error {
+func (response DeleteServiceServiceId204Response) VisitDeleteServiceServiceIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type DeleteServicesId4XXJSONResponse struct {
+type DeleteServiceServiceId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response DeleteServicesId4XXJSONResponse) VisitDeleteServicesIdResponse(w http.ResponseWriter) error {
+func (response DeleteServiceServiceId4XXJSONResponse) VisitDeleteServiceServiceIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
 }
 
-type GetServicesIdRequestObject struct {
-	Id IdParam `json:"id"`
+type GetServiceServiceIdRequestObject struct {
+	ServiceId openapi_types.UUID `json:"serviceId"`
 }
 
-type GetServicesIdResponseObject interface {
-	VisitGetServicesIdResponse(w http.ResponseWriter) error
+type GetServiceServiceIdResponseObject interface {
+	VisitGetServiceServiceIdResponse(w http.ResponseWriter) error
 }
 
-type GetServicesId200JSONResponse ServiceDetail
+type GetServiceServiceId200JSONResponse ServiceDetail
 
-func (response GetServicesId200JSONResponse) VisitGetServicesIdResponse(w http.ResponseWriter) error {
+func (response GetServiceServiceId200JSONResponse) VisitGetServiceServiceIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PutServicesIdRequestObject struct {
-	Id   IdParam `json:"id"`
-	Body *PutServicesIdJSONRequestBody
+type PutServiceServiceIdRequestObject struct {
+	ServiceId openapi_types.UUID `json:"serviceId"`
+	Body      *PutServiceServiceIdJSONRequestBody
 }
 
-type PutServicesIdResponseObject interface {
-	VisitPutServicesIdResponse(w http.ResponseWriter) error
+type PutServiceServiceIdResponseObject interface {
+	VisitPutServiceServiceIdResponse(w http.ResponseWriter) error
 }
 
-type PutServicesId200JSONResponse Service
+type PutServiceServiceId200JSONResponse Service
 
-func (response PutServicesId200JSONResponse) VisitPutServicesIdResponse(w http.ResponseWriter) error {
+func (response PutServiceServiceId200JSONResponse) VisitPutServiceServiceIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PutServicesId4XXJSONResponse struct {
+type PutServiceServiceId4XXJSONResponse struct {
 	Body       GenericError
 	StatusCode int
 }
 
-func (response PutServicesId4XXJSONResponse) VisitPutServicesIdResponse(w http.ResponseWriter) error {
+func (response PutServiceServiceId4XXJSONResponse) VisitPutServiceServiceIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
@@ -3952,8 +3942,8 @@ type StrictServerInterface interface {
 	// (GET /activities)
 	GetActivities(ctx context.Context, request GetActivitiesRequestObject) (GetActivitiesResponseObject, error)
 	// Get activity
-	// (GET /activities/{id})
-	GetActivitiesId(ctx context.Context, request GetActivitiesIdRequestObject) (GetActivitiesIdResponseObject, error)
+	// (GET /activities/{activityId})
+	GetActivitiesActivityId(ctx context.Context, request GetActivitiesActivityIdRequestObject) (GetActivitiesActivityIdResponseObject, error)
 	// List audit logs
 	// (GET /admin/audit-logs)
 	GetAdminAuditLogs(ctx context.Context, request GetAdminAuditLogsRequestObject) (GetAdminAuditLogsResponseObject, error)
@@ -3973,53 +3963,53 @@ type StrictServerInterface interface {
 	// (POST /admin/users)
 	PostAdminUsers(ctx context.Context, request PostAdminUsersRequestObject) (PostAdminUsersResponseObject, error)
 	// Delete user
-	// (DELETE /admin/users/{id})
-	DeleteAdminUsersId(ctx context.Context, request DeleteAdminUsersIdRequestObject) (DeleteAdminUsersIdResponseObject, error)
+	// (DELETE /admin/users/{userId})
+	DeleteAdminUsersUserId(ctx context.Context, request DeleteAdminUsersUserIdRequestObject) (DeleteAdminUsersUserIdResponseObject, error)
 	// Get user details
-	// (GET /admin/users/{id})
-	GetAdminUsersId(ctx context.Context, request GetAdminUsersIdRequestObject) (GetAdminUsersIdResponseObject, error)
+	// (GET /admin/users/{userId})
+	GetAdminUsersUserId(ctx context.Context, request GetAdminUsersUserIdRequestObject) (GetAdminUsersUserIdResponseObject, error)
 	// Update user
-	// (PUT /admin/users/{id})
-	PutAdminUsersId(ctx context.Context, request PutAdminUsersIdRequestObject) (PutAdminUsersIdResponseObject, error)
+	// (PUT /admin/users/{userId})
+	PutAdminUsersUserId(ctx context.Context, request PutAdminUsersUserIdRequestObject) (PutAdminUsersUserIdResponseObject, error)
 	// Update user status
-	// (PUT /admin/users/{id}/status)
-	PutAdminUsersIdStatus(ctx context.Context, request PutAdminUsersIdStatusRequestObject) (PutAdminUsersIdStatusResponseObject, error)
+	// (PUT /admin/users/{userId}/status)
+	PutAdminUsersUserIdStatus(ctx context.Context, request PutAdminUsersUserIdStatusRequestObject) (PutAdminUsersUserIdStatusResponseObject, error)
 	// List alarms
 	// (GET /alarms)
 	GetAlarms(ctx context.Context, request GetAlarmsRequestObject) (GetAlarmsResponseObject, error)
 	// Get alarm
-	// (GET /alarms/{id})
-	GetAlarmsId(ctx context.Context, request GetAlarmsIdRequestObject) (GetAlarmsIdResponseObject, error)
+	// (GET /alarms/{alarmId})
+	GetAlarmsAlarmId(ctx context.Context, request GetAlarmsAlarmIdRequestObject) (GetAlarmsAlarmIdResponseObject, error)
 	// Acknowledge alarm
-	// (POST /alarms/{id}/acknowledge)
-	PostAlarmsIdAcknowledge(ctx context.Context, request PostAlarmsIdAcknowledgeRequestObject) (PostAlarmsIdAcknowledgeResponseObject, error)
+	// (POST /alarms/{alarmId}/acknowledge)
+	PostAlarmsAlarmIdAcknowledge(ctx context.Context, request PostAlarmsAlarmIdAcknowledgeRequestObject) (PostAlarmsAlarmIdAcknowledgeResponseObject, error)
 	// Create group
-	// (POST /groups)
-	PostGroups(ctx context.Context, request PostGroupsRequestObject) (PostGroupsResponseObject, error)
+	// (POST /group)
+	PostGroup(ctx context.Context, request PostGroupRequestObject) (PostGroupResponseObject, error)
 	// Delete group
-	// (DELETE /groups/{id})
-	DeleteGroupsId(ctx context.Context, request DeleteGroupsIdRequestObject) (DeleteGroupsIdResponseObject, error)
+	// (DELETE /group/{groupId})
+	DeleteGroupGroupId(ctx context.Context, request DeleteGroupGroupIdRequestObject) (DeleteGroupGroupIdResponseObject, error)
 	// Get group
-	// (GET /groups/{id})
-	GetGroupsId(ctx context.Context, request GetGroupsIdRequestObject) (GetGroupsIdResponseObject, error)
+	// (GET /group/{groupId})
+	GetGroupGroupId(ctx context.Context, request GetGroupGroupIdRequestObject) (GetGroupGroupIdResponseObject, error)
 	// Get group members
-	// (GET /groups/{id}/members)
-	GetGroupsIdMembers(ctx context.Context, request GetGroupsIdMembersRequestObject) (GetGroupsIdMembersResponseObject, error)
+	// (GET /group/{groupId}/members)
+	GetGroupGroupIdMembers(ctx context.Context, request GetGroupGroupIdMembersRequestObject) (GetGroupGroupIdMembersResponseObject, error)
 	// Add group member
-	// (POST /groups/{id}/members)
-	PostGroupsIdMembers(ctx context.Context, request PostGroupsIdMembersRequestObject) (PostGroupsIdMembersResponseObject, error)
+	// (POST /group/{groupId}/members)
+	PostGroupGroupIdMembers(ctx context.Context, request PostGroupGroupIdMembersRequestObject) (PostGroupGroupIdMembersResponseObject, error)
 	// Remove group member
-	// (DELETE /groups/{id}/members/{userId})
-	DeleteGroupsIdMembersUserId(ctx context.Context, request DeleteGroupsIdMembersUserIdRequestObject) (DeleteGroupsIdMembersUserIdResponseObject, error)
+	// (DELETE /group/{groupId}/members/{userId})
+	DeleteGroupGroupIdMembersUserId(ctx context.Context, request DeleteGroupGroupIdMembersUserIdRequestObject) (DeleteGroupGroupIdMembersUserIdResponseObject, error)
 	// Get group policies
-	// (GET /groups/{id}/policies)
-	GetGroupsIdPolicies(ctx context.Context, request GetGroupsIdPoliciesRequestObject) (GetGroupsIdPoliciesResponseObject, error)
+	// (GET /group/{groupId}/policy)
+	GetGroupGroupIdPolicy(ctx context.Context, request GetGroupGroupIdPolicyRequestObject) (GetGroupGroupIdPolicyResponseObject, error)
 	// Assign policy to group
-	// (POST /groups/{id}/policies)
-	PostGroupsIdPolicies(ctx context.Context, request PostGroupsIdPoliciesRequestObject) (PostGroupsIdPoliciesResponseObject, error)
+	// (POST /group/{groupId}/policy)
+	PostGroupGroupIdPolicy(ctx context.Context, request PostGroupGroupIdPolicyRequestObject) (PostGroupGroupIdPolicyResponseObject, error)
 	// Remove policy from group
-	// (DELETE /groups/{id}/policies/{policyId})
-	DeleteGroupsIdPoliciesPolicyId(ctx context.Context, request DeleteGroupsIdPoliciesPolicyIdRequestObject) (DeleteGroupsIdPoliciesPolicyIdResponseObject, error)
+	// (DELETE /group/{groupId}/policy/{policyId})
+	DeleteGroupGroupIdPolicyPolicyId(ctx context.Context, request DeleteGroupGroupIdPolicyPolicyIdRequestObject) (DeleteGroupGroupIdPolicyPolicyIdResponseObject, error)
 	// List pastes
 	// (GET /paste)
 	GetPaste(ctx context.Context, request GetPasteRequestObject) (GetPasteResponseObject, error)
@@ -4027,11 +4017,11 @@ type StrictServerInterface interface {
 	// (POST /paste)
 	PostPaste(ctx context.Context, request PostPasteRequestObject) (PostPasteResponseObject, error)
 	// Delete paste
-	// (DELETE /paste/{id})
-	DeletePasteId(ctx context.Context, request DeletePasteIdRequestObject) (DeletePasteIdResponseObject, error)
+	// (DELETE /paste/{pasteId})
+	DeletePastePasteId(ctx context.Context, request DeletePastePasteIdRequestObject) (DeletePastePasteIdResponseObject, error)
 	// Get paste
-	// (GET /paste/{id})
-	GetPasteId(ctx context.Context, request GetPasteIdRequestObject) (GetPasteIdResponseObject, error)
+	// (GET /paste/{pasteId})
+	GetPastePasteId(ctx context.Context, request GetPastePasteIdRequestObject) (GetPastePasteIdResponseObject, error)
 	// List policies
 	// (GET /policies)
 	GetPolicies(ctx context.Context, request GetPoliciesRequestObject) (GetPoliciesResponseObject, error)
@@ -4039,29 +4029,29 @@ type StrictServerInterface interface {
 	// (POST /policies)
 	PostPolicies(ctx context.Context, request PostPoliciesRequestObject) (PostPoliciesResponseObject, error)
 	// Delete policy
-	// (DELETE /policies/{id})
-	DeletePoliciesId(ctx context.Context, request DeletePoliciesIdRequestObject) (DeletePoliciesIdResponseObject, error)
+	// (DELETE /policies/{policyId})
+	DeletePoliciesPolicyId(ctx context.Context, request DeletePoliciesPolicyIdRequestObject) (DeletePoliciesPolicyIdResponseObject, error)
 	// Get policy
-	// (GET /policies/{id})
-	GetPoliciesId(ctx context.Context, request GetPoliciesIdRequestObject) (GetPoliciesIdResponseObject, error)
+	// (GET /policies/{policyId})
+	GetPoliciesPolicyId(ctx context.Context, request GetPoliciesPolicyIdRequestObject) (GetPoliciesPolicyIdResponseObject, error)
 	// Update policy
-	// (PUT /policies/{id})
-	PutPoliciesId(ctx context.Context, request PutPoliciesIdRequestObject) (PutPoliciesIdResponseObject, error)
+	// (PUT /policies/{policyId})
+	PutPoliciesPolicyId(ctx context.Context, request PutPoliciesPolicyIdRequestObject) (PutPoliciesPolicyIdResponseObject, error)
 	// Global search
 	// (GET /search)
 	GetSearch(ctx context.Context, request GetSearchRequestObject) (GetSearchResponseObject, error)
 	// Create service
-	// (POST /services)
-	PostServices(ctx context.Context, request PostServicesRequestObject) (PostServicesResponseObject, error)
+	// (POST /service)
+	PostService(ctx context.Context, request PostServiceRequestObject) (PostServiceResponseObject, error)
 	// Delete service
-	// (DELETE /services/{id})
-	DeleteServicesId(ctx context.Context, request DeleteServicesIdRequestObject) (DeleteServicesIdResponseObject, error)
+	// (DELETE /service/{serviceId})
+	DeleteServiceServiceId(ctx context.Context, request DeleteServiceServiceIdRequestObject) (DeleteServiceServiceIdResponseObject, error)
 	// Get service
-	// (GET /services/{id})
-	GetServicesId(ctx context.Context, request GetServicesIdRequestObject) (GetServicesIdResponseObject, error)
+	// (GET /service/{serviceId})
+	GetServiceServiceId(ctx context.Context, request GetServiceServiceIdRequestObject) (GetServiceServiceIdResponseObject, error)
 	// Update service
-	// (PUT /services/{id})
-	PutServicesId(ctx context.Context, request PutServicesIdRequestObject) (PutServicesIdResponseObject, error)
+	// (PUT /service/{serviceId})
+	PutServiceServiceId(ctx context.Context, request PutServiceServiceIdRequestObject) (PutServiceServiceIdResponseObject, error)
 }
 
 type StrictHandlerFunc = strictnethttp.StrictHTTPHandlerFunc
@@ -4119,25 +4109,25 @@ func (sh *strictHandler) GetActivities(w http.ResponseWriter, r *http.Request, p
 	}
 }
 
-// GetActivitiesId operation middleware
-func (sh *strictHandler) GetActivitiesId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetActivitiesIdRequestObject
+// GetActivitiesActivityId operation middleware
+func (sh *strictHandler) GetActivitiesActivityId(w http.ResponseWriter, r *http.Request, activityId openapi_types.UUID) {
+	var request GetActivitiesActivityIdRequestObject
 
-	request.Id = id
+	request.ActivityId = activityId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetActivitiesId(ctx, request.(GetActivitiesIdRequestObject))
+		return sh.ssi.GetActivitiesActivityId(ctx, request.(GetActivitiesActivityIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetActivitiesId")
+		handler = middleware(handler, "GetActivitiesActivityId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetActivitiesIdResponseObject); ok {
-		if err := validResponse.VisitGetActivitiesIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetActivitiesActivityIdResponseObject); ok {
+		if err := validResponse.VisitGetActivitiesActivityIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4307,25 +4297,25 @@ func (sh *strictHandler) PostAdminUsers(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-// DeleteAdminUsersId operation middleware
-func (sh *strictHandler) DeleteAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request DeleteAdminUsersIdRequestObject
+// DeleteAdminUsersUserId operation middleware
+func (sh *strictHandler) DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
+	var request DeleteAdminUsersUserIdRequestObject
 
-	request.Id = id
+	request.UserId = userId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteAdminUsersId(ctx, request.(DeleteAdminUsersIdRequestObject))
+		return sh.ssi.DeleteAdminUsersUserId(ctx, request.(DeleteAdminUsersUserIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteAdminUsersId")
+		handler = middleware(handler, "DeleteAdminUsersUserId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteAdminUsersIdResponseObject); ok {
-		if err := validResponse.VisitDeleteAdminUsersIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeleteAdminUsersUserIdResponseObject); ok {
+		if err := validResponse.VisitDeleteAdminUsersUserIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4333,25 +4323,25 @@ func (sh *strictHandler) DeleteAdminUsersId(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-// GetAdminUsersId operation middleware
-func (sh *strictHandler) GetAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetAdminUsersIdRequestObject
+// GetAdminUsersUserId operation middleware
+func (sh *strictHandler) GetAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
+	var request GetAdminUsersUserIdRequestObject
 
-	request.Id = id
+	request.UserId = userId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAdminUsersId(ctx, request.(GetAdminUsersIdRequestObject))
+		return sh.ssi.GetAdminUsersUserId(ctx, request.(GetAdminUsersUserIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAdminUsersId")
+		handler = middleware(handler, "GetAdminUsersUserId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAdminUsersIdResponseObject); ok {
-		if err := validResponse.VisitGetAdminUsersIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetAdminUsersUserIdResponseObject); ok {
+		if err := validResponse.VisitGetAdminUsersUserIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4359,13 +4349,13 @@ func (sh *strictHandler) GetAdminUsersId(w http.ResponseWriter, r *http.Request,
 	}
 }
 
-// PutAdminUsersId operation middleware
-func (sh *strictHandler) PutAdminUsersId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request PutAdminUsersIdRequestObject
+// PutAdminUsersUserId operation middleware
+func (sh *strictHandler) PutAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
+	var request PutAdminUsersUserIdRequestObject
 
-	request.Id = id
+	request.UserId = userId
 
-	var body PutAdminUsersIdJSONRequestBody
+	var body PutAdminUsersUserIdJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4373,18 +4363,18 @@ func (sh *strictHandler) PutAdminUsersId(w http.ResponseWriter, r *http.Request,
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutAdminUsersId(ctx, request.(PutAdminUsersIdRequestObject))
+		return sh.ssi.PutAdminUsersUserId(ctx, request.(PutAdminUsersUserIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutAdminUsersId")
+		handler = middleware(handler, "PutAdminUsersUserId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutAdminUsersIdResponseObject); ok {
-		if err := validResponse.VisitPutAdminUsersIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(PutAdminUsersUserIdResponseObject); ok {
+		if err := validResponse.VisitPutAdminUsersUserIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4392,13 +4382,13 @@ func (sh *strictHandler) PutAdminUsersId(w http.ResponseWriter, r *http.Request,
 	}
 }
 
-// PutAdminUsersIdStatus operation middleware
-func (sh *strictHandler) PutAdminUsersIdStatus(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request PutAdminUsersIdStatusRequestObject
+// PutAdminUsersUserIdStatus operation middleware
+func (sh *strictHandler) PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
+	var request PutAdminUsersUserIdStatusRequestObject
 
-	request.Id = id
+	request.UserId = userId
 
-	var body PutAdminUsersIdStatusJSONRequestBody
+	var body PutAdminUsersUserIdStatusJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4406,18 +4396,18 @@ func (sh *strictHandler) PutAdminUsersIdStatus(w http.ResponseWriter, r *http.Re
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutAdminUsersIdStatus(ctx, request.(PutAdminUsersIdStatusRequestObject))
+		return sh.ssi.PutAdminUsersUserIdStatus(ctx, request.(PutAdminUsersUserIdStatusRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutAdminUsersIdStatus")
+		handler = middleware(handler, "PutAdminUsersUserIdStatus")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutAdminUsersIdStatusResponseObject); ok {
-		if err := validResponse.VisitPutAdminUsersIdStatusResponse(w); err != nil {
+	} else if validResponse, ok := response.(PutAdminUsersUserIdStatusResponseObject); ok {
+		if err := validResponse.VisitPutAdminUsersUserIdStatusResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4451,25 +4441,25 @@ func (sh *strictHandler) GetAlarms(w http.ResponseWriter, r *http.Request, param
 	}
 }
 
-// GetAlarmsId operation middleware
-func (sh *strictHandler) GetAlarmsId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetAlarmsIdRequestObject
+// GetAlarmsAlarmId operation middleware
+func (sh *strictHandler) GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
+	var request GetAlarmsAlarmIdRequestObject
 
-	request.Id = id
+	request.AlarmId = alarmId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAlarmsId(ctx, request.(GetAlarmsIdRequestObject))
+		return sh.ssi.GetAlarmsAlarmId(ctx, request.(GetAlarmsAlarmIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAlarmsId")
+		handler = middleware(handler, "GetAlarmsAlarmId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAlarmsIdResponseObject); ok {
-		if err := validResponse.VisitGetAlarmsIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetAlarmsAlarmIdResponseObject); ok {
+		if err := validResponse.VisitGetAlarmsAlarmIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4477,25 +4467,25 @@ func (sh *strictHandler) GetAlarmsId(w http.ResponseWriter, r *http.Request, id 
 	}
 }
 
-// PostAlarmsIdAcknowledge operation middleware
-func (sh *strictHandler) PostAlarmsIdAcknowledge(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request PostAlarmsIdAcknowledgeRequestObject
+// PostAlarmsAlarmIdAcknowledge operation middleware
+func (sh *strictHandler) PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
+	var request PostAlarmsAlarmIdAcknowledgeRequestObject
 
-	request.Id = id
+	request.AlarmId = alarmId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostAlarmsIdAcknowledge(ctx, request.(PostAlarmsIdAcknowledgeRequestObject))
+		return sh.ssi.PostAlarmsAlarmIdAcknowledge(ctx, request.(PostAlarmsAlarmIdAcknowledgeRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostAlarmsIdAcknowledge")
+		handler = middleware(handler, "PostAlarmsAlarmIdAcknowledge")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostAlarmsIdAcknowledgeResponseObject); ok {
-		if err := validResponse.VisitPostAlarmsIdAcknowledgeResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostAlarmsAlarmIdAcknowledgeResponseObject); ok {
+		if err := validResponse.VisitPostAlarmsAlarmIdAcknowledgeResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4503,11 +4493,11 @@ func (sh *strictHandler) PostAlarmsIdAcknowledge(w http.ResponseWriter, r *http.
 	}
 }
 
-// PostGroups operation middleware
-func (sh *strictHandler) PostGroups(w http.ResponseWriter, r *http.Request) {
-	var request PostGroupsRequestObject
+// PostGroup operation middleware
+func (sh *strictHandler) PostGroup(w http.ResponseWriter, r *http.Request) {
+	var request PostGroupRequestObject
 
-	var body PostGroupsJSONRequestBody
+	var body PostGroupJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4515,18 +4505,18 @@ func (sh *strictHandler) PostGroups(w http.ResponseWriter, r *http.Request) {
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroups(ctx, request.(PostGroupsRequestObject))
+		return sh.ssi.PostGroup(ctx, request.(PostGroupRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroups")
+		handler = middleware(handler, "PostGroup")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupsResponseObject); ok {
-		if err := validResponse.VisitPostGroupsResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostGroupResponseObject); ok {
+		if err := validResponse.VisitPostGroupResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4534,25 +4524,25 @@ func (sh *strictHandler) PostGroups(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeleteGroupsId operation middleware
-func (sh *strictHandler) DeleteGroupsId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request DeleteGroupsIdRequestObject
+// DeleteGroupGroupId operation middleware
+func (sh *strictHandler) DeleteGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request DeleteGroupGroupIdRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteGroupsId(ctx, request.(DeleteGroupsIdRequestObject))
+		return sh.ssi.DeleteGroupGroupId(ctx, request.(DeleteGroupGroupIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteGroupsId")
+		handler = middleware(handler, "DeleteGroupGroupId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteGroupsIdResponseObject); ok {
-		if err := validResponse.VisitDeleteGroupsIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeleteGroupGroupIdResponseObject); ok {
+		if err := validResponse.VisitDeleteGroupGroupIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4560,25 +4550,25 @@ func (sh *strictHandler) DeleteGroupsId(w http.ResponseWriter, r *http.Request, 
 	}
 }
 
-// GetGroupsId operation middleware
-func (sh *strictHandler) GetGroupsId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetGroupsIdRequestObject
+// GetGroupGroupId operation middleware
+func (sh *strictHandler) GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request GetGroupGroupIdRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupsId(ctx, request.(GetGroupsIdRequestObject))
+		return sh.ssi.GetGroupGroupId(ctx, request.(GetGroupGroupIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupsId")
+		handler = middleware(handler, "GetGroupGroupId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupsIdResponseObject); ok {
-		if err := validResponse.VisitGetGroupsIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetGroupGroupIdResponseObject); ok {
+		if err := validResponse.VisitGetGroupGroupIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4586,26 +4576,26 @@ func (sh *strictHandler) GetGroupsId(w http.ResponseWriter, r *http.Request, id 
 	}
 }
 
-// GetGroupsIdMembers operation middleware
-func (sh *strictHandler) GetGroupsIdMembers(w http.ResponseWriter, r *http.Request, id IdParam, params GetGroupsIdMembersParams) {
-	var request GetGroupsIdMembersRequestObject
+// GetGroupGroupIdMembers operation middleware
+func (sh *strictHandler) GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetGroupGroupIdMembersParams) {
+	var request GetGroupGroupIdMembersRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 	request.Params = params
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupsIdMembers(ctx, request.(GetGroupsIdMembersRequestObject))
+		return sh.ssi.GetGroupGroupIdMembers(ctx, request.(GetGroupGroupIdMembersRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupsIdMembers")
+		handler = middleware(handler, "GetGroupGroupIdMembers")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupsIdMembersResponseObject); ok {
-		if err := validResponse.VisitGetGroupsIdMembersResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetGroupGroupIdMembersResponseObject); ok {
+		if err := validResponse.VisitGetGroupGroupIdMembersResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4613,13 +4603,13 @@ func (sh *strictHandler) GetGroupsIdMembers(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-// PostGroupsIdMembers operation middleware
-func (sh *strictHandler) PostGroupsIdMembers(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request PostGroupsIdMembersRequestObject
+// PostGroupGroupIdMembers operation middleware
+func (sh *strictHandler) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request PostGroupGroupIdMembersRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 
-	var body PostGroupsIdMembersJSONRequestBody
+	var body PostGroupGroupIdMembersJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4627,18 +4617,18 @@ func (sh *strictHandler) PostGroupsIdMembers(w http.ResponseWriter, r *http.Requ
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroupsIdMembers(ctx, request.(PostGroupsIdMembersRequestObject))
+		return sh.ssi.PostGroupGroupIdMembers(ctx, request.(PostGroupGroupIdMembersRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroupsIdMembers")
+		handler = middleware(handler, "PostGroupGroupIdMembers")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupsIdMembersResponseObject); ok {
-		if err := validResponse.VisitPostGroupsIdMembersResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostGroupGroupIdMembersResponseObject); ok {
+		if err := validResponse.VisitPostGroupGroupIdMembersResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4646,26 +4636,26 @@ func (sh *strictHandler) PostGroupsIdMembers(w http.ResponseWriter, r *http.Requ
 	}
 }
 
-// DeleteGroupsIdMembersUserId operation middleware
-func (sh *strictHandler) DeleteGroupsIdMembersUserId(w http.ResponseWriter, r *http.Request, id IdParam, userId int) {
-	var request DeleteGroupsIdMembersUserIdRequestObject
+// DeleteGroupGroupIdMembersUserId operation middleware
+func (sh *strictHandler) DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, userId openapi_types.UUID) {
+	var request DeleteGroupGroupIdMembersUserIdRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 	request.UserId = userId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteGroupsIdMembersUserId(ctx, request.(DeleteGroupsIdMembersUserIdRequestObject))
+		return sh.ssi.DeleteGroupGroupIdMembersUserId(ctx, request.(DeleteGroupGroupIdMembersUserIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteGroupsIdMembersUserId")
+		handler = middleware(handler, "DeleteGroupGroupIdMembersUserId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteGroupsIdMembersUserIdResponseObject); ok {
-		if err := validResponse.VisitDeleteGroupsIdMembersUserIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeleteGroupGroupIdMembersUserIdResponseObject); ok {
+		if err := validResponse.VisitDeleteGroupGroupIdMembersUserIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4673,25 +4663,25 @@ func (sh *strictHandler) DeleteGroupsIdMembersUserId(w http.ResponseWriter, r *h
 	}
 }
 
-// GetGroupsIdPolicies operation middleware
-func (sh *strictHandler) GetGroupsIdPolicies(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetGroupsIdPoliciesRequestObject
+// GetGroupGroupIdPolicy operation middleware
+func (sh *strictHandler) GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request GetGroupGroupIdPolicyRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupsIdPolicies(ctx, request.(GetGroupsIdPoliciesRequestObject))
+		return sh.ssi.GetGroupGroupIdPolicy(ctx, request.(GetGroupGroupIdPolicyRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupsIdPolicies")
+		handler = middleware(handler, "GetGroupGroupIdPolicy")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupsIdPoliciesResponseObject); ok {
-		if err := validResponse.VisitGetGroupsIdPoliciesResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetGroupGroupIdPolicyResponseObject); ok {
+		if err := validResponse.VisitGetGroupGroupIdPolicyResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4699,13 +4689,13 @@ func (sh *strictHandler) GetGroupsIdPolicies(w http.ResponseWriter, r *http.Requ
 	}
 }
 
-// PostGroupsIdPolicies operation middleware
-func (sh *strictHandler) PostGroupsIdPolicies(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request PostGroupsIdPoliciesRequestObject
+// PostGroupGroupIdPolicy operation middleware
+func (sh *strictHandler) PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request PostGroupGroupIdPolicyRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 
-	var body PostGroupsIdPoliciesJSONRequestBody
+	var body PostGroupGroupIdPolicyJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4713,18 +4703,18 @@ func (sh *strictHandler) PostGroupsIdPolicies(w http.ResponseWriter, r *http.Req
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroupsIdPolicies(ctx, request.(PostGroupsIdPoliciesRequestObject))
+		return sh.ssi.PostGroupGroupIdPolicy(ctx, request.(PostGroupGroupIdPolicyRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroupsIdPolicies")
+		handler = middleware(handler, "PostGroupGroupIdPolicy")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupsIdPoliciesResponseObject); ok {
-		if err := validResponse.VisitPostGroupsIdPoliciesResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostGroupGroupIdPolicyResponseObject); ok {
+		if err := validResponse.VisitPostGroupGroupIdPolicyResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4732,26 +4722,26 @@ func (sh *strictHandler) PostGroupsIdPolicies(w http.ResponseWriter, r *http.Req
 	}
 }
 
-// DeleteGroupsIdPoliciesPolicyId operation middleware
-func (sh *strictHandler) DeleteGroupsIdPoliciesPolicyId(w http.ResponseWriter, r *http.Request, id IdParam, policyId int) {
-	var request DeleteGroupsIdPoliciesPolicyIdRequestObject
+// DeleteGroupGroupIdPolicyPolicyId operation middleware
+func (sh *strictHandler) DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, policyId openapi_types.UUID) {
+	var request DeleteGroupGroupIdPolicyPolicyIdRequestObject
 
-	request.Id = id
+	request.GroupId = groupId
 	request.PolicyId = policyId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteGroupsIdPoliciesPolicyId(ctx, request.(DeleteGroupsIdPoliciesPolicyIdRequestObject))
+		return sh.ssi.DeleteGroupGroupIdPolicyPolicyId(ctx, request.(DeleteGroupGroupIdPolicyPolicyIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteGroupsIdPoliciesPolicyId")
+		handler = middleware(handler, "DeleteGroupGroupIdPolicyPolicyId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteGroupsIdPoliciesPolicyIdResponseObject); ok {
-		if err := validResponse.VisitDeleteGroupsIdPoliciesPolicyIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeleteGroupGroupIdPolicyPolicyIdResponseObject); ok {
+		if err := validResponse.VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4816,25 +4806,25 @@ func (sh *strictHandler) PostPaste(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeletePasteId operation middleware
-func (sh *strictHandler) DeletePasteId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request DeletePasteIdRequestObject
+// DeletePastePasteId operation middleware
+func (sh *strictHandler) DeletePastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
+	var request DeletePastePasteIdRequestObject
 
-	request.Id = id
+	request.PasteId = pasteId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeletePasteId(ctx, request.(DeletePasteIdRequestObject))
+		return sh.ssi.DeletePastePasteId(ctx, request.(DeletePastePasteIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeletePasteId")
+		handler = middleware(handler, "DeletePastePasteId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeletePasteIdResponseObject); ok {
-		if err := validResponse.VisitDeletePasteIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeletePastePasteIdResponseObject); ok {
+		if err := validResponse.VisitDeletePastePasteIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4842,25 +4832,25 @@ func (sh *strictHandler) DeletePasteId(w http.ResponseWriter, r *http.Request, i
 	}
 }
 
-// GetPasteId operation middleware
-func (sh *strictHandler) GetPasteId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetPasteIdRequestObject
+// GetPastePasteId operation middleware
+func (sh *strictHandler) GetPastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
+	var request GetPastePasteIdRequestObject
 
-	request.Id = id
+	request.PasteId = pasteId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetPasteId(ctx, request.(GetPasteIdRequestObject))
+		return sh.ssi.GetPastePasteId(ctx, request.(GetPastePasteIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetPasteId")
+		handler = middleware(handler, "GetPastePasteId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetPasteIdResponseObject); ok {
-		if err := validResponse.VisitGetPasteIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetPastePasteIdResponseObject); ok {
+		if err := validResponse.VisitGetPastePasteIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4925,25 +4915,25 @@ func (sh *strictHandler) PostPolicies(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeletePoliciesId operation middleware
-func (sh *strictHandler) DeletePoliciesId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request DeletePoliciesIdRequestObject
+// DeletePoliciesPolicyId operation middleware
+func (sh *strictHandler) DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
+	var request DeletePoliciesPolicyIdRequestObject
 
-	request.Id = id
+	request.PolicyId = policyId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeletePoliciesId(ctx, request.(DeletePoliciesIdRequestObject))
+		return sh.ssi.DeletePoliciesPolicyId(ctx, request.(DeletePoliciesPolicyIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeletePoliciesId")
+		handler = middleware(handler, "DeletePoliciesPolicyId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeletePoliciesIdResponseObject); ok {
-		if err := validResponse.VisitDeletePoliciesIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeletePoliciesPolicyIdResponseObject); ok {
+		if err := validResponse.VisitDeletePoliciesPolicyIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4951,25 +4941,25 @@ func (sh *strictHandler) DeletePoliciesId(w http.ResponseWriter, r *http.Request
 	}
 }
 
-// GetPoliciesId operation middleware
-func (sh *strictHandler) GetPoliciesId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetPoliciesIdRequestObject
+// GetPoliciesPolicyId operation middleware
+func (sh *strictHandler) GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
+	var request GetPoliciesPolicyIdRequestObject
 
-	request.Id = id
+	request.PolicyId = policyId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetPoliciesId(ctx, request.(GetPoliciesIdRequestObject))
+		return sh.ssi.GetPoliciesPolicyId(ctx, request.(GetPoliciesPolicyIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetPoliciesId")
+		handler = middleware(handler, "GetPoliciesPolicyId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetPoliciesIdResponseObject); ok {
-		if err := validResponse.VisitGetPoliciesIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetPoliciesPolicyIdResponseObject); ok {
+		if err := validResponse.VisitGetPoliciesPolicyIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4977,13 +4967,13 @@ func (sh *strictHandler) GetPoliciesId(w http.ResponseWriter, r *http.Request, i
 	}
 }
 
-// PutPoliciesId operation middleware
-func (sh *strictHandler) PutPoliciesId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request PutPoliciesIdRequestObject
+// PutPoliciesPolicyId operation middleware
+func (sh *strictHandler) PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
+	var request PutPoliciesPolicyIdRequestObject
 
-	request.Id = id
+	request.PolicyId = policyId
 
-	var body PutPoliciesIdJSONRequestBody
+	var body PutPoliciesPolicyIdJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4991,18 +4981,18 @@ func (sh *strictHandler) PutPoliciesId(w http.ResponseWriter, r *http.Request, i
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutPoliciesId(ctx, request.(PutPoliciesIdRequestObject))
+		return sh.ssi.PutPoliciesPolicyId(ctx, request.(PutPoliciesPolicyIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutPoliciesId")
+		handler = middleware(handler, "PutPoliciesPolicyId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutPoliciesIdResponseObject); ok {
-		if err := validResponse.VisitPutPoliciesIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(PutPoliciesPolicyIdResponseObject); ok {
+		if err := validResponse.VisitPutPoliciesPolicyIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5036,11 +5026,11 @@ func (sh *strictHandler) GetSearch(w http.ResponseWriter, r *http.Request, param
 	}
 }
 
-// PostServices operation middleware
-func (sh *strictHandler) PostServices(w http.ResponseWriter, r *http.Request) {
-	var request PostServicesRequestObject
+// PostService operation middleware
+func (sh *strictHandler) PostService(w http.ResponseWriter, r *http.Request) {
+	var request PostServiceRequestObject
 
-	var body PostServicesJSONRequestBody
+	var body PostServiceJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -5048,18 +5038,18 @@ func (sh *strictHandler) PostServices(w http.ResponseWriter, r *http.Request) {
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostServices(ctx, request.(PostServicesRequestObject))
+		return sh.ssi.PostService(ctx, request.(PostServiceRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostServices")
+		handler = middleware(handler, "PostService")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostServicesResponseObject); ok {
-		if err := validResponse.VisitPostServicesResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostServiceResponseObject); ok {
+		if err := validResponse.VisitPostServiceResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5067,25 +5057,25 @@ func (sh *strictHandler) PostServices(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeleteServicesId operation middleware
-func (sh *strictHandler) DeleteServicesId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request DeleteServicesIdRequestObject
+// DeleteServiceServiceId operation middleware
+func (sh *strictHandler) DeleteServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
+	var request DeleteServiceServiceIdRequestObject
 
-	request.Id = id
+	request.ServiceId = serviceId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteServicesId(ctx, request.(DeleteServicesIdRequestObject))
+		return sh.ssi.DeleteServiceServiceId(ctx, request.(DeleteServiceServiceIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteServicesId")
+		handler = middleware(handler, "DeleteServiceServiceId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteServicesIdResponseObject); ok {
-		if err := validResponse.VisitDeleteServicesIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeleteServiceServiceIdResponseObject); ok {
+		if err := validResponse.VisitDeleteServiceServiceIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5093,25 +5083,25 @@ func (sh *strictHandler) DeleteServicesId(w http.ResponseWriter, r *http.Request
 	}
 }
 
-// GetServicesId operation middleware
-func (sh *strictHandler) GetServicesId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request GetServicesIdRequestObject
+// GetServiceServiceId operation middleware
+func (sh *strictHandler) GetServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
+	var request GetServiceServiceIdRequestObject
 
-	request.Id = id
+	request.ServiceId = serviceId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetServicesId(ctx, request.(GetServicesIdRequestObject))
+		return sh.ssi.GetServiceServiceId(ctx, request.(GetServiceServiceIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetServicesId")
+		handler = middleware(handler, "GetServiceServiceId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetServicesIdResponseObject); ok {
-		if err := validResponse.VisitGetServicesIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetServiceServiceIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceServiceIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5119,13 +5109,13 @@ func (sh *strictHandler) GetServicesId(w http.ResponseWriter, r *http.Request, i
 	}
 }
 
-// PutServicesId operation middleware
-func (sh *strictHandler) PutServicesId(w http.ResponseWriter, r *http.Request, id IdParam) {
-	var request PutServicesIdRequestObject
+// PutServiceServiceId operation middleware
+func (sh *strictHandler) PutServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
+	var request PutServiceServiceIdRequestObject
 
-	request.Id = id
+	request.ServiceId = serviceId
 
-	var body PutServicesIdJSONRequestBody
+	var body PutServiceServiceIdJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -5133,18 +5123,18 @@ func (sh *strictHandler) PutServicesId(w http.ResponseWriter, r *http.Request, i
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutServicesId(ctx, request.(PutServicesIdRequestObject))
+		return sh.ssi.PutServiceServiceId(ctx, request.(PutServiceServiceIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutServicesId")
+		handler = middleware(handler, "PutServiceServiceId")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutServicesIdResponseObject); ok {
-		if err := validResponse.VisitPutServicesIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(PutServiceServiceIdResponseObject); ok {
+		if err := validResponse.VisitPutServiceServiceIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5155,66 +5145,67 @@ func (sh *strictHandler) PutServicesId(w http.ResponseWriter, r *http.Request, i
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"gvn/6f7pfwEAAP//46CV5AVqAAA=",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

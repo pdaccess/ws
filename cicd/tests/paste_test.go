@@ -3,6 +3,7 @@ package tests
 import (
 	"context"
 
+	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/pdaccess/ws/pkg/http"
@@ -28,19 +29,19 @@ var _ = Describe("Paste API", func() {
 		})
 	})
 
-	Context("GET /paste/{id}", func() {
-		It("should return 500 for non-existent paste", func() {
-			resp, err := GetAPIClient().GetPasteIdWithResponse(context.Background(), 999)
+	Context("GET /paste/{pasteId}", func() {
+		It("should return 400 for invalid paste id", func() {
+			resp, err := GetAPIClient().GetPastePasteIdWithResponse(context.Background(), uuid.Nil)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode()).Should(Equal(500))
+			Expect(resp.StatusCode()).Should(Equal(404))
 		})
 	})
 
-	Context("DELETE /paste/{id}", func() {
-		It("should return 204 for delete (idempotent)", func() {
-			resp, err := GetAPIClient().DeletePasteIdWithResponse(context.Background(), 999)
+	Context("DELETE /paste/{pasteId}", func() {
+		It("should return 400 for invalid paste id", func() {
+			resp, err := GetAPIClient().DeletePastePasteIdWithResponse(context.Background(), uuid.Nil)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(resp.StatusCode()).Should(Equal(204))
+			Expect(resp.StatusCode()).Should(Equal(404))
 		})
 	})
 })

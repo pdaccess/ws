@@ -654,7 +654,6 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 	var services []external.Service
 	var groups []external.Group
 	var users []external.User
-	var activities []external.Activity
 
 	if query != "" {
 		svcItems, err := h.svc.SearchInventory(ctx,
@@ -726,10 +725,9 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 	}
 
 	return external.GetSearch200JSONResponse(external.SearchResults{
-		Activities: &activities,
-		Groups:     &groups,
-		Services:   &services,
-		Users:      &users,
+		Groups:   &groups,
+		Services: &services,
+		Users:    &users,
 	}), nil
 }
 

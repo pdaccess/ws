@@ -1008,7 +1008,7 @@ paths:
           required: false
           schema:
             type: string
-            enum: [Service, Group, User, Activity]
+            enum: [Service, Group, User]
           description: Resource type to search/list
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/LimitParam'
@@ -1593,7 +1593,4 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Group'
-        activities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Activity'
+      

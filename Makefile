@@ -31,6 +31,7 @@ ci-build: cmd/main.go
 	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t ghcr.io/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
 
 ci-push:
+	docker push ghcr.io/pdaccess/ws:latest
 	docker push ghcr.io/pdaccess/ws:${GIT_COMMIT}
 	
 

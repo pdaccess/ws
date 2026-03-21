@@ -40,12 +40,9 @@ jobs:
       - name: Build Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          make install-onnx
           make build
             
-
       - name: Push Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          docker push ghcr.io/pdaccess/ws:latest
-          docker push ghcr.io/pdaccess/ws:${{ github.sha }}
+          make ci-push

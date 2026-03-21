@@ -29,7 +29,9 @@ jobs:
         run: make unit-tests
 
       - name: Run CI/CD tests
-        run: make cicd-tests
+        run: |
+          make install-onnx 
+          make cicd-tests
 
       - name: Log in to GHCR
         if: github.ref == 'refs/heads/main'

@@ -21,7 +21,7 @@ var _ = Describe("Admin API", func() {
 	Context("POST /admin/users", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("POST", GetBaseURL()+"/admin/users", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -38,7 +38,7 @@ var _ = Describe("Admin API", func() {
 	Context("PUT /admin/users/{userId}", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("PUT", GetBaseURL()+"/admin/users/"+uuid.Nil.String(), nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -55,7 +55,7 @@ var _ = Describe("Admin API", func() {
 	Context("PUT /admin/users/{userId}/status", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("PUT", GetBaseURL()+"/admin/users/"+uuid.Nil.String()+"/status", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -88,7 +88,7 @@ var _ = Describe("Admin API", func() {
 	Context("PUT /admin/settings", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("PUT", GetBaseURL()+"/admin/settings", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})

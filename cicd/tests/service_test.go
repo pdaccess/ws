@@ -13,7 +13,8 @@ import (
 var _ = Describe("Services API", func() {
 	Context("GET /health", func() {
 		It("should return 200", func() {
-			resp, err := http.Get(GetBaseURL() + "/health")
+			req, _ := http.NewRequest("GET", GetBaseURL()+"/health", nil)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(200))
 		})
@@ -22,7 +23,7 @@ var _ = Describe("Services API", func() {
 	Context("POST /service", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("POST", GetBaseURL()+"/service", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -39,7 +40,7 @@ var _ = Describe("Services API", func() {
 	Context("PUT /service/{serviceId}", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("PUT", GetBaseURL()+"/service/"+uuid.Nil.String(), nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})

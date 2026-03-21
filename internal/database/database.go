@@ -35,6 +35,10 @@ func (d *DB) PasteRepo() *PasteRepository {
 	return NewPasteRepository(d)
 }
 
+func (d *DB) ServiceSettingsRepo() *ServiceSettingsRepository {
+	return NewServiceSettingsRepository(d)
+}
+
 func New(connStr string) (*DB, error) {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -96,15 +100,14 @@ CREATE TABLE IF NOT EXISTS user_group_members (
 CREATE INDEX IF NOT EXISTS idx_user_group_members_user_group_id ON user_group_members(user_group_id);
 CREATE INDEX IF NOT EXISTS idx_user_group_members_user_id ON user_group_members(user_id);
 
--- Inventory table (unified service and group)
+-- Inventory table (generic data for groups and services)
 CREATE TABLE IF NOT EXISTS inventory (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     realm_id UUID NOT NULL,
     parent_id UUID REFERENCES inventory(id) ON DELETE SET NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    item_type VARCHAR(50) NOT NULL CHECK (item_type IN ('group', 'service')),
-    embedding vector(384),
+    embedding REAL[],
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     deleted_at TIMESTAMP WITH TIME ZONE
@@ -112,12 +115,10 @@ CREATE TABLE IF NOT EXISTS inventory (
 
 CREATE INDEX IF NOT EXISTS idx_inventory_realm_id ON inventory(realm_id);
 CREATE INDEX IF NOT EXISTS idx_inventory_parent_id ON inventory(parent_id);
-CREATE INDEX IF NOT EXISTS idx_inventory_item_type ON inventory(item_type);
 CREATE INDEX IF NOT EXISTS idx_inventory_deleted_at ON inventory(deleted_at);
-CREATE INDEX IF NOT EXISTS idx_inventory_embedding ON inventory USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
 
--- Inventory settings table (specific fields for services)
-CREATE TABLE IF NOT EXISTS inventory_settings (
+-- Services table (service-specific data linked to inventory)
+CREATE TABLE IF NOT EXISTS services (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     inventory_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
     access_protocol VARCHAR(50) CHECK (access_protocol IN ('ssh', 'sql', 'vnc', 'rdp', 'http', 'none')),
@@ -130,20 +131,33 @@ CREATE TABLE IF NOT EXISTS inventory_settings (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS idx_inventory_settings_inventory_id ON inventory_settings(inventory_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_services_inventory_id ON services(inventory_id);
 
--- Group members table (users within inventory items)
-CREATE TABLE IF NOT EXISTS inventory_members (
+-- Group members table (users within groups)
+CREATE TABLE IF NOT EXISTS group_members (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    inventory_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
+    group_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'admin')),
     membership_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(inventory_id, user_id)
+    UNIQUE(group_id, user_id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_inventory_members_inventory_id ON inventory_members(inventory_id);
-CREATE INDEX IF NOT EXISTS idx_inventory_members_user_id ON inventory_members(user_id);
+CREATE INDEX IF NOT EXISTS idx_group_members_group_id ON group_members(group_id);
+CREATE INDEX IF NOT EXISTS idx_group_members_user_id ON group_members(user_id);
+
+-- Service members table (users within services)
+CREATE TABLE IF NOT EXISTS service_members (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    service_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'admin')),
+    membership_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(service_id, user_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_service_members_service_id ON service_members(service_id);
+CREATE INDEX IF NOT EXISTS idx_service_members_user_id ON service_members(user_id);
 
 -- Inventory messages table (MOTD)
 CREATE TABLE IF NOT EXISTS inventory_messages (

@@ -21,7 +21,7 @@ var _ = Describe("Policies API", func() {
 	Context("POST /policies", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("POST", GetBaseURL()+"/policies", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -38,7 +38,7 @@ var _ = Describe("Policies API", func() {
 	Context("PUT /policies/{policyId}", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("PUT", GetBaseURL()+"/policies/"+uuid.Nil.String(), nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})

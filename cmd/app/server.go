@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/pdaccess/ws/internal/adapters"
 	"github.com/pdaccess/ws/internal/core/service"
 	"github.com/pdaccess/ws/internal/database"
 	"github.com/pdaccess/ws/internal/platform/servers"
@@ -52,7 +53,12 @@ func RunWebServiceServer() error {
 		return fmt.Errorf("database migrations failed: %w", err)
 	}
 
-	svc := service.New(db.InventoryRepo(), db.UserRepo(), db.ActivityRepo(), db.PasteRepo())
+	vg, err := adapters.NewVectorGenerator()
+	if err != nil {
+		return fmt.Errorf("vector generator: %w", err)
+	}
+
+	svc := service.New(db.InventoryRepo(), db.UserRepo(), db.ActivityRepo(), db.PasteRepo(), db.UserGroupRepo(), db.ServiceSettingsRepo(), vg)
 
 	routers := servers.NewHttpServer(svc)
 	server := &http.Server{Addr: config.HttpListenAddr, Handler: routers}

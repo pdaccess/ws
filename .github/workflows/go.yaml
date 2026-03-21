@@ -38,9 +38,7 @@ jobs:
       - name: Build Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          docker build \
-            -t ghcr.io/pdaccess/ws:latest \
-            -t ghcr.io/pdaccess/ws:${{ github.sha }} \
+          make build
             .
 
       - name: Push Docker image

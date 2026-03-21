@@ -13,7 +13,7 @@ var _ = Describe("Groups API", func() {
 	Context("POST /group", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("POST", GetBaseURL()+"/group", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -46,7 +46,7 @@ var _ = Describe("Groups API", func() {
 	Context("POST /group/{groupId}/members", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("POST", GetBaseURL()+"/group/"+uuid.Nil.String()+"/members", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -71,7 +71,7 @@ var _ = Describe("Groups API", func() {
 	Context("POST /group/{groupId}/policy", func() {
 		It("should return 400 for missing body", func() {
 			req, _ := http.NewRequest("POST", GetBaseURL()+"/group/"+uuid.Nil.String()+"/policy", nil)
-			resp, err := http.DefaultClient.Do(req)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(400))
 		})
@@ -87,7 +87,8 @@ var _ = Describe("Groups API", func() {
 
 	Context("GET /group/{groupId}/activities", func() {
 		It("should return 404", func() {
-			resp, err := http.Get(GetBaseURL() + "/group/" + uuid.Nil.String() + "/activities")
+			req, _ := http.NewRequest("GET", GetBaseURL()+"/group/"+uuid.Nil.String()+"/activities", nil)
+			resp, err := GetHTTPClient().Do(req)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(resp.StatusCode).Should(Equal(404))
 		})

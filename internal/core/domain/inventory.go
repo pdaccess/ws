@@ -6,33 +6,114 @@ import (
 	"github.com/google/uuid"
 )
 
-type ItemType string
+type Vector []float64
 
-const (
-	ItemTypeGroup   ItemType = "group"
-	ItemTypeService ItemType = "service"
-	ItemTypeVault   ItemType = "vault"
-	ItemTypeUser    ItemType = "user"
-)
-
-type Vector []float32
-
-type Inventory struct {
+type Group struct {
 	ID          uuid.UUID  `json:"id"`
 	RealmID     uuid.UUID  `json:"realmId"`
 	ParentID    *uuid.UUID `json:"parentId,omitempty"`
 	Name        string     `json:"name"`
 	Description string     `json:"description,omitempty"`
-	ItemType    ItemType   `json:"itemType"`
 	Embedding   Vector     `json:"embedding,omitempty"`
 	CreatedAt   time.Time  `json:"createdAt"`
 	UpdatedAt   time.Time  `json:"updatedAt"`
 	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
 }
 
-type InventorySettings struct {
+type GroupMember struct {
 	ID             uuid.UUID `json:"id"`
-	InventoryID    uuid.UUID `json:"inventoryId"`
+	GroupID        uuid.UUID `json:"groupId"`
+	UserID         uuid.UUID `json:"userId"`
+	Role           string    `json:"role"`
+	MembershipTime time.Time `json:"membershipTime"`
+}
+
+type GroupSearch struct {
+	RealmID   *uuid.UUID
+	ParentID  *uuid.UUID
+	Name      *string
+	Deleted   bool
+	Limit     int
+	Offset    int
+	StartDate *time.Time
+	EndDate   *time.Time
+	Filter    *string
+	Vector    Vector
+}
+
+type GroupSearchOption func(*GroupSearch)
+
+func WithGroupRealmID(id uuid.UUID) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.RealmID = &id
+	}
+}
+
+func WithGroupParentID(id uuid.UUID) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.ParentID = &id
+	}
+}
+
+func WithGroupName(name string) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.Name = &name
+	}
+}
+
+func WithGroupDeleted(deleted bool) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.Deleted = deleted
+	}
+}
+
+func WithGroupLimit(limit int) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.Limit = limit
+	}
+}
+
+func WithGroupOffset(offset int) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.Offset = offset
+	}
+}
+
+func WithGroupDateRange(start, end time.Time) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.StartDate = &start
+		s.EndDate = &end
+	}
+}
+
+func WithGroupFilter(filter string) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.Filter = &filter
+	}
+}
+
+func WithGroupVector(vec Vector) GroupSearchOption {
+	return func(s *GroupSearch) {
+		s.Vector = vec
+	}
+}
+
+type Service struct {
+	ID          uuid.UUID        `json:"id"`
+	RealmID     uuid.UUID        `json:"realmId"`
+	ParentID    *uuid.UUID       `json:"parentId,omitempty"`
+	Name        string           `json:"name"`
+	Description string           `json:"description,omitempty"`
+	Embedding   Vector           `json:"embedding,omitempty"`
+	Settings    *ServiceSettings `json:"settings,omitempty"`
+	CreatedAt   time.Time        `json:"createdAt"`
+	UpdatedAt   time.Time        `json:"updatedAt"`
+	DeletedAt   *time.Time       `json:"deletedAt,omitempty"`
+}
+
+type ServiceSettings struct {
+	ID             uuid.UUID `json:"id"`
+	ServiceID      uuid.UUID `json:"serviceId"`
 	AccessProtocol string    `json:"accessProtocol,omitempty"`
 	AuthProtocol   string    `json:"authProtocol,omitempty"`
 	Vendor         string    `json:"vendor,omitempty"`
@@ -43,12 +124,82 @@ type InventorySettings struct {
 	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
-type InventoryMember struct {
+type ServiceMember struct {
 	ID             uuid.UUID `json:"id"`
-	InventoryID    uuid.UUID `json:"inventoryId"`
+	ServiceID      uuid.UUID `json:"serviceId"`
 	UserID         uuid.UUID `json:"userId"`
 	Role           string    `json:"role"`
 	MembershipTime time.Time `json:"membershipTime"`
+}
+
+type ServiceSearch struct {
+	RealmID   *uuid.UUID
+	ParentID  *uuid.UUID
+	Name      *string
+	Deleted   bool
+	Limit     int
+	Offset    int
+	StartDate *time.Time
+	EndDate   *time.Time
+	Filter    *string
+	Vector    Vector
+}
+
+type ServiceSearchOption func(*ServiceSearch)
+
+func WithServiceRealmID(id uuid.UUID) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.RealmID = &id
+	}
+}
+
+func WithServiceParentID(id uuid.UUID) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.ParentID = &id
+	}
+}
+
+func WithServiceName(name string) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.Name = &name
+	}
+}
+
+func WithServiceDeleted(deleted bool) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.Deleted = deleted
+	}
+}
+
+func WithServiceLimit(limit int) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.Limit = limit
+	}
+}
+
+func WithServiceOffset(offset int) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.Offset = offset
+	}
+}
+
+func WithServiceDateRange(start, end time.Time) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.StartDate = &start
+		s.EndDate = &end
+	}
+}
+
+func WithServiceFilter(filter string) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.Filter = &filter
+	}
+}
+
+func WithServiceVector(vec Vector) ServiceSearchOption {
+	return func(s *ServiceSearch) {
+		s.Vector = vec
+	}
 }
 
 type User struct {
@@ -75,81 +226,4 @@ type UserGroupMember struct {
 	UserID         uuid.UUID `json:"userId"`
 	Role           string    `json:"role"`
 	MembershipTime time.Time `json:"membershipTime"`
-}
-
-type InventorySearch struct {
-	RealmID   *uuid.UUID
-	ParentID  *uuid.UUID
-	ItemType  *ItemType
-	Name      *string
-	Deleted   bool
-	Limit     int
-	Offset    int
-	StartDate *time.Time
-	EndDate   *time.Time
-	Filter    *string
-	Vector    Vector
-}
-
-type InventorySearchOption func(*InventorySearch)
-
-func WithRealmID(id uuid.UUID) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.RealmID = &id
-	}
-}
-
-func WithParentID(id uuid.UUID) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.ParentID = &id
-	}
-}
-
-func WithItemType(t ItemType) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.ItemType = &t
-	}
-}
-
-func WithName(name string) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.Name = &name
-	}
-}
-
-func WithDeleted(deleted bool) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.Deleted = deleted
-	}
-}
-
-func WithLimit(limit int) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.Limit = limit
-	}
-}
-
-func WithOffset(offset int) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.Offset = offset
-	}
-}
-
-func WithDateRange(start, end time.Time) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.StartDate = &start
-		s.EndDate = &end
-	}
-}
-
-func WithFilter(filter string) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.Filter = &filter
-	}
-}
-
-func WithVector(vec Vector) InventorySearchOption {
-	return func(s *InventorySearch) {
-		s.Vector = vec
-	}
 }

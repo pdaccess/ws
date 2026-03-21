@@ -18,6 +18,8 @@ func intToUUID(id int) uuid.UUID {
 	return u
 }
 
+var dummyUUID = uuid.MustParse("00000000-0000-0000-0000-000000000000")
+
 type httpHandler struct {
 	svc ports.Service
 }
@@ -323,13 +325,13 @@ func (h *httpHandler) PostGroup(ctx context.Context, request external.PostGroupR
 		desc = *request.Body.Description
 	}
 
-	group := &domain.Inventory{
+	group := &domain.Group{
 		Name:        request.Body.Name,
 		Description: desc,
-		ItemType:    domain.ItemTypeGroup,
+		RealmID:     dummyUUID,
 	}
 
-	if err := h.svc.CreateInventory(ctx, group); err != nil {
+	if err := h.svc.CreateGroup(ctx, group, dummyUUID, dummyUUID); err != nil {
 		return nil, fmt.Errorf("failed to create group: %w", err)
 	}
 
@@ -346,7 +348,7 @@ func (h *httpHandler) DeleteGroupGroupId(ctx context.Context, request external.D
 		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
 	}
 
-	if err := h.svc.DeleteInventory(ctx, groupID); err != nil {
+	if err := h.svc.DeleteGroup(ctx, groupID, dummyUUID, dummyUUID); err != nil {
 		return nil, fmt.Errorf("failed to delete group: %w", err)
 	}
 
@@ -359,19 +361,19 @@ func (h *httpHandler) GetGroupGroupId(ctx context.Context, request external.GetG
 		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
 	}
 
-	inv, err := h.svc.GetInventory(ctx, groupID)
+	group, err := h.svc.GetGroup(ctx, groupID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get group: %w", err)
 	}
 
-	if inv == nil {
+	if group == nil {
 		return nil, domain.NotFoundError{Resource: "group", ID: request.GroupId.String(), Code: domain.ErrCodeNotFound}
 	}
 
 	return external.GetGroupGroupId200JSONResponse{
-		Description: &inv.Description,
-		Id:          &inv.ID,
-		Name:        &inv.Name,
+		Description: &group.Description,
+		Id:          &group.ID,
+		Name:        &group.Name,
 	}, nil
 }
 
@@ -387,7 +389,7 @@ func (h *httpHandler) GetGroupGroupIdMembers(ctx context.Context, request extern
 		limit = int(*request.Params.Limit)
 	}
 
-	members, err := h.svc.GetInventoryMembers(ctx, groupID, limit, offset)
+	members, err := h.svc.GetGroupMembers(ctx, groupID, limit, offset)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get group members: %w", err)
 	}
@@ -428,13 +430,13 @@ func (h *httpHandler) PostGroupGroupIdMembers(ctx context.Context, request exter
 
 	userID := request.Body.UserId
 
-	member := &domain.InventoryMember{
-		InventoryID: groupID,
-		UserID:      userID,
-		Role:        "member",
+	member := &domain.GroupMember{
+		GroupID: groupID,
+		UserID:  userID,
+		Role:    "member",
 	}
 
-	if err := h.svc.AddInventoryMember(ctx, member); err != nil {
+	if err := h.svc.AddGroupMember(ctx, member, dummyUUID, dummyUUID); err != nil {
 		return nil, fmt.Errorf("failed to add group member: %w", err)
 	}
 
@@ -445,6 +447,11 @@ func (h *httpHandler) DeleteGroupGroupIdMembersUserId(ctx context.Context, reque
 	if request.GroupId == uuid.Nil || request.UserId == uuid.Nil {
 		return nil, domain.InvalidIDError{Message: "invalid id", Code: domain.ErrCodeInvalidID}
 	}
+
+	if err := h.svc.RemoveGroupMembers(ctx, request.GroupId, []uuid.UUID{request.UserId}, dummyUUID, dummyUUID); err != nil {
+		return nil, fmt.Errorf("failed to remove group member: %w", err)
+	}
+
 	return external.DeleteGroupGroupIdMembersUserId204Response{}, nil
 }
 
@@ -656,12 +663,7 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 	var users []external.User
 
 	if query != "" {
-		svcItems, err := h.svc.SearchInventory(ctx,
-			domain.WithItemType(domain.ItemTypeService),
-			domain.WithFilter(query),
-			domain.WithLimit(limit),
-			domain.WithOffset(offset),
-		)
+		svcItems, err := h.svc.SearchServicesWithQuery(ctx, query, limit, offset)
 		if err != nil {
 			return nil, fmt.Errorf("failed to search services: %w", err)
 		}
@@ -673,12 +675,7 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 			})
 		}
 
-		groupItems, err := h.svc.SearchInventory(ctx,
-			domain.WithItemType(domain.ItemTypeGroup),
-			domain.WithFilter(query),
-			domain.WithLimit(limit),
-			domain.WithOffset(offset),
-		)
+		groupItems, err := h.svc.SearchGroupsWithQuery(ctx, query, limit, offset)
 		if err != nil {
 			return nil, fmt.Errorf("failed to search groups: %w", err)
 		}
@@ -691,10 +688,9 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 	} else if request.Params.Type != nil {
 		switch *request.Params.Type {
 		case external.GetSearchParamsTypeService:
-			svcItems, err := h.svc.SearchInventory(ctx,
-				domain.WithItemType(domain.ItemTypeService),
-				domain.WithLimit(limit),
-				domain.WithOffset(offset),
+			svcItems, err := h.svc.SearchServices(ctx,
+				domain.WithServiceLimit(limit),
+				domain.WithServiceOffset(offset),
 			)
 			if err != nil {
 				return nil, fmt.Errorf("failed to search services: %w", err)
@@ -707,10 +703,9 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 				})
 			}
 		case external.GetSearchParamsTypeGroup:
-			groupItems, err := h.svc.SearchInventory(ctx,
-				domain.WithItemType(domain.ItemTypeGroup),
-				domain.WithLimit(limit),
-				domain.WithOffset(offset),
+			groupItems, err := h.svc.SearchGroups(ctx,
+				domain.WithGroupLimit(limit),
+				domain.WithGroupOffset(offset),
 			)
 			if err != nil {
 				return nil, fmt.Errorf("failed to search groups: %w", err)
@@ -736,28 +731,28 @@ func (h *httpHandler) PostService(ctx context.Context, request external.PostServ
 		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
 
-	inv := &domain.Inventory{
-		Name:     request.Body.Name,
-		ItemType: domain.ItemTypeService,
+	svc := &domain.Service{
+		Name:    request.Body.Name,
+		RealmID: dummyUUID,
 	}
 
-	if err := h.svc.CreateInventory(ctx, inv); err != nil {
+	if err := h.svc.CreateService(ctx, svc, dummyUUID, dummyUUID); err != nil {
 		return nil, fmt.Errorf("failed to create service: %w", err)
 	}
 
 	return external.PostService201JSONResponse(external.Service{
-		Id:   &inv.ID,
+		Id:   &svc.ID,
 		Name: &request.Body.Name,
 	}), nil
 }
 
 func (h *httpHandler) DeleteServiceServiceId(ctx context.Context, request external.DeleteServiceServiceIdRequestObject) (external.DeleteServiceServiceIdResponseObject, error) {
-	inventoryID := request.ServiceId
-	if inventoryID == uuid.Nil {
-		return nil, domain.InvalidIDError{Message: "invalid inventory id", Code: domain.ErrCodeInvalidID}
+	serviceID := request.ServiceId
+	if serviceID == uuid.Nil {
+		return nil, domain.InvalidIDError{Message: "invalid service id", Code: domain.ErrCodeInvalidID}
 	}
 
-	if err := h.svc.DeleteInventory(ctx, inventoryID); err != nil {
+	if err := h.svc.DeleteService(ctx, serviceID, dummyUUID, dummyUUID); err != nil {
 		return nil, fmt.Errorf("failed to delete service: %w", err)
 	}
 
@@ -770,19 +765,19 @@ func (h *httpHandler) GetServiceServiceId(ctx context.Context, request external.
 		return nil, domain.InvalidIDError{Message: "invalid service id", Code: domain.ErrCodeInvalidID}
 	}
 
-	inv, err := h.svc.GetInventory(ctx, serviceID)
+	svc, err := h.svc.GetService(ctx, serviceID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get service: %w", err)
 	}
 
-	if inv == nil {
+	if svc == nil {
 		return nil, domain.NotFoundError{Resource: "service", ID: request.ServiceId.String(), Code: domain.ErrCodeNotFound}
 	}
 
 	return external.GetServiceServiceId200JSONResponse{
-		Hostname: &inv.Name,
-		Id:       &inv.ID,
-		Name:     &inv.Name,
+		Hostname: &svc.Name,
+		Id:       &svc.ID,
+		Name:     &svc.Name,
 	}, nil
 }
 

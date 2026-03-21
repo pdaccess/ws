@@ -24,16 +24,33 @@ type SnippetOperations interface {
 	CreateSnippet(ctx context.Context, snippet domain.Snippet) error
 }
 
-type InventoryOperations interface {
-	CreateInventory(ctx context.Context, inv *domain.Inventory) error
-	GetInventory(ctx context.Context, id uuid.UUID) (*domain.Inventory, error)
-	UpdateInventory(ctx context.Context, inv *domain.Inventory) error
-	DeleteInventory(ctx context.Context, id uuid.UUID) error
-	SearchInventory(ctx context.Context, opts ...domain.InventorySearchOption) ([]domain.Inventory, error)
+type GroupOperations interface {
+	CreateGroup(ctx context.Context, group *domain.Group, userID, realmID uuid.UUID) error
+	GetGroup(ctx context.Context, id uuid.UUID) (*domain.Group, error)
+	UpdateGroup(ctx context.Context, group *domain.Group, userID, realmID uuid.UUID) error
+	DeleteGroup(ctx context.Context, id uuid.UUID, userID, realmID uuid.UUID) error
+	SearchGroups(ctx context.Context, opts ...domain.GroupSearchOption) ([]domain.Group, error)
+	SearchGroupsWithQuery(ctx context.Context, query string, limit, offset int) ([]domain.Group, error)
 
-	AddInventoryMember(ctx context.Context, member *domain.InventoryMember) error
-	RemoveInventoryMembers(ctx context.Context, inventoryID uuid.UUID, userIDs []uuid.UUID) error
-	GetInventoryMembers(ctx context.Context, inventoryID uuid.UUID, limit, offset int) ([]domain.InventoryMember, error)
+	AddGroupMember(ctx context.Context, member *domain.GroupMember, userID, realmID uuid.UUID) error
+	RemoveGroupMembers(ctx context.Context, groupID uuid.UUID, userIDs []uuid.UUID, userID, realmID uuid.UUID) error
+	GetGroupMembers(ctx context.Context, groupID uuid.UUID, limit, offset int) ([]domain.GroupMember, error)
+}
+
+type ServiceOperations interface {
+	CreateService(ctx context.Context, svc *domain.Service, userID, realmID uuid.UUID) error
+	GetService(ctx context.Context, id uuid.UUID) (*domain.Service, error)
+	UpdateService(ctx context.Context, svc *domain.Service, userID, realmID uuid.UUID) error
+	DeleteService(ctx context.Context, id uuid.UUID, userID, realmID uuid.UUID) error
+	SearchServices(ctx context.Context, opts ...domain.ServiceSearchOption) ([]domain.Service, error)
+	SearchServicesWithQuery(ctx context.Context, query string, limit, offset int) ([]domain.Service, error)
+
+	AddServiceMember(ctx context.Context, member *domain.ServiceMember, userID, realmID uuid.UUID) error
+	RemoveServiceMembers(ctx context.Context, serviceID uuid.UUID, userIDs []uuid.UUID, userID, realmID uuid.UUID) error
+	GetServiceMembers(ctx context.Context, serviceID uuid.UUID, limit, offset int) ([]domain.ServiceMember, error)
+
+	UpsertServiceSettings(ctx context.Context, settings *domain.ServiceSettings, userID, realmID uuid.UUID) error
+	GetServiceSettings(ctx context.Context, serviceID uuid.UUID) (*domain.ServiceSettings, error)
 }
 
 type AlarmOperations interface {
@@ -57,12 +74,26 @@ type PasteOperations interface {
 	SearchPastes(ctx context.Context, opts ...domain.PasteSearchOption) ([]domain.Paste, error)
 }
 
+type UserGroupOperations interface {
+	CreateUserGroup(ctx context.Context, ug *domain.UserGroup, userID, realmID uuid.UUID) error
+	GetUserGroup(ctx context.Context, id uuid.UUID) (*domain.UserGroup, error)
+	UpdateUserGroup(ctx context.Context, ug *domain.UserGroup, userID, realmID uuid.UUID) error
+	DeleteUserGroup(ctx context.Context, id uuid.UUID, userID, realmID uuid.UUID) error
+	SearchUserGroups(ctx context.Context, limit, offset int) ([]domain.UserGroup, error)
+
+	AddUserGroupMember(ctx context.Context, member *domain.UserGroupMember, userID, realmID uuid.UUID) error
+	RemoveUserGroupMembers(ctx context.Context, userGroupID uuid.UUID, userIDs []uuid.UUID, userID, realmID uuid.UUID) error
+	GetUserGroupMembers(ctx context.Context, userGroupID uuid.UUID) ([]domain.UserGroupMember, error)
+}
+
 type Service interface {
 	UserOperations
-	InventoryOperations
+	GroupOperations
+	ServiceOperations
 	AlarmOperations
 	ActivityOperations
 	PasteOperations
+	UserGroupOperations
 
 	ConfigOperations
 	SnippetOperations

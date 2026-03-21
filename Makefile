@@ -18,19 +18,20 @@ format:
 	@go fix ./...
 
 unit-tests: format
-	@go test github.com/pdaccess/ws/internal/...
+	@go test ghcr.io/pdaccess/ws/internal/...
 
 cicd-tests: format
-	@LOG_LEVEL=${LOG_LEVEL} ginkgo -v cicd/tests
+	@LOG_LEVEL=${LOG_LEVEL} CGO_LDFLAGS="-L/usr/lib" ginkgo -tags ORT -v cicd/tests
 	
 build: format cmd/main.go
-	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t github.com/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
+	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t ghcr.io/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
+	docker tag ghcr.io/pdaccess/ws:${GIT_COMMIT} ghcr.io/pdaccess/ws:latest
 	
 ci-build: cmd/main.go
-	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t github.com/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
+	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t ghcr.io/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
 
 ci-push:
-	docker push github.com/pdaccess/ws:${GIT_COMMIT}
+	docker push ghcr.io/pdaccess/ws:${GIT_COMMIT}
 	
 
 internal-generator:
@@ -47,4 +48,18 @@ clean:
 	@rm -f corews*
 
 local:
-	@go run cmd/main.go --debug --console
+	@CGO_LDFLAGS="-L/usr/lib" go build -tags ORT -o corews cmd/main.go
+	@./corews --debug --console
+
+install-onnx:
+	wget -q https://github.com/daulet/tokenizers/releases/download/v1.26.0/libtokenizers.linux-amd64.tar.gz \
+    && tar -xzf libtokenizers.linux-amd64.tar.gz \
+    && sudo mv libtokenizers.a /usr/lib/ \
+    && rm libtokenizers.linux-amd64.tar.gz
+
+# Download ONNX Runtime for linking
+	wget -q https://github.com/microsoft/onnxruntime/releases/download/v1.24.4/onnxruntime-linux-x64-1.24.4.tgz \
+    && tar -xzf onnxruntime-linux-x64-1.24.4.tgz \
+    && sudo cp onnxruntime-linux-x64-1.24.4/lib/libonnxruntime.so /usr/lib/ \
+    && sudo ldconfig \
+	&& rm onnxruntime-linux-x64-1.24.4.tgz

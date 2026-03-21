@@ -4,12 +4,13 @@ import (
 	"context"
 	"fmt"
 	"net"
+	stdhttp "net/http"
 	"os"
 	"testing"
 	"time"
 
 	"github.com/pdaccess/ws/cmd/app"
-	"github.com/pdaccess/ws/pkg/http"
+	pdhttp "github.com/pdaccess/ws/pkg/http"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -19,8 +20,9 @@ import (
 var (
 	dbContainer *postgres.PostgresContainer
 	baseURL     string
-	client      *http.Client
-	apiClient   *http.ClientWithResponses
+	client      *pdhttp.Client
+	apiClient   *pdhttp.ClientWithResponses
+	httpClient  *stdhttp.Client
 )
 
 func Test_API(t *testing.T) {
@@ -57,19 +59,20 @@ var _ = BeforeSuite(func() {
 	os.Setenv("HTTP_LISTEN_ADDR", addr)
 
 	go func() {
+		defer GinkgoRecover()
 		err := app.RunWebServiceServer()
-		if err != nil {
-			fmt.Printf("Server error: %v\n", err)
-		}
+		Expect(err).To(BeNil())
 	}()
 
 	baseURL = fmt.Sprintf("http://%s", addr)
 
-	client, err = http.NewClient(baseURL)
+	client, err = pdhttp.NewClient(baseURL)
 	Expect(err).ShouldNot(HaveOccurred())
 
-	apiClient, err = http.NewClientWithResponses(baseURL)
+	apiClient, err = pdhttp.NewClientWithResponses(baseURL)
 	Expect(err).ShouldNot(HaveOccurred())
+
+	httpClient = &stdhttp.Client{}
 
 	time.Sleep(500 * time.Millisecond)
 })
@@ -84,10 +87,14 @@ func GetBaseURL() string {
 	return baseURL
 }
 
-func GetClient() *http.Client {
+func GetClient() *pdhttp.Client {
 	return client
 }
 
-func GetAPIClient() *http.ClientWithResponses {
+func GetAPIClient() *pdhttp.ClientWithResponses {
 	return apiClient
+}
+
+func GetHTTPClient() *stdhttp.Client {
+	return httpClient
 }

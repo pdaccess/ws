@@ -1032,7 +1032,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchResults'
-
+        '4XX':
+          $ref: '#/components/responses/ClientError'
 components:
   parameters:
     PageParam:

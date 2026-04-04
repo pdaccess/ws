@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pdaccess/ws/internal/core/domain"
+	"github.com/rs/zerolog/log"
 )
 
 func (s *Impl) CreateGroup(ctx context.Context, group *domain.Group, userID, realmID uuid.UUID) error {
@@ -101,7 +102,19 @@ func (s *Impl) SearchGroupsWithQuery(ctx context.Context, query string, limit, o
 	if s.vector != nil {
 		vector, err := s.vector.Generate(ctx, query)
 		if err != nil {
-			return nil, fmt.Errorf("vector generation: %w", err)
+			log.Warn().Err(err).Msg("vector generation failed, falling back to text search")
+			return s.inventoryRepo.SearchGroups(ctx,
+				domain.WithGroupFilter(query),
+				domain.WithGroupLimit(limit),
+				domain.WithGroupOffset(offset),
+			)
+		}
+		if vector == nil || len(vector) == 0 {
+			return s.inventoryRepo.SearchGroups(ctx,
+				domain.WithGroupFilter(query),
+				domain.WithGroupLimit(limit),
+				domain.WithGroupOffset(offset),
+			)
 		}
 		return s.SearchGroupsVector(ctx, vector, limit, offset)
 	}
@@ -115,6 +128,7 @@ func (s *Impl) SearchGroupsWithQuery(ctx context.Context, query string, limit, o
 
 func (s *Impl) logActivity(ctx context.Context, userID, realmID uuid.UUID, action, resource string, resourceID uuid.UUID, details string) {
 	if s.activityRepo == nil {
+		log.Warn().Msg("activity repository is nil, skipping activity log")
 		return
 	}
 
@@ -130,5 +144,10 @@ func (s *Impl) logActivity(ctx context.Context, userID, realmID uuid.UUID, actio
 		CreatedAt:  time.Now(),
 	}
 
-	_ = s.activityRepo.Create(ctx, activity)
+	if err := s.activityRepo.Create(ctx, activity); err != nil {
+		log.Error().Err(err).Str("action", action).Str("resource", resource).Str("resourceID", resourceID.String()).Msg("failed to create activity log")
+		return
+	}
+
+	log.Debug().Str("id", activity.ID.String()).Str("action", action).Str("resource", resource).Msg("activity logged")
 }

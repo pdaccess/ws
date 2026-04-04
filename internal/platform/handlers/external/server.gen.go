@@ -180,120 +180,6 @@ func (e SystemHealthStatus) Valid() bool {
 	}
 }
 
-// Defines values for UserRole.
-const (
-	UserRoleAdmin UserRole = "admin"
-	UserRoleUser  UserRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserRole enum.
-func (e UserRole) Valid() bool {
-	switch e {
-	case UserRoleAdmin:
-		return true
-	case UserRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserStatus.
-const (
-	UserStatusActive    UserStatus = "active"
-	UserStatusInactive  UserStatus = "inactive"
-	UserStatusSuspended UserStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the UserStatus enum.
-func (e UserStatus) Valid() bool {
-	switch e {
-	case UserStatusActive:
-		return true
-	case UserStatusInactive:
-		return true
-	case UserStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserCreateRole.
-const (
-	UserCreateRoleAdmin UserCreateRole = "admin"
-	UserCreateRoleUser  UserCreateRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserCreateRole enum.
-func (e UserCreateRole) Valid() bool {
-	switch e {
-	case UserCreateRoleAdmin:
-		return true
-	case UserCreateRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserDetailRole.
-const (
-	UserDetailRoleAdmin UserDetailRole = "admin"
-	UserDetailRoleUser  UserDetailRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserDetailRole enum.
-func (e UserDetailRole) Valid() bool {
-	switch e {
-	case UserDetailRoleAdmin:
-		return true
-	case UserDetailRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserDetailStatus.
-const (
-	UserDetailStatusActive    UserDetailStatus = "active"
-	UserDetailStatusInactive  UserDetailStatus = "inactive"
-	UserDetailStatusSuspended UserDetailStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the UserDetailStatus enum.
-func (e UserDetailStatus) Valid() bool {
-	switch e {
-	case UserDetailStatusActive:
-		return true
-	case UserDetailStatusInactive:
-		return true
-	case UserDetailStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserUpdateRole.
-const (
-	UserUpdateRoleAdmin UserUpdateRole = "admin"
-	UserUpdateRoleUser  UserUpdateRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserUpdateRole enum.
-func (e UserUpdateRole) Valid() bool {
-	switch e {
-	case UserUpdateRoleAdmin:
-		return true
-	case UserUpdateRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for GetActivitiesParamsSeverity.
 const (
 	GetActivitiesParamsSeverityAll     GetActivitiesParamsSeverity = "all"
@@ -321,66 +207,6 @@ func (e GetActivitiesParamsSeverity) Valid() bool {
 	}
 }
 
-// Defines values for GetAdminUsersParamsRole.
-const (
-	GetAdminUsersParamsRoleAdmin GetAdminUsersParamsRole = "admin"
-	GetAdminUsersParamsRoleUser  GetAdminUsersParamsRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the GetAdminUsersParamsRole enum.
-func (e GetAdminUsersParamsRole) Valid() bool {
-	switch e {
-	case GetAdminUsersParamsRoleAdmin:
-		return true
-	case GetAdminUsersParamsRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetAdminUsersParamsStatus.
-const (
-	GetAdminUsersParamsStatusActive    GetAdminUsersParamsStatus = "active"
-	GetAdminUsersParamsStatusInactive  GetAdminUsersParamsStatus = "inactive"
-	GetAdminUsersParamsStatusSuspended GetAdminUsersParamsStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the GetAdminUsersParamsStatus enum.
-func (e GetAdminUsersParamsStatus) Valid() bool {
-	switch e {
-	case GetAdminUsersParamsStatusActive:
-		return true
-	case GetAdminUsersParamsStatusInactive:
-		return true
-	case GetAdminUsersParamsStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PutAdminUsersUserIdStatusJSONBodyStatus.
-const (
-	PutAdminUsersUserIdStatusJSONBodyStatusActive    PutAdminUsersUserIdStatusJSONBodyStatus = "active"
-	PutAdminUsersUserIdStatusJSONBodyStatusInactive  PutAdminUsersUserIdStatusJSONBodyStatus = "inactive"
-	PutAdminUsersUserIdStatusJSONBodyStatusSuspended PutAdminUsersUserIdStatusJSONBodyStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the PutAdminUsersUserIdStatusJSONBodyStatus enum.
-func (e PutAdminUsersUserIdStatusJSONBodyStatus) Valid() bool {
-	switch e {
-	case PutAdminUsersUserIdStatusJSONBodyStatusActive:
-		return true
-	case PutAdminUsersUserIdStatusJSONBodyStatusInactive:
-		return true
-	case PutAdminUsersUserIdStatusJSONBodyStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for GetAlarmsParamsSeverity.
 const (
 	GetAlarmsParamsSeverityAll      GetAlarmsParamsSeverity = "all"
@@ -399,6 +225,24 @@ func (e GetAlarmsParamsSeverity) Valid() bool {
 	case GetAlarmsParamsSeverityInfo:
 		return true
 	case GetAlarmsParamsSeverityWarning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PostGroupGroupIdMembersJSONBodyRole.
+const (
+	Admin  PostGroupGroupIdMembersJSONBodyRole = "admin"
+	Member PostGroupGroupIdMembersJSONBodyRole = "member"
+)
+
+// Valid indicates whether the value is a known member of the PostGroupGroupIdMembersJSONBodyRole enum.
+func (e PostGroupGroupIdMembersJSONBodyRole) Valid() bool {
+	switch e {
+	case Admin:
+		return true
+	case Member:
 		return true
 	default:
 		return false
@@ -472,7 +316,6 @@ func (e PutPoliciesPolicyIdJSONBodyType) Valid() bool {
 const (
 	GetSearchParamsTypeGroup   GetSearchParamsType = "Group"
 	GetSearchParamsTypeService GetSearchParamsType = "Service"
-	GetSearchParamsTypeUser    GetSearchParamsType = "User"
 )
 
 // Valid indicates whether the value is a known member of the GetSearchParamsType enum.
@@ -481,8 +324,6 @@ func (e GetSearchParamsType) Valid() bool {
 	case GetSearchParamsTypeGroup:
 		return true
 	case GetSearchParamsTypeService:
-		return true
-	case GetSearchParamsTypeUser:
 		return true
 	default:
 		return false
@@ -537,7 +378,6 @@ type ActivityDetail struct {
 	Source    *string                 `json:"source,omitempty"`
 	Time      *string                 `json:"time,omitempty"`
 	Title     *string                 `json:"title,omitempty"`
-	User      *User                   `json:"user,omitempty"`
 	UserId    *openapi_types.UUID     `json:"userId,omitempty"`
 }
 
@@ -547,12 +387,6 @@ type ActivityDetailSeverity string
 // ActivityList defines model for ActivityList.
 type ActivityList struct {
 	Data *[]Activity     `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// AdminUserList defines model for AdminUserList.
-type AdminUserList struct {
-	Data *[]User         `json:"data,omitempty"`
 	Meta *PaginationMeta `json:"meta,omitempty"`
 }
 
@@ -697,7 +531,6 @@ type PolicyList struct {
 type SearchResults struct {
 	Groups   *[]Group   `json:"groups,omitempty"`
 	Services *[]Service `json:"services,omitempty"`
-	Users    *[]User    `json:"users,omitempty"`
 }
 
 // Service defines model for Service.
@@ -788,70 +621,6 @@ type SystemSettingsUpdate struct {
 	SessionTimeout     *int      `json:"sessionTimeout,omitempty"`
 }
 
-// User defines model for User.
-type User struct {
-	CreatedAt *time.Time          `json:"createdAt,omitempty"`
-	Email     *string             `json:"email,omitempty"`
-	Id        *openapi_types.UUID `json:"id,omitempty"`
-	LastLogin *time.Time          `json:"lastLogin,omitempty"`
-	Name      *string             `json:"name,omitempty"`
-	Role      *UserRole           `json:"role,omitempty"`
-	Status    *UserStatus         `json:"status,omitempty"`
-}
-
-// UserRole defines model for User.Role.
-type UserRole string
-
-// UserStatus defines model for User.Status.
-type UserStatus string
-
-// UserCreate defines model for UserCreate.
-type UserCreate struct {
-	Email    string          `json:"email"`
-	Name     string          `json:"name"`
-	Password string          `json:"password"`
-	Role     *UserCreateRole `json:"role,omitempty"`
-}
-
-// UserCreateRole defines model for UserCreate.Role.
-type UserCreateRole string
-
-// UserDetail defines model for UserDetail.
-type UserDetail struct {
-	CreatedAt   *time.Time          `json:"createdAt,omitempty"`
-	Email       *string             `json:"email,omitempty"`
-	Groups      *[]Group            `json:"groups,omitempty"`
-	Id          *openapi_types.UUID `json:"id,omitempty"`
-	LastLogin   *time.Time          `json:"lastLogin,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	Permissions *[]string           `json:"permissions,omitempty"`
-	Role        *UserDetailRole     `json:"role,omitempty"`
-	Status      *UserDetailStatus   `json:"status,omitempty"`
-}
-
-// UserDetailRole defines model for UserDetail.Role.
-type UserDetailRole string
-
-// UserDetailStatus defines model for UserDetail.Status.
-type UserDetailStatus string
-
-// UserList defines model for UserList.
-type UserList struct {
-	Data *[]User         `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// UserUpdate defines model for UserUpdate.
-type UserUpdate struct {
-	Email    *string         `json:"email,omitempty"`
-	Name     *string         `json:"name,omitempty"`
-	Password *string         `json:"password,omitempty"`
-	Role     *UserUpdateRole `json:"role,omitempty"`
-}
-
-// UserUpdateRole defines model for UserUpdate.Role.
-type UserUpdateRole string
-
 // LimitParam defines model for LimitParam.
 type LimitParam = int
 
@@ -911,34 +680,6 @@ type GetAdminAuditLogsParams struct {
 	EndDate   *openapi_types.Date `form:"endDate,omitempty" json:"endDate,omitempty"`
 }
 
-// GetAdminUsersParams defines parameters for GetAdminUsers.
-type GetAdminUsersParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Search Search query
-	Search *SearchParam               `form:"search,omitempty" json:"search,omitempty"`
-	Role   *GetAdminUsersParamsRole   `form:"role,omitempty" json:"role,omitempty"`
-	Status *GetAdminUsersParamsStatus `form:"status,omitempty" json:"status,omitempty"`
-}
-
-// GetAdminUsersParamsRole defines parameters for GetAdminUsers.
-type GetAdminUsersParamsRole string
-
-// GetAdminUsersParamsStatus defines parameters for GetAdminUsers.
-type GetAdminUsersParamsStatus string
-
-// PutAdminUsersUserIdStatusJSONBody defines parameters for PutAdminUsersUserIdStatus.
-type PutAdminUsersUserIdStatusJSONBody struct {
-	Status PutAdminUsersUserIdStatusJSONBodyStatus `json:"status"`
-}
-
-// PutAdminUsersUserIdStatusJSONBodyStatus defines parameters for PutAdminUsersUserIdStatus.
-type PutAdminUsersUserIdStatusJSONBodyStatus string
-
 // GetAlarmsParams defines parameters for GetAlarms.
 type GetAlarmsParams struct {
 	// Page Page number
@@ -969,8 +710,12 @@ type GetGroupGroupIdMembersParams struct {
 
 // PostGroupGroupIdMembersJSONBody defines parameters for PostGroupGroupIdMembers.
 type PostGroupGroupIdMembersJSONBody struct {
-	UserId openapi_types.UUID `json:"userId"`
+	Role   *PostGroupGroupIdMembersJSONBodyRole `json:"role,omitempty"`
+	UserId openapi_types.UUID                   `json:"userId"`
 }
+
+// PostGroupGroupIdMembersJSONBodyRole defines parameters for PostGroupGroupIdMembers.
+type PostGroupGroupIdMembersJSONBodyRole string
 
 // PostGroupGroupIdPolicyJSONBody defines parameters for PostGroupGroupIdPolicy.
 type PostGroupGroupIdPolicyJSONBody struct {
@@ -1056,15 +801,6 @@ type GetSearchParamsStatus string
 // PutAdminSettingsJSONRequestBody defines body for PutAdminSettings for application/json ContentType.
 type PutAdminSettingsJSONRequestBody = SystemSettingsUpdate
 
-// PostAdminUsersJSONRequestBody defines body for PostAdminUsers for application/json ContentType.
-type PostAdminUsersJSONRequestBody = UserCreate
-
-// PutAdminUsersUserIdJSONRequestBody defines body for PutAdminUsersUserId for application/json ContentType.
-type PutAdminUsersUserIdJSONRequestBody = UserUpdate
-
-// PutAdminUsersUserIdStatusJSONRequestBody defines body for PutAdminUsersUserIdStatus for application/json ContentType.
-type PutAdminUsersUserIdStatusJSONRequestBody PutAdminUsersUserIdStatusJSONBody
-
 // PostGroupJSONRequestBody defines body for PostGroup for application/json ContentType.
 type PostGroupJSONRequestBody = GroupCreate
 
@@ -1109,24 +845,6 @@ type ServerInterface interface {
 	// Get system health
 	// (GET /admin/system-health)
 	GetAdminSystemHealth(w http.ResponseWriter, r *http.Request)
-	// List all users
-	// (GET /admin/users)
-	GetAdminUsers(w http.ResponseWriter, r *http.Request, params GetAdminUsersParams)
-	// Create user
-	// (POST /admin/users)
-	PostAdminUsers(w http.ResponseWriter, r *http.Request)
-	// Delete user
-	// (DELETE /admin/users/{userId})
-	DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
-	// Get user details
-	// (GET /admin/users/{userId})
-	GetAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
-	// Update user
-	// (PUT /admin/users/{userId})
-	PutAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
-	// Update user status
-	// (PUT /admin/users/{userId}/status)
-	PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID)
 	// List alarms
 	// (GET /alarms)
 	GetAlarms(w http.ResponseWriter, r *http.Request, params GetAlarmsParams)
@@ -1244,42 +962,6 @@ func (_ Unimplemented) PutAdminSettings(w http.ResponseWriter, r *http.Request) 
 // Get system health
 // (GET /admin/system-health)
 func (_ Unimplemented) GetAdminSystemHealth(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// List all users
-// (GET /admin/users)
-func (_ Unimplemented) GetAdminUsers(w http.ResponseWriter, r *http.Request, params GetAdminUsersParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Create user
-// (POST /admin/users)
-func (_ Unimplemented) PostAdminUsers(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete user
-// (DELETE /admin/users/{userId})
-func (_ Unimplemented) DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get user details
-// (GET /admin/users/{userId})
-func (_ Unimplemented) GetAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update user
-// (PUT /admin/users/{userId})
-func (_ Unimplemented) PutAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update user status
-// (PUT /admin/users/{userId}/status)
-func (_ Unimplemented) PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1700,215 +1382,6 @@ func (siw *ServerInterfaceWrapper) GetAdminSystemHealth(w http.ResponseWriter, r
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.GetAdminSystemHealth(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetAdminUsers operation middleware
-func (siw *ServerInterfaceWrapper) GetAdminUsers(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetAdminUsersParams
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "search" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "search", r.URL.Query(), &params.Search, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "role" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "role", r.URL.Query(), &params.Role, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "role", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "status" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "status", r.URL.Query(), &params.Status, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "status", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAdminUsers(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostAdminUsers operation middleware
-func (siw *ServerInterfaceWrapper) PostAdminUsers(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostAdminUsers(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// DeleteAdminUsersUserId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "userId" -------------
-	var userId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteAdminUsersUserId(w, r, userId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetAdminUsersUserId operation middleware
-func (siw *ServerInterfaceWrapper) GetAdminUsersUserId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "userId" -------------
-	var userId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAdminUsersUserId(w, r, userId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PutAdminUsersUserId operation middleware
-func (siw *ServerInterfaceWrapper) PutAdminUsersUserId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "userId" -------------
-	var userId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutAdminUsersUserId(w, r, userId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PutAdminUsersUserIdStatus operation middleware
-func (siw *ServerInterfaceWrapper) PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "userId" -------------
-	var userId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutAdminUsersUserIdStatus(w, r, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2961,24 +2434,6 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Get(options.BaseURL+"/admin/system-health", wrapper.GetAdminSystemHealth)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/admin/users", wrapper.GetAdminUsers)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/admin/users", wrapper.PostAdminUsers)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/admin/users/{userId}", wrapper.DeleteAdminUsersUserId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/admin/users/{userId}", wrapper.GetAdminUsersUserId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/admin/users/{userId}", wrapper.PutAdminUsersUserId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/admin/users/{userId}/status", wrapper.PutAdminUsersUserIdStatus)
-	})
-	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/alarms", wrapper.GetAlarms)
 	})
 	r.Group(func(r chi.Router) {
@@ -3162,132 +2617,6 @@ func (response GetAdminSystemHealth200JSONResponse) VisitGetAdminSystemHealthRes
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetAdminUsersRequestObject struct {
-	Params GetAdminUsersParams
-}
-
-type GetAdminUsersResponseObject interface {
-	VisitGetAdminUsersResponse(w http.ResponseWriter) error
-}
-
-type GetAdminUsers200JSONResponse AdminUserList
-
-func (response GetAdminUsers200JSONResponse) VisitGetAdminUsersResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostAdminUsersRequestObject struct {
-	Body *PostAdminUsersJSONRequestBody
-}
-
-type PostAdminUsersResponseObject interface {
-	VisitPostAdminUsersResponse(w http.ResponseWriter) error
-}
-
-type PostAdminUsers201JSONResponse User
-
-func (response PostAdminUsers201JSONResponse) VisitPostAdminUsersResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(201)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostAdminUsers4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response PostAdminUsers4XXJSONResponse) VisitPostAdminUsersResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type DeleteAdminUsersUserIdRequestObject struct {
-	UserId openapi_types.UUID `json:"userId"`
-}
-
-type DeleteAdminUsersUserIdResponseObject interface {
-	VisitDeleteAdminUsersUserIdResponse(w http.ResponseWriter) error
-}
-
-type DeleteAdminUsersUserId204Response struct {
-}
-
-func (response DeleteAdminUsersUserId204Response) VisitDeleteAdminUsersUserIdResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
-	return nil
-}
-
-type DeleteAdminUsersUserId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response DeleteAdminUsersUserId4XXJSONResponse) VisitDeleteAdminUsersUserIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetAdminUsersUserIdRequestObject struct {
-	UserId openapi_types.UUID `json:"userId"`
-}
-
-type GetAdminUsersUserIdResponseObject interface {
-	VisitGetAdminUsersUserIdResponse(w http.ResponseWriter) error
-}
-
-type GetAdminUsersUserId200JSONResponse UserDetail
-
-func (response GetAdminUsersUserId200JSONResponse) VisitGetAdminUsersUserIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutAdminUsersUserIdRequestObject struct {
-	UserId openapi_types.UUID `json:"userId"`
-	Body   *PutAdminUsersUserIdJSONRequestBody
-}
-
-type PutAdminUsersUserIdResponseObject interface {
-	VisitPutAdminUsersUserIdResponse(w http.ResponseWriter) error
-}
-
-type PutAdminUsersUserId200JSONResponse User
-
-func (response PutAdminUsersUserId200JSONResponse) VisitPutAdminUsersUserIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutAdminUsersUserIdStatusRequestObject struct {
-	UserId openapi_types.UUID `json:"userId"`
-	Body   *PutAdminUsersUserIdStatusJSONRequestBody
-}
-
-type PutAdminUsersUserIdStatusResponseObject interface {
-	VisitPutAdminUsersUserIdStatusResponse(w http.ResponseWriter) error
-}
-
-type PutAdminUsersUserIdStatus200Response struct {
-}
-
-func (response PutAdminUsersUserIdStatus200Response) VisitPutAdminUsersUserIdStatusResponse(w http.ResponseWriter) error {
-	w.WriteHeader(200)
-	return nil
-}
-
 type GetAlarmsRequestObject struct {
 	Params GetAlarmsParams
 }
@@ -3433,7 +2762,7 @@ type GetGroupGroupIdMembersResponseObject interface {
 	VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error
 }
 
-type GetGroupGroupIdMembers200JSONResponse UserList
+type GetGroupGroupIdMembers200JSONResponse PaginatedResponse
 
 func (response GetGroupGroupIdMembers200JSONResponse) VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -3964,24 +3293,6 @@ type StrictServerInterface interface {
 	// Get system health
 	// (GET /admin/system-health)
 	GetAdminSystemHealth(ctx context.Context, request GetAdminSystemHealthRequestObject) (GetAdminSystemHealthResponseObject, error)
-	// List all users
-	// (GET /admin/users)
-	GetAdminUsers(ctx context.Context, request GetAdminUsersRequestObject) (GetAdminUsersResponseObject, error)
-	// Create user
-	// (POST /admin/users)
-	PostAdminUsers(ctx context.Context, request PostAdminUsersRequestObject) (PostAdminUsersResponseObject, error)
-	// Delete user
-	// (DELETE /admin/users/{userId})
-	DeleteAdminUsersUserId(ctx context.Context, request DeleteAdminUsersUserIdRequestObject) (DeleteAdminUsersUserIdResponseObject, error)
-	// Get user details
-	// (GET /admin/users/{userId})
-	GetAdminUsersUserId(ctx context.Context, request GetAdminUsersUserIdRequestObject) (GetAdminUsersUserIdResponseObject, error)
-	// Update user
-	// (PUT /admin/users/{userId})
-	PutAdminUsersUserId(ctx context.Context, request PutAdminUsersUserIdRequestObject) (PutAdminUsersUserIdResponseObject, error)
-	// Update user status
-	// (PUT /admin/users/{userId}/status)
-	PutAdminUsersUserIdStatus(ctx context.Context, request PutAdminUsersUserIdStatusRequestObject) (PutAdminUsersUserIdStatusResponseObject, error)
 	// List alarms
 	// (GET /alarms)
 	GetAlarms(ctx context.Context, request GetAlarmsRequestObject) (GetAlarmsResponseObject, error)
@@ -4241,181 +3552,6 @@ func (sh *strictHandler) GetAdminSystemHealth(w http.ResponseWriter, r *http.Req
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
 	} else if validResponse, ok := response.(GetAdminSystemHealthResponseObject); ok {
 		if err := validResponse.VisitGetAdminSystemHealthResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetAdminUsers operation middleware
-func (sh *strictHandler) GetAdminUsers(w http.ResponseWriter, r *http.Request, params GetAdminUsersParams) {
-	var request GetAdminUsersRequestObject
-
-	request.Params = params
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAdminUsers(ctx, request.(GetAdminUsersRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAdminUsers")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAdminUsersResponseObject); ok {
-		if err := validResponse.VisitGetAdminUsersResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostAdminUsers operation middleware
-func (sh *strictHandler) PostAdminUsers(w http.ResponseWriter, r *http.Request) {
-	var request PostAdminUsersRequestObject
-
-	var body PostAdminUsersJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostAdminUsers(ctx, request.(PostAdminUsersRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostAdminUsers")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostAdminUsersResponseObject); ok {
-		if err := validResponse.VisitPostAdminUsersResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// DeleteAdminUsersUserId operation middleware
-func (sh *strictHandler) DeleteAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
-	var request DeleteAdminUsersUserIdRequestObject
-
-	request.UserId = userId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteAdminUsersUserId(ctx, request.(DeleteAdminUsersUserIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteAdminUsersUserId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteAdminUsersUserIdResponseObject); ok {
-		if err := validResponse.VisitDeleteAdminUsersUserIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetAdminUsersUserId operation middleware
-func (sh *strictHandler) GetAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
-	var request GetAdminUsersUserIdRequestObject
-
-	request.UserId = userId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAdminUsersUserId(ctx, request.(GetAdminUsersUserIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAdminUsersUserId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAdminUsersUserIdResponseObject); ok {
-		if err := validResponse.VisitGetAdminUsersUserIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PutAdminUsersUserId operation middleware
-func (sh *strictHandler) PutAdminUsersUserId(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
-	var request PutAdminUsersUserIdRequestObject
-
-	request.UserId = userId
-
-	var body PutAdminUsersUserIdJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutAdminUsersUserId(ctx, request.(PutAdminUsersUserIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutAdminUsersUserId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutAdminUsersUserIdResponseObject); ok {
-		if err := validResponse.VisitPutAdminUsersUserIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PutAdminUsersUserIdStatus operation middleware
-func (sh *strictHandler) PutAdminUsersUserIdStatus(w http.ResponseWriter, r *http.Request, userId openapi_types.UUID) {
-	var request PutAdminUsersUserIdStatusRequestObject
-
-	request.UserId = userId
-
-	var body PutAdminUsersUserIdStatusJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutAdminUsersUserIdStatus(ctx, request.(PutAdminUsersUserIdStatusRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutAdminUsersUserIdStatus")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutAdminUsersUserIdStatusResponseObject); ok {
-		if err := validResponse.VisitPutAdminUsersUserIdStatusResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5153,67 +4289,61 @@ func (sh *strictHandler) PutServiceServiceId(w http.ResponseWriter, r *http.Requ
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"vkPSHe+tAkF/fr57/m8AAAD//+PWvWXcbwAA",
+	"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",
+	"/wYAAP//WitWStJeAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

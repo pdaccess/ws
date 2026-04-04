@@ -58,7 +58,7 @@ func RunWebServiceServer() error {
 		return fmt.Errorf("vector generator: %w", err)
 	}
 
-	svc := service.New(db.InventoryRepo(), db.UserRepo(), db.ActivityRepo(), db.PasteRepo(), db.UserGroupRepo(), db.ServiceSettingsRepo(), vg)
+	svc := service.New(db.InventoryRepo(), db.ActivityRepo(), db.PasteRepo(), db.ServiceSettingsRepo(), vg)
 
 	routers := servers.NewHttpServer(svc)
 	server := &http.Server{Addr: config.HttpListenAddr, Handler: routers}

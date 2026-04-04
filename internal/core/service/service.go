@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pdaccess/ws/internal/core/domain"
+	"github.com/rs/zerolog/log"
 )
 
 func (s *Impl) CreateService(ctx context.Context, svc *domain.Service, userID, realmID uuid.UUID) error {
@@ -15,7 +16,8 @@ func (s *Impl) CreateService(ctx context.Context, svc *domain.Service, userID, r
 	if s.vector != nil {
 		svc.Embedding, err = s.vector.Generate(ctx, fmt.Sprintf("%s %s", svc.Name, svc.Description))
 		if err != nil {
-			return fmt.Errorf("vector generation: %w", err)
+			log.Warn().Err(err).Msg("vector generation failed, skipping embedding")
+			svc.Embedding = nil
 		}
 	}
 
@@ -153,7 +155,19 @@ func (s *Impl) SearchServicesWithQuery(ctx context.Context, query string, limit,
 	if s.vector != nil {
 		vector, err := s.vector.Generate(ctx, query)
 		if err != nil {
-			return nil, fmt.Errorf("vector generation: %w", err)
+			log.Warn().Err(err).Msg("vector generation failed, falling back to text search")
+			return s.inventoryRepo.SearchServices(ctx,
+				domain.WithServiceFilter(query),
+				domain.WithServiceLimit(limit),
+				domain.WithServiceOffset(offset),
+			)
+		}
+		if vector == nil || len(vector) == 0 {
+			return s.inventoryRepo.SearchServices(ctx,
+				domain.WithServiceFilter(query),
+				domain.WithServiceLimit(limit),
+				domain.WithServiceOffset(offset),
+			)
 		}
 		return s.SearchServicesVector(ctx, vector, limit, offset)
 	}

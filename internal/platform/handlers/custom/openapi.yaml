@@ -225,7 +225,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                $ref: '#/components/schemas/PaginatedResponse'
         '4XX':
           $ref: '#/components/responses/ClientError'
 
@@ -255,6 +255,10 @@ paths:
                 userId:
                   type: string
                   format: uuid
+                role:
+                  type: string
+                  enum: [admin, member]
+                  default: member
       responses:
         '201':
           description: Member added
@@ -521,161 +525,6 @@ paths:
           $ref: '#/components/responses/ClientError'
 
   # ==================== Admin ====================
-  /admin/users:
-    get:
-      tags:
-        - Admin
-      summary: List all users
-      description: Get paginated list of all users in the system
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SearchParam'
-        - name: role
-          in: query
-          schema:
-            type: string
-            enum: [admin, user]
-        - name: status
-          in: query
-          schema:
-            type: string
-            enum: [active, inactive, suspended]
-      responses:
-        '200':
-          description: Users list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AdminUserList'
-
-    post:
-      tags:
-        - Admin
-      summary: Create user
-      description: Create a new user (admin only)
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserCreate'
-      responses:
-        '201':
-          description: User created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /admin/users/{userId}:
-    get:
-      tags:
-        - Admin
-      summary: Get user details
-      description: Get detailed information about a user
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: User details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserDetail'
-
-    put:
-      tags:
-        - Admin
-      summary: Update user
-      description: Update user information
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserUpdate'
-      responses:
-        '200':
-          description: User updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-
-    delete:
-      tags:
-        - Admin
-      summary: Delete user
-      description: Delete a user
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: User deleted
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /admin/users/{userId}/status:
-    put:
-      tags:
-        - Admin
-      summary: Update user status
-      description: Activate, deactivate, or suspend a user
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - status
-              properties:
-                status:
-                  type: string
-                  enum: [active, inactive, suspended]
-      responses:
-        '200':
-          description: User status updated
-
   /admin/audit-logs:
     get:
       tags:
@@ -1008,7 +857,7 @@ paths:
           required: false
           schema:
             type: string
-            enum: [Service, Group, User]
+            enum: [Service, Group]
           description: Resource type to search/list
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/LimitParam'
@@ -1276,93 +1125,6 @@ components:
                 $ref: '#/components/schemas/Policy'
 
     # Admin
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        email:
-          type: string
-        name:
-          type: string
-        role:
-          type: string
-          enum: [admin, user]
-        status:
-          type: string
-          enum: [active, inactive, suspended]
-        createdAt:
-          type: string
-          format: date-time
-        lastLogin:
-          type: string
-          format: date-time
-
-    UserDetail:
-      allOf:
-        - $ref: '#/components/schemas/User'
-        - type: object
-          properties:
-            groups:
-              type: array
-              items:
-                $ref: '#/components/schemas/Group'
-            permissions:
-              type: array
-              items:
-                type: string
-
-    UserCreate:
-      type: object
-      required:
-        - email
-        - name
-        - password
-      properties:
-        email:
-          type: string
-        name:
-          type: string
-        password:
-          type: string
-        role:
-          type: string
-          enum: [admin, user]
-
-    UserUpdate:
-      type: object
-      properties:
-        email:
-          type: string
-        name:
-          type: string
-        password:
-          type: string
-        role:
-          type: string
-          enum: [admin, user]
-
-    UserList:
-      allOf:
-        - $ref: '#/components/schemas/PaginatedResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/User'
-
-    AdminUserList:
-      allOf:
-        - $ref: '#/components/schemas/PaginatedResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/User'
-
     AuditLog:
       type: object
       properties:
@@ -1480,8 +1242,6 @@ components:
             userId:
               type: string
               format: uuid
-            user:
-              $ref: '#/components/schemas/User'
             serviceId:
               type: string
               format: uuid
@@ -1582,10 +1342,6 @@ components:
     SearchResults:
       type: object
       properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
         services:
           type: array
           items:

@@ -154,86 +154,6 @@ func (h *httpHandler) GetAdminSystemHealth(ctx context.Context, request external
 	}, nil
 }
 
-func (h *httpHandler) GetAdminUsers(ctx context.Context, request external.GetAdminUsersRequestObject) (external.GetAdminUsersResponseObject, error) {
-	var data []external.User
-	limit := 20
-	page := 1
-	total := 0
-	totalPages := 0
-	return external.GetAdminUsers200JSONResponse{
-		Data: &data,
-		Meta: &external.PaginationMeta{
-			Limit:      &limit,
-			Page:       &page,
-			Total:      &total,
-			TotalPages: &totalPages,
-		},
-	}, nil
-}
-
-func (h *httpHandler) PostAdminUsers(ctx context.Context, request external.PostAdminUsersRequestObject) (external.PostAdminUsersResponseObject, error) {
-	if request.Body == nil {
-		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
-	}
-	email := request.Body.Email
-	var id openapi_types.UUID
-	return external.PostAdminUsers201JSONResponse(external.User{
-		Email: &email,
-		Id:    &id,
-	}), nil
-}
-
-func (h *httpHandler) DeleteAdminUsersUserId(ctx context.Context, request external.DeleteAdminUsersUserIdRequestObject) (external.DeleteAdminUsersUserIdResponseObject, error) {
-	if request.UserId == uuid.Nil {
-		return nil, domain.InvalidIDError{Message: "invalid user id", Code: domain.ErrCodeInvalidID}
-	}
-	return external.DeleteAdminUsersUserId204Response{}, nil
-}
-
-func (h *httpHandler) GetAdminUsersUserId(ctx context.Context, request external.GetAdminUsersUserIdRequestObject) (external.GetAdminUsersUserIdResponseObject, error) {
-	userID := request.UserId
-	if userID == uuid.Nil {
-		return nil, domain.InvalidIDError{Message: "invalid user id", Code: domain.ErrCodeInvalidID}
-	}
-
-	user, err := h.svc.GetUser(ctx, userID)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get user: %w", err)
-	}
-
-	if user == nil {
-		return nil, domain.NotFoundError{Resource: "user", ID: request.UserId.String(), Code: domain.ErrCodeNotFound}
-	}
-
-	id := user.ID
-	return external.GetAdminUsersUserId200JSONResponse{
-		Email: &user.Email,
-		Id:    &id,
-	}, nil
-}
-
-func (h *httpHandler) PutAdminUsersUserId(ctx context.Context, request external.PutAdminUsersUserIdRequestObject) (external.PutAdminUsersUserIdResponseObject, error) {
-	if request.Body == nil {
-		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
-	}
-	email := ""
-	if request.Body.Email != nil {
-		email = *request.Body.Email
-	}
-	id := request.UserId
-	return external.PutAdminUsersUserId200JSONResponse(external.User{
-		Email: &email,
-		Id:    &id,
-	}), nil
-}
-
-func (h *httpHandler) PutAdminUsersUserIdStatus(ctx context.Context, request external.PutAdminUsersUserIdStatusRequestObject) (external.PutAdminUsersUserIdStatusResponseObject, error) {
-	if request.Body == nil {
-		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
-	}
-	return external.PutAdminUsersUserIdStatus200Response{}, nil
-}
-
 func (h *httpHandler) GetAlarms(ctx context.Context, request external.GetAlarmsRequestObject) (external.GetAlarmsResponseObject, error) {
 	limit := 20
 	offset := 0
@@ -398,17 +318,16 @@ func (h *httpHandler) GetGroupGroupIdMembers(ctx context.Context, request extern
 	total := len(members)
 	totalPages := (total + limit - 1) / limit
 
-	var extUsers []external.User
+	var data []map[string]any
 	for _, m := range members {
-		email := m.UserID.String()
-		extUsers = append(extUsers, external.User{
-			Email: &email,
-			Id:    &m.UserID,
+		data = append(data, map[string]any{
+			"userId": m.UserID.String(),
+			"role":   m.Role,
 		})
 	}
 
-	return external.GetGroupGroupIdMembers200JSONResponse(external.UserList{
-		Data: &extUsers,
+	return external.GetGroupGroupIdMembers200JSONResponse(external.PaginatedResponse{
+		Data: &data,
 		Meta: &external.PaginationMeta{
 			Limit:      &limit,
 			Page:       &page,
@@ -430,10 +349,15 @@ func (h *httpHandler) PostGroupGroupIdMembers(ctx context.Context, request exter
 
 	userID := request.Body.UserId
 
+	role := "member"
+	if request.Body.Role != nil {
+		role = string(*request.Body.Role)
+	}
+
 	member := &domain.GroupMember{
 		GroupID: groupID,
 		UserID:  userID,
-		Role:    "member",
+		Role:    role,
 	}
 
 	if err := h.svc.AddGroupMember(ctx, member, dummyUUID, dummyUUID); err != nil {
@@ -660,7 +584,6 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 
 	var services []external.Service
 	var groups []external.Group
-	var users []external.User
 
 	if query != "" {
 		svcItems, err := h.svc.SearchServicesWithQuery(ctx, query, limit, offset)
@@ -717,12 +640,40 @@ func (h *httpHandler) GetSearch(ctx context.Context, request external.GetSearchR
 				})
 			}
 		}
+	} else {
+		svcItems, err := h.svc.SearchServices(ctx,
+			domain.WithServiceLimit(limit),
+			domain.WithServiceOffset(offset),
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to search services: %w", err)
+		}
+		for _, i := range svcItems {
+			services = append(services, external.Service{
+				Id:       &i.ID,
+				Name:     &i.Name,
+				Hostname: &i.Name,
+			})
+		}
+
+		groupItems, err := h.svc.SearchGroups(ctx,
+			domain.WithGroupLimit(limit),
+			domain.WithGroupOffset(offset),
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to search groups: %w", err)
+		}
+		for _, i := range groupItems {
+			groups = append(groups, external.Group{
+				Id:   &i.ID,
+				Name: &i.Name,
+			})
+		}
 	}
 
 	return external.GetSearch200JSONResponse(external.SearchResults{
 		Groups:   &groups,
 		Services: &services,
-		Users:    &users,
 	}), nil
 }
 

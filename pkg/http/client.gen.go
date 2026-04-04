@@ -179,120 +179,6 @@ func (e SystemHealthStatus) Valid() bool {
 	}
 }
 
-// Defines values for UserRole.
-const (
-	UserRoleAdmin UserRole = "admin"
-	UserRoleUser  UserRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserRole enum.
-func (e UserRole) Valid() bool {
-	switch e {
-	case UserRoleAdmin:
-		return true
-	case UserRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserStatus.
-const (
-	UserStatusActive    UserStatus = "active"
-	UserStatusInactive  UserStatus = "inactive"
-	UserStatusSuspended UserStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the UserStatus enum.
-func (e UserStatus) Valid() bool {
-	switch e {
-	case UserStatusActive:
-		return true
-	case UserStatusInactive:
-		return true
-	case UserStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserCreateRole.
-const (
-	UserCreateRoleAdmin UserCreateRole = "admin"
-	UserCreateRoleUser  UserCreateRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserCreateRole enum.
-func (e UserCreateRole) Valid() bool {
-	switch e {
-	case UserCreateRoleAdmin:
-		return true
-	case UserCreateRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserDetailRole.
-const (
-	UserDetailRoleAdmin UserDetailRole = "admin"
-	UserDetailRoleUser  UserDetailRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserDetailRole enum.
-func (e UserDetailRole) Valid() bool {
-	switch e {
-	case UserDetailRoleAdmin:
-		return true
-	case UserDetailRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserDetailStatus.
-const (
-	UserDetailStatusActive    UserDetailStatus = "active"
-	UserDetailStatusInactive  UserDetailStatus = "inactive"
-	UserDetailStatusSuspended UserDetailStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the UserDetailStatus enum.
-func (e UserDetailStatus) Valid() bool {
-	switch e {
-	case UserDetailStatusActive:
-		return true
-	case UserDetailStatusInactive:
-		return true
-	case UserDetailStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UserUpdateRole.
-const (
-	UserUpdateRoleAdmin UserUpdateRole = "admin"
-	UserUpdateRoleUser  UserUpdateRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the UserUpdateRole enum.
-func (e UserUpdateRole) Valid() bool {
-	switch e {
-	case UserUpdateRoleAdmin:
-		return true
-	case UserUpdateRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for GetActivitiesParamsSeverity.
 const (
 	GetActivitiesParamsSeverityAll     GetActivitiesParamsSeverity = "all"
@@ -320,66 +206,6 @@ func (e GetActivitiesParamsSeverity) Valid() bool {
 	}
 }
 
-// Defines values for GetAdminUsersParamsRole.
-const (
-	GetAdminUsersParamsRoleAdmin GetAdminUsersParamsRole = "admin"
-	GetAdminUsersParamsRoleUser  GetAdminUsersParamsRole = "user"
-)
-
-// Valid indicates whether the value is a known member of the GetAdminUsersParamsRole enum.
-func (e GetAdminUsersParamsRole) Valid() bool {
-	switch e {
-	case GetAdminUsersParamsRoleAdmin:
-		return true
-	case GetAdminUsersParamsRoleUser:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetAdminUsersParamsStatus.
-const (
-	GetAdminUsersParamsStatusActive    GetAdminUsersParamsStatus = "active"
-	GetAdminUsersParamsStatusInactive  GetAdminUsersParamsStatus = "inactive"
-	GetAdminUsersParamsStatusSuspended GetAdminUsersParamsStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the GetAdminUsersParamsStatus enum.
-func (e GetAdminUsersParamsStatus) Valid() bool {
-	switch e {
-	case GetAdminUsersParamsStatusActive:
-		return true
-	case GetAdminUsersParamsStatusInactive:
-		return true
-	case GetAdminUsersParamsStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PutAdminUsersUserIdStatusJSONBodyStatus.
-const (
-	PutAdminUsersUserIdStatusJSONBodyStatusActive    PutAdminUsersUserIdStatusJSONBodyStatus = "active"
-	PutAdminUsersUserIdStatusJSONBodyStatusInactive  PutAdminUsersUserIdStatusJSONBodyStatus = "inactive"
-	PutAdminUsersUserIdStatusJSONBodyStatusSuspended PutAdminUsersUserIdStatusJSONBodyStatus = "suspended"
-)
-
-// Valid indicates whether the value is a known member of the PutAdminUsersUserIdStatusJSONBodyStatus enum.
-func (e PutAdminUsersUserIdStatusJSONBodyStatus) Valid() bool {
-	switch e {
-	case PutAdminUsersUserIdStatusJSONBodyStatusActive:
-		return true
-	case PutAdminUsersUserIdStatusJSONBodyStatusInactive:
-		return true
-	case PutAdminUsersUserIdStatusJSONBodyStatusSuspended:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for GetAlarmsParamsSeverity.
 const (
 	GetAlarmsParamsSeverityAll      GetAlarmsParamsSeverity = "all"
@@ -398,6 +224,24 @@ func (e GetAlarmsParamsSeverity) Valid() bool {
 	case GetAlarmsParamsSeverityInfo:
 		return true
 	case GetAlarmsParamsSeverityWarning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PostGroupGroupIdMembersJSONBodyRole.
+const (
+	Admin  PostGroupGroupIdMembersJSONBodyRole = "admin"
+	Member PostGroupGroupIdMembersJSONBodyRole = "member"
+)
+
+// Valid indicates whether the value is a known member of the PostGroupGroupIdMembersJSONBodyRole enum.
+func (e PostGroupGroupIdMembersJSONBodyRole) Valid() bool {
+	switch e {
+	case Admin:
+		return true
+	case Member:
 		return true
 	default:
 		return false
@@ -471,7 +315,6 @@ func (e PutPoliciesPolicyIdJSONBodyType) Valid() bool {
 const (
 	GetSearchParamsTypeGroup   GetSearchParamsType = "Group"
 	GetSearchParamsTypeService GetSearchParamsType = "Service"
-	GetSearchParamsTypeUser    GetSearchParamsType = "User"
 )
 
 // Valid indicates whether the value is a known member of the GetSearchParamsType enum.
@@ -480,8 +323,6 @@ func (e GetSearchParamsType) Valid() bool {
 	case GetSearchParamsTypeGroup:
 		return true
 	case GetSearchParamsTypeService:
-		return true
-	case GetSearchParamsTypeUser:
 		return true
 	default:
 		return false
@@ -536,7 +377,6 @@ type ActivityDetail struct {
 	Source    *string                 `json:"source,omitempty"`
 	Time      *string                 `json:"time,omitempty"`
 	Title     *string                 `json:"title,omitempty"`
-	User      *User                   `json:"user,omitempty"`
 	UserId    *openapi_types.UUID     `json:"userId,omitempty"`
 }
 
@@ -546,12 +386,6 @@ type ActivityDetailSeverity string
 // ActivityList defines model for ActivityList.
 type ActivityList struct {
 	Data *[]Activity     `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// AdminUserList defines model for AdminUserList.
-type AdminUserList struct {
-	Data *[]User         `json:"data,omitempty"`
 	Meta *PaginationMeta `json:"meta,omitempty"`
 }
 
@@ -696,7 +530,6 @@ type PolicyList struct {
 type SearchResults struct {
 	Groups   *[]Group   `json:"groups,omitempty"`
 	Services *[]Service `json:"services,omitempty"`
-	Users    *[]User    `json:"users,omitempty"`
 }
 
 // Service defines model for Service.
@@ -787,70 +620,6 @@ type SystemSettingsUpdate struct {
 	SessionTimeout     *int      `json:"sessionTimeout,omitempty"`
 }
 
-// User defines model for User.
-type User struct {
-	CreatedAt *time.Time          `json:"createdAt,omitempty"`
-	Email     *string             `json:"email,omitempty"`
-	Id        *openapi_types.UUID `json:"id,omitempty"`
-	LastLogin *time.Time          `json:"lastLogin,omitempty"`
-	Name      *string             `json:"name,omitempty"`
-	Role      *UserRole           `json:"role,omitempty"`
-	Status    *UserStatus         `json:"status,omitempty"`
-}
-
-// UserRole defines model for User.Role.
-type UserRole string
-
-// UserStatus defines model for User.Status.
-type UserStatus string
-
-// UserCreate defines model for UserCreate.
-type UserCreate struct {
-	Email    string          `json:"email"`
-	Name     string          `json:"name"`
-	Password string          `json:"password"`
-	Role     *UserCreateRole `json:"role,omitempty"`
-}
-
-// UserCreateRole defines model for UserCreate.Role.
-type UserCreateRole string
-
-// UserDetail defines model for UserDetail.
-type UserDetail struct {
-	CreatedAt   *time.Time          `json:"createdAt,omitempty"`
-	Email       *string             `json:"email,omitempty"`
-	Groups      *[]Group            `json:"groups,omitempty"`
-	Id          *openapi_types.UUID `json:"id,omitempty"`
-	LastLogin   *time.Time          `json:"lastLogin,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	Permissions *[]string           `json:"permissions,omitempty"`
-	Role        *UserDetailRole     `json:"role,omitempty"`
-	Status      *UserDetailStatus   `json:"status,omitempty"`
-}
-
-// UserDetailRole defines model for UserDetail.Role.
-type UserDetailRole string
-
-// UserDetailStatus defines model for UserDetail.Status.
-type UserDetailStatus string
-
-// UserList defines model for UserList.
-type UserList struct {
-	Data *[]User         `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// UserUpdate defines model for UserUpdate.
-type UserUpdate struct {
-	Email    *string         `json:"email,omitempty"`
-	Name     *string         `json:"name,omitempty"`
-	Password *string         `json:"password,omitempty"`
-	Role     *UserUpdateRole `json:"role,omitempty"`
-}
-
-// UserUpdateRole defines model for UserUpdate.Role.
-type UserUpdateRole string
-
 // LimitParam defines model for LimitParam.
 type LimitParam = int
 
@@ -910,34 +679,6 @@ type GetAdminAuditLogsParams struct {
 	EndDate   *openapi_types.Date `form:"endDate,omitempty" json:"endDate,omitempty"`
 }
 
-// GetAdminUsersParams defines parameters for GetAdminUsers.
-type GetAdminUsersParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Search Search query
-	Search *SearchParam               `form:"search,omitempty" json:"search,omitempty"`
-	Role   *GetAdminUsersParamsRole   `form:"role,omitempty" json:"role,omitempty"`
-	Status *GetAdminUsersParamsStatus `form:"status,omitempty" json:"status,omitempty"`
-}
-
-// GetAdminUsersParamsRole defines parameters for GetAdminUsers.
-type GetAdminUsersParamsRole string
-
-// GetAdminUsersParamsStatus defines parameters for GetAdminUsers.
-type GetAdminUsersParamsStatus string
-
-// PutAdminUsersUserIdStatusJSONBody defines parameters for PutAdminUsersUserIdStatus.
-type PutAdminUsersUserIdStatusJSONBody struct {
-	Status PutAdminUsersUserIdStatusJSONBodyStatus `json:"status"`
-}
-
-// PutAdminUsersUserIdStatusJSONBodyStatus defines parameters for PutAdminUsersUserIdStatus.
-type PutAdminUsersUserIdStatusJSONBodyStatus string
-
 // GetAlarmsParams defines parameters for GetAlarms.
 type GetAlarmsParams struct {
 	// Page Page number
@@ -968,8 +709,12 @@ type GetGroupGroupIdMembersParams struct {
 
 // PostGroupGroupIdMembersJSONBody defines parameters for PostGroupGroupIdMembers.
 type PostGroupGroupIdMembersJSONBody struct {
-	UserId openapi_types.UUID `json:"userId"`
+	Role   *PostGroupGroupIdMembersJSONBodyRole `json:"role,omitempty"`
+	UserId openapi_types.UUID                   `json:"userId"`
 }
+
+// PostGroupGroupIdMembersJSONBodyRole defines parameters for PostGroupGroupIdMembers.
+type PostGroupGroupIdMembersJSONBodyRole string
 
 // PostGroupGroupIdPolicyJSONBody defines parameters for PostGroupGroupIdPolicy.
 type PostGroupGroupIdPolicyJSONBody struct {
@@ -1054,15 +799,6 @@ type GetSearchParamsStatus string
 
 // PutAdminSettingsJSONRequestBody defines body for PutAdminSettings for application/json ContentType.
 type PutAdminSettingsJSONRequestBody = SystemSettingsUpdate
-
-// PostAdminUsersJSONRequestBody defines body for PostAdminUsers for application/json ContentType.
-type PostAdminUsersJSONRequestBody = UserCreate
-
-// PutAdminUsersUserIdJSONRequestBody defines body for PutAdminUsersUserId for application/json ContentType.
-type PutAdminUsersUserIdJSONRequestBody = UserUpdate
-
-// PutAdminUsersUserIdStatusJSONRequestBody defines body for PutAdminUsersUserIdStatus for application/json ContentType.
-type PutAdminUsersUserIdStatusJSONRequestBody PutAdminUsersUserIdStatusJSONBody
 
 // PostGroupJSONRequestBody defines body for PostGroup for application/json ContentType.
 type PostGroupJSONRequestBody = GroupCreate
@@ -1180,30 +916,6 @@ type ClientInterface interface {
 
 	// GetAdminSystemHealth request
 	GetAdminSystemHealth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetAdminUsers request
-	GetAdminUsers(ctx context.Context, params *GetAdminUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostAdminUsersWithBody request with any body
-	PostAdminUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostAdminUsers(ctx context.Context, body PostAdminUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeleteAdminUsersUserId request
-	DeleteAdminUsersUserId(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetAdminUsersUserId request
-	GetAdminUsersUserId(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PutAdminUsersUserIdWithBody request with any body
-	PutAdminUsersUserIdWithBody(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PutAdminUsersUserId(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PutAdminUsersUserIdStatusWithBody request with any body
-	PutAdminUsersUserIdStatusWithBody(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PutAdminUsersUserIdStatus(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetAlarms request
 	GetAlarms(ctx context.Context, params *GetAlarmsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -1374,114 +1086,6 @@ func (c *Client) PutAdminSettings(ctx context.Context, body PutAdminSettingsJSON
 
 func (c *Client) GetAdminSystemHealth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetAdminSystemHealthRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetAdminUsers(ctx context.Context, params *GetAdminUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAdminUsersRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostAdminUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostAdminUsersRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostAdminUsers(ctx context.Context, body PostAdminUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostAdminUsersRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteAdminUsersUserId(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteAdminUsersUserIdRequest(c.Server, userId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetAdminUsersUserId(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAdminUsersUserIdRequest(c.Server, userId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutAdminUsersUserIdWithBody(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutAdminUsersUserIdRequestWithBody(c.Server, userId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutAdminUsersUserId(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutAdminUsersUserIdRequest(c.Server, userId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutAdminUsersUserIdStatusWithBody(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutAdminUsersUserIdStatusRequestWithBody(c.Server, userId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutAdminUsersUserIdStatus(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutAdminUsersUserIdStatusRequest(c.Server, userId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2330,321 +1934,6 @@ func NewGetAdminSystemHealthRequest(server string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	return req, nil
-}
-
-// NewGetAdminUsersRequest generates requests for GetAdminUsers
-func NewGetAdminUsersRequest(server string, params *GetAdminUsersParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/users")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Search != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "search", *params.Search, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Role != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "role", *params.Role, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Status != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "status", *params.Status, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostAdminUsersRequest calls the generic PostAdminUsers builder with application/json body
-func NewPostAdminUsersRequest(server string, body PostAdminUsersJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostAdminUsersRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPostAdminUsersRequestWithBody generates requests for PostAdminUsers with any type of body
-func NewPostAdminUsersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/users")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteAdminUsersUserIdRequest generates requests for DeleteAdminUsersUserId
-func NewDeleteAdminUsersUserIdRequest(server string, userId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "userId", userId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/users/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetAdminUsersUserIdRequest generates requests for GetAdminUsersUserId
-func NewGetAdminUsersUserIdRequest(server string, userId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "userId", userId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/users/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPutAdminUsersUserIdRequest calls the generic PutAdminUsersUserId builder with application/json body
-func NewPutAdminUsersUserIdRequest(server string, userId openapi_types.UUID, body PutAdminUsersUserIdJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPutAdminUsersUserIdRequestWithBody(server, userId, "application/json", bodyReader)
-}
-
-// NewPutAdminUsersUserIdRequestWithBody generates requests for PutAdminUsersUserId with any type of body
-func NewPutAdminUsersUserIdRequestWithBody(server string, userId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "userId", userId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/users/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewPutAdminUsersUserIdStatusRequest calls the generic PutAdminUsersUserIdStatus builder with application/json body
-func NewPutAdminUsersUserIdStatusRequest(server string, userId openapi_types.UUID, body PutAdminUsersUserIdStatusJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPutAdminUsersUserIdStatusRequestWithBody(server, userId, "application/json", bodyReader)
-}
-
-// NewPutAdminUsersUserIdStatusRequestWithBody generates requests for PutAdminUsersUserIdStatus with any type of body
-func NewPutAdminUsersUserIdStatusRequestWithBody(server string, userId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "userId", userId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/users/%s/status", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -3992,30 +3281,6 @@ type ClientWithResponsesInterface interface {
 	// GetAdminSystemHealthWithResponse request
 	GetAdminSystemHealthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAdminSystemHealthResponse, error)
 
-	// GetAdminUsersWithResponse request
-	GetAdminUsersWithResponse(ctx context.Context, params *GetAdminUsersParams, reqEditors ...RequestEditorFn) (*GetAdminUsersResponse, error)
-
-	// PostAdminUsersWithBodyWithResponse request with any body
-	PostAdminUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostAdminUsersResponse, error)
-
-	PostAdminUsersWithResponse(ctx context.Context, body PostAdminUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostAdminUsersResponse, error)
-
-	// DeleteAdminUsersUserIdWithResponse request
-	DeleteAdminUsersUserIdWithResponse(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteAdminUsersUserIdResponse, error)
-
-	// GetAdminUsersUserIdWithResponse request
-	GetAdminUsersUserIdWithResponse(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetAdminUsersUserIdResponse, error)
-
-	// PutAdminUsersUserIdWithBodyWithResponse request with any body
-	PutAdminUsersUserIdWithBodyWithResponse(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdResponse, error)
-
-	PutAdminUsersUserIdWithResponse(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdResponse, error)
-
-	// PutAdminUsersUserIdStatusWithBodyWithResponse request with any body
-	PutAdminUsersUserIdStatusWithBodyWithResponse(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdStatusResponse, error)
-
-	PutAdminUsersUserIdStatusWithResponse(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdStatusResponse, error)
-
 	// GetAlarmsWithResponse request
 	GetAlarmsWithResponse(ctx context.Context, params *GetAlarmsParams, reqEditors ...RequestEditorFn) (*GetAlarmsResponse, error)
 
@@ -4243,138 +3508,6 @@ func (r GetAdminSystemHealthResponse) StatusCode() int {
 	return 0
 }
 
-type GetAdminUsersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *AdminUserList
-}
-
-// Status returns HTTPResponse.Status
-func (r GetAdminUsersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetAdminUsersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostAdminUsersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *User
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r PostAdminUsersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostAdminUsersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteAdminUsersUserIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteAdminUsersUserIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteAdminUsersUserIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetAdminUsersUserIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *UserDetail
-}
-
-// Status returns HTTPResponse.Status
-func (r GetAdminUsersUserIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetAdminUsersUserIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PutAdminUsersUserIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *User
-}
-
-// Status returns HTTPResponse.Status
-func (r PutAdminUsersUserIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PutAdminUsersUserIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PutAdminUsersUserIdStatusResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r PutAdminUsersUserIdStatusResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PutAdminUsersUserIdStatusResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type GetAlarmsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -4511,7 +3644,7 @@ func (r GetGroupGroupIdResponse) StatusCode() int {
 type GetGroupGroupIdMembersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *UserList
+	JSON200      *PaginatedResponse
 	JSON4XX      *ClientError
 }
 
@@ -5018,84 +4151,6 @@ func (c *ClientWithResponses) GetAdminSystemHealthWithResponse(ctx context.Conte
 	return ParseGetAdminSystemHealthResponse(rsp)
 }
 
-// GetAdminUsersWithResponse request returning *GetAdminUsersResponse
-func (c *ClientWithResponses) GetAdminUsersWithResponse(ctx context.Context, params *GetAdminUsersParams, reqEditors ...RequestEditorFn) (*GetAdminUsersResponse, error) {
-	rsp, err := c.GetAdminUsers(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetAdminUsersResponse(rsp)
-}
-
-// PostAdminUsersWithBodyWithResponse request with arbitrary body returning *PostAdminUsersResponse
-func (c *ClientWithResponses) PostAdminUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostAdminUsersResponse, error) {
-	rsp, err := c.PostAdminUsersWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostAdminUsersResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostAdminUsersWithResponse(ctx context.Context, body PostAdminUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostAdminUsersResponse, error) {
-	rsp, err := c.PostAdminUsers(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostAdminUsersResponse(rsp)
-}
-
-// DeleteAdminUsersUserIdWithResponse request returning *DeleteAdminUsersUserIdResponse
-func (c *ClientWithResponses) DeleteAdminUsersUserIdWithResponse(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteAdminUsersUserIdResponse, error) {
-	rsp, err := c.DeleteAdminUsersUserId(ctx, userId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteAdminUsersUserIdResponse(rsp)
-}
-
-// GetAdminUsersUserIdWithResponse request returning *GetAdminUsersUserIdResponse
-func (c *ClientWithResponses) GetAdminUsersUserIdWithResponse(ctx context.Context, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetAdminUsersUserIdResponse, error) {
-	rsp, err := c.GetAdminUsersUserId(ctx, userId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetAdminUsersUserIdResponse(rsp)
-}
-
-// PutAdminUsersUserIdWithBodyWithResponse request with arbitrary body returning *PutAdminUsersUserIdResponse
-func (c *ClientWithResponses) PutAdminUsersUserIdWithBodyWithResponse(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdResponse, error) {
-	rsp, err := c.PutAdminUsersUserIdWithBody(ctx, userId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutAdminUsersUserIdResponse(rsp)
-}
-
-func (c *ClientWithResponses) PutAdminUsersUserIdWithResponse(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdResponse, error) {
-	rsp, err := c.PutAdminUsersUserId(ctx, userId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutAdminUsersUserIdResponse(rsp)
-}
-
-// PutAdminUsersUserIdStatusWithBodyWithResponse request with arbitrary body returning *PutAdminUsersUserIdStatusResponse
-func (c *ClientWithResponses) PutAdminUsersUserIdStatusWithBodyWithResponse(ctx context.Context, userId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdStatusResponse, error) {
-	rsp, err := c.PutAdminUsersUserIdStatusWithBody(ctx, userId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutAdminUsersUserIdStatusResponse(rsp)
-}
-
-func (c *ClientWithResponses) PutAdminUsersUserIdStatusWithResponse(ctx context.Context, userId openapi_types.UUID, body PutAdminUsersUserIdStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*PutAdminUsersUserIdStatusResponse, error) {
-	rsp, err := c.PutAdminUsersUserIdStatus(ctx, userId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutAdminUsersUserIdStatusResponse(rsp)
-}
-
 // GetAlarmsWithResponse request returning *GetAlarmsResponse
 func (c *ClientWithResponses) GetAlarmsWithResponse(ctx context.Context, params *GetAlarmsParams, reqEditors ...RequestEditorFn) (*GetAlarmsResponse, error) {
 	rsp, err := c.GetAlarms(ctx, params, reqEditors...)
@@ -5550,159 +4605,6 @@ func ParseGetAdminSystemHealthResponse(rsp *http.Response) (*GetAdminSystemHealt
 	return response, nil
 }
 
-// ParseGetAdminUsersResponse parses an HTTP response from a GetAdminUsersWithResponse call
-func ParseGetAdminUsersResponse(rsp *http.Response) (*GetAdminUsersResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetAdminUsersResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest AdminUserList
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostAdminUsersResponse parses an HTTP response from a PostAdminUsersWithResponse call
-func ParsePostAdminUsersResponse(rsp *http.Response) (*PostAdminUsersResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostAdminUsersResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest User
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteAdminUsersUserIdResponse parses an HTTP response from a DeleteAdminUsersUserIdWithResponse call
-func ParseDeleteAdminUsersUserIdResponse(rsp *http.Response) (*DeleteAdminUsersUserIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteAdminUsersUserIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetAdminUsersUserIdResponse parses an HTTP response from a GetAdminUsersUserIdWithResponse call
-func ParseGetAdminUsersUserIdResponse(rsp *http.Response) (*GetAdminUsersUserIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetAdminUsersUserIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest UserDetail
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePutAdminUsersUserIdResponse parses an HTTP response from a PutAdminUsersUserIdWithResponse call
-func ParsePutAdminUsersUserIdResponse(rsp *http.Response) (*PutAdminUsersUserIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PutAdminUsersUserIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest User
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePutAdminUsersUserIdStatusResponse parses an HTTP response from a PutAdminUsersUserIdStatusWithResponse call
-func ParsePutAdminUsersUserIdStatusResponse(rsp *http.Response) (*PutAdminUsersUserIdStatusResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PutAdminUsersUserIdStatusResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
 // ParseGetAlarmsResponse parses an HTTP response from a GetAlarmsWithResponse call
 func ParseGetAlarmsResponse(rsp *http.Response) (*GetAlarmsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -5878,7 +4780,7 @@ func ParseGetGroupGroupIdMembersResponse(rsp *http.Response) (*GetGroupGroupIdMe
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest UserList
+		var dest PaginatedResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -6439,67 +5341,61 @@ func ParsePutServiceServiceIdResponse(rsp *http.Response) (*PutServiceServiceIdR
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"vkPSHe+tAkF/fr57/m8AAAD//+PWvWXcbwAA",
+	"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",
+	"/wYAAP//WitWStJeAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

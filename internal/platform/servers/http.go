@@ -77,6 +77,9 @@ func requestErrorHandler(w http.ResponseWriter, r *http.Request, err error) {
 
 func responseErrorHandler(w http.ResponseWriter, r *http.Request, err error) {
 	status, code, message := getErrorInfo(err)
+	if status == http.StatusInternalServerError {
+		logger.Error().Err(err).Stack().Msg("internal server error")
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(external.GenericError{

@@ -8,16 +8,25 @@ import (
 
 type Vector []float64
 
+type InventoryType string
+
+const (
+	InventoryTypeGroup   InventoryType = "group"
+	InventoryTypeService InventoryType = "service"
+	InventoryTypeVault   InventoryType = "vault"
+)
+
 type Group struct {
-	ID          uuid.UUID  `json:"id"`
-	RealmID     uuid.UUID  `json:"realmId"`
-	ParentID    *uuid.UUID `json:"parentId,omitempty"`
-	Name        string     `json:"name"`
-	Description string     `json:"description,omitempty"`
-	Embedding   Vector     `json:"embedding,omitempty"`
-	CreatedAt   time.Time  `json:"createdAt"`
-	UpdatedAt   time.Time  `json:"updatedAt"`
-	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
+	ID          uuid.UUID     `json:"id"`
+	RealmID     uuid.UUID     `json:"realmId"`
+	ParentID    *uuid.UUID    `json:"parentId,omitempty"`
+	Name        string        `json:"name"`
+	Description string        `json:"description,omitempty"`
+	Type        InventoryType `json:"type,omitempty"`
+	Embedding   Vector        `json:"embedding,omitempty"`
+	CreatedAt   time.Time     `json:"createdAt"`
+	UpdatedAt   time.Time     `json:"updatedAt"`
+	DeletedAt   *time.Time    `json:"deletedAt,omitempty"`
 }
 
 type GroupMember struct {
@@ -39,6 +48,7 @@ type GroupSearch struct {
 	EndDate   *time.Time
 	Filter    *string
 	Vector    Vector
+	Type      InventoryType
 }
 
 type GroupSearchOption func(*GroupSearch)
@@ -104,6 +114,7 @@ type Service struct {
 	ParentID    *uuid.UUID       `json:"parentId,omitempty"`
 	Name        string           `json:"name"`
 	Description string           `json:"description,omitempty"`
+	Type        InventoryType    `json:"type,omitempty"`
 	Embedding   Vector           `json:"embedding,omitempty"`
 	Settings    *ServiceSettings `json:"settings,omitempty"`
 	CreatedAt   time.Time        `json:"createdAt"`
@@ -143,6 +154,7 @@ type ServiceSearch struct {
 	EndDate   *time.Time
 	Filter    *string
 	Vector    Vector
+	Type      InventoryType
 }
 
 type ServiceSearchOption func(*ServiceSearch)
@@ -200,30 +212,4 @@ func WithServiceVector(vec Vector) ServiceSearchOption {
 	return func(s *ServiceSearch) {
 		s.Vector = vec
 	}
-}
-
-type User struct {
-	ID        uuid.UUID  `json:"id"`
-	Username  string     `json:"username"`
-	Email     string     `json:"email,omitempty"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt,omitempty"`
-}
-
-type UserGroup struct {
-	ID          uuid.UUID  `json:"id"`
-	Name        string     `json:"name"`
-	Description string     `json:"description,omitempty"`
-	CreatedAt   time.Time  `json:"createdAt"`
-	UpdatedAt   time.Time  `json:"updatedAt"`
-	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
-}
-
-type UserGroupMember struct {
-	ID             uuid.UUID `json:"id"`
-	UserGroupID    uuid.UUID `json:"userGroupId"`
-	UserID         uuid.UUID `json:"userId"`
-	Role           string    `json:"role"`
-	MembershipTime time.Time `json:"membershipTime"`
 }

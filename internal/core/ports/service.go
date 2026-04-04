@@ -7,13 +7,6 @@ import (
 	"github.com/pdaccess/ws/internal/core/domain"
 )
 
-type UserOperations interface {
-	SearchUsers(ctx context.Context, limit, offset int) ([]domain.User, error)
-	CreateUser(ctx context.Context, user *domain.User) error
-	GetUser(ctx context.Context, id uuid.UUID) (*domain.User, error)
-	DeleteUser(ctx context.Context, id uuid.UUID) error
-}
-
 type ConfigOperations interface {
 	UpsertItemContext(ctx context.Context, context domain.ItemContext, items []domain.ConfigItem) error
 	GetItemContext(ctx context.Context, context domain.ItemContext) ([]domain.ConfigItem, error)
@@ -74,26 +67,12 @@ type PasteOperations interface {
 	SearchPastes(ctx context.Context, opts ...domain.PasteSearchOption) ([]domain.Paste, error)
 }
 
-type UserGroupOperations interface {
-	CreateUserGroup(ctx context.Context, ug *domain.UserGroup, userID, realmID uuid.UUID) error
-	GetUserGroup(ctx context.Context, id uuid.UUID) (*domain.UserGroup, error)
-	UpdateUserGroup(ctx context.Context, ug *domain.UserGroup, userID, realmID uuid.UUID) error
-	DeleteUserGroup(ctx context.Context, id uuid.UUID, userID, realmID uuid.UUID) error
-	SearchUserGroups(ctx context.Context, limit, offset int) ([]domain.UserGroup, error)
-
-	AddUserGroupMember(ctx context.Context, member *domain.UserGroupMember, userID, realmID uuid.UUID) error
-	RemoveUserGroupMembers(ctx context.Context, userGroupID uuid.UUID, userIDs []uuid.UUID, userID, realmID uuid.UUID) error
-	GetUserGroupMembers(ctx context.Context, userGroupID uuid.UUID) ([]domain.UserGroupMember, error)
-}
-
 type Service interface {
-	UserOperations
 	GroupOperations
 	ServiceOperations
 	AlarmOperations
 	ActivityOperations
 	PasteOperations
-	UserGroupOperations
 
 	ConfigOperations
 	SnippetOperations

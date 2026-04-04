@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 
 	"github.com/knights-analytics/hugot"
-	"github.com/knights-analytics/hugot/options"
 	"github.com/knights-analytics/hugot/pipelines"
 	"github.com/pdaccess/ws/internal/core/domain"
 	"github.com/pdaccess/ws/internal/core/ports"
@@ -22,79 +21,72 @@ type VectorGenerator struct {
 	modelDir string
 }
 
-// Close implements [ports.VectorGenerator].
 func (v *VectorGenerator) Close() {
-	v.session.Destroy()
+	if v.session != nil {
+		v.session.Destroy()
+	}
+	if v.modelDir != "" {
+		os.RemoveAll(v.modelDir)
+	}
+}
+
+type StubVectorGenerator struct{}
+
+func (s *StubVectorGenerator) Close() {}
+
+func (s *StubVectorGenerator) Generate(ctx context.Context, queryTerm string) (domain.Vector, error) {
+	return nil, fmt.Errorf("stub vector generator")
 }
 
 func NewVectorGenerator() (ports.VectorGenerator, error) {
 	modelDir, err := extractModel()
 	if err != nil {
-		return nil, fmt.Errorf("model Path: %w", err)
+		return nil, fmt.Errorf("failed to extract model: %w", err)
 	}
 
-	onnxLibPath := os.Getenv("ONNX_LIB_PATH")
-	if onnxLibPath == "" {
-		onnxLibPath = "/usr/lib"
-	}
-	session, err := hugot.NewORTSession(
-		options.WithOnnxLibraryPath(onnxLibPath),
-		options.WithInterOpNumThreads(10),
-		options.WithIntraOpNumThreads(10),
-		options.WithCPUMemArena(true),
-		options.WithMemPattern(true),
-	)
+	session, err := hugot.NewGoSession()
 	if err != nil {
-		return nil, fmt.Errorf("init: %w", err)
+		os.RemoveAll(modelDir)
+		return nil, fmt.Errorf("failed to create hugot session: %w", err)
 	}
-	// //defer session.Destroy()
 
-	// downloadOptions := hugot.NewDownloadOptions()
-
-	// downloadOptions.OnnxFilePath = "onnx/model_qint8_avx512.onnx"
-
-	// modelPath, err := hugot.DownloadModel("sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
-	// //check(err)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("download: %w", err)
-	// }
-
-	// Load the quantized 3-class model from the extracted temp dir
 	config := hugot.FeatureExtractionConfig{
-		ModelPath:    modelDir,
-		Name:         "sentence-transformers_all-MiniLM-L6-v2",
-		OnnxFilename: "onnx/model_qint8_avx512.onnx",
+		ModelPath: modelDir,
+		Name:      "feature-extraction",
 	}
-
-	commandPipeline, err := hugot.NewPipeline(session, config)
+	pipeline, err := hugot.NewPipeline(session, config)
 	if err != nil {
-		return nil, fmt.Errorf("pipeline creating: %w", err)
+		session.Destroy()
+		os.RemoveAll(modelDir)
+		return nil, fmt.Errorf("failed to create feature extraction pipeline: %w", err)
 	}
 
 	return &VectorGenerator{
 		session:  session,
-		pipeline: commandPipeline,
+		pipeline: pipeline,
 		modelDir: modelDir,
 	}, nil
 }
 
 func (v *VectorGenerator) Generate(ctx context.Context, queryTerm string) (domain.Vector, error) {
-	output, err := v.pipeline.Run([]string{queryTerm})
+	result, err := v.pipeline.Run([]string{queryTerm})
 	if err != nil {
 		return nil, fmt.Errorf("generate: %w", err)
 	}
 
-	return domain.Vector(lo.Map(output.GetOutput()[0].([]float32), func(v float32, _ int) float64 {
-		return float64(v)
+	output := result.GetOutput()
+	if len(output) == 0 {
+		return nil, fmt.Errorf("no output from pipeline")
+	}
+
+	return domain.Vector(lo.Map(output[0].([]float32), func(f float32, _ int) float64 {
+		return float64(f)
 	})), nil
 }
 
 //go:embed model_data/*
 var modelFS embed.FS
 
-// extractModel extracts the embedded model files to a temporary directory
-// and returns the path to the extracted model directory.
-// The caller is responsible for cleaning up with os.RemoveAll.
 func extractModel() (string, error) {
 	tmpDir, err := os.MkdirTemp("", "hugot-model-*")
 	if err != nil {
@@ -106,7 +98,6 @@ func extractModel() (string, error) {
 			return err
 		}
 
-		// Get relative path under model_data/
 		relPath, err := filepath.Rel("model_data", path)
 		if err != nil {
 			return err

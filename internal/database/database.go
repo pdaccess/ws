@@ -19,14 +19,6 @@ func (d *DB) InventoryRepo() *InventoryRepository {
 	return NewInventoryRepository(d)
 }
 
-func (d *DB) UserRepo() *UserRepository {
-	return NewUserRepository(d)
-}
-
-func (d *DB) UserGroupRepo() *UserGroupRepository {
-	return NewUserGroupRepository(d)
-}
-
 func (d *DB) ActivityRepo() *ActivityRepository {
 	return NewActivityRepository(d)
 }
@@ -62,44 +54,6 @@ func (d *DB) RunMigrations() error {
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS vector;
 
--- Users table
-CREATE TABLE IF NOT EXISTS users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    username VARCHAR(255) NOT NULL UNIQUE,
-    email VARCHAR(255),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    deleted_at TIMESTAMP WITH TIME ZONE
-);
-
-CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
-CREATE INDEX IF NOT EXISTS idx_users_deleted_at ON users(deleted_at);
-
--- User groups table
-CREATE TABLE IF NOT EXISTS user_groups (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    deleted_at TIMESTAMP WITH TIME ZONE
-);
-
-CREATE INDEX IF NOT EXISTS idx_user_groups_deleted_at ON user_groups(deleted_at);
-
--- User group members table
-CREATE TABLE IF NOT EXISTS user_group_members (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_group_id UUID NOT NULL REFERENCES user_groups(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'admin')),
-    membership_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(user_group_id, user_id)
-);
-
-CREATE INDEX IF NOT EXISTS idx_user_group_members_user_group_id ON user_group_members(user_group_id);
-CREATE INDEX IF NOT EXISTS idx_user_group_members_user_id ON user_group_members(user_id);
-
 -- Inventory table (generic data for groups and services)
 CREATE TABLE IF NOT EXISTS inventory (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -107,7 +61,8 @@ CREATE TABLE IF NOT EXISTS inventory (
     parent_id UUID REFERENCES inventory(id) ON DELETE SET NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    embedding REAL[],
+    type VARCHAR(50) NOT NULL,
+    embedding vector(384),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     deleted_at TIMESTAMP WITH TIME ZONE
@@ -133,11 +88,11 @@ CREATE TABLE IF NOT EXISTS services (
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_services_inventory_id ON services(inventory_id);
 
--- Group members table (users within groups)
+-- Group members table (members within groups)
 CREATE TABLE IF NOT EXISTS group_members (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     group_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL,
     role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'admin')),
     membership_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(group_id, user_id)
@@ -146,11 +101,11 @@ CREATE TABLE IF NOT EXISTS group_members (
 CREATE INDEX IF NOT EXISTS idx_group_members_group_id ON group_members(group_id);
 CREATE INDEX IF NOT EXISTS idx_group_members_user_id ON group_members(user_id);
 
--- Service members table (users within services)
+-- Service members table (members within services)
 CREATE TABLE IF NOT EXISTS service_members (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     service_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL,
     role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'admin')),
     membership_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(service_id, user_id)
@@ -178,7 +133,7 @@ CREATE INDEX IF NOT EXISTS idx_inventory_messages_inventory_id ON inventory_mess
 CREATE TABLE IF NOT EXISTS alarms (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     inventory_id UUID REFERENCES inventory(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL,
     action VARCHAR(255),
     name VARCHAR(255),
     pattern VARCHAR(500),
@@ -192,7 +147,7 @@ CREATE INDEX IF NOT EXISTS idx_alarms_inventory_id ON alarms(inventory_id);
 CREATE TABLE IF NOT EXISTS snippets (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     content TEXT NOT NULL,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL,
     marked BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -202,7 +157,7 @@ CREATE INDEX IF NOT EXISTS idx_snippets_user_id ON snippets(user_id);
 -- Activities table
 CREATE TABLE IF NOT EXISTS activities (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL,
     realm_id UUID NOT NULL,
     action VARCHAR(100) NOT NULL,
     resource VARCHAR(100),
@@ -218,7 +173,7 @@ CREATE INDEX IF NOT EXISTS idx_activities_realm_id ON activities(realm_id);
 CREATE INDEX IF NOT EXISTS idx_activities_action ON activities(action);
 CREATE INDEX IF NOT EXISTS idx_activities_activity_time ON activities(activity_time);
 
--- Pastes table (create if not exists, fix FK to allow NULL user_id)
+-- Pastes table
 DROP TABLE IF EXISTS pastes;
 CREATE TABLE pastes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

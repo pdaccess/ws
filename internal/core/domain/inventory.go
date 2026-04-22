@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/google/uuid"
@@ -117,6 +118,7 @@ type Service struct {
 	Type        InventoryType    `json:"type,omitempty"`
 	Embedding   Vector           `json:"embedding,omitempty"`
 	Settings    *ServiceSettings `json:"settings,omitempty"`
+	Credentials []Credential     `json:"credentials,omitempty"`
 	CreatedAt   time.Time        `json:"createdAt"`
 	UpdatedAt   time.Time        `json:"updatedAt"`
 	DeletedAt   *time.Time       `json:"deletedAt,omitempty"`
@@ -211,5 +213,93 @@ func WithServiceFilter(filter string) ServiceSearchOption {
 func WithServiceVector(vec Vector) ServiceSearchOption {
 	return func(s *ServiceSearch) {
 		s.Vector = vec
+	}
+}
+
+type Credential struct {
+	ID          uuid.UUID       `json:"id"`
+	GroupID     uuid.UUID       `json:"groupId"`
+	Name        string          `json:"name"`
+	Description string          `json:"description,omitempty"`
+	Type        CredentialType  `json:"type"`
+	Metadata    json.RawMessage `json:"metadata,omitempty"`
+	IsActive    bool            `json:"isActive"`
+	CreatedAt   time.Time       `json:"createdAt"`
+	UpdatedAt   time.Time       `json:"updatedAt"`
+	DeletedAt   *time.Time      `json:"deletedAt,omitempty"`
+}
+
+type CredentialType string
+
+const (
+	CredentialTypePassword    CredentialType = "password"
+	CredentialTypeSSHKey      CredentialType = "ssh_key"
+	CredentialTypeAPIKey      CredentialType = "api_key"
+	CredentialTypeCertificate CredentialType = "certificate"
+	CredentialTypeOAuth       CredentialType = "oauth"
+)
+
+type CredentialSecret struct {
+	ID             uuid.UUID  `json:"id"`
+	CredentialID   uuid.UUID  `json:"credentialId"`
+	Username       string     `json:"username,omitempty"`
+	Password       string     `json:"password,omitempty"`
+	PrivateKey     string     `json:"privateKey,omitempty"`
+	PublicKey      string     `json:"publicKey,omitempty"`
+	APIKey         string     `json:"apiKey,omitempty"`
+	APIsecret      string     `json:"apiSecret,omitempty"`
+	Certificate    string     `json:"certificate,omitempty"`
+	PrivateKeyPass string     `json:"privateKeyPass,omitempty"`
+	ExpiresAt      *time.Time `json:"expiresAt,omitempty"`
+	LastRotated    *time.Time `json:"lastRotated,omitempty"`
+	CreatedAt      time.Time  `json:"createdAt"`
+	UpdatedAt      time.Time  `json:"updatedAt"`
+}
+
+type CredentialSearch struct {
+	GroupID  *uuid.UUID
+	Name     *string
+	Type     CredentialType
+	IsActive *bool
+	Deleted  bool
+	Limit    int
+	Offset   int
+}
+
+type CredentialSearchOption func(*CredentialSearch)
+
+func WithCredentialGroupID(id uuid.UUID) CredentialSearchOption {
+	return func(s *CredentialSearch) {
+		s.GroupID = &id
+	}
+}
+
+func WithCredentialName(name string) CredentialSearchOption {
+	return func(s *CredentialSearch) {
+		s.Name = &name
+	}
+}
+
+func WithCredentialType(t CredentialType) CredentialSearchOption {
+	return func(s *CredentialSearch) {
+		s.Type = t
+	}
+}
+
+func WithCredentialActive(active bool) CredentialSearchOption {
+	return func(s *CredentialSearch) {
+		s.IsActive = &active
+	}
+}
+
+func WithCredentialLimit(limit int) CredentialSearchOption {
+	return func(s *CredentialSearch) {
+		s.Limit = limit
+	}
+}
+
+func WithCredentialOffset(offset int) CredentialSearchOption {
+	return func(s *CredentialSearch) {
+		s.Offset = offset
 	}
 }

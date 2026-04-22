@@ -18,6 +18,8 @@ security:
 tags:
   - name: Services
     description: Service management
+  - name: Credentials
+    description: Credential management
   - name: Groups
     description: Group management
   - name: Policies
@@ -131,6 +133,248 @@ paths:
           description: Service deleted
         '4XX':
           $ref: '#/components/responses/ClientError'
+
+  # ==================== Credentials ====================
+  /group/{groupId}/credential:
+    post:
+      tags:
+        - Credentials
+      summary: Create credential
+      description: Create a new credential for a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialCreate'
+      responses:
+        '201':
+          description: Credential created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credential'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    get:
+      tags:
+        - Credentials
+      summary: List credentials
+      description: List credentials for a group
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Credentials list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialList'
+
+  /group/{groupId}/credential/{credentialId}:
+    get:
+      tags:
+        - Credentials
+      summary: Get credential
+      description: Get credential by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: credentialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Credential details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credential'
+
+    put:
+      tags:
+        - Credentials
+      summary: Update credential
+      description: Update credential details
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: credentialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialUpdate'
+      responses:
+        '200':
+          description: Credential updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credential'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+    delete:
+      tags:
+        - Credentials
+      summary: Delete credential
+      description: Delete a credential
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: credentialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Credential deleted
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+
+  /group/{groupId}/credential/{credentialId}/secret:
+    post:
+      tags:
+        - Credentials
+      summary: Add credential secret
+      description: Add credential secret (secret data)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: credentialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialSecretCreate'
+      responses:
+        '201':
+          description: Secret created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialSecret'
+
+    get:
+      tags:
+        - Credentials
+      summary: Get credential secret
+      description: Get credential secret (secret data)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: credentialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Secret details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialSecret'
+
+    put:
+      tags:
+        - Credentials
+      summary: Update credential secret
+      description: Update credential secret (secret data)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: credentialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialSecretUpdate'
+      responses:
+        '200':
+          description: Secret updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialSecret'
 
   # ==================== Groups ====================
   /group:
@@ -1044,6 +1288,153 @@ components:
           nullable: true
         status:
           type: string
+
+    # Credentials
+    Credential:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum: [password, ssh_key, api_key, certificate, oauth]
+        metadata:
+          type: object
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CredentialList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Credential'
+
+    CredentialCreate:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [password, ssh_key, api_key, certificate, oauth]
+        metadata:
+          type: object
+
+    CredentialUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [password, ssh_key, api_key, certificate, oauth]
+        metadata:
+          type: object
+        isActive:
+          type: boolean
+
+    CredentialSecret:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        credentialId:
+          type: string
+          format: uuid
+        username:
+          type: string
+        password:
+          type: string
+        privateKey:
+          type: string
+        publicKey:
+          type: string
+        apiKey:
+          type: string
+        apiSecret:
+          type: string
+        certificate:
+          type: string
+        privateKeyPass:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        lastRotated:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CredentialSecretCreate:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        privateKey:
+          type: string
+        publicKey:
+          type: string
+        apiKey:
+          type: string
+        apiSecret:
+          type: string
+        certificate:
+          type: string
+        privateKeyPass:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+
+    CredentialSecretUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        privateKey:
+          type: string
+        publicKey:
+          type: string
+        apiKey:
+          type: string
+        apiSecret:
+          type: string
+        certificate:
+          type: string
+        privateKeyPass:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
 
     # Groups
     Group:

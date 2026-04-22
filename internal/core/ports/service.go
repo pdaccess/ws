@@ -67,12 +67,25 @@ type PasteOperations interface {
 	SearchPastes(ctx context.Context, opts ...domain.PasteSearchOption) ([]domain.Paste, error)
 }
 
+type CredentialOperations interface {
+	CreateCredential(ctx context.Context, cred *domain.Credential) error
+	GetCredential(ctx context.Context, id uuid.UUID) (*domain.Credential, error)
+	UpdateCredential(ctx context.Context, cred *domain.Credential) error
+	DeleteCredential(ctx context.Context, id uuid.UUID) error
+	SearchCredentials(ctx context.Context, opts ...domain.CredentialSearchOption) ([]domain.Credential, error)
+
+	CreateCredentialSecret(ctx context.Context, secret *domain.CredentialSecret) error
+	GetCredentialSecret(ctx context.Context, credentialID uuid.UUID) (*domain.CredentialSecret, error)
+	UpdateCredentialSecret(ctx context.Context, secret *domain.CredentialSecret) error
+}
+
 type Service interface {
 	GroupOperations
 	ServiceOperations
 	AlarmOperations
 	ActivityOperations
 	PasteOperations
+	CredentialOperations
 
 	ConfigOperations
 	SnippetOperations

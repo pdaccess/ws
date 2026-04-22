@@ -31,6 +31,10 @@ func (d *DB) ServiceSettingsRepo() *ServiceSettingsRepository {
 	return NewServiceSettingsRepository(d)
 }
 
+func (d *DB) CredentialRepo() *CredentialRepository {
+	return NewCredentialRepository(d)
+}
+
 func New(connStr string) (*DB, error) {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -201,6 +205,46 @@ CREATE TABLE IF NOT EXISTS config_contexts (
 );
 
 CREATE INDEX IF NOT EXISTS idx_config_contexts_realm_context ON config_contexts(realm, context);
+
+-- Credentials table (searchable data - name, description, metadata)
+DROP TABLE IF EXISTS credential_secrets;
+CREATE TABLE IF NOT EXISTS credentials (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    group_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    type VARCHAR(50) NOT NULL CHECK (type IN ('password', 'ssh_key', 'api_key', 'certificate', 'oauth')),
+    metadata JSONB DEFAULT '{}',
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    deleted_at TIMESTAMP WITH TIME ZONE
+);
+
+CREATE INDEX IF NOT EXISTS idx_credentials_group_id ON credentials(group_id);
+CREATE INDEX IF NOT EXISTS idx_credentials_name ON credentials(name);
+CREATE INDEX IF NOT EXISTS idx_credentials_type ON credentials(type);
+CREATE INDEX IF NOT EXISTS idx_credentials_is_active ON credentials(is_active);
+
+-- Credential secrets table (stores secret data)
+CREATE TABLE IF NOT EXISTS credential_secrets (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    credential_id UUID NOT NULL REFERENCES credentials(id) ON DELETE CASCADE,
+    username VARCHAR(255),
+    password TEXT,
+    private_key TEXT,
+    public_key TEXT,
+    api_key TEXT,
+    api_secret TEXT,
+    certificate TEXT,
+    private_key_pass TEXT,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    last_rotated TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_credential_secrets_credential_id ON credential_secrets(credential_id);
 `
 
 	_, err := d.Exec(schema)

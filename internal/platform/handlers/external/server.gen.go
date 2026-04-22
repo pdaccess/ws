@@ -96,6 +96,87 @@ func (e AlarmSeverity) Valid() bool {
 	}
 }
 
+// Defines values for CredentialType.
+const (
+	CredentialTypeApiKey      CredentialType = "api_key"
+	CredentialTypeCertificate CredentialType = "certificate"
+	CredentialTypeOauth       CredentialType = "oauth"
+	CredentialTypePassword    CredentialType = "password"
+	CredentialTypeSshKey      CredentialType = "ssh_key"
+)
+
+// Valid indicates whether the value is a known member of the CredentialType enum.
+func (e CredentialType) Valid() bool {
+	switch e {
+	case CredentialTypeApiKey:
+		return true
+	case CredentialTypeCertificate:
+		return true
+	case CredentialTypeOauth:
+		return true
+	case CredentialTypePassword:
+		return true
+	case CredentialTypeSshKey:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CredentialCreateType.
+const (
+	CredentialCreateTypeApiKey      CredentialCreateType = "api_key"
+	CredentialCreateTypeCertificate CredentialCreateType = "certificate"
+	CredentialCreateTypeOauth       CredentialCreateType = "oauth"
+	CredentialCreateTypePassword    CredentialCreateType = "password"
+	CredentialCreateTypeSshKey      CredentialCreateType = "ssh_key"
+)
+
+// Valid indicates whether the value is a known member of the CredentialCreateType enum.
+func (e CredentialCreateType) Valid() bool {
+	switch e {
+	case CredentialCreateTypeApiKey:
+		return true
+	case CredentialCreateTypeCertificate:
+		return true
+	case CredentialCreateTypeOauth:
+		return true
+	case CredentialCreateTypePassword:
+		return true
+	case CredentialCreateTypeSshKey:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CredentialUpdateType.
+const (
+	ApiKey      CredentialUpdateType = "api_key"
+	Certificate CredentialUpdateType = "certificate"
+	Oauth       CredentialUpdateType = "oauth"
+	Password    CredentialUpdateType = "password"
+	SshKey      CredentialUpdateType = "ssh_key"
+)
+
+// Valid indicates whether the value is a known member of the CredentialUpdateType enum.
+func (e CredentialUpdateType) Valid() bool {
+	switch e {
+	case ApiKey:
+		return true
+	case Certificate:
+		return true
+	case Oauth:
+		return true
+	case Password:
+		return true
+	case SshKey:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PolicyType.
 const (
 	PolicyTypeAccess   PolicyType = "Access"
@@ -428,6 +509,91 @@ type AuditLogList struct {
 	Data *[]AuditLog     `json:"data,omitempty"`
 	Meta *PaginationMeta `json:"meta,omitempty"`
 }
+
+// Credential defines model for Credential.
+type Credential struct {
+	CreatedAt *time.Time              `json:"createdAt,omitempty"`
+	GroupId   *openapi_types.UUID     `json:"groupId,omitempty"`
+	Id        *openapi_types.UUID     `json:"id,omitempty"`
+	IsActive  *bool                   `json:"isActive,omitempty"`
+	Metadata  *map[string]interface{} `json:"metadata,omitempty"`
+	Name      *string                 `json:"name,omitempty"`
+	Type      *CredentialType         `json:"type,omitempty"`
+	UpdatedAt *time.Time              `json:"updatedAt,omitempty"`
+}
+
+// CredentialType defines model for Credential.Type.
+type CredentialType string
+
+// CredentialCreate defines model for CredentialCreate.
+type CredentialCreate struct {
+	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+	Name     string                  `json:"name"`
+	Type     CredentialCreateType    `json:"type"`
+}
+
+// CredentialCreateType defines model for CredentialCreate.Type.
+type CredentialCreateType string
+
+// CredentialList defines model for CredentialList.
+type CredentialList struct {
+	Data *[]Credential `json:"data,omitempty"`
+}
+
+// CredentialSecret defines model for CredentialSecret.
+type CredentialSecret struct {
+	ApiKey         *string             `json:"apiKey,omitempty"`
+	ApiSecret      *string             `json:"apiSecret,omitempty"`
+	Certificate    *string             `json:"certificate,omitempty"`
+	CreatedAt      *time.Time          `json:"createdAt,omitempty"`
+	CredentialId   *openapi_types.UUID `json:"credentialId,omitempty"`
+	ExpiresAt      *time.Time          `json:"expiresAt,omitempty"`
+	Id             *openapi_types.UUID `json:"id,omitempty"`
+	LastRotated    *time.Time          `json:"lastRotated,omitempty"`
+	Password       *string             `json:"password,omitempty"`
+	PrivateKey     *string             `json:"privateKey,omitempty"`
+	PrivateKeyPass *string             `json:"privateKeyPass,omitempty"`
+	PublicKey      *string             `json:"publicKey,omitempty"`
+	UpdatedAt      *time.Time          `json:"updatedAt,omitempty"`
+	Username       *string             `json:"username,omitempty"`
+}
+
+// CredentialSecretCreate defines model for CredentialSecretCreate.
+type CredentialSecretCreate struct {
+	ApiKey         *string    `json:"apiKey,omitempty"`
+	ApiSecret      *string    `json:"apiSecret,omitempty"`
+	Certificate    *string    `json:"certificate,omitempty"`
+	ExpiresAt      *time.Time `json:"expiresAt,omitempty"`
+	Password       *string    `json:"password,omitempty"`
+	PrivateKey     *string    `json:"privateKey,omitempty"`
+	PrivateKeyPass *string    `json:"privateKeyPass,omitempty"`
+	PublicKey      *string    `json:"publicKey,omitempty"`
+	Username       *string    `json:"username,omitempty"`
+}
+
+// CredentialSecretUpdate defines model for CredentialSecretUpdate.
+type CredentialSecretUpdate struct {
+	ApiKey         *string    `json:"apiKey,omitempty"`
+	ApiSecret      *string    `json:"apiSecret,omitempty"`
+	Certificate    *string    `json:"certificate,omitempty"`
+	ExpiresAt      *time.Time `json:"expiresAt,omitempty"`
+	Password       *string    `json:"password,omitempty"`
+	PrivateKey     *string    `json:"privateKey,omitempty"`
+	PrivateKeyPass *string    `json:"privateKeyPass,omitempty"`
+	PublicKey      *string    `json:"publicKey,omitempty"`
+	Username       *string    `json:"username,omitempty"`
+}
+
+// CredentialUpdate defines model for CredentialUpdate.
+type CredentialUpdate struct {
+	IsActive *bool                   `json:"isActive,omitempty"`
+	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+	Name     *string                 `json:"name,omitempty"`
+	Type     *CredentialUpdateType   `json:"type,omitempty"`
+}
+
+// CredentialUpdateType defines model for CredentialUpdate.Type.
+type CredentialUpdateType string
 
 // GenericError defines model for GenericError.
 type GenericError struct {
@@ -804,6 +970,18 @@ type PutAdminSettingsJSONRequestBody = SystemSettingsUpdate
 // PostGroupJSONRequestBody defines body for PostGroup for application/json ContentType.
 type PostGroupJSONRequestBody = GroupCreate
 
+// PostGroupGroupIdCredentialJSONRequestBody defines body for PostGroupGroupIdCredential for application/json ContentType.
+type PostGroupGroupIdCredentialJSONRequestBody = CredentialCreate
+
+// PutGroupGroupIdCredentialCredentialIdJSONRequestBody defines body for PutGroupGroupIdCredentialCredentialId for application/json ContentType.
+type PutGroupGroupIdCredentialCredentialIdJSONRequestBody = CredentialUpdate
+
+// PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody defines body for PostGroupGroupIdCredentialCredentialIdSecret for application/json ContentType.
+type PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody = CredentialSecretCreate
+
+// PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody defines body for PutGroupGroupIdCredentialCredentialIdSecret for application/json ContentType.
+type PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody = CredentialSecretUpdate
+
 // PostGroupGroupIdMembersJSONRequestBody defines body for PostGroupGroupIdMembers for application/json ContentType.
 type PostGroupGroupIdMembersJSONRequestBody PostGroupGroupIdMembersJSONBody
 
@@ -863,6 +1041,30 @@ type ServerInterface interface {
 	// Get group
 	// (GET /group/{groupId})
 	GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
+	// List credentials
+	// (GET /group/{groupId}/credential)
+	GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
+	// Create credential
+	// (POST /group/{groupId}/credential)
+	PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
+	// Delete credential
+	// (DELETE /group/{groupId}/credential/{credentialId})
+	DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
+	// Get credential
+	// (GET /group/{groupId}/credential/{credentialId})
+	GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
+	// Update credential
+	// (PUT /group/{groupId}/credential/{credentialId})
+	PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
+	// Get credential secret
+	// (GET /group/{groupId}/credential/{credentialId}/secret)
+	GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
+	// Add credential secret
+	// (POST /group/{groupId}/credential/{credentialId}/secret)
+	PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
+	// Update credential secret
+	// (PUT /group/{groupId}/credential/{credentialId}/secret)
+	PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
 	// Get group members
 	// (GET /group/{groupId}/members)
 	GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetGroupGroupIdMembersParams)
@@ -998,6 +1200,54 @@ func (_ Unimplemented) DeleteGroupGroupId(w http.ResponseWriter, r *http.Request
 // Get group
 // (GET /group/{groupId})
 func (_ Unimplemented) GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// List credentials
+// (GET /group/{groupId}/credential)
+func (_ Unimplemented) GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Create credential
+// (POST /group/{groupId}/credential)
+func (_ Unimplemented) PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Delete credential
+// (DELETE /group/{groupId}/credential/{credentialId})
+func (_ Unimplemented) DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Get credential
+// (GET /group/{groupId}/credential/{credentialId})
+func (_ Unimplemented) GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Update credential
+// (PUT /group/{groupId}/credential/{credentialId})
+func (_ Unimplemented) PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Get credential secret
+// (GET /group/{groupId}/credential/{credentialId}/secret)
+func (_ Unimplemented) GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Add credential secret
+// (POST /group/{groupId}/credential/{credentialId}/secret)
+func (_ Unimplemented) PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Update credential secret
+// (PUT /group/{groupId}/credential/{credentialId}/secret)
+func (_ Unimplemented) PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1591,6 +1841,308 @@ func (siw *ServerInterfaceWrapper) GetGroupGroupId(w http.ResponseWriter, r *htt
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.GetGroupGroupId(w, r, groupId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetGroupGroupIdCredential operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetGroupGroupIdCredential(w, r, groupId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PostGroupGroupIdCredential operation middleware
+func (siw *ServerInterfaceWrapper) PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostGroupGroupIdCredential(w, r, groupId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteGroupGroupIdCredentialCredentialId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "credentialId" -------------
+	var credentialId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteGroupGroupIdCredentialCredentialId(w, r, groupId, credentialId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetGroupGroupIdCredentialCredentialId operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "credentialId" -------------
+	var credentialId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetGroupGroupIdCredentialCredentialId(w, r, groupId, credentialId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PutGroupGroupIdCredentialCredentialId operation middleware
+func (siw *ServerInterfaceWrapper) PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "credentialId" -------------
+	var credentialId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PutGroupGroupIdCredentialCredentialId(w, r, groupId, credentialId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetGroupGroupIdCredentialCredentialIdSecret operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "credentialId" -------------
+	var credentialId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetGroupGroupIdCredentialCredentialIdSecret(w, r, groupId, credentialId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PostGroupGroupIdCredentialCredentialIdSecret operation middleware
+func (siw *ServerInterfaceWrapper) PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "credentialId" -------------
+	var credentialId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostGroupGroupIdCredentialCredentialIdSecret(w, r, groupId, credentialId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PutGroupGroupIdCredentialCredentialIdSecret operation middleware
+func (siw *ServerInterfaceWrapper) PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "credentialId" -------------
+	var credentialId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PutGroupGroupIdCredentialCredentialIdSecret(w, r, groupId, credentialId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2452,6 +3004,30 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Get(options.BaseURL+"/group/{groupId}", wrapper.GetGroupGroupId)
 	})
 	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group/{groupId}/credential", wrapper.GetGroupGroupIdCredential)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/group/{groupId}/credential", wrapper.PostGroupGroupIdCredential)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/group/{groupId}/credential/{credentialId}", wrapper.DeleteGroupGroupIdCredentialCredentialId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group/{groupId}/credential/{credentialId}", wrapper.GetGroupGroupIdCredentialCredentialId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/group/{groupId}/credential/{credentialId}", wrapper.PutGroupGroupIdCredentialCredentialId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/group/{groupId}/credential/{credentialId}/secret", wrapper.GetGroupGroupIdCredentialCredentialIdSecret)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/group/{groupId}/credential/{credentialId}/secret", wrapper.PostGroupGroupIdCredentialCredentialIdSecret)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/group/{groupId}/credential/{credentialId}/secret", wrapper.PutGroupGroupIdCredentialCredentialIdSecret)
+	})
+	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/group/{groupId}/members", wrapper.GetGroupGroupIdMembers)
 	})
 	r.Group(func(r chi.Router) {
@@ -2751,6 +3327,187 @@ func (response GetGroupGroupId4XXJSONResponse) VisitGetGroupGroupIdResponse(w ht
 	w.WriteHeader(response.StatusCode)
 
 	return json.NewEncoder(w).Encode(response.Body)
+}
+
+type GetGroupGroupIdCredentialRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
+}
+
+type GetGroupGroupIdCredentialResponseObject interface {
+	VisitGetGroupGroupIdCredentialResponse(w http.ResponseWriter) error
+}
+
+type GetGroupGroupIdCredential200JSONResponse CredentialList
+
+func (response GetGroupGroupIdCredential200JSONResponse) VisitGetGroupGroupIdCredentialResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostGroupGroupIdCredentialRequestObject struct {
+	GroupId openapi_types.UUID `json:"groupId"`
+	Body    *PostGroupGroupIdCredentialJSONRequestBody
+}
+
+type PostGroupGroupIdCredentialResponseObject interface {
+	VisitPostGroupGroupIdCredentialResponse(w http.ResponseWriter) error
+}
+
+type PostGroupGroupIdCredential201JSONResponse Credential
+
+func (response PostGroupGroupIdCredential201JSONResponse) VisitPostGroupGroupIdCredentialResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(201)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostGroupGroupIdCredential4XXJSONResponse struct {
+	Body       GenericError
+	StatusCode int
+}
+
+func (response PostGroupGroupIdCredential4XXJSONResponse) VisitPostGroupGroupIdCredentialResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(response.StatusCode)
+
+	return json.NewEncoder(w).Encode(response.Body)
+}
+
+type DeleteGroupGroupIdCredentialCredentialIdRequestObject struct {
+	GroupId      openapi_types.UUID `json:"groupId"`
+	CredentialId openapi_types.UUID `json:"credentialId"`
+}
+
+type DeleteGroupGroupIdCredentialCredentialIdResponseObject interface {
+	VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteGroupGroupIdCredentialCredentialId204Response struct {
+}
+
+func (response DeleteGroupGroupIdCredentialCredentialId204Response) VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(204)
+	return nil
+}
+
+type DeleteGroupGroupIdCredentialCredentialId4XXJSONResponse struct {
+	Body       GenericError
+	StatusCode int
+}
+
+func (response DeleteGroupGroupIdCredentialCredentialId4XXJSONResponse) VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(response.StatusCode)
+
+	return json.NewEncoder(w).Encode(response.Body)
+}
+
+type GetGroupGroupIdCredentialCredentialIdRequestObject struct {
+	GroupId      openapi_types.UUID `json:"groupId"`
+	CredentialId openapi_types.UUID `json:"credentialId"`
+}
+
+type GetGroupGroupIdCredentialCredentialIdResponseObject interface {
+	VisitGetGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error
+}
+
+type GetGroupGroupIdCredentialCredentialId200JSONResponse Credential
+
+func (response GetGroupGroupIdCredentialCredentialId200JSONResponse) VisitGetGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutGroupGroupIdCredentialCredentialIdRequestObject struct {
+	GroupId      openapi_types.UUID `json:"groupId"`
+	CredentialId openapi_types.UUID `json:"credentialId"`
+	Body         *PutGroupGroupIdCredentialCredentialIdJSONRequestBody
+}
+
+type PutGroupGroupIdCredentialCredentialIdResponseObject interface {
+	VisitPutGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error
+}
+
+type PutGroupGroupIdCredentialCredentialId200JSONResponse Credential
+
+func (response PutGroupGroupIdCredentialCredentialId200JSONResponse) VisitPutGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutGroupGroupIdCredentialCredentialId4XXJSONResponse struct {
+	Body       GenericError
+	StatusCode int
+}
+
+func (response PutGroupGroupIdCredentialCredentialId4XXJSONResponse) VisitPutGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(response.StatusCode)
+
+	return json.NewEncoder(w).Encode(response.Body)
+}
+
+type GetGroupGroupIdCredentialCredentialIdSecretRequestObject struct {
+	GroupId      openapi_types.UUID `json:"groupId"`
+	CredentialId openapi_types.UUID `json:"credentialId"`
+}
+
+type GetGroupGroupIdCredentialCredentialIdSecretResponseObject interface {
+	VisitGetGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error
+}
+
+type GetGroupGroupIdCredentialCredentialIdSecret200JSONResponse CredentialSecret
+
+func (response GetGroupGroupIdCredentialCredentialIdSecret200JSONResponse) VisitGetGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostGroupGroupIdCredentialCredentialIdSecretRequestObject struct {
+	GroupId      openapi_types.UUID `json:"groupId"`
+	CredentialId openapi_types.UUID `json:"credentialId"`
+	Body         *PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
+}
+
+type PostGroupGroupIdCredentialCredentialIdSecretResponseObject interface {
+	VisitPostGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error
+}
+
+type PostGroupGroupIdCredentialCredentialIdSecret201JSONResponse CredentialSecret
+
+func (response PostGroupGroupIdCredentialCredentialIdSecret201JSONResponse) VisitPostGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(201)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutGroupGroupIdCredentialCredentialIdSecretRequestObject struct {
+	GroupId      openapi_types.UUID `json:"groupId"`
+	CredentialId openapi_types.UUID `json:"credentialId"`
+	Body         *PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
+}
+
+type PutGroupGroupIdCredentialCredentialIdSecretResponseObject interface {
+	VisitPutGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error
+}
+
+type PutGroupGroupIdCredentialCredentialIdSecret200JSONResponse CredentialSecret
+
+func (response PutGroupGroupIdCredentialCredentialIdSecret200JSONResponse) VisitPutGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
 }
 
 type GetGroupGroupIdMembersRequestObject struct {
@@ -3311,6 +4068,30 @@ type StrictServerInterface interface {
 	// Get group
 	// (GET /group/{groupId})
 	GetGroupGroupId(ctx context.Context, request GetGroupGroupIdRequestObject) (GetGroupGroupIdResponseObject, error)
+	// List credentials
+	// (GET /group/{groupId}/credential)
+	GetGroupGroupIdCredential(ctx context.Context, request GetGroupGroupIdCredentialRequestObject) (GetGroupGroupIdCredentialResponseObject, error)
+	// Create credential
+	// (POST /group/{groupId}/credential)
+	PostGroupGroupIdCredential(ctx context.Context, request PostGroupGroupIdCredentialRequestObject) (PostGroupGroupIdCredentialResponseObject, error)
+	// Delete credential
+	// (DELETE /group/{groupId}/credential/{credentialId})
+	DeleteGroupGroupIdCredentialCredentialId(ctx context.Context, request DeleteGroupGroupIdCredentialCredentialIdRequestObject) (DeleteGroupGroupIdCredentialCredentialIdResponseObject, error)
+	// Get credential
+	// (GET /group/{groupId}/credential/{credentialId})
+	GetGroupGroupIdCredentialCredentialId(ctx context.Context, request GetGroupGroupIdCredentialCredentialIdRequestObject) (GetGroupGroupIdCredentialCredentialIdResponseObject, error)
+	// Update credential
+	// (PUT /group/{groupId}/credential/{credentialId})
+	PutGroupGroupIdCredentialCredentialId(ctx context.Context, request PutGroupGroupIdCredentialCredentialIdRequestObject) (PutGroupGroupIdCredentialCredentialIdResponseObject, error)
+	// Get credential secret
+	// (GET /group/{groupId}/credential/{credentialId}/secret)
+	GetGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request GetGroupGroupIdCredentialCredentialIdSecretRequestObject) (GetGroupGroupIdCredentialCredentialIdSecretResponseObject, error)
+	// Add credential secret
+	// (POST /group/{groupId}/credential/{credentialId}/secret)
+	PostGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request PostGroupGroupIdCredentialCredentialIdSecretRequestObject) (PostGroupGroupIdCredentialCredentialIdSecretResponseObject, error)
+	// Update credential secret
+	// (PUT /group/{groupId}/credential/{credentialId}/secret)
+	PutGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request PutGroupGroupIdCredentialCredentialIdSecretRequestObject) (PutGroupGroupIdCredentialCredentialIdSecretResponseObject, error)
 	// Get group members
 	// (GET /group/{groupId}/members)
 	GetGroupGroupIdMembers(ctx context.Context, request GetGroupGroupIdMembersRequestObject) (GetGroupGroupIdMembersResponseObject, error)
@@ -3713,6 +4494,248 @@ func (sh *strictHandler) GetGroupGroupId(w http.ResponseWriter, r *http.Request,
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
 	} else if validResponse, ok := response.(GetGroupGroupIdResponseObject); ok {
 		if err := validResponse.VisitGetGroupGroupIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetGroupGroupIdCredential operation middleware
+func (sh *strictHandler) GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request GetGroupGroupIdCredentialRequestObject
+
+	request.GroupId = groupId
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.GetGroupGroupIdCredential(ctx, request.(GetGroupGroupIdCredentialRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetGroupGroupIdCredential")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(GetGroupGroupIdCredentialResponseObject); ok {
+		if err := validResponse.VisitGetGroupGroupIdCredentialResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostGroupGroupIdCredential operation middleware
+func (sh *strictHandler) PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request PostGroupGroupIdCredentialRequestObject
+
+	request.GroupId = groupId
+
+	var body PostGroupGroupIdCredentialJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PostGroupGroupIdCredential(ctx, request.(PostGroupGroupIdCredentialRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostGroupGroupIdCredential")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PostGroupGroupIdCredentialResponseObject); ok {
+		if err := validResponse.VisitPostGroupGroupIdCredentialResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteGroupGroupIdCredentialCredentialId operation middleware
+func (sh *strictHandler) DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	var request DeleteGroupGroupIdCredentialCredentialIdRequestObject
+
+	request.GroupId = groupId
+	request.CredentialId = credentialId
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteGroupGroupIdCredentialCredentialId(ctx, request.(DeleteGroupGroupIdCredentialCredentialIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteGroupGroupIdCredentialCredentialId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(DeleteGroupGroupIdCredentialCredentialIdResponseObject); ok {
+		if err := validResponse.VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetGroupGroupIdCredentialCredentialId operation middleware
+func (sh *strictHandler) GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	var request GetGroupGroupIdCredentialCredentialIdRequestObject
+
+	request.GroupId = groupId
+	request.CredentialId = credentialId
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.GetGroupGroupIdCredentialCredentialId(ctx, request.(GetGroupGroupIdCredentialCredentialIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetGroupGroupIdCredentialCredentialId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(GetGroupGroupIdCredentialCredentialIdResponseObject); ok {
+		if err := validResponse.VisitGetGroupGroupIdCredentialCredentialIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutGroupGroupIdCredentialCredentialId operation middleware
+func (sh *strictHandler) PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	var request PutGroupGroupIdCredentialCredentialIdRequestObject
+
+	request.GroupId = groupId
+	request.CredentialId = credentialId
+
+	var body PutGroupGroupIdCredentialCredentialIdJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PutGroupGroupIdCredentialCredentialId(ctx, request.(PutGroupGroupIdCredentialCredentialIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutGroupGroupIdCredentialCredentialId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PutGroupGroupIdCredentialCredentialIdResponseObject); ok {
+		if err := validResponse.VisitPutGroupGroupIdCredentialCredentialIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetGroupGroupIdCredentialCredentialIdSecret operation middleware
+func (sh *strictHandler) GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	var request GetGroupGroupIdCredentialCredentialIdSecretRequestObject
+
+	request.GroupId = groupId
+	request.CredentialId = credentialId
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.GetGroupGroupIdCredentialCredentialIdSecret(ctx, request.(GetGroupGroupIdCredentialCredentialIdSecretRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetGroupGroupIdCredentialCredentialIdSecret")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(GetGroupGroupIdCredentialCredentialIdSecretResponseObject); ok {
+		if err := validResponse.VisitGetGroupGroupIdCredentialCredentialIdSecretResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostGroupGroupIdCredentialCredentialIdSecret operation middleware
+func (sh *strictHandler) PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	var request PostGroupGroupIdCredentialCredentialIdSecretRequestObject
+
+	request.GroupId = groupId
+	request.CredentialId = credentialId
+
+	var body PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PostGroupGroupIdCredentialCredentialIdSecret(ctx, request.(PostGroupGroupIdCredentialCredentialIdSecretRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostGroupGroupIdCredentialCredentialIdSecret")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PostGroupGroupIdCredentialCredentialIdSecretResponseObject); ok {
+		if err := validResponse.VisitPostGroupGroupIdCredentialCredentialIdSecretResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutGroupGroupIdCredentialCredentialIdSecret operation middleware
+func (sh *strictHandler) PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+	var request PutGroupGroupIdCredentialCredentialIdSecretRequestObject
+
+	request.GroupId = groupId
+	request.CredentialId = credentialId
+
+	var body PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PutGroupGroupIdCredentialCredentialIdSecret(ctx, request.(PutGroupGroupIdCredentialCredentialIdSecretRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutGroupGroupIdCredentialCredentialIdSecret")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PutGroupGroupIdCredentialCredentialIdSecretResponseObject); ok {
+		if err := validResponse.VisitPutGroupGroupIdCredentialCredentialIdSecretResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4289,61 +5312,69 @@ func (sh *strictHandler) PutServiceServiceId(w http.ResponseWriter, r *http.Requ
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"/wYAAP//WitWStJeAAA=",
+	"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",
+	"BNXnx5vH/wYAAP//k/UfltZ6AAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

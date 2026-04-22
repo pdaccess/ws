@@ -20,6 +20,13 @@ func intToUUID(id int) uuid.UUID {
 
 var dummyUUID = uuid.MustParse("00000000-0000-0000-0000-000000000000")
 
+func pointerToString(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
+}
+
 type httpHandler struct {
 	svc ports.Service
 }
@@ -739,5 +746,269 @@ func (h *httpHandler) PutServiceServiceId(ctx context.Context, request external.
 	id := request.ServiceId
 	return external.PutServiceServiceId200JSONResponse(external.Service{
 		Id: &id,
+	}), nil
+}
+
+func (h *httpHandler) GetGroupGroupIdCredential(ctx context.Context, request external.GetGroupGroupIdCredentialRequestObject) (external.GetGroupGroupIdCredentialResponseObject, error) {
+	groupID := request.GroupId
+	if groupID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
+	}
+
+	creds, err := h.svc.SearchCredentials(ctx, domain.WithCredentialGroupID(groupID))
+	if err != nil {
+		return nil, fmt.Errorf("failed to search credentials: %w", err)
+	}
+
+	var extCreds []external.Credential
+	for _, c := range creds {
+		ct := external.CredentialType(c.Type)
+		extCreds = append(extCreds, external.Credential{
+			Id:       &c.ID,
+			GroupId:  &c.GroupID,
+			Name:     &c.Name,
+			Type:     &ct,
+			IsActive: &c.IsActive,
+		})
+	}
+
+	return external.GetGroupGroupIdCredential200JSONResponse(external.CredentialList{
+		Data: &extCreds,
+	}), nil
+}
+
+func (h *httpHandler) PostGroupGroupIdCredential(ctx context.Context, request external.PostGroupGroupIdCredentialRequestObject) (external.PostGroupGroupIdCredentialResponseObject, error) {
+	if request.Body == nil {
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
+	}
+
+	groupID := request.GroupId
+	if groupID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid group id", Code: domain.ErrCodeInvalidID}
+	}
+
+	credType := domain.CredentialType(request.Body.Type)
+	cred := &domain.Credential{
+		GroupID:  groupID,
+		Name:     request.Body.Name,
+		Type:     credType,
+		IsActive: true,
+	}
+
+	if err := h.svc.CreateCredential(ctx, cred); err != nil {
+		return nil, fmt.Errorf("failed to create credential: %w", err)
+	}
+
+	return external.PostGroupGroupIdCredential201JSONResponse(external.Credential{
+		Id:       &cred.ID,
+		GroupId:  &cred.GroupID,
+		Name:     &cred.Name,
+		Type:     func() *external.CredentialType { t := external.CredentialType(cred.Type); return &t }(),
+		IsActive: &cred.IsActive,
+	}), nil
+}
+
+func (h *httpHandler) GetGroupGroupIdCredentialCredentialId(ctx context.Context, request external.GetGroupGroupIdCredentialCredentialIdRequestObject) (external.GetGroupGroupIdCredentialCredentialIdResponseObject, error) {
+	credentialID := request.CredentialId
+	if credentialID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid credential id", Code: domain.ErrCodeInvalidID}
+	}
+
+	cred, err := h.svc.GetCredential(ctx, credentialID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get credential: %w", err)
+	}
+
+	if cred == nil {
+		return nil, domain.NotFoundError{Resource: "credential", ID: credentialID.String(), Code: domain.ErrCodeNotFound}
+	}
+
+	ct := external.CredentialType(cred.Type)
+	return external.GetGroupGroupIdCredentialCredentialId200JSONResponse(external.Credential{
+		Id:       &cred.ID,
+		GroupId:  &cred.GroupID,
+		Name:     &cred.Name,
+		Type:     &ct,
+		IsActive: &cred.IsActive,
+	}), nil
+}
+
+func (h *httpHandler) PutGroupGroupIdCredentialCredentialId(ctx context.Context, request external.PutGroupGroupIdCredentialCredentialIdRequestObject) (external.PutGroupGroupIdCredentialCredentialIdResponseObject, error) {
+	if request.Body == nil {
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
+	}
+
+	credentialID := request.CredentialId
+	if credentialID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid credential id", Code: domain.ErrCodeInvalidID}
+	}
+
+	cred, err := h.svc.GetCredential(ctx, credentialID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get credential: %w", err)
+	}
+
+	if cred == nil {
+		return nil, domain.NotFoundError{Resource: "credential", ID: credentialID.String(), Code: domain.ErrCodeNotFound}
+	}
+
+	if request.Body.Name != nil {
+		cred.Name = *request.Body.Name
+	}
+	if request.Body.Type != nil {
+		cred.Type = domain.CredentialType(*request.Body.Type)
+	}
+	if request.Body.IsActive != nil {
+		cred.IsActive = *request.Body.IsActive
+	}
+
+	if err := h.svc.UpdateCredential(ctx, cred); err != nil {
+		return nil, fmt.Errorf("failed to update credential: %w", err)
+	}
+
+	ct := external.CredentialType(cred.Type)
+	return external.PutGroupGroupIdCredentialCredentialId200JSONResponse(external.Credential{
+		Id:       &cred.ID,
+		GroupId:  &cred.GroupID,
+		Name:     &cred.Name,
+		Type:     &ct,
+		IsActive: &cred.IsActive,
+	}), nil
+}
+
+func (h *httpHandler) DeleteGroupGroupIdCredentialCredentialId(ctx context.Context, request external.DeleteGroupGroupIdCredentialCredentialIdRequestObject) (external.DeleteGroupGroupIdCredentialCredentialIdResponseObject, error) {
+	credentialID := request.CredentialId
+	if credentialID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid credential id", Code: domain.ErrCodeInvalidID}
+	}
+
+	if err := h.svc.DeleteCredential(ctx, credentialID); err != nil {
+		return nil, fmt.Errorf("failed to delete credential: %w", err)
+	}
+
+	return external.DeleteGroupGroupIdCredentialCredentialId204Response{}, nil
+}
+
+func (h *httpHandler) GetGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request external.GetGroupGroupIdCredentialCredentialIdSecretRequestObject) (external.GetGroupGroupIdCredentialCredentialIdSecretResponseObject, error) {
+	credentialID := request.CredentialId
+	if credentialID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid credential id", Code: domain.ErrCodeInvalidID}
+	}
+
+	secret, err := h.svc.GetCredentialSecret(ctx, credentialID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get credential secret: %w", err)
+	}
+
+	if secret == nil {
+		return nil, domain.NotFoundError{Resource: "credential secret", ID: credentialID.String(), Code: domain.ErrCodeNotFound}
+	}
+
+	return external.GetGroupGroupIdCredentialCredentialIdSecret200JSONResponse(external.CredentialSecret{
+		Id:           &secret.ID,
+		CredentialId: &secret.CredentialID,
+		Username:     &secret.Username,
+		PrivateKey:   &secret.PrivateKey,
+		PublicKey:    &secret.PublicKey,
+		ApiKey:       &secret.APIKey,
+		Certificate:  &secret.Certificate,
+		ExpiresAt:    secret.ExpiresAt,
+		LastRotated:  secret.LastRotated,
+	}), nil
+}
+
+func (h *httpHandler) PostGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request external.PostGroupGroupIdCredentialCredentialIdSecretRequestObject) (external.PostGroupGroupIdCredentialCredentialIdSecretResponseObject, error) {
+	if request.Body == nil {
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
+	}
+
+	credentialID := request.CredentialId
+	if credentialID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid credential id", Code: domain.ErrCodeInvalidID}
+	}
+
+	secret := &domain.CredentialSecret{
+		CredentialID:   credentialID,
+		Username:       pointerToString(request.Body.Username),
+		Password:       pointerToString(request.Body.Password),
+		PrivateKey:     pointerToString(request.Body.PrivateKey),
+		PublicKey:      pointerToString(request.Body.PublicKey),
+		APIKey:         pointerToString(request.Body.ApiKey),
+		APIsecret:      pointerToString(request.Body.ApiSecret),
+		Certificate:    pointerToString(request.Body.Certificate),
+		PrivateKeyPass: pointerToString(request.Body.PrivateKeyPass),
+	}
+
+	if request.Body.ExpiresAt != nil {
+		secret.ExpiresAt = request.Body.ExpiresAt
+	}
+
+	if err := h.svc.CreateCredentialSecret(ctx, secret); err != nil {
+		return nil, fmt.Errorf("failed to create credential secret: %w", err)
+	}
+
+	return external.PostGroupGroupIdCredentialCredentialIdSecret201JSONResponse(external.CredentialSecret{
+		Id:           &secret.ID,
+		CredentialId: &secret.CredentialID,
+		Username:     &secret.Username,
+		ExpiresAt:    secret.ExpiresAt,
+	}), nil
+}
+
+func (h *httpHandler) PutGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request external.PutGroupGroupIdCredentialCredentialIdSecretRequestObject) (external.PutGroupGroupIdCredentialCredentialIdSecretResponseObject, error) {
+	if request.Body == nil {
+		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
+	}
+
+	credentialID := request.CredentialId
+	if credentialID.String() == "" {
+		return nil, domain.InvalidIDError{Message: "invalid credential id", Code: domain.ErrCodeInvalidID}
+	}
+
+	secret, err := h.svc.GetCredentialSecret(ctx, credentialID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get credential secret: %w", err)
+	}
+
+	if secret == nil {
+		return nil, domain.NotFoundError{Resource: "credential secret", ID: credentialID.String(), Code: domain.ErrCodeNotFound}
+	}
+
+	if request.Body.Username != nil {
+		secret.Username = *request.Body.Username
+	}
+	if request.Body.Password != nil {
+		secret.Password = *request.Body.Password
+	}
+	if request.Body.PrivateKey != nil {
+		secret.PrivateKey = *request.Body.PrivateKey
+	}
+	if request.Body.PublicKey != nil {
+		secret.PublicKey = *request.Body.PublicKey
+	}
+	if request.Body.ApiKey != nil {
+		secret.APIKey = *request.Body.ApiKey
+	}
+	if request.Body.ApiSecret != nil {
+		secret.APIsecret = *request.Body.ApiSecret
+	}
+	if request.Body.Certificate != nil {
+		secret.Certificate = *request.Body.Certificate
+	}
+	if request.Body.PrivateKeyPass != nil {
+		secret.PrivateKeyPass = *request.Body.PrivateKeyPass
+	}
+	if request.Body.ExpiresAt != nil {
+		secret.ExpiresAt = request.Body.ExpiresAt
+	}
+
+	if err := h.svc.UpdateCredentialSecret(ctx, secret); err != nil {
+		return nil, fmt.Errorf("failed to update credential secret: %w", err)
+	}
+
+	return external.PutGroupGroupIdCredentialCredentialIdSecret200JSONResponse(external.CredentialSecret{
+		Id:           &secret.ID,
+		CredentialId: &secret.CredentialID,
+		Username:     &secret.Username,
 	}), nil
 }

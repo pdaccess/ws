@@ -15,24 +15,12 @@ type DB struct {
 	*sql.DB
 }
 
-func (d *DB) InventoryRepo() *InventoryRepository {
-	return NewInventoryRepository(d)
+func (d *DB) AssetRepo() *AssetRepository {
+	return NewAssetRepository(d)
 }
 
-func (d *DB) ActivityRepo() *ActivityRepository {
-	return NewActivityRepository(d)
-}
-
-func (d *DB) PasteRepo() *PasteRepository {
-	return NewPasteRepository(d)
-}
-
-func (d *DB) ServiceSettingsRepo() *ServiceSettingsRepository {
-	return NewServiceSettingsRepository(d)
-}
-
-func (d *DB) CredentialRepo() *CredentialRepository {
-	return NewCredentialRepository(d)
+func (d *DB) AuditRepo() *AuditRepository {
+	return NewAuditRepository(d)
 }
 
 func New(connStr string) (*DB, error) {
@@ -56,195 +44,81 @@ func New(connStr string) (*DB, error) {
 func (d *DB) RunMigrations() error {
 	schema := `
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS vector;
 
--- Inventory table (generic data for groups and services)
-CREATE TABLE IF NOT EXISTS inventory (
+-- Unified assets table (service, service_group, vault, secret, policy, paste, jit)
+CREATE TABLE IF NOT EXISTS ws_assets (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    realm_id UUID NOT NULL,
-    parent_id UUID REFERENCES inventory(id) ON DELETE SET NULL,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
     type VARCHAR(50) NOT NULL,
-    embedding vector(384),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    deleted_at TIMESTAMP WITH TIME ZONE
-);
-
-CREATE INDEX IF NOT EXISTS idx_inventory_realm_id ON inventory(realm_id);
-CREATE INDEX IF NOT EXISTS idx_inventory_parent_id ON inventory(parent_id);
-CREATE INDEX IF NOT EXISTS idx_inventory_deleted_at ON inventory(deleted_at);
-
--- Services table (service-specific data linked to inventory)
-CREATE TABLE IF NOT EXISTS services (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    inventory_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
-    access_protocol VARCHAR(50) CHECK (access_protocol IN ('ssh', 'sql', 'vnc', 'rdp', 'http', 'none')),
-    auth_protocol VARCHAR(50) CHECK (auth_protocol IN ('radius', 'oauth2', 'ldap', 'tacacs', 'none')),
-    vendor VARCHAR(255),
-    version VARCHAR(100),
-    host VARCHAR(255),
-    port INTEGER,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS idx_services_inventory_id ON services(inventory_id);
-
--- Group members table (members within groups)
-CREATE TABLE IF NOT EXISTS group_members (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    group_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL,
-    role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'admin')),
-    membership_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(group_id, user_id)
-);
-
-CREATE INDEX IF NOT EXISTS idx_group_members_group_id ON group_members(group_id);
-CREATE INDEX IF NOT EXISTS idx_group_members_user_id ON group_members(user_id);
-
--- Service members table (members within services)
-CREATE TABLE IF NOT EXISTS service_members (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    service_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL,
-    role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'admin')),
-    membership_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(service_id, user_id)
-);
-
-CREATE INDEX IF NOT EXISTS idx_service_members_service_id ON service_members(service_id);
-CREATE INDEX IF NOT EXISTS idx_service_members_user_id ON service_members(user_id);
-
--- Inventory messages table (MOTD)
-CREATE TABLE IF NOT EXISTS inventory_messages (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    inventory_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
-    content TEXT NOT NULL,
-    background_color VARCHAR(50),
-    font_color VARCHAR(50),
-    font_size INTEGER,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_inventory_messages_inventory_id ON inventory_messages(inventory_id);
-
--- Alarms table
-CREATE TABLE IF NOT EXISTS alarms (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    inventory_id UUID REFERENCES inventory(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL,
-    action VARCHAR(255),
-    name VARCHAR(255),
-    pattern VARCHAR(500),
-    create_time TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_alarms_user_id ON alarms(user_id);
-CREATE INDEX IF NOT EXISTS idx_alarms_inventory_id ON alarms(inventory_id);
-
--- Snippets table
-CREATE TABLE IF NOT EXISTS snippets (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    content TEXT NOT NULL,
-    user_id UUID NOT NULL,
-    marked BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_snippets_user_id ON snippets(user_id);
-
--- Activities table
-CREATE TABLE IF NOT EXISTS activities (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL,
-    realm_id UUID NOT NULL,
-    action VARCHAR(100) NOT NULL,
-    resource VARCHAR(100),
-    resource_id UUID,
-    details TEXT,
-    ip_address VARCHAR(45),
-    activity_time TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_activities_user_id ON activities(user_id);
-CREATE INDEX IF NOT EXISTS idx_activities_realm_id ON activities(realm_id);
-CREATE INDEX IF NOT EXISTS idx_activities_action ON activities(action);
-CREATE INDEX IF NOT EXISTS idx_activities_activity_time ON activities(activity_time);
-
--- Pastes table
-DROP TABLE IF EXISTS pastes;
-CREATE TABLE pastes (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID,
-    content TEXT NOT NULL,
-    language VARCHAR(50),
-    expires_at TIMESTAMP WITH TIME ZONE,
-    views INTEGER DEFAULT 0,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_pastes_user_id ON pastes(user_id);
-CREATE INDEX IF NOT EXISTS idx_pastes_expires_at ON pastes(expires_at);
-
--- Config contexts table
-CREATE TABLE IF NOT EXISTS config_contexts (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    realm VARCHAR(255) NOT NULL,
-    context VARCHAR(255) NOT NULL,
-    entry VARCHAR(255) NOT NULL,
-    value TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(realm, context, entry)
-);
-
-CREATE INDEX IF NOT EXISTS idx_config_contexts_realm_context ON config_contexts(realm, context);
-
--- Credentials table (searchable data - name, description, metadata)
-DROP TABLE IF EXISTS credential_secrets;
-CREATE TABLE IF NOT EXISTS credentials (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    group_id UUID NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
-    description TEXT,
-    type VARCHAR(50) NOT NULL CHECK (type IN ('password', 'ssh_key', 'api_key', 'certificate', 'oauth')),
-    metadata JSONB DEFAULT '{}',
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    deleted_at TIMESTAMP WITH TIME ZONE
+    owner_id UUID NOT NULL,
+    parent_id UUID,
+    spec JSONB DEFAULT '{}',
+    embedding DOUBLE PRECISION[] DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_credentials_group_id ON credentials(group_id);
-CREATE INDEX IF NOT EXISTS idx_credentials_name ON credentials(name);
-CREATE INDEX IF NOT EXISTS idx_credentials_type ON credentials(type);
-CREATE INDEX IF NOT EXISTS idx_credentials_is_active ON credentials(is_active);
+CREATE INDEX IF NOT EXISTS idx_ws_assets_type ON ws_assets(type);
+CREATE INDEX IF NOT EXISTS idx_ws_assets_owner_id ON ws_assets(owner_id);
 
--- Credential secrets table (stores secret data)
-CREATE TABLE IF NOT EXISTS credential_secrets (
+-- Identity: users
+CREATE TABLE IF NOT EXISTS ws_users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    credential_id UUID NOT NULL REFERENCES credentials(id) ON DELETE CASCADE,
-    username VARCHAR(255),
-    password TEXT,
-    private_key TEXT,
-    public_key TEXT,
-    api_key TEXT,
-    api_secret TEXT,
-    certificate TEXT,
-    private_key_pass TEXT,
-    expires_at TIMESTAMP WITH TIME ZONE,
-    last_rotated TIMESTAMP WITH TIME ZONE,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    status VARCHAR(20) DEFAULT 'active',
+    display_name VARCHAR(255) DEFAULT '',
+    first_name VARCHAR(255) DEFAULT '',
+    last_name VARCHAR(255) DEFAULT '',
+    notification_settings JSONB DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Identity: groups
+CREATE TABLE IF NOT EXISTS ws_groups (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
+    description TEXT DEFAULT '',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Identity: group memberships
+CREATE TABLE IF NOT EXISTS ws_group_members (
+    group_id UUID NOT NULL REFERENCES ws_groups(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES ws_users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    PRIMARY KEY (group_id, user_id)
+);
+
+-- Vault memberships
+CREATE TABLE IF NOT EXISTS ws_vault_memberships (
+    vault_id UUID NOT NULL REFERENCES ws_assets(id) ON DELETE CASCADE,
+    member_id UUID NOT NULL,
+    member_type VARCHAR(20) NOT NULL CHECK (member_type IN ('user', 'vault')),
+    role VARCHAR(20) NOT NULL CHECK (role IN ('owner', 'manager', 'viewer')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    PRIMARY KEY (vault_id, member_id)
+);
+
+-- Admin config (key-value)
+CREATE TABLE IF NOT EXISTS ws_admin_config (
+    key VARCHAR(255) PRIMARY KEY,
+    value TEXT NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_credential_secrets_credential_id ON credential_secrets(credential_id);
+-- Audit logs
+CREATE TABLE IF NOT EXISTS ws_audit_logs (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    actor_id UUID NOT NULL,
+    action VARCHAR(255) NOT NULL,
+    resource_id UUID,
+    success BOOLEAN DEFAULT TRUE
+);
+
+CREATE INDEX IF NOT EXISTS idx_ws_audit_logs_actor_id ON ws_audit_logs(actor_id);
+CREATE INDEX IF NOT EXISTS idx_ws_audit_logs_resource_id ON ws_audit_logs(resource_id);
+CREATE INDEX IF NOT EXISTS idx_ws_audit_logs_timestamp ON ws_audit_logs(timestamp);
 `
 
 	_, err := d.Exec(schema)

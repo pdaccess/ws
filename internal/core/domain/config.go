@@ -1,32 +1,17 @@
 package domain
 
-import (
-	"fmt"
-
-	"github.com/samber/lo"
-)
-
 const (
-	SmtpConfigContext   = ItemContext("smtp")
-	PortalConfigContext = ItemContext("portal")
+	ConfigKeyJwtTtl             = "jwt_ttl"
+	ConfigKeyNetworkWhitelist   = "network_whitelist"
+	ConfigKeyRebuildPolicyCache = "rebuild_policy_cache"
 )
 
-var (
-	ValidConfigContexts = []ItemContext{
-		SmtpConfigContext, PortalConfigContext,
-	}
-)
-
-type ItemContext string
-
-type ConfigItem struct {
-	Key, Value string
+var ValidConfigKeys = map[string]bool{
+	ConfigKeyJwtTtl:             true,
+	ConfigKeyNetworkWhitelist:   true,
+	ConfigKeyRebuildPolicyCache: true,
 }
 
-func (i ItemContext) Validate() error {
-	if !lo.Contains(ValidConfigContexts, i) {
-		return fmt.Errorf("wrong config context: %s", i)
-	}
-
-	return nil
+func IsValidConfigKey(key string) bool {
+	return ValidConfigKeys[key]
 }

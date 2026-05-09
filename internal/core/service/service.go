@@ -2,179 +2,120 @@ package service
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/pdaccess/ws/internal/core/domain"
-	"github.com/rs/zerolog/log"
 )
 
-func (s *Impl) CreateService(ctx context.Context, svc *domain.Service, userID, realmID uuid.UUID) error {
-	var err error
+// --- Asset Operations ---
 
-	if s.vector != nil {
-		svc.Embedding, err = s.vector.Generate(ctx, fmt.Sprintf("%s %s", svc.Name, svc.Description))
-		if err != nil {
-			log.Warn().Err(err).Msg("vector generation failed, skipping embedding")
-			svc.Embedding = nil
-		}
-	}
-
-	if err := s.inventoryRepo.CreateService(ctx, svc); err != nil {
+func (s *Impl) CreateAsset(ctx context.Context, asset *domain.Asset) error {
+	if err := s.assetRepo.CreateAsset(ctx, asset); err != nil {
 		return err
 	}
+	if s.vecGen != nil {
+		vec, err := s.vecGen.Generate(ctx, asset.Name)
+		if err == nil {
+			s.assetRepo.UpdateAssetEmbedding(ctx, asset.ID, vec)
+		}
+	}
+	return nil
+}
 
-	if svc.Settings != nil {
-		svc.Settings.ServiceID = svc.ID
-		err = s.serviceSettingsRepo.Upsert(ctx, svc.Settings)
-		if err != nil {
+func (s *Impl) GetAsset(ctx context.Context, id uuid.UUID) (*domain.Asset, error) {
+	return s.assetRepo.GetAsset(ctx, id)
+}
+
+func (s *Impl) SearchAssets(ctx context.Context, assetType string, parentID *uuid.UUID, limit, offset int) ([]domain.Asset, error) {
+	return s.assetRepo.SearchAssets(ctx, assetType, parentID, limit, offset)
+}
+
+func (s *Impl) HybridSearchAssets(ctx context.Context, query string, limit, offset int) ([]domain.Asset, error) {
+	if s.vecGen != nil {
+		vec, err := s.vecGen.Generate(ctx, query)
+		if err == nil {
+			return s.assetRepo.VectorSearchAssets(ctx, vec, limit, offset)
+		}
+	}
+	return s.assetRepo.HybridSearchAssets(ctx, query, limit, offset)
+}
+
+// --- Identity Operations ---
+
+func (s *Impl) CreateUser(ctx context.Context, user *domain.User) error {
+	return s.assetRepo.CreateUser(ctx, user)
+}
+
+func (s *Impl) GetUser(ctx context.Context, id uuid.UUID) (*domain.User, error) {
+	return s.assetRepo.GetUser(ctx, id)
+}
+
+func (s *Impl) UpdateUser(ctx context.Context, id uuid.UUID, updates map[string]any) error {
+	return s.assetRepo.UpdateUser(ctx, id, updates)
+}
+
+func (s *Impl) ListUsers(ctx context.Context) ([]domain.User, error) {
+	return s.assetRepo.ListUsers(ctx)
+}
+
+func (s *Impl) CreateGroup(ctx context.Context, group *domain.UserGroup) error {
+	return s.assetRepo.CreateGroup(ctx, group)
+}
+
+func (s *Impl) ListGroups(ctx context.Context) ([]domain.UserGroup, error) {
+	return s.assetRepo.ListGroups(ctx)
+}
+
+func (s *Impl) AddGroupMember(ctx context.Context, groupID, userID uuid.UUID) error {
+	return s.assetRepo.AddGroupMember(ctx, groupID, userID)
+}
+
+func (s *Impl) RemoveGroupMember(ctx context.Context, groupID, userID uuid.UUID) error {
+	return s.assetRepo.RemoveGroupMember(ctx, groupID, userID)
+}
+
+func (s *Impl) ListGroupMemberships(ctx context.Context, groupID uuid.UUID) ([]domain.GroupMember, error) {
+	return s.assetRepo.ListGroupMemberships(ctx, groupID)
+}
+
+// --- Vault Operations ---
+
+func (s *Impl) AddVaultMember(ctx context.Context, vm *domain.VaultMembership) error {
+	return s.assetRepo.CreateVaultMembership(ctx, vm)
+}
+
+func (s *Impl) ListVaultMembers(ctx context.Context, vaultID uuid.UUID) ([]domain.VaultMembership, error) {
+	return s.assetRepo.ListVaultMemberships(ctx, vaultID)
+}
+
+// --- Admin Config Operations ---
+
+func (s *Impl) GetConfig(ctx context.Context) ([]domain.AdminConfig, error) {
+	return s.assetRepo.GetAdminConfig(ctx)
+}
+
+func (s *Impl) PatchConfig(ctx context.Context, configs map[string]string) error {
+	for k, v := range configs {
+		if !domain.IsValidConfigKey(k) {
+			return domain.ValidationError{
+				Field:   k,
+				Message: "unknown config key: " + k,
+				Code:    domain.ErrCodeValidation,
+			}
+		}
+		if err := s.assetRepo.UpsertAdminConfig(ctx, k, v); err != nil {
 			return err
 		}
 	}
-
-	s.logActivity(ctx, userID, realmID, "create", "service", svc.ID, fmt.Sprintf("Created service: %s", svc.Name))
 	return nil
 }
 
-func (s *Impl) GetService(ctx context.Context, id uuid.UUID) (*domain.Service, error) {
-	svc, err := s.inventoryRepo.GetServiceByID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-	if svc == nil {
-		return nil, nil
-	}
+// --- Audit Operations ---
 
-	settings, err := s.serviceSettingsRepo.GetByInventoryID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-	if settings != nil {
-		svc.Settings = settings
-	}
-
-	return svc, nil
+func (s *Impl) CreateAudit(ctx context.Context, audit *domain.AuditEntry) error {
+	return s.auditRepo.Create(ctx, audit)
 }
 
-func (s *Impl) UpdateService(ctx context.Context, svc *domain.Service, userID, realmID uuid.UUID) error {
-	err := s.inventoryRepo.UpdateService(ctx, svc)
-	if err != nil {
-		return err
-	}
-
-	if svc.Settings != nil {
-		svc.Settings.ServiceID = svc.ID
-		err = s.serviceSettingsRepo.Upsert(ctx, svc.Settings)
-		if err != nil {
-			return err
-		}
-	}
-
-	s.logActivity(ctx, userID, realmID, "update", "service", svc.ID, fmt.Sprintf("Updated service: %s", svc.Name))
-	return nil
-}
-
-func (s *Impl) DeleteService(ctx context.Context, id uuid.UUID, userID, realmID uuid.UUID) error {
-	svc, err := s.inventoryRepo.GetServiceByID(ctx, id)
-	if err != nil {
-		return err
-	}
-	if svc == nil {
-		return fmt.Errorf("service not found")
-	}
-
-	err = s.serviceSettingsRepo.Delete(ctx, id)
-	if err != nil {
-		return err
-	}
-
-	err = s.inventoryRepo.DeleteService(ctx, id)
-	if err != nil {
-		return err
-	}
-
-	s.logActivity(ctx, userID, realmID, "delete", "service", id, fmt.Sprintf("Deleted service: %s", svc.Name))
-	return nil
-}
-
-func (s *Impl) SearchServices(ctx context.Context, opts ...domain.ServiceSearchOption) ([]domain.Service, error) {
-	return s.inventoryRepo.SearchServices(ctx, opts...)
-}
-
-func (s *Impl) AddServiceMember(ctx context.Context, member *domain.ServiceMember, userID, realmID uuid.UUID) error {
-	err := s.inventoryRepo.AddServiceMember(ctx, member)
-	if err != nil {
-		return err
-	}
-
-	details, _ := json.Marshal(map[string]any{
-		"serviceId": member.ServiceID,
-		"userId":    member.UserID,
-		"role":      member.Role,
-	})
-	s.logActivity(ctx, userID, realmID, "add_member", "service", member.ServiceID, string(details))
-	return nil
-}
-
-func (s *Impl) RemoveServiceMembers(ctx context.Context, serviceID uuid.UUID, userIDs []uuid.UUID, userID, realmID uuid.UUID) error {
-	err := s.inventoryRepo.RemoveServiceMembers(ctx, serviceID, userIDs)
-	if err != nil {
-		return err
-	}
-
-	details, _ := json.Marshal(map[string]any{
-		"serviceId":    serviceID,
-		"removedUsers": userIDs,
-	})
-	s.logActivity(ctx, userID, realmID, "remove_members", "service", serviceID, string(details))
-	return nil
-}
-
-func (s *Impl) GetServiceMembers(ctx context.Context, serviceID uuid.UUID, limit, offset int) ([]domain.ServiceMember, error) {
-	return s.inventoryRepo.GetServiceMembers(ctx, serviceID, limit, offset)
-}
-
-func (s *Impl) UpsertServiceSettings(ctx context.Context, settings *domain.ServiceSettings, userID, realmID uuid.UUID) error {
-	return s.serviceSettingsRepo.Upsert(ctx, settings)
-}
-
-func (s *Impl) GetServiceSettings(ctx context.Context, serviceID uuid.UUID) (*domain.ServiceSettings, error) {
-	return s.serviceSettingsRepo.GetByInventoryID(ctx, serviceID)
-}
-
-func (s *Impl) SearchServicesVector(ctx context.Context, vector domain.Vector, limit, offset int) ([]domain.Service, error) {
-	return s.inventoryRepo.SearchServices(ctx,
-		domain.WithServiceVector(vector),
-		domain.WithServiceLimit(limit),
-		domain.WithServiceOffset(offset),
-	)
-}
-
-func (s *Impl) SearchServicesWithQuery(ctx context.Context, query string, limit, offset int) ([]domain.Service, error) {
-	if s.vector != nil {
-		vector, err := s.vector.Generate(ctx, query)
-		if err != nil {
-			log.Warn().Err(err).Msg("vector generation failed, falling back to text search")
-			return s.inventoryRepo.SearchServices(ctx,
-				domain.WithServiceFilter(query),
-				domain.WithServiceLimit(limit),
-				domain.WithServiceOffset(offset),
-			)
-		}
-		if vector == nil || len(vector) == 0 {
-			return s.inventoryRepo.SearchServices(ctx,
-				domain.WithServiceFilter(query),
-				domain.WithServiceLimit(limit),
-				domain.WithServiceOffset(offset),
-			)
-		}
-		return s.SearchServicesVector(ctx, vector, limit, offset)
-	}
-
-	return s.inventoryRepo.SearchServices(ctx,
-		domain.WithServiceFilter(query),
-		domain.WithServiceLimit(limit),
-		domain.WithServiceOffset(offset),
-	)
+func (s *Impl) SearchAudits(ctx context.Context, actorID, resourceID *uuid.UUID, from *string) ([]domain.AuditEntry, error) {
+	return s.auditRepo.Search(ctx, actorID, resourceID, from)
 }

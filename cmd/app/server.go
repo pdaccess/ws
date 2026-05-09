@@ -55,10 +55,11 @@ func RunWebServiceServer() error {
 
 	vg, err := adapters.NewVectorGenerator()
 	if err != nil {
-		return fmt.Errorf("vector generator: %w", err)
+		log.Warn().Err(err).Msg("vector generator not available, using stub")
+		vg = &adapters.StubVectorGenerator{}
 	}
 
-	svc := service.New(db.InventoryRepo(), db.ActivityRepo(), db.PasteRepo(), db.ServiceSettingsRepo(), db.CredentialRepo(), vg)
+	svc := service.New(db.AssetRepo(), db.AuditRepo(), vg)
 
 	routers := servers.NewHttpServer(svc)
 	server := &http.Server{Addr: config.HttpListenAddr, Handler: routers}

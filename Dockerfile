@@ -27,6 +27,7 @@ RUN GOOS=linux CGO_LDFLAGS="-L/usr/lib" go build -tags ORT -ldflags="-s -w -X 'm
 FROM gcr.io/distroless/static-debian12:nonroot
 
 COPY --from=build /usr/lib/libonnxruntime.so /usr/lib/
+COPY --from=build /usr/lib/libtokenizers.a /usr/lib/
 COPY --from=build /ws /ws
 
 EXPOSE 8080

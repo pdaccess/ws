@@ -9,10 +9,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/pdaccess/commons/pkg/domain"
 	"github.com/pdaccess/ws/cmd/app"
 	pdhttp "github.com/pdaccess/ws/pkg/http"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 
+	"github.com/golang-jwt/jwt/v5"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -23,6 +25,7 @@ var (
 	client      *pdhttp.Client
 	apiClient   *pdhttp.ClientWithResponses
 	httpClient  *stdhttp.Client
+	testToken   string
 )
 
 func Test_API(t *testing.T) {
@@ -66,10 +69,30 @@ var _ = BeforeSuite(func() {
 
 	baseURL = fmt.Sprintf("http://%s", addr)
 
-	client, err = pdhttp.NewClient(baseURL)
+	claims := &domain.PdaccessClaims{
+		UserId: "test-user-id",
+		Urk:    "test-user-urk",
+		Role:   "admin",
+		Realm:  "test-realm",
+		Iat:    time.Now().Unix(),
+		Exp:    time.Now().Add(time.Hour).Unix(),
+	}
+	testToken, _ = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte("test-secret"))
+
+	client, err = pdhttp.NewClient(baseURL,
+		pdhttp.WithRequestEditorFn(func(ctx context.Context, req *stdhttp.Request) error {
+			req.Header.Set("Authorization", "Bearer "+testToken)
+			return nil
+		}),
+	)
 	Expect(err).ShouldNot(HaveOccurred())
 
-	apiClient, err = pdhttp.NewClientWithResponses(baseURL)
+	apiClient, err = pdhttp.NewClientWithResponses(baseURL,
+		pdhttp.WithRequestEditorFn(func(ctx context.Context, req *stdhttp.Request) error {
+			req.Header.Set("Authorization", "Bearer "+testToken)
+			return nil
+		}),
+	)
 	Expect(err).ShouldNot(HaveOccurred())
 
 	httpClient = &stdhttp.Client{}
@@ -97,4 +120,8 @@ func GetAPIClient() *pdhttp.ClientWithResponses {
 
 func GetHTTPClient() *stdhttp.Client {
 	return httpClient
+}
+
+func GetTestToken() string {
+	return testToken
 }

@@ -23,984 +23,667 @@ import (
 )
 
 const (
-	BearerAuthScopes = "BearerAuth.Scopes"
+	BearerAuthScopes = "bearerAuth.Scopes"
 )
 
-// Defines values for ActivitySeverity.
+// Defines values for CreateAssetRequestType.
 const (
-	ActivitySeverityError   ActivitySeverity = "error"
-	ActivitySeverityInfo    ActivitySeverity = "info"
-	ActivitySeveritySuccess ActivitySeverity = "success"
-	ActivitySeverityWarning ActivitySeverity = "warning"
+	CreateAssetRequestTypeJit          CreateAssetRequestType = "jit"
+	CreateAssetRequestTypePaste        CreateAssetRequestType = "paste"
+	CreateAssetRequestTypePolicy       CreateAssetRequestType = "policy"
+	CreateAssetRequestTypeSecret       CreateAssetRequestType = "secret"
+	CreateAssetRequestTypeService      CreateAssetRequestType = "service"
+	CreateAssetRequestTypeServiceGroup CreateAssetRequestType = "service_group"
+	CreateAssetRequestTypeVault        CreateAssetRequestType = "vault"
 )
 
-// Valid indicates whether the value is a known member of the ActivitySeverity enum.
-func (e ActivitySeverity) Valid() bool {
+// Valid indicates whether the value is a known member of the CreateAssetRequestType enum.
+func (e CreateAssetRequestType) Valid() bool {
 	switch e {
-	case ActivitySeverityError:
+	case CreateAssetRequestTypeJit:
 		return true
-	case ActivitySeverityInfo:
+	case CreateAssetRequestTypePaste:
 		return true
-	case ActivitySeveritySuccess:
+	case CreateAssetRequestTypePolicy:
 		return true
-	case ActivitySeverityWarning:
+	case CreateAssetRequestTypeSecret:
+		return true
+	case CreateAssetRequestTypeService:
+		return true
+	case CreateAssetRequestTypeServiceGroup:
+		return true
+	case CreateAssetRequestTypeVault:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for ActivityDetailSeverity.
+// Defines values for PolicySpecActions.
 const (
-	ActivityDetailSeverityError   ActivityDetailSeverity = "error"
-	ActivityDetailSeverityInfo    ActivityDetailSeverity = "info"
-	ActivityDetailSeveritySuccess ActivityDetailSeverity = "success"
-	ActivityDetailSeverityWarning ActivityDetailSeverity = "warning"
+	PolicySpecActionsConnect      PolicySpecActions = "connect"
+	PolicySpecActionsDelete       PolicySpecActions = "delete"
+	PolicySpecActionsManagePolicy PolicySpecActions = "manage_policy"
+	PolicySpecActionsRead         PolicySpecActions = "read"
+	PolicySpecActionsRotate       PolicySpecActions = "rotate"
+	PolicySpecActionsView         PolicySpecActions = "view"
 )
 
-// Valid indicates whether the value is a known member of the ActivityDetailSeverity enum.
-func (e ActivityDetailSeverity) Valid() bool {
+// Valid indicates whether the value is a known member of the PolicySpecActions enum.
+func (e PolicySpecActions) Valid() bool {
 	switch e {
-	case ActivityDetailSeverityError:
+	case PolicySpecActionsConnect:
 		return true
-	case ActivityDetailSeverityInfo:
+	case PolicySpecActionsDelete:
 		return true
-	case ActivityDetailSeveritySuccess:
+	case PolicySpecActionsManagePolicy:
 		return true
-	case ActivityDetailSeverityWarning:
+	case PolicySpecActionsRead:
+		return true
+	case PolicySpecActionsRotate:
+		return true
+	case PolicySpecActionsView:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for AlarmSeverity.
+// Defines values for ServiceSpecProtocol.
 const (
-	AlarmSeverityCritical AlarmSeverity = "critical"
-	AlarmSeverityInfo     AlarmSeverity = "info"
-	AlarmSeverityWarning  AlarmSeverity = "warning"
+	Https    ServiceSpecProtocol = "https"
+	Mysql    ServiceSpecProtocol = "mysql"
+	Postgres ServiceSpecProtocol = "postgres"
+	Rdp      ServiceSpecProtocol = "rdp"
+	Ssh      ServiceSpecProtocol = "ssh"
 )
 
-// Valid indicates whether the value is a known member of the AlarmSeverity enum.
-func (e AlarmSeverity) Valid() bool {
+// Valid indicates whether the value is a known member of the ServiceSpecProtocol enum.
+func (e ServiceSpecProtocol) Valid() bool {
 	switch e {
-	case AlarmSeverityCritical:
+	case Https:
 		return true
-	case AlarmSeverityInfo:
+	case Mysql:
 		return true
-	case AlarmSeverityWarning:
+	case Postgres:
+		return true
+	case Rdp:
+		return true
+	case Ssh:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CredentialType.
+// Defines values for UserStatus.
 const (
-	CredentialTypeApiKey      CredentialType = "api_key"
-	CredentialTypeCertificate CredentialType = "certificate"
-	CredentialTypeOauth       CredentialType = "oauth"
-	CredentialTypePassword    CredentialType = "password"
-	CredentialTypeSshKey      CredentialType = "ssh_key"
+	Active UserStatus = "active"
+	Locked UserStatus = "locked"
 )
 
-// Valid indicates whether the value is a known member of the CredentialType enum.
-func (e CredentialType) Valid() bool {
-	switch e {
-	case CredentialTypeApiKey:
-		return true
-	case CredentialTypeCertificate:
-		return true
-	case CredentialTypeOauth:
-		return true
-	case CredentialTypePassword:
-		return true
-	case CredentialTypeSshKey:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CredentialCreateType.
-const (
-	CredentialCreateTypeApiKey      CredentialCreateType = "api_key"
-	CredentialCreateTypeCertificate CredentialCreateType = "certificate"
-	CredentialCreateTypeOauth       CredentialCreateType = "oauth"
-	CredentialCreateTypePassword    CredentialCreateType = "password"
-	CredentialCreateTypeSshKey      CredentialCreateType = "ssh_key"
-)
-
-// Valid indicates whether the value is a known member of the CredentialCreateType enum.
-func (e CredentialCreateType) Valid() bool {
-	switch e {
-	case CredentialCreateTypeApiKey:
-		return true
-	case CredentialCreateTypeCertificate:
-		return true
-	case CredentialCreateTypeOauth:
-		return true
-	case CredentialCreateTypePassword:
-		return true
-	case CredentialCreateTypeSshKey:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CredentialUpdateType.
-const (
-	ApiKey      CredentialUpdateType = "api_key"
-	Certificate CredentialUpdateType = "certificate"
-	Oauth       CredentialUpdateType = "oauth"
-	Password    CredentialUpdateType = "password"
-	SshKey      CredentialUpdateType = "ssh_key"
-)
-
-// Valid indicates whether the value is a known member of the CredentialUpdateType enum.
-func (e CredentialUpdateType) Valid() bool {
-	switch e {
-	case ApiKey:
-		return true
-	case Certificate:
-		return true
-	case Oauth:
-		return true
-	case Password:
-		return true
-	case SshKey:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PolicyType.
-const (
-	PolicyTypeAccess   PolicyType = "Access"
-	PolicyTypeNetwork  PolicyType = "Network"
-	PolicyTypeSecurity PolicyType = "Security"
-)
-
-// Valid indicates whether the value is a known member of the PolicyType enum.
-func (e PolicyType) Valid() bool {
-	switch e {
-	case PolicyTypeAccess:
-		return true
-	case PolicyTypeNetwork:
-		return true
-	case PolicyTypeSecurity:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for ServiceStatus.
-const (
-	ServiceStatusActive      ServiceStatus = "Active"
-	ServiceStatusInactive    ServiceStatus = "Inactive"
-	ServiceStatusMaintenance ServiceStatus = "Maintenance"
-)
-
-// Valid indicates whether the value is a known member of the ServiceStatus enum.
-func (e ServiceStatus) Valid() bool {
-	switch e {
-	case ServiceStatusActive:
-		return true
-	case ServiceStatusInactive:
-		return true
-	case ServiceStatusMaintenance:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for ServiceDetailStatus.
-const (
-	ServiceDetailStatusActive      ServiceDetailStatus = "Active"
-	ServiceDetailStatusInactive    ServiceDetailStatus = "Inactive"
-	ServiceDetailStatusMaintenance ServiceDetailStatus = "Maintenance"
-)
-
-// Valid indicates whether the value is a known member of the ServiceDetailStatus enum.
-func (e ServiceDetailStatus) Valid() bool {
-	switch e {
-	case ServiceDetailStatusActive:
-		return true
-	case ServiceDetailStatusInactive:
-		return true
-	case ServiceDetailStatusMaintenance:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for SystemHealthStatus.
-const (
-	Degraded  SystemHealthStatus = "degraded"
-	Healthy   SystemHealthStatus = "healthy"
-	Unhealthy SystemHealthStatus = "unhealthy"
-)
-
-// Valid indicates whether the value is a known member of the SystemHealthStatus enum.
-func (e SystemHealthStatus) Valid() bool {
-	switch e {
-	case Degraded:
-		return true
-	case Healthy:
-		return true
-	case Unhealthy:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetActivitiesParamsSeverity.
-const (
-	GetActivitiesParamsSeverityAll     GetActivitiesParamsSeverity = "all"
-	GetActivitiesParamsSeverityError   GetActivitiesParamsSeverity = "error"
-	GetActivitiesParamsSeverityInfo    GetActivitiesParamsSeverity = "info"
-	GetActivitiesParamsSeveritySuccess GetActivitiesParamsSeverity = "success"
-	GetActivitiesParamsSeverityWarning GetActivitiesParamsSeverity = "warning"
-)
-
-// Valid indicates whether the value is a known member of the GetActivitiesParamsSeverity enum.
-func (e GetActivitiesParamsSeverity) Valid() bool {
-	switch e {
-	case GetActivitiesParamsSeverityAll:
-		return true
-	case GetActivitiesParamsSeverityError:
-		return true
-	case GetActivitiesParamsSeverityInfo:
-		return true
-	case GetActivitiesParamsSeveritySuccess:
-		return true
-	case GetActivitiesParamsSeverityWarning:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetAlarmsParamsSeverity.
-const (
-	GetAlarmsParamsSeverityAll      GetAlarmsParamsSeverity = "all"
-	GetAlarmsParamsSeverityCritical GetAlarmsParamsSeverity = "critical"
-	GetAlarmsParamsSeverityInfo     GetAlarmsParamsSeverity = "info"
-	GetAlarmsParamsSeverityWarning  GetAlarmsParamsSeverity = "warning"
-)
-
-// Valid indicates whether the value is a known member of the GetAlarmsParamsSeverity enum.
-func (e GetAlarmsParamsSeverity) Valid() bool {
-	switch e {
-	case GetAlarmsParamsSeverityAll:
-		return true
-	case GetAlarmsParamsSeverityCritical:
-		return true
-	case GetAlarmsParamsSeverityInfo:
-		return true
-	case GetAlarmsParamsSeverityWarning:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PostGroupGroupIdMembersJSONBodyRole.
-const (
-	Admin  PostGroupGroupIdMembersJSONBodyRole = "admin"
-	Member PostGroupGroupIdMembersJSONBodyRole = "member"
-)
-
-// Valid indicates whether the value is a known member of the PostGroupGroupIdMembersJSONBodyRole enum.
-func (e PostGroupGroupIdMembersJSONBodyRole) Valid() bool {
-	switch e {
-	case Admin:
-		return true
-	case Member:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetPasteParamsFilter.
-const (
-	GetPasteParamsFilterAll      GetPasteParamsFilter = "all"
-	GetPasteParamsFilterCreate   GetPasteParamsFilter = "create"
-	GetPasteParamsFilterExpiring GetPasteParamsFilter = "expiring"
-)
-
-// Valid indicates whether the value is a known member of the GetPasteParamsFilter enum.
-func (e GetPasteParamsFilter) Valid() bool {
-	switch e {
-	case GetPasteParamsFilterAll:
-		return true
-	case GetPasteParamsFilterCreate:
-		return true
-	case GetPasteParamsFilterExpiring:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PostPoliciesJSONBodyType.
-const (
-	PostPoliciesJSONBodyTypeAccess   PostPoliciesJSONBodyType = "Access"
-	PostPoliciesJSONBodyTypeNetwork  PostPoliciesJSONBodyType = "Network"
-	PostPoliciesJSONBodyTypeSecurity PostPoliciesJSONBodyType = "Security"
-)
-
-// Valid indicates whether the value is a known member of the PostPoliciesJSONBodyType enum.
-func (e PostPoliciesJSONBodyType) Valid() bool {
-	switch e {
-	case PostPoliciesJSONBodyTypeAccess:
-		return true
-	case PostPoliciesJSONBodyTypeNetwork:
-		return true
-	case PostPoliciesJSONBodyTypeSecurity:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PutPoliciesPolicyIdJSONBodyType.
-const (
-	Access   PutPoliciesPolicyIdJSONBodyType = "Access"
-	Network  PutPoliciesPolicyIdJSONBodyType = "Network"
-	Security PutPoliciesPolicyIdJSONBodyType = "Security"
-)
-
-// Valid indicates whether the value is a known member of the PutPoliciesPolicyIdJSONBodyType enum.
-func (e PutPoliciesPolicyIdJSONBodyType) Valid() bool {
-	switch e {
-	case Access:
-		return true
-	case Network:
-		return true
-	case Security:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetSearchParamsType.
-const (
-	GetSearchParamsTypeGroup   GetSearchParamsType = "Group"
-	GetSearchParamsTypeService GetSearchParamsType = "Service"
-)
-
-// Valid indicates whether the value is a known member of the GetSearchParamsType enum.
-func (e GetSearchParamsType) Valid() bool {
-	switch e {
-	case GetSearchParamsTypeGroup:
-		return true
-	case GetSearchParamsTypeService:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetSearchParamsStatus.
-const (
-	Active      GetSearchParamsStatus = "active"
-	All         GetSearchParamsStatus = "all"
-	Inactive    GetSearchParamsStatus = "inactive"
-	Maintenance GetSearchParamsStatus = "maintenance"
-)
-
-// Valid indicates whether the value is a known member of the GetSearchParamsStatus enum.
-func (e GetSearchParamsStatus) Valid() bool {
+// Valid indicates whether the value is a known member of the UserStatus enum.
+func (e UserStatus) Valid() bool {
 	switch e {
 	case Active:
 		return true
-	case All:
-		return true
-	case Inactive:
-		return true
-	case Maintenance:
+	case Locked:
 		return true
 	default:
 		return false
 	}
 }
 
-// Activity defines model for Activity.
-type Activity struct {
-	Id       *openapi_types.UUID `json:"id,omitempty"`
-	Message  *string             `json:"message,omitempty"`
-	Severity *ActivitySeverity   `json:"severity,omitempty"`
-	Source   *string             `json:"source,omitempty"`
-	Time     *string             `json:"time,omitempty"`
-	Title    *string             `json:"title,omitempty"`
+// Defines values for VaultSpecVaultType.
+const (
+	Personal VaultSpecVaultType = "personal"
+	Shared   VaultSpecVaultType = "shared"
+	System   VaultSpecVaultType = "system"
+)
+
+// Valid indicates whether the value is a known member of the VaultSpecVaultType enum.
+func (e VaultSpecVaultType) Valid() bool {
+	switch e {
+	case Personal:
+		return true
+	case Shared:
+		return true
+	case System:
+		return true
+	default:
+		return false
+	}
 }
 
-// ActivitySeverity defines model for Activity.Severity.
-type ActivitySeverity string
+// Defines values for PostAssetsIdActionsJSONBodyActionType.
+const (
+	PostAssetsIdActionsJSONBodyActionTypeCheckIn  PostAssetsIdActionsJSONBodyActionType = "check_in"
+	PostAssetsIdActionsJSONBodyActionTypeCheckOut PostAssetsIdActionsJSONBodyActionType = "check_out"
+	PostAssetsIdActionsJSONBodyActionTypeElevate  PostAssetsIdActionsJSONBodyActionType = "elevate"
+	PostAssetsIdActionsJSONBodyActionTypeRotate   PostAssetsIdActionsJSONBodyActionType = "rotate"
+)
 
-// ActivityDetail defines model for ActivityDetail.
-type ActivityDetail struct {
+// Valid indicates whether the value is a known member of the PostAssetsIdActionsJSONBodyActionType enum.
+func (e PostAssetsIdActionsJSONBodyActionType) Valid() bool {
+	switch e {
+	case PostAssetsIdActionsJSONBodyActionTypeCheckIn:
+		return true
+	case PostAssetsIdActionsJSONBodyActionTypeCheckOut:
+		return true
+	case PostAssetsIdActionsJSONBodyActionTypeElevate:
+		return true
+	case PostAssetsIdActionsJSONBodyActionTypeRotate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetIdentityUserParamsView.
+const (
+	Full    GetIdentityUserParamsView = "full"
+	Summary GetIdentityUserParamsView = "summary"
+)
+
+// Valid indicates whether the value is a known member of the GetIdentityUserParamsView enum.
+func (e GetIdentityUserParamsView) Valid() bool {
+	switch e {
+	case Full:
+		return true
+	case Summary:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PostVaultsVaultIdMembershipsJSONBodyMemberType.
+const (
+	PostVaultsVaultIdMembershipsJSONBodyMemberTypeUser  PostVaultsVaultIdMembershipsJSONBodyMemberType = "user"
+	PostVaultsVaultIdMembershipsJSONBodyMemberTypeVault PostVaultsVaultIdMembershipsJSONBodyMemberType = "vault"
+)
+
+// Valid indicates whether the value is a known member of the PostVaultsVaultIdMembershipsJSONBodyMemberType enum.
+func (e PostVaultsVaultIdMembershipsJSONBodyMemberType) Valid() bool {
+	switch e {
+	case PostVaultsVaultIdMembershipsJSONBodyMemberTypeUser:
+		return true
+	case PostVaultsVaultIdMembershipsJSONBodyMemberTypeVault:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PostVaultsVaultIdMembershipsJSONBodyRole.
+const (
+	Manager PostVaultsVaultIdMembershipsJSONBodyRole = "manager"
+	Owner   PostVaultsVaultIdMembershipsJSONBodyRole = "owner"
+	Viewer  PostVaultsVaultIdMembershipsJSONBodyRole = "viewer"
+)
+
+// Valid indicates whether the value is a known member of the PostVaultsVaultIdMembershipsJSONBodyRole enum.
+func (e PostVaultsVaultIdMembershipsJSONBodyRole) Valid() bool {
+	switch e {
+	case Manager:
+		return true
+	case Owner:
+		return true
+	case Viewer:
+		return true
+	default:
+		return false
+	}
+}
+
+// Asset defines model for Asset.
+type Asset struct {
+	CreatedAt *time.Time              `json:"created_at,omitempty"`
 	Id        *openapi_types.UUID     `json:"id,omitempty"`
-	Message   *string                 `json:"message,omitempty"`
-	Metadata  *map[string]interface{} `json:"metadata,omitempty"`
-	Service   *Service                `json:"service,omitempty"`
-	ServiceId *openapi_types.UUID     `json:"serviceId,omitempty"`
-	Severity  *ActivityDetailSeverity `json:"severity,omitempty"`
-	Source    *string                 `json:"source,omitempty"`
-	Time      *string                 `json:"time,omitempty"`
-	Title     *string                 `json:"title,omitempty"`
-	UserId    *openapi_types.UUID     `json:"userId,omitempty"`
-}
-
-// ActivityDetailSeverity defines model for ActivityDetail.Severity.
-type ActivityDetailSeverity string
-
-// ActivityList defines model for ActivityList.
-type ActivityList struct {
-	Data *[]Activity     `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// Alarm defines model for Alarm.
-type Alarm struct {
-	Acknowledged *bool               `json:"acknowledged,omitempty"`
-	Id           *openapi_types.UUID `json:"id,omitempty"`
-	Message      *string             `json:"message,omitempty"`
-	Severity     *AlarmSeverity      `json:"severity,omitempty"`
-	Source       *string             `json:"source,omitempty"`
-	Time         *string             `json:"time,omitempty"`
-	Title        *string             `json:"title,omitempty"`
-}
-
-// AlarmSeverity defines model for Alarm.Severity.
-type AlarmSeverity string
-
-// AlarmList defines model for AlarmList.
-type AlarmList struct {
-	Data *[]Alarm        `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// AuditLog defines model for AuditLog.
-type AuditLog struct {
-	Action     *string                 `json:"action,omitempty"`
-	Details    *map[string]interface{} `json:"details,omitempty"`
-	Id         *openapi_types.UUID     `json:"id,omitempty"`
-	IpAddress  *string                 `json:"ipAddress,omitempty"`
-	Resource   *string                 `json:"resource,omitempty"`
-	ResourceId *openapi_types.UUID     `json:"resourceId,omitempty"`
-	Timestamp  *time.Time              `json:"timestamp,omitempty"`
-	UserEmail  *string                 `json:"userEmail,omitempty"`
-	UserId     *openapi_types.UUID     `json:"userId,omitempty"`
-}
-
-// AuditLogList defines model for AuditLogList.
-type AuditLogList struct {
-	Data *[]AuditLog     `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// Credential defines model for Credential.
-type Credential struct {
-	CreatedAt *time.Time              `json:"createdAt,omitempty"`
-	GroupId   *openapi_types.UUID     `json:"groupId,omitempty"`
-	Id        *openapi_types.UUID     `json:"id,omitempty"`
-	IsActive  *bool                   `json:"isActive,omitempty"`
-	Metadata  *map[string]interface{} `json:"metadata,omitempty"`
 	Name      *string                 `json:"name,omitempty"`
-	Type      *CredentialType         `json:"type,omitempty"`
-	UpdatedAt *time.Time              `json:"updatedAt,omitempty"`
+	OwnerId   *openapi_types.UUID     `json:"owner_id,omitempty"`
+	ParentId  *openapi_types.UUID     `json:"parent_id,omitempty"`
+	Spec      *map[string]interface{} `json:"spec,omitempty"`
+	Type      *string                 `json:"type,omitempty"`
 }
 
-// CredentialType defines model for Credential.Type.
-type CredentialType string
-
-// CredentialCreate defines model for CredentialCreate.
-type CredentialCreate struct {
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
-	Name     string                  `json:"name"`
-	Type     CredentialCreateType    `json:"type"`
+// AssetList defines model for AssetList.
+type AssetList struct {
+	Data *[]Asset        `json:"data,omitempty"`
+	Meta *PaginationMeta `json:"meta,omitempty"`
 }
 
-// CredentialCreateType defines model for CredentialCreate.Type.
-type CredentialCreateType string
-
-// CredentialList defines model for CredentialList.
-type CredentialList struct {
-	Data *[]Credential `json:"data,omitempty"`
+// AuditEntry defines model for AuditEntry.
+type AuditEntry struct {
+	Action     *string             `json:"action,omitempty"`
+	ActorId    *openapi_types.UUID `json:"actor_id,omitempty"`
+	ResourceId *openapi_types.UUID `json:"resource_id,omitempty"`
+	Success    *bool               `json:"success,omitempty"`
+	Timestamp  *time.Time          `json:"timestamp,omitempty"`
 }
 
-// CredentialSecret defines model for CredentialSecret.
-type CredentialSecret struct {
-	ApiKey         *string             `json:"apiKey,omitempty"`
-	ApiSecret      *string             `json:"apiSecret,omitempty"`
-	Certificate    *string             `json:"certificate,omitempty"`
-	CreatedAt      *time.Time          `json:"createdAt,omitempty"`
-	CredentialId   *openapi_types.UUID `json:"credentialId,omitempty"`
-	ExpiresAt      *time.Time          `json:"expiresAt,omitempty"`
-	Id             *openapi_types.UUID `json:"id,omitempty"`
-	LastRotated    *time.Time          `json:"lastRotated,omitempty"`
-	Password       *string             `json:"password,omitempty"`
-	PrivateKey     *string             `json:"privateKey,omitempty"`
-	PrivateKeyPass *string             `json:"privateKeyPass,omitempty"`
-	PublicKey      *string             `json:"publicKey,omitempty"`
-	UpdatedAt      *time.Time          `json:"updatedAt,omitempty"`
-	Username       *string             `json:"username,omitempty"`
+// CreateAssetRequest defines model for CreateAssetRequest.
+type CreateAssetRequest struct {
+	Name string                  `json:"name"`
+	Spec CreateAssetRequest_Spec `json:"spec"`
+	Type CreateAssetRequestType  `json:"type"`
 }
 
-// CredentialSecretCreate defines model for CredentialSecretCreate.
-type CredentialSecretCreate struct {
-	ApiKey         *string    `json:"apiKey,omitempty"`
-	ApiSecret      *string    `json:"apiSecret,omitempty"`
-	Certificate    *string    `json:"certificate,omitempty"`
-	ExpiresAt      *time.Time `json:"expiresAt,omitempty"`
-	Password       *string    `json:"password,omitempty"`
-	PrivateKey     *string    `json:"privateKey,omitempty"`
-	PrivateKeyPass *string    `json:"privateKeyPass,omitempty"`
-	PublicKey      *string    `json:"publicKey,omitempty"`
-	Username       *string    `json:"username,omitempty"`
+// CreateAssetRequest_Spec defines model for CreateAssetRequest.Spec.
+type CreateAssetRequest_Spec struct {
+	union json.RawMessage
 }
 
-// CredentialSecretUpdate defines model for CredentialSecretUpdate.
-type CredentialSecretUpdate struct {
-	ApiKey         *string    `json:"apiKey,omitempty"`
-	ApiSecret      *string    `json:"apiSecret,omitempty"`
-	Certificate    *string    `json:"certificate,omitempty"`
-	ExpiresAt      *time.Time `json:"expiresAt,omitempty"`
-	Password       *string    `json:"password,omitempty"`
-	PrivateKey     *string    `json:"privateKey,omitempty"`
-	PrivateKeyPass *string    `json:"privateKeyPass,omitempty"`
-	PublicKey      *string    `json:"publicKey,omitempty"`
-	Username       *string    `json:"username,omitempty"`
+// CreateAssetRequestType defines model for CreateAssetRequest.Type.
+type CreateAssetRequestType string
+
+// GroupMembership defines model for GroupMembership.
+type GroupMembership struct {
+	CreatedAt *time.Time          `json:"created_at,omitempty"`
+	GroupId   *openapi_types.UUID `json:"group_id,omitempty"`
+	UserId    *openapi_types.UUID `json:"user_id,omitempty"`
 }
 
-// CredentialUpdate defines model for CredentialUpdate.
-type CredentialUpdate struct {
-	IsActive *bool                   `json:"isActive,omitempty"`
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
-	Name     *string                 `json:"name,omitempty"`
-	Type     *CredentialUpdateType   `json:"type,omitempty"`
+// GroupMembershipList defines model for GroupMembershipList.
+type GroupMembershipList struct {
+	Data *[]GroupMembership `json:"data,omitempty"`
+	Meta *PaginationMeta    `json:"meta,omitempty"`
 }
 
-// CredentialUpdateType defines model for CredentialUpdate.Type.
-type CredentialUpdateType string
-
-// GenericError defines model for GenericError.
-type GenericError struct {
-	Error struct {
-		Code    string `json:"code"`
-		Message string `json:"message"`
-	} `json:"error"`
-}
-
-// Group defines model for Group.
-type Group struct {
-	Created     *openapi_types.Date `json:"created,omitempty"`
-	Description *string             `json:"description,omitempty"`
-	Id          *openapi_types.UUID `json:"id,omitempty"`
-	Members     *int                `json:"members,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
-}
-
-// GroupCreate defines model for GroupCreate.
-type GroupCreate struct {
-	Description *string             `json:"description,omitempty"`
-	Name        string              `json:"name"`
-	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
-}
-
-// GroupDetail defines model for GroupDetail.
-type GroupDetail struct {
-	Children    *[]Group            `json:"children,omitempty"`
-	Created     *openapi_types.Date `json:"created,omitempty"`
-	Description *string             `json:"description,omitempty"`
-	Id          *openapi_types.UUID `json:"id,omitempty"`
-	Members     *int                `json:"members,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	Parent      *Group              `json:"parent,omitempty"`
-	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
-}
-
-// PaginatedResponse defines model for PaginatedResponse.
-type PaginatedResponse struct {
-	Data *[]map[string]interface{} `json:"data,omitempty"`
-	Meta *PaginationMeta           `json:"meta,omitempty"`
+// JITSpec defines model for JITSpec.
+type JITSpec struct {
+	ApproverGroup   *openapi_types.UUID `json:"approver_group,omitempty"`
+	DurationMinutes int                 `json:"duration_minutes"`
+	Justification   string              `json:"justification"`
+	TargetAssetId   openapi_types.UUID  `json:"target_asset_id"`
 }
 
 // PaginationMeta defines model for PaginationMeta.
 type PaginationMeta struct {
-	Limit      *int `json:"limit,omitempty"`
-	Page       *int `json:"page,omitempty"`
-	Total      *int `json:"total,omitempty"`
-	TotalPages *int `json:"totalPages,omitempty"`
+	Limit  *int `json:"limit,omitempty"`
+	Offset *int `json:"offset,omitempty"`
+	Total  *int `json:"total,omitempty"`
 }
 
-// Paste defines model for Paste.
-type Paste struct {
-	BurnAfterRead *bool      `json:"burnAfterRead,omitempty"`
-	Content       *string    `json:"content,omitempty"`
-	CreatedAt     *time.Time `json:"createdAt,omitempty"`
-	ExpiresAt     *time.Time `json:"expiresAt,omitempty"`
-	Id            *string    `json:"id,omitempty"`
-	Title         *string    `json:"title,omitempty"`
-	Views         *int       `json:"views,omitempty"`
+// PasteSpec defines model for PasteSpec.
+type PasteSpec struct {
+	BurnAfterRead *bool `json:"burn_after_read,omitempty"`
+
+	// Content Ephemeral encrypted text
+	Content    string `json:"content"`
+	TtlSeconds int    `json:"ttl_seconds"`
 }
 
-// PasteCreate defines model for PasteCreate.
-type PasteCreate struct {
-	BurnAfterRead *bool  `json:"burnAfterRead,omitempty"`
-	Content       string `json:"content"`
-
-	// ExpiresIn Expiration in hours
-	ExpiresIn *int    `json:"expiresIn,omitempty"`
-	Title     *string `json:"title,omitempty"`
+// PolicySpec defines model for PolicySpec.
+type PolicySpec struct {
+	Actions []PolicySpecActions `json:"actions"`
+	Objects struct {
+		AssetIds *[]openapi_types.UUID   `json:"asset_ids,omitempty"`
+		Tags     *map[string]interface{} `json:"tags,omitempty"`
+	} `json:"objects"`
+	Subjects struct {
+		Groups *[]openapi_types.UUID `json:"groups,omitempty"`
+		Users  *[]openapi_types.UUID `json:"users,omitempty"`
+	} `json:"subjects"`
 }
 
-// PasteList defines model for PasteList.
-type PasteList struct {
-	Data *[]Paste        `json:"data,omitempty"`
+// PolicySpecActions defines model for PolicySpec.Actions.
+type PolicySpecActions string
+
+// SecretSpec defines model for SecretSpec.
+type SecretSpec struct {
+	// EncryptedPayload Base64 encrypted blob
+	EncryptedPayload string             `json:"encrypted_payload"`
+	MimeType         *string            `json:"mime_type,omitempty"`
+	RotationEnabled  *bool              `json:"rotation_enabled,omitempty"`
+	VaultId          openapi_types.UUID `json:"vault_id"`
+}
+
+// ServiceSpec defines model for ServiceSpec.
+type ServiceSpec struct {
+	Endpoint string              `json:"endpoint"`
+	Protocol ServiceSpecProtocol `json:"protocol"`
+	Tags     *map[string]string  `json:"tags,omitempty"`
+}
+
+// ServiceSpecProtocol defines model for ServiceSpec.Protocol.
+type ServiceSpecProtocol string
+
+// UpdateUserProfileRequest defines model for UpdateUserProfileRequest.
+type UpdateUserProfileRequest struct {
+	DisplayName          *string                 `json:"display_name,omitempty"`
+	Email                *string                 `json:"email,omitempty"`
+	FirstName            *string                 `json:"first_name,omitempty"`
+	LastName             *string                 `json:"last_name,omitempty"`
+	NotificationSettings *map[string]interface{} `json:"notification_settings,omitempty"`
+}
+
+// User defines model for User.
+type User struct {
+	DisplayName          *string                 `json:"display_name,omitempty"`
+	Email                string                  `json:"email"`
+	FirstName            *string                 `json:"first_name,omitempty"`
+	Id                   openapi_types.UUID      `json:"id"`
+	LastName             *string                 `json:"last_name,omitempty"`
+	NotificationSettings *map[string]interface{} `json:"notification_settings,omitempty"`
+	Status               *UserStatus             `json:"status,omitempty"`
+	Username             string                  `json:"username"`
+}
+
+// UserStatus defines model for User.Status.
+type UserStatus string
+
+// UserGroup defines model for UserGroup.
+type UserGroup struct {
+	Description *string            `json:"description,omitempty"`
+	Id          openapi_types.UUID `json:"id"`
+	Name        string             `json:"name"`
+}
+
+// UserGroupList defines model for UserGroupList.
+type UserGroupList struct {
+	Data *[]UserGroup    `json:"data,omitempty"`
 	Meta *PaginationMeta `json:"meta,omitempty"`
 }
 
-// Policy defines model for Policy.
-type Policy struct {
-	Description  *string             `json:"description,omitempty"`
-	Enabled      *bool               `json:"enabled,omitempty"`
-	Id           *openapi_types.UUID `json:"id,omitempty"`
-	LastModified *openapi_types.Date `json:"lastModified,omitempty"`
-	Name         *string             `json:"name,omitempty"`
-	Scope        *string             `json:"scope,omitempty"`
-	Type         *PolicyType         `json:"type,omitempty"`
+// VaultSpec defines model for VaultSpec.
+type VaultSpec struct {
+	EncryptionLevel *string            `json:"encryption_level,omitempty"`
+	RecoveryEnabled *bool              `json:"recovery_enabled,omitempty"`
+	VaultType       VaultSpecVaultType `json:"vault_type"`
 }
 
-// PolicyType defines model for Policy.Type.
-type PolicyType string
+// VaultSpecVaultType defines model for VaultSpec.VaultType.
+type VaultSpecVaultType string
 
-// PolicyList defines model for PolicyList.
-type PolicyList struct {
-	Data *[]Policy       `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
+// PatchAdminConfigJSONBody defines parameters for PatchAdminConfig.
+type PatchAdminConfigJSONBody struct {
+	JwtTtl             *int      `json:"jwt_ttl,omitempty"`
+	NetworkWhitelist   *[]string `json:"network_whitelist,omitempty"`
+	RebuildPolicyCache *bool     `json:"rebuild_policy_cache,omitempty"`
 }
 
-// SearchResults defines model for SearchResults.
-type SearchResults struct {
-	Groups   *[]Group   `json:"groups,omitempty"`
-	Services *[]Service `json:"services,omitempty"`
-}
-
-// Service defines model for Service.
-type Service struct {
-	Alias        *string             `json:"alias,omitempty"`
-	GroupId      *openapi_types.UUID `json:"groupId,omitempty"`
-	Hostname     *string             `json:"hostname,omitempty"`
-	Id           *openapi_types.UUID `json:"id,omitempty"`
-	LastDeployed *openapi_types.Date `json:"lastDeployed,omitempty"`
-	Name         *string             `json:"name,omitempty"`
-	Protocol     *string             `json:"protocol,omitempty"`
-	Status       *ServiceStatus      `json:"status,omitempty"`
-	Type         *string             `json:"type,omitempty"`
-	Uptime       *string             `json:"uptime,omitempty"`
-}
-
-// ServiceStatus defines model for Service.Status.
-type ServiceStatus string
-
-// ServiceCreate defines model for ServiceCreate.
-type ServiceCreate struct {
-	Alias    *string             `json:"alias,omitempty"`
-	GroupId  *openapi_types.UUID `json:"groupId,omitempty"`
-	Hostname string              `json:"hostname"`
-	Name     string              `json:"name"`
-	Protocol string              `json:"protocol"`
-	Type     string              `json:"type"`
-}
-
-// ServiceDetail defines model for ServiceDetail.
-type ServiceDetail struct {
-	Alias        *string              `json:"alias,omitempty"`
-	Group        *Group               `json:"group,omitempty"`
-	GroupId      *openapi_types.UUID  `json:"groupId,omitempty"`
-	Hostname     *string              `json:"hostname,omitempty"`
-	Id           *openapi_types.UUID  `json:"id,omitempty"`
-	LastDeployed *openapi_types.Date  `json:"lastDeployed,omitempty"`
-	Name         *string              `json:"name,omitempty"`
-	Protocol     *string              `json:"protocol,omitempty"`
-	Status       *ServiceDetailStatus `json:"status,omitempty"`
-	Type         *string              `json:"type,omitempty"`
-	Uptime       *string              `json:"uptime,omitempty"`
-}
-
-// ServiceDetailStatus defines model for ServiceDetail.Status.
-type ServiceDetailStatus string
-
-// ServiceUpdate defines model for ServiceUpdate.
-type ServiceUpdate struct {
-	Alias    *string             `json:"alias,omitempty"`
-	GroupId  *openapi_types.UUID `json:"groupId,omitempty"`
-	Hostname *string             `json:"hostname,omitempty"`
-	Name     *string             `json:"name,omitempty"`
-	Protocol *string             `json:"protocol,omitempty"`
-	Status   *string             `json:"status,omitempty"`
-}
-
-// SystemHealth defines model for SystemHealth.
-type SystemHealth struct {
-	Cpu      *float32                `json:"cpu,omitempty"`
-	Disk     *float32                `json:"disk,omitempty"`
-	Memory   *float32                `json:"memory,omitempty"`
-	Services *map[string]interface{} `json:"services,omitempty"`
-	Status   *SystemHealthStatus     `json:"status,omitempty"`
-	Uptime   *string                 `json:"uptime,omitempty"`
-}
-
-// SystemHealthStatus defines model for SystemHealth.Status.
-type SystemHealthStatus string
-
-// SystemSettings defines model for SystemSettings.
-type SystemSettings struct {
-	AllowedIpRanges    *[]string `json:"allowedIpRanges,omitempty"`
-	EmailNotifications *bool     `json:"emailNotifications,omitempty"`
-	MaxLoginAttempts   *int      `json:"maxLoginAttempts,omitempty"`
-	PasswordMinLength  *int      `json:"passwordMinLength,omitempty"`
-	PasswordRequireMfa *bool     `json:"passwordRequireMfa,omitempty"`
-	SessionTimeout     *int      `json:"sessionTimeout,omitempty"`
-}
-
-// SystemSettingsUpdate defines model for SystemSettingsUpdate.
-type SystemSettingsUpdate struct {
-	AllowedIpRanges    *[]string `json:"allowedIpRanges,omitempty"`
-	EmailNotifications *bool     `json:"emailNotifications,omitempty"`
-	MaxLoginAttempts   *int      `json:"maxLoginAttempts,omitempty"`
-	PasswordMinLength  *int      `json:"passwordMinLength,omitempty"`
-	PasswordRequireMfa *bool     `json:"passwordRequireMfa,omitempty"`
-	SessionTimeout     *int      `json:"sessionTimeout,omitempty"`
-}
-
-// LimitParam defines model for LimitParam.
-type LimitParam = int
-
-// PageParam defines model for PageParam.
-type PageParam = int
-
-// SearchParam defines model for SearchParam.
-type SearchParam = string
-
-// SortParam defines model for SortParam.
-type SortParam = string
-
-// ClientError defines model for ClientError.
-type ClientError = GenericError
-
-// GetActivitiesParams defines parameters for GetActivities.
-type GetActivitiesParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Sort Sort field and direction (e.g., "name:asc")
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Search Search query
-	Search   *SearchParam                 `form:"search,omitempty" json:"search,omitempty"`
-	Severity *GetActivitiesParamsSeverity `form:"severity,omitempty" json:"severity,omitempty"`
-
-	// ServiceId Filter by service ID
-	ServiceId *openapi_types.UUID `form:"serviceId,omitempty" json:"serviceId,omitempty"`
-
-	// GroupId Filter by group ID
-	GroupId *openapi_types.UUID `form:"groupId,omitempty" json:"groupId,omitempty"`
-
-	// SessionId Filter by session ID
-	SessionId *openapi_types.UUID `form:"sessionId,omitempty" json:"sessionId,omitempty"`
-}
-
-// GetActivitiesParamsSeverity defines parameters for GetActivities.
-type GetActivitiesParamsSeverity string
-
-// GetAdminAuditLogsParams defines parameters for GetAdminAuditLogs.
-type GetAdminAuditLogsParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Search Search query
-	Search    *SearchParam        `form:"search,omitempty" json:"search,omitempty"`
-	UserId    *openapi_types.UUID `form:"userId,omitempty" json:"userId,omitempty"`
-	Action    *string             `form:"action,omitempty" json:"action,omitempty"`
-	StartDate *openapi_types.Date `form:"startDate,omitempty" json:"startDate,omitempty"`
-	EndDate   *openapi_types.Date `form:"endDate,omitempty" json:"endDate,omitempty"`
-}
-
-// GetAlarmsParams defines parameters for GetAlarms.
-type GetAlarmsParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Sort Sort field and direction (e.g., "name:asc")
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Search Search query
-	Search   *SearchParam             `form:"search,omitempty" json:"search,omitempty"`
-	Severity *GetAlarmsParamsSeverity `form:"severity,omitempty" json:"severity,omitempty"`
-}
-
-// GetAlarmsParamsSeverity defines parameters for GetAlarms.
-type GetAlarmsParamsSeverity string
-
-// GetGroupGroupIdMembersParams defines parameters for GetGroupGroupIdMembers.
-type GetGroupGroupIdMembersParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-}
-
-// PostGroupGroupIdMembersJSONBody defines parameters for PostGroupGroupIdMembers.
-type PostGroupGroupIdMembersJSONBody struct {
-	Role   *PostGroupGroupIdMembersJSONBodyRole `json:"role,omitempty"`
-	UserId openapi_types.UUID                   `json:"userId"`
-}
-
-// PostGroupGroupIdMembersJSONBodyRole defines parameters for PostGroupGroupIdMembers.
-type PostGroupGroupIdMembersJSONBodyRole string
-
-// PostGroupGroupIdPolicyJSONBody defines parameters for PostGroupGroupIdPolicy.
-type PostGroupGroupIdPolicyJSONBody struct {
-	PolicyId openapi_types.UUID `json:"policyId"`
-}
-
-// GetPasteParams defines parameters for GetPaste.
-type GetPasteParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit  *LimitParam           `form:"limit,omitempty" json:"limit,omitempty"`
-	Filter *GetPasteParamsFilter `form:"filter,omitempty" json:"filter,omitempty"`
-}
-
-// GetPasteParamsFilter defines parameters for GetPaste.
-type GetPasteParamsFilter string
-
-// GetPoliciesParams defines parameters for GetPolicies.
-type GetPoliciesParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-}
-
-// PostPoliciesJSONBody defines parameters for PostPolicies.
-type PostPoliciesJSONBody struct {
-	Description *string                  `json:"description,omitempty"`
-	Enabled     *bool                    `json:"enabled,omitempty"`
-	Name        string                   `json:"name"`
-	Scope       *string                  `json:"scope,omitempty"`
-	Type        PostPoliciesJSONBodyType `json:"type"`
-}
-
-// PostPoliciesJSONBodyType defines parameters for PostPolicies.
-type PostPoliciesJSONBodyType string
-
-// PutPoliciesPolicyIdJSONBody defines parameters for PutPoliciesPolicyId.
-type PutPoliciesPolicyIdJSONBody struct {
-	Description *string                          `json:"description,omitempty"`
-	Enabled     *bool                            `json:"enabled,omitempty"`
-	Name        *string                          `json:"name,omitempty"`
-	Scope       *string                          `json:"scope,omitempty"`
-	Type        *PutPoliciesPolicyIdJSONBodyType `json:"type,omitempty"`
-}
-
-// PutPoliciesPolicyIdJSONBodyType defines parameters for PutPoliciesPolicyId.
-type PutPoliciesPolicyIdJSONBodyType string
-
-// GetSearchParams defines parameters for GetSearch.
-type GetSearchParams struct {
-	// Q Search query
+// GetAssetsParams defines parameters for GetAssets.
+type GetAssetsParams struct {
 	Q *string `form:"q,omitempty" json:"q,omitempty"`
 
-	// Type Resource type to search/list
-	Type *GetSearchParamsType `form:"type,omitempty" json:"type,omitempty"`
+	// Type Filter by asset type (service, service_group, vault, secret, policy, paste, jit)
+	Type *string `form:"type,omitempty" json:"type,omitempty"`
 
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+	// ParentId Filter by parent asset ID
+	ParentId *openapi_types.UUID `form:"parent_id,omitempty" json:"parent_id,omitempty"`
 
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
+	// Limit Maximum number of assets to return
+	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
 
-	// Sort Sort field and direction (e.g., "name:asc")
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Status Filter by status (for Service)
-	Status *GetSearchParamsStatus `form:"status,omitempty" json:"status,omitempty"`
-
-	// GroupId Filter by group ID (for Service)
-	GroupId *openapi_types.UUID `form:"groupId,omitempty" json:"groupId,omitempty"`
+	// Offset Number of assets to skip
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
 }
 
-// GetSearchParamsType defines parameters for GetSearch.
-type GetSearchParamsType string
+// PostAssetsIdActionsJSONBody defines parameters for PostAssetsIdActions.
+type PostAssetsIdActionsJSONBody struct {
+	ActionType PostAssetsIdActionsJSONBodyActionType `json:"action_type"`
+	Parameters *map[string]interface{}               `json:"parameters,omitempty"`
+}
 
-// GetSearchParamsStatus defines parameters for GetSearch.
-type GetSearchParamsStatus string
+// PostAssetsIdActionsJSONBodyActionType defines parameters for PostAssetsIdActions.
+type PostAssetsIdActionsJSONBodyActionType string
 
-// PutAdminSettingsJSONRequestBody defines body for PutAdminSettings for application/json ContentType.
-type PutAdminSettingsJSONRequestBody = SystemSettingsUpdate
+// GetAuditLogsParams defines parameters for GetAuditLogs.
+type GetAuditLogsParams struct {
+	ActorId    *openapi_types.UUID `form:"actor_id,omitempty" json:"actor_id,omitempty"`
+	ResourceId *openapi_types.UUID `form:"resource_id,omitempty" json:"resource_id,omitempty"`
+	From       *time.Time          `form:"from,omitempty" json:"from,omitempty"`
+}
 
-// PostGroupJSONRequestBody defines body for PostGroup for application/json ContentType.
-type PostGroupJSONRequestBody = GroupCreate
+// GetIdentityGroupsParams defines parameters for GetIdentityGroups.
+type GetIdentityGroupsParams struct {
+	Limit  *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
+}
 
-// PostGroupGroupIdCredentialJSONRequestBody defines body for PostGroupGroupIdCredential for application/json ContentType.
-type PostGroupGroupIdCredentialJSONRequestBody = CredentialCreate
+// PostIdentityGroupsJSONBody defines parameters for PostIdentityGroups.
+type PostIdentityGroupsJSONBody struct {
+	Name string `json:"name"`
+}
 
-// PutGroupGroupIdCredentialCredentialIdJSONRequestBody defines body for PutGroupGroupIdCredentialCredentialId for application/json ContentType.
-type PutGroupGroupIdCredentialCredentialIdJSONRequestBody = CredentialUpdate
+// DeleteIdentityGroupsGroupIdMembershipsParams defines parameters for DeleteIdentityGroupsGroupIdMemberships.
+type DeleteIdentityGroupsGroupIdMembershipsParams struct {
+	UserId openapi_types.UUID `form:"user_id" json:"user_id"`
+}
 
-// PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody defines body for PostGroupGroupIdCredentialCredentialIdSecret for application/json ContentType.
-type PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody = CredentialSecretCreate
+// GetIdentityGroupsGroupIdMembershipsParams defines parameters for GetIdentityGroupsGroupIdMemberships.
+type GetIdentityGroupsGroupIdMembershipsParams struct {
+	Limit  *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
+}
 
-// PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody defines body for PutGroupGroupIdCredentialCredentialIdSecret for application/json ContentType.
-type PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody = CredentialSecretUpdate
+// PostIdentityGroupsGroupIdMembershipsJSONBody defines parameters for PostIdentityGroupsGroupIdMemberships.
+type PostIdentityGroupsGroupIdMembershipsJSONBody struct {
+	UserId openapi_types.UUID `json:"user_id"`
+}
 
-// PostGroupGroupIdMembersJSONRequestBody defines body for PostGroupGroupIdMembers for application/json ContentType.
-type PostGroupGroupIdMembersJSONRequestBody PostGroupGroupIdMembersJSONBody
+// GetIdentityUserParams defines parameters for GetIdentityUser.
+type GetIdentityUserParams struct {
+	// UserId User ID to look up (optional, defaults to current user)
+	UserId *openapi_types.UUID `form:"user_id,omitempty" json:"user_id,omitempty"`
 
-// PostGroupGroupIdPolicyJSONRequestBody defines body for PostGroupGroupIdPolicy for application/json ContentType.
-type PostGroupGroupIdPolicyJSONRequestBody PostGroupGroupIdPolicyJSONBody
+	// View Level of detail (summary returns basic info, full includes profile fields)
+	View *GetIdentityUserParamsView `form:"view,omitempty" json:"view,omitempty"`
+}
 
-// PostPasteJSONRequestBody defines body for PostPaste for application/json ContentType.
-type PostPasteJSONRequestBody = PasteCreate
+// GetIdentityUserParamsView defines parameters for GetIdentityUser.
+type GetIdentityUserParamsView string
 
-// PostPoliciesJSONRequestBody defines body for PostPolicies for application/json ContentType.
-type PostPoliciesJSONRequestBody PostPoliciesJSONBody
+// PostIdentityUsersJSONBody defines parameters for PostIdentityUsers.
+type PostIdentityUsersJSONBody struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Username string `json:"username"`
+}
 
-// PutPoliciesPolicyIdJSONRequestBody defines body for PutPoliciesPolicyId for application/json ContentType.
-type PutPoliciesPolicyIdJSONRequestBody PutPoliciesPolicyIdJSONBody
+// PostVaultsVaultIdMembershipsJSONBody defines parameters for PostVaultsVaultIdMemberships.
+type PostVaultsVaultIdMembershipsJSONBody struct {
+	MemberId   openapi_types.UUID                             `json:"member_id"`
+	MemberType PostVaultsVaultIdMembershipsJSONBodyMemberType `json:"member_type"`
+	Role       PostVaultsVaultIdMembershipsJSONBodyRole       `json:"role"`
+}
 
-// PostServiceJSONRequestBody defines body for PostService for application/json ContentType.
-type PostServiceJSONRequestBody = ServiceCreate
+// PostVaultsVaultIdMembershipsJSONBodyMemberType defines parameters for PostVaultsVaultIdMemberships.
+type PostVaultsVaultIdMembershipsJSONBodyMemberType string
 
-// PutServiceServiceIdJSONRequestBody defines body for PutServiceServiceId for application/json ContentType.
-type PutServiceServiceIdJSONRequestBody = ServiceUpdate
+// PostVaultsVaultIdMembershipsJSONBodyRole defines parameters for PostVaultsVaultIdMemberships.
+type PostVaultsVaultIdMembershipsJSONBodyRole string
+
+// PatchAdminConfigJSONRequestBody defines body for PatchAdminConfig for application/json ContentType.
+type PatchAdminConfigJSONRequestBody PatchAdminConfigJSONBody
+
+// PostAssetsJSONRequestBody defines body for PostAssets for application/json ContentType.
+type PostAssetsJSONRequestBody = CreateAssetRequest
+
+// PostAssetsIdActionsJSONRequestBody defines body for PostAssetsIdActions for application/json ContentType.
+type PostAssetsIdActionsJSONRequestBody PostAssetsIdActionsJSONBody
+
+// PostIdentityGroupsJSONRequestBody defines body for PostIdentityGroups for application/json ContentType.
+type PostIdentityGroupsJSONRequestBody PostIdentityGroupsJSONBody
+
+// PostIdentityGroupsGroupIdMembershipsJSONRequestBody defines body for PostIdentityGroupsGroupIdMemberships for application/json ContentType.
+type PostIdentityGroupsGroupIdMembershipsJSONRequestBody PostIdentityGroupsGroupIdMembershipsJSONBody
+
+// PostIdentityUserJSONRequestBody defines body for PostIdentityUser for application/json ContentType.
+type PostIdentityUserJSONRequestBody = UpdateUserProfileRequest
+
+// PostIdentityUsersJSONRequestBody defines body for PostIdentityUsers for application/json ContentType.
+type PostIdentityUsersJSONRequestBody PostIdentityUsersJSONBody
+
+// PostVaultsVaultIdMembershipsJSONRequestBody defines body for PostVaultsVaultIdMemberships for application/json ContentType.
+type PostVaultsVaultIdMembershipsJSONRequestBody PostVaultsVaultIdMembershipsJSONBody
+
+// AsServiceSpec returns the union data inside the CreateAssetRequest_Spec as a ServiceSpec
+func (t CreateAssetRequest_Spec) AsServiceSpec() (ServiceSpec, error) {
+	var body ServiceSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServiceSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided ServiceSpec
+func (t *CreateAssetRequest_Spec) FromServiceSpec(v ServiceSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServiceSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided ServiceSpec
+func (t *CreateAssetRequest_Spec) MergeServiceSpec(v ServiceSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVaultSpec returns the union data inside the CreateAssetRequest_Spec as a VaultSpec
+func (t CreateAssetRequest_Spec) AsVaultSpec() (VaultSpec, error) {
+	var body VaultSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVaultSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided VaultSpec
+func (t *CreateAssetRequest_Spec) FromVaultSpec(v VaultSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVaultSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided VaultSpec
+func (t *CreateAssetRequest_Spec) MergeVaultSpec(v VaultSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSecretSpec returns the union data inside the CreateAssetRequest_Spec as a SecretSpec
+func (t CreateAssetRequest_Spec) AsSecretSpec() (SecretSpec, error) {
+	var body SecretSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSecretSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided SecretSpec
+func (t *CreateAssetRequest_Spec) FromSecretSpec(v SecretSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSecretSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided SecretSpec
+func (t *CreateAssetRequest_Spec) MergeSecretSpec(v SecretSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPolicySpec returns the union data inside the CreateAssetRequest_Spec as a PolicySpec
+func (t CreateAssetRequest_Spec) AsPolicySpec() (PolicySpec, error) {
+	var body PolicySpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPolicySpec overwrites any union data inside the CreateAssetRequest_Spec as the provided PolicySpec
+func (t *CreateAssetRequest_Spec) FromPolicySpec(v PolicySpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePolicySpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided PolicySpec
+func (t *CreateAssetRequest_Spec) MergePolicySpec(v PolicySpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPasteSpec returns the union data inside the CreateAssetRequest_Spec as a PasteSpec
+func (t CreateAssetRequest_Spec) AsPasteSpec() (PasteSpec, error) {
+	var body PasteSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPasteSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided PasteSpec
+func (t *CreateAssetRequest_Spec) FromPasteSpec(v PasteSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePasteSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided PasteSpec
+func (t *CreateAssetRequest_Spec) MergePasteSpec(v PasteSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsJITSpec returns the union data inside the CreateAssetRequest_Spec as a JITSpec
+func (t CreateAssetRequest_Spec) AsJITSpec() (JITSpec, error) {
+	var body JITSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromJITSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided JITSpec
+func (t *CreateAssetRequest_Spec) FromJITSpec(v JITSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeJITSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided JITSpec
+func (t *CreateAssetRequest_Spec) MergeJITSpec(v JITSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CreateAssetRequest_Spec) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CreateAssetRequest_Spec) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -1075,155 +758,76 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 
 // The interface specification for the client above.
 type ClientInterface interface {
-	// GetActivities request
-	GetActivities(ctx context.Context, params *GetActivitiesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetAdminConfig request
+	GetAdminConfig(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetActivitiesActivityId request
-	GetActivitiesActivityId(ctx context.Context, activityId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PatchAdminConfigWithBody request with any body
+	PatchAdminConfigWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetAdminAuditLogs request
-	GetAdminAuditLogs(ctx context.Context, params *GetAdminAuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PatchAdminConfig(ctx context.Context, body PatchAdminConfigJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetAdminSettings request
-	GetAdminSettings(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetAssets request
+	GetAssets(ctx context.Context, params *GetAssetsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PutAdminSettingsWithBody request with any body
-	PutAdminSettingsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostAssetsWithBody request with any body
+	PostAssetsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	PutAdminSettings(ctx context.Context, body PutAdminSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PostAssets(ctx context.Context, body PostAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetAdminSystemHealth request
-	GetAdminSystemHealth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostAssetsIdActionsWithBody request with any body
+	PostAssetsIdActionsWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetAlarms request
-	GetAlarms(ctx context.Context, params *GetAlarmsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PostAssetsIdActions(ctx context.Context, id openapi_types.UUID, body PostAssetsIdActionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetAlarmsAlarmId request
-	GetAlarmsAlarmId(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetAuditLogs request
+	GetAuditLogs(ctx context.Context, params *GetAuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PostAlarmsAlarmIdAcknowledge request
-	PostAlarmsAlarmIdAcknowledge(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetIdentityGroups request
+	GetIdentityGroups(ctx context.Context, params *GetIdentityGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PostGroupWithBody request with any body
-	PostGroupWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostIdentityGroupsWithBody request with any body
+	PostIdentityGroupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	PostGroup(ctx context.Context, body PostGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PostIdentityGroups(ctx context.Context, body PostIdentityGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// DeleteGroupGroupId request
-	DeleteGroupGroupId(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// DeleteIdentityGroupsGroupIdMemberships request
+	DeleteIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetGroupGroupId request
-	GetGroupGroupId(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetIdentityGroupsGroupIdMemberships request
+	GetIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetGroupGroupIdCredential request
-	GetGroupGroupIdCredential(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostIdentityGroupsGroupIdMembershipsWithBody request with any body
+	PostIdentityGroupsGroupIdMembershipsWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PostGroupGroupIdCredentialWithBody request with any body
-	PostGroupGroupIdCredentialWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PostIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	PostGroupGroupIdCredential(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetIdentityUser request
+	GetIdentityUser(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// DeleteGroupGroupIdCredentialCredentialId request
-	DeleteGroupGroupIdCredentialCredentialId(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostIdentityUserWithBody request with any body
+	PostIdentityUserWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetGroupGroupIdCredentialCredentialId request
-	GetGroupGroupIdCredentialCredentialId(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PostIdentityUser(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PutGroupGroupIdCredentialCredentialIdWithBody request with any body
-	PutGroupGroupIdCredentialCredentialIdWithBody(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetIdentityUsers request
+	GetIdentityUsers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	PutGroupGroupIdCredentialCredentialId(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostIdentityUsersWithBody request with any body
+	PostIdentityUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetGroupGroupIdCredentialCredentialIdSecret request
-	GetGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PostIdentityUsers(ctx context.Context, body PostIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PostGroupGroupIdCredentialCredentialIdSecretWithBody request with any body
-	PostGroupGroupIdCredentialCredentialIdSecretWithBody(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetVaultsVaultIdMemberships request
+	GetVaultsVaultIdMemberships(ctx context.Context, vaultId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	PostGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostVaultsVaultIdMembershipsWithBody request with any body
+	PostVaultsVaultIdMembershipsWithBody(ctx context.Context, vaultId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PutGroupGroupIdCredentialCredentialIdSecretWithBody request with any body
-	PutGroupGroupIdCredentialCredentialIdSecretWithBody(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PutGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetGroupGroupIdMembers request
-	GetGroupGroupIdMembers(ctx context.Context, groupId openapi_types.UUID, params *GetGroupGroupIdMembersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostGroupGroupIdMembersWithBody request with any body
-	PostGroupGroupIdMembersWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostGroupGroupIdMembers(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdMembersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeleteGroupGroupIdMembersUserId request
-	DeleteGroupGroupIdMembersUserId(ctx context.Context, groupId openapi_types.UUID, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetGroupGroupIdPolicy request
-	GetGroupGroupIdPolicy(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostGroupGroupIdPolicyWithBody request with any body
-	PostGroupGroupIdPolicyWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostGroupGroupIdPolicy(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdPolicyJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeleteGroupGroupIdPolicyPolicyId request
-	DeleteGroupGroupIdPolicyPolicyId(ctx context.Context, groupId openapi_types.UUID, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetPaste request
-	GetPaste(ctx context.Context, params *GetPasteParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostPasteWithBody request with any body
-	PostPasteWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostPaste(ctx context.Context, body PostPasteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeletePastePasteId request
-	DeletePastePasteId(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetPastePasteId request
-	GetPastePasteId(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetPolicies request
-	GetPolicies(ctx context.Context, params *GetPoliciesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostPoliciesWithBody request with any body
-	PostPoliciesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostPolicies(ctx context.Context, body PostPoliciesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeletePoliciesPolicyId request
-	DeletePoliciesPolicyId(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetPoliciesPolicyId request
-	GetPoliciesPolicyId(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PutPoliciesPolicyIdWithBody request with any body
-	PutPoliciesPolicyIdWithBody(ctx context.Context, policyId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PutPoliciesPolicyId(ctx context.Context, policyId openapi_types.UUID, body PutPoliciesPolicyIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetSearch request
-	GetSearch(ctx context.Context, params *GetSearchParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostServiceWithBody request with any body
-	PostServiceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostService(ctx context.Context, body PostServiceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeleteServiceServiceId request
-	DeleteServiceServiceId(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetServiceServiceId request
-	GetServiceServiceId(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PutServiceServiceIdWithBody request with any body
-	PutServiceServiceIdWithBody(ctx context.Context, serviceId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PutServiceServiceId(ctx context.Context, serviceId openapi_types.UUID, body PutServiceServiceIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PostVaultsVaultIdMemberships(ctx context.Context, vaultId openapi_types.UUID, body PostVaultsVaultIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
-func (c *Client) GetActivities(ctx context.Context, params *GetActivitiesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetActivitiesRequest(c.Server, params)
+func (c *Client) GetAdminConfig(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAdminConfigRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -1234,8 +838,8 @@ func (c *Client) GetActivities(ctx context.Context, params *GetActivitiesParams,
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetActivitiesActivityId(ctx context.Context, activityId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetActivitiesActivityIdRequest(c.Server, activityId)
+func (c *Client) PatchAdminConfigWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchAdminConfigRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1246,8 +850,8 @@ func (c *Client) GetActivitiesActivityId(ctx context.Context, activityId openapi
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetAdminAuditLogs(ctx context.Context, params *GetAdminAuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAdminAuditLogsRequest(c.Server, params)
+func (c *Client) PatchAdminConfig(ctx context.Context, body PatchAdminConfigJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchAdminConfigRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1258,8 +862,8 @@ func (c *Client) GetAdminAuditLogs(ctx context.Context, params *GetAdminAuditLog
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetAdminSettings(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAdminSettingsRequest(c.Server)
+func (c *Client) GetAssets(ctx context.Context, params *GetAssetsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAssetsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1270,8 +874,8 @@ func (c *Client) GetAdminSettings(ctx context.Context, reqEditors ...RequestEdit
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutAdminSettingsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutAdminSettingsRequestWithBody(c.Server, contentType, body)
+func (c *Client) PostAssetsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostAssetsRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1282,8 +886,8 @@ func (c *Client) PutAdminSettingsWithBody(ctx context.Context, contentType strin
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutAdminSettings(ctx context.Context, body PutAdminSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutAdminSettingsRequest(c.Server, body)
+func (c *Client) PostAssets(ctx context.Context, body PostAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostAssetsRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1294,8 +898,8 @@ func (c *Client) PutAdminSettings(ctx context.Context, body PutAdminSettingsJSON
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetAdminSystemHealth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAdminSystemHealthRequest(c.Server)
+func (c *Client) PostAssetsIdActionsWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostAssetsIdActionsRequestWithBody(c.Server, id, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1306,8 +910,8 @@ func (c *Client) GetAdminSystemHealth(ctx context.Context, reqEditors ...Request
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetAlarms(ctx context.Context, params *GetAlarmsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAlarmsRequest(c.Server, params)
+func (c *Client) PostAssetsIdActions(ctx context.Context, id openapi_types.UUID, body PostAssetsIdActionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostAssetsIdActionsRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1318,8 +922,8 @@ func (c *Client) GetAlarms(ctx context.Context, params *GetAlarmsParams, reqEdit
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetAlarmsAlarmId(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAlarmsAlarmIdRequest(c.Server, alarmId)
+func (c *Client) GetAuditLogs(ctx context.Context, params *GetAuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAuditLogsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1330,8 +934,8 @@ func (c *Client) GetAlarmsAlarmId(ctx context.Context, alarmId openapi_types.UUI
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostAlarmsAlarmIdAcknowledge(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostAlarmsAlarmIdAcknowledgeRequest(c.Server, alarmId)
+func (c *Client) GetIdentityGroups(ctx context.Context, params *GetIdentityGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetIdentityGroupsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1342,8 +946,8 @@ func (c *Client) PostAlarmsAlarmIdAcknowledge(ctx context.Context, alarmId opena
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostGroupWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupRequestWithBody(c.Server, contentType, body)
+func (c *Client) PostIdentityGroupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityGroupsRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1354,8 +958,8 @@ func (c *Client) PostGroupWithBody(ctx context.Context, contentType string, body
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostGroup(ctx context.Context, body PostGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupRequest(c.Server, body)
+func (c *Client) PostIdentityGroups(ctx context.Context, body PostIdentityGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityGroupsRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1366,8 +970,8 @@ func (c *Client) PostGroup(ctx context.Context, body PostGroupJSONRequestBody, r
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteGroupGroupId(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteGroupGroupIdRequest(c.Server, groupId)
+func (c *Client) DeleteIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteIdentityGroupsGroupIdMembershipsRequest(c.Server, groupId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1378,8 +982,8 @@ func (c *Client) DeleteGroupGroupId(ctx context.Context, groupId openapi_types.U
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetGroupGroupId(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetGroupGroupIdRequest(c.Server, groupId)
+func (c *Client) GetIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetIdentityGroupsGroupIdMembershipsRequest(c.Server, groupId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1390,8 +994,8 @@ func (c *Client) GetGroupGroupId(ctx context.Context, groupId openapi_types.UUID
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetGroupGroupIdCredential(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetGroupGroupIdCredentialRequest(c.Server, groupId)
+func (c *Client) PostIdentityGroupsGroupIdMembershipsWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityGroupsGroupIdMembershipsRequestWithBody(c.Server, groupId, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1402,8 +1006,8 @@ func (c *Client) GetGroupGroupIdCredential(ctx context.Context, groupId openapi_
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostGroupGroupIdCredentialWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdCredentialRequestWithBody(c.Server, groupId, contentType, body)
+func (c *Client) PostIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityGroupsGroupIdMembershipsRequest(c.Server, groupId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1414,8 +1018,8 @@ func (c *Client) PostGroupGroupIdCredentialWithBody(ctx context.Context, groupId
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostGroupGroupIdCredential(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdCredentialRequest(c.Server, groupId, body)
+func (c *Client) GetIdentityUser(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetIdentityUserRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1426,8 +1030,8 @@ func (c *Client) PostGroupGroupIdCredential(ctx context.Context, groupId openapi
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteGroupGroupIdCredentialCredentialId(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteGroupGroupIdCredentialCredentialIdRequest(c.Server, groupId, credentialId)
+func (c *Client) PostIdentityUserWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityUserRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1438,8 +1042,8 @@ func (c *Client) DeleteGroupGroupIdCredentialCredentialId(ctx context.Context, g
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetGroupGroupIdCredentialCredentialId(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetGroupGroupIdCredentialCredentialIdRequest(c.Server, groupId, credentialId)
+func (c *Client) PostIdentityUser(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityUserRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1450,8 +1054,8 @@ func (c *Client) GetGroupGroupIdCredentialCredentialId(ctx context.Context, grou
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutGroupGroupIdCredentialCredentialIdWithBody(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutGroupGroupIdCredentialCredentialIdRequestWithBody(c.Server, groupId, credentialId, contentType, body)
+func (c *Client) GetIdentityUsers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetIdentityUsersRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -1462,8 +1066,8 @@ func (c *Client) PutGroupGroupIdCredentialCredentialIdWithBody(ctx context.Conte
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutGroupGroupIdCredentialCredentialId(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutGroupGroupIdCredentialCredentialIdRequest(c.Server, groupId, credentialId, body)
+func (c *Client) PostIdentityUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityUsersRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1474,8 +1078,8 @@ func (c *Client) PutGroupGroupIdCredentialCredentialId(ctx context.Context, grou
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetGroupGroupIdCredentialCredentialIdSecretRequest(c.Server, groupId, credentialId)
+func (c *Client) PostIdentityUsers(ctx context.Context, body PostIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostIdentityUsersRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1486,8 +1090,8 @@ func (c *Client) GetGroupGroupIdCredentialCredentialIdSecret(ctx context.Context
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostGroupGroupIdCredentialCredentialIdSecretWithBody(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdCredentialCredentialIdSecretRequestWithBody(c.Server, groupId, credentialId, contentType, body)
+func (c *Client) GetVaultsVaultIdMemberships(ctx context.Context, vaultId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetVaultsVaultIdMembershipsRequest(c.Server, vaultId)
 	if err != nil {
 		return nil, err
 	}
@@ -1498,8 +1102,8 @@ func (c *Client) PostGroupGroupIdCredentialCredentialIdSecretWithBody(ctx contex
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdCredentialCredentialIdSecretRequest(c.Server, groupId, credentialId, body)
+func (c *Client) PostVaultsVaultIdMembershipsWithBody(ctx context.Context, vaultId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostVaultsVaultIdMembershipsRequestWithBody(c.Server, vaultId, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1510,8 +1114,8 @@ func (c *Client) PostGroupGroupIdCredentialCredentialIdSecret(ctx context.Contex
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutGroupGroupIdCredentialCredentialIdSecretWithBody(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutGroupGroupIdCredentialCredentialIdSecretRequestWithBody(c.Server, groupId, credentialId, contentType, body)
+func (c *Client) PostVaultsVaultIdMemberships(ctx context.Context, vaultId openapi_types.UUID, body PostVaultsVaultIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostVaultsVaultIdMembershipsRequest(c.Server, vaultId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1522,344 +1126,8 @@ func (c *Client) PutGroupGroupIdCredentialCredentialIdSecretWithBody(ctx context
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutGroupGroupIdCredentialCredentialIdSecretRequest(c.Server, groupId, credentialId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetGroupGroupIdMembers(ctx context.Context, groupId openapi_types.UUID, params *GetGroupGroupIdMembersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetGroupGroupIdMembersRequest(c.Server, groupId, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostGroupGroupIdMembersWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdMembersRequestWithBody(c.Server, groupId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostGroupGroupIdMembers(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdMembersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdMembersRequest(c.Server, groupId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteGroupGroupIdMembersUserId(ctx context.Context, groupId openapi_types.UUID, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteGroupGroupIdMembersUserIdRequest(c.Server, groupId, userId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetGroupGroupIdPolicy(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetGroupGroupIdPolicyRequest(c.Server, groupId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostGroupGroupIdPolicyWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdPolicyRequestWithBody(c.Server, groupId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostGroupGroupIdPolicy(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdPolicyJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostGroupGroupIdPolicyRequest(c.Server, groupId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteGroupGroupIdPolicyPolicyId(ctx context.Context, groupId openapi_types.UUID, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteGroupGroupIdPolicyPolicyIdRequest(c.Server, groupId, policyId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetPaste(ctx context.Context, params *GetPasteParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetPasteRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostPasteWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostPasteRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostPaste(ctx context.Context, body PostPasteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostPasteRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeletePastePasteId(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeletePastePasteIdRequest(c.Server, pasteId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetPastePasteId(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetPastePasteIdRequest(c.Server, pasteId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetPolicies(ctx context.Context, params *GetPoliciesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetPoliciesRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostPoliciesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostPoliciesRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostPolicies(ctx context.Context, body PostPoliciesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostPoliciesRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeletePoliciesPolicyId(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeletePoliciesPolicyIdRequest(c.Server, policyId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetPoliciesPolicyId(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetPoliciesPolicyIdRequest(c.Server, policyId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutPoliciesPolicyIdWithBody(ctx context.Context, policyId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutPoliciesPolicyIdRequestWithBody(c.Server, policyId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutPoliciesPolicyId(ctx context.Context, policyId openapi_types.UUID, body PutPoliciesPolicyIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutPoliciesPolicyIdRequest(c.Server, policyId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetSearch(ctx context.Context, params *GetSearchParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetSearchRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostServiceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostServiceRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostService(ctx context.Context, body PostServiceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostServiceRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteServiceServiceId(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteServiceServiceIdRequest(c.Server, serviceId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetServiceServiceId(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetServiceServiceIdRequest(c.Server, serviceId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutServiceServiceIdWithBody(ctx context.Context, serviceId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutServiceServiceIdRequestWithBody(c.Server, serviceId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutServiceServiceId(ctx context.Context, serviceId openapi_types.UUID, body PutServiceServiceIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutServiceServiceIdRequest(c.Server, serviceId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-// NewGetActivitiesRequest generates requests for GetActivities
-func NewGetActivitiesRequest(server string, params *GetActivitiesParams) (*http.Request, error) {
+// NewGetAdminConfigRequest generates requests for GetAdminConfig
+func NewGetAdminConfigRequest(server string) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -1867,175 +1135,7 @@ func NewGetActivitiesRequest(server string, params *GetActivitiesParams) (*http.
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/activities")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Sort != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sort", *params.Sort, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Search != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "search", *params.Search, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Severity != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "severity", *params.Severity, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.ServiceId != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "serviceId", *params.ServiceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.GroupId != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "groupId", *params.GroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.SessionId != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sessionId", *params.SessionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetActivitiesActivityIdRequest generates requests for GetActivitiesActivityId
-func NewGetActivitiesActivityIdRequest(server string, activityId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "activityId", activityId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/activities/%s", pathParam0)
+	operationPath := fmt.Sprintf("/admin/config")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -2053,191 +1153,19 @@ func NewGetActivitiesActivityIdRequest(server string, activityId openapi_types.U
 	return req, nil
 }
 
-// NewGetAdminAuditLogsRequest generates requests for GetAdminAuditLogs
-func NewGetAdminAuditLogsRequest(server string, params *GetAdminAuditLogsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/audit-logs")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Search != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "search", *params.Search, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.UserId != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "userId", *params.UserId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Action != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "action", *params.Action, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.StartDate != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "startDate", *params.StartDate, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "date"}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.EndDate != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "endDate", *params.EndDate, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "date"}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetAdminSettingsRequest generates requests for GetAdminSettings
-func NewGetAdminSettingsRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/admin/settings")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPutAdminSettingsRequest calls the generic PutAdminSettings builder with application/json body
-func NewPutAdminSettingsRequest(server string, body PutAdminSettingsJSONRequestBody) (*http.Request, error) {
+// NewPatchAdminConfigRequest calls the generic PatchAdminConfig builder with application/json body
+func NewPatchAdminConfigRequest(server string, body PatchAdminConfigJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewPutAdminSettingsRequestWithBody(server, "application/json", bodyReader)
+	return NewPatchAdminConfigRequestWithBody(server, "application/json", bodyReader)
 }
 
-// NewPutAdminSettingsRequestWithBody generates requests for PutAdminSettings with any type of body
-func NewPutAdminSettingsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+// NewPatchAdminConfigRequestWithBody generates requests for PatchAdminConfig with any type of body
+func NewPatchAdminConfigRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -2245,7 +1173,7 @@ func NewPutAdminSettingsRequestWithBody(server string, contentType string, body 
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/admin/settings")
+	operationPath := fmt.Sprintf("/admin/config")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -2255,7 +1183,7 @@ func NewPutAdminSettingsRequestWithBody(server string, contentType string, body 
 		return nil, err
 	}
 
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -2265,8 +1193,8 @@ func NewPutAdminSettingsRequestWithBody(server string, contentType string, body 
 	return req, nil
 }
 
-// NewGetAdminSystemHealthRequest generates requests for GetAdminSystemHealth
-func NewGetAdminSystemHealthRequest(server string) (*http.Request, error) {
+// NewGetAssetsRequest generates requests for GetAssets
+func NewGetAssetsRequest(server string, params *GetAssetsParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -2274,1380 +1202,7 @@ func NewGetAdminSystemHealthRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/admin/system-health")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetAlarmsRequest generates requests for GetAlarms
-func NewGetAlarmsRequest(server string, params *GetAlarmsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/alarms")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Sort != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sort", *params.Sort, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Search != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "search", *params.Search, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Severity != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "severity", *params.Severity, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetAlarmsAlarmIdRequest generates requests for GetAlarmsAlarmId
-func NewGetAlarmsAlarmIdRequest(server string, alarmId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alarmId", alarmId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/alarms/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostAlarmsAlarmIdAcknowledgeRequest generates requests for PostAlarmsAlarmIdAcknowledge
-func NewPostAlarmsAlarmIdAcknowledgeRequest(server string, alarmId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alarmId", alarmId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/alarms/%s/acknowledge", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostGroupRequest calls the generic PostGroup builder with application/json body
-func NewPostGroupRequest(server string, body PostGroupJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostGroupRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPostGroupRequestWithBody generates requests for PostGroup with any type of body
-func NewPostGroupRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteGroupGroupIdRequest generates requests for DeleteGroupGroupId
-func NewDeleteGroupGroupIdRequest(server string, groupId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetGroupGroupIdRequest generates requests for GetGroupGroupId
-func NewGetGroupGroupIdRequest(server string, groupId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetGroupGroupIdCredentialRequest generates requests for GetGroupGroupIdCredential
-func NewGetGroupGroupIdCredentialRequest(server string, groupId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostGroupGroupIdCredentialRequest calls the generic PostGroupGroupIdCredential builder with application/json body
-func NewPostGroupGroupIdCredentialRequest(server string, groupId openapi_types.UUID, body PostGroupGroupIdCredentialJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostGroupGroupIdCredentialRequestWithBody(server, groupId, "application/json", bodyReader)
-}
-
-// NewPostGroupGroupIdCredentialRequestWithBody generates requests for PostGroupGroupIdCredential with any type of body
-func NewPostGroupGroupIdCredentialRequestWithBody(server string, groupId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteGroupGroupIdCredentialCredentialIdRequest generates requests for DeleteGroupGroupIdCredentialCredentialId
-func NewDeleteGroupGroupIdCredentialCredentialIdRequest(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "credentialId", credentialId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetGroupGroupIdCredentialCredentialIdRequest generates requests for GetGroupGroupIdCredentialCredentialId
-func NewGetGroupGroupIdCredentialCredentialIdRequest(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "credentialId", credentialId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPutGroupGroupIdCredentialCredentialIdRequest calls the generic PutGroupGroupIdCredentialCredentialId builder with application/json body
-func NewPutGroupGroupIdCredentialCredentialIdRequest(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPutGroupGroupIdCredentialCredentialIdRequestWithBody(server, groupId, credentialId, "application/json", bodyReader)
-}
-
-// NewPutGroupGroupIdCredentialCredentialIdRequestWithBody generates requests for PutGroupGroupIdCredentialCredentialId with any type of body
-func NewPutGroupGroupIdCredentialCredentialIdRequestWithBody(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "credentialId", credentialId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetGroupGroupIdCredentialCredentialIdSecretRequest generates requests for GetGroupGroupIdCredentialCredentialIdSecret
-func NewGetGroupGroupIdCredentialCredentialIdSecretRequest(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "credentialId", credentialId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential/%s/secret", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostGroupGroupIdCredentialCredentialIdSecretRequest calls the generic PostGroupGroupIdCredentialCredentialIdSecret builder with application/json body
-func NewPostGroupGroupIdCredentialCredentialIdSecretRequest(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostGroupGroupIdCredentialCredentialIdSecretRequestWithBody(server, groupId, credentialId, "application/json", bodyReader)
-}
-
-// NewPostGroupGroupIdCredentialCredentialIdSecretRequestWithBody generates requests for PostGroupGroupIdCredentialCredentialIdSecret with any type of body
-func NewPostGroupGroupIdCredentialCredentialIdSecretRequestWithBody(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "credentialId", credentialId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential/%s/secret", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewPutGroupGroupIdCredentialCredentialIdSecretRequest calls the generic PutGroupGroupIdCredentialCredentialIdSecret builder with application/json body
-func NewPutGroupGroupIdCredentialCredentialIdSecretRequest(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPutGroupGroupIdCredentialCredentialIdSecretRequestWithBody(server, groupId, credentialId, "application/json", bodyReader)
-}
-
-// NewPutGroupGroupIdCredentialCredentialIdSecretRequestWithBody generates requests for PutGroupGroupIdCredentialCredentialIdSecret with any type of body
-func NewPutGroupGroupIdCredentialCredentialIdSecretRequestWithBody(server string, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "credentialId", credentialId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/credential/%s/secret", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetGroupGroupIdMembersRequest generates requests for GetGroupGroupIdMembers
-func NewGetGroupGroupIdMembersRequest(server string, groupId openapi_types.UUID, params *GetGroupGroupIdMembersParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/members", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostGroupGroupIdMembersRequest calls the generic PostGroupGroupIdMembers builder with application/json body
-func NewPostGroupGroupIdMembersRequest(server string, groupId openapi_types.UUID, body PostGroupGroupIdMembersJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostGroupGroupIdMembersRequestWithBody(server, groupId, "application/json", bodyReader)
-}
-
-// NewPostGroupGroupIdMembersRequestWithBody generates requests for PostGroupGroupIdMembers with any type of body
-func NewPostGroupGroupIdMembersRequestWithBody(server string, groupId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/members", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteGroupGroupIdMembersUserIdRequest generates requests for DeleteGroupGroupIdMembersUserId
-func NewDeleteGroupGroupIdMembersUserIdRequest(server string, groupId openapi_types.UUID, userId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "userId", userId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/members/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetGroupGroupIdPolicyRequest generates requests for GetGroupGroupIdPolicy
-func NewGetGroupGroupIdPolicyRequest(server string, groupId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/policy", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostGroupGroupIdPolicyRequest calls the generic PostGroupGroupIdPolicy builder with application/json body
-func NewPostGroupGroupIdPolicyRequest(server string, groupId openapi_types.UUID, body PostGroupGroupIdPolicyJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostGroupGroupIdPolicyRequestWithBody(server, groupId, "application/json", bodyReader)
-}
-
-// NewPostGroupGroupIdPolicyRequestWithBody generates requests for PostGroupGroupIdPolicy with any type of body
-func NewPostGroupGroupIdPolicyRequestWithBody(server string, groupId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/policy", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteGroupGroupIdPolicyPolicyIdRequest generates requests for DeleteGroupGroupIdPolicyPolicyId
-func NewDeleteGroupGroupIdPolicyPolicyIdRequest(server string, groupId openapi_types.UUID, policyId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "policyId", policyId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/group/%s/policy/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetPasteRequest generates requests for GetPaste
-func NewGetPasteRequest(server string, params *GetPasteParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/paste")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Filter != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "filter", *params.Filter, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostPasteRequest calls the generic PostPaste builder with application/json body
-func NewPostPasteRequest(server string, body PostPasteJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostPasteRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPostPasteRequestWithBody generates requests for PostPaste with any type of body
-func NewPostPasteRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/paste")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeletePastePasteIdRequest generates requests for DeletePastePasteId
-func NewDeletePastePasteIdRequest(server string, pasteId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "pasteId", pasteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/paste/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetPastePasteIdRequest generates requests for GetPastePasteId
-func NewGetPastePasteIdRequest(server string, pasteId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "pasteId", pasteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/paste/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetPoliciesRequest generates requests for GetPolicies
-func NewGetPoliciesRequest(server string, params *GetPoliciesParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/policies")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostPoliciesRequest calls the generic PostPolicies builder with application/json body
-func NewPostPoliciesRequest(server string, body PostPoliciesJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostPoliciesRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPostPoliciesRequestWithBody generates requests for PostPolicies with any type of body
-func NewPostPoliciesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/policies")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeletePoliciesPolicyIdRequest generates requests for DeletePoliciesPolicyId
-func NewDeletePoliciesPolicyIdRequest(server string, policyId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "policyId", policyId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/policies/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetPoliciesPolicyIdRequest generates requests for GetPoliciesPolicyId
-func NewGetPoliciesPolicyIdRequest(server string, policyId openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "policyId", policyId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/policies/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPutPoliciesPolicyIdRequest calls the generic PutPoliciesPolicyId builder with application/json body
-func NewPutPoliciesPolicyIdRequest(server string, policyId openapi_types.UUID, body PutPoliciesPolicyIdJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPutPoliciesPolicyIdRequestWithBody(server, policyId, "application/json", bodyReader)
-}
-
-// NewPutPoliciesPolicyIdRequestWithBody generates requests for PutPoliciesPolicyId with any type of body
-func NewPutPoliciesPolicyIdRequestWithBody(server string, policyId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "policyId", policyId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/policies/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetSearchRequest generates requests for GetSearch
-func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/search")
+	operationPath := fmt.Sprintf("/assets")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -3692,9 +1247,9 @@ func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request,
 
 		}
 
-		if params.Page != nil {
+		if params.ParentId != nil {
 
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "parent_id", *params.ParentId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -3724,41 +1279,9 @@ func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request,
 
 		}
 
-		if params.Sort != nil {
+		if params.Offset != nil {
 
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sort", *params.Sort, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Status != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "status", *params.Status, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.GroupId != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "groupId", *params.GroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "offset", *params.Offset, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -3783,19 +1306,19 @@ func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request,
 	return req, nil
 }
 
-// NewPostServiceRequest calls the generic PostService builder with application/json body
-func NewPostServiceRequest(server string, body PostServiceJSONRequestBody) (*http.Request, error) {
+// NewPostAssetsRequest calls the generic PostAssets builder with application/json body
+func NewPostAssetsRequest(server string, body PostAssetsJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewPostServiceRequestWithBody(server, "application/json", bodyReader)
+	return NewPostAssetsRequestWithBody(server, "application/json", bodyReader)
 }
 
-// NewPostServiceRequestWithBody generates requests for PostService with any type of body
-func NewPostServiceRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+// NewPostAssetsRequestWithBody generates requests for PostAssets with any type of body
+func NewPostAssetsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -3803,7 +1326,7 @@ func NewPostServiceRequestWithBody(server string, contentType string, body io.Re
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/service")
+	operationPath := fmt.Sprintf("/assets")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -3823,13 +1346,24 @@ func NewPostServiceRequestWithBody(server string, contentType string, body io.Re
 	return req, nil
 }
 
-// NewDeleteServiceServiceIdRequest generates requests for DeleteServiceServiceId
-func NewDeleteServiceServiceIdRequest(server string, serviceId openapi_types.UUID) (*http.Request, error) {
+// NewPostAssetsIdActionsRequest calls the generic PostAssetsIdActions builder with application/json body
+func NewPostAssetsIdActionsRequest(server string, id openapi_types.UUID, body PostAssetsIdActionsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostAssetsIdActionsRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewPostAssetsIdActionsRequestWithBody generates requests for PostAssetsIdActions with any type of body
+func NewPostAssetsIdActionsRequestWithBody(server string, id openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "serviceId", serviceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
 	if err != nil {
 		return nil, err
 	}
@@ -3839,7 +1373,7 @@ func NewDeleteServiceServiceIdRequest(server string, serviceId openapi_types.UUI
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/service/%s", pathParam0)
+	operationPath := fmt.Sprintf("/assets/%s/actions", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -3847,6 +1381,246 @@ func NewDeleteServiceServiceIdRequest(server string, serviceId openapi_types.UUI
 	queryURL, err := serverURL.Parse(operationPath)
 	if err != nil {
 		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetAuditLogsRequest generates requests for GetAuditLogs
+func NewGetAuditLogsRequest(server string, params *GetAuditLogsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/audit/logs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.ActorId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "actor_id", *params.ActorId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.ResourceId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource_id", *params.ResourceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.From != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "from", *params.From, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "date-time"}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetIdentityGroupsRequest generates requests for GetIdentityGroups
+func NewGetIdentityGroupsRequest(server string, params *GetIdentityGroupsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/groups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Offset != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "offset", *params.Offset, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostIdentityGroupsRequest calls the generic PostIdentityGroups builder with application/json body
+func NewPostIdentityGroupsRequest(server string, body PostIdentityGroupsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostIdentityGroupsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostIdentityGroupsRequestWithBody generates requests for PostIdentityGroups with any type of body
+func NewPostIdentityGroupsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/groups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteIdentityGroupsGroupIdMembershipsRequest generates requests for DeleteIdentityGroupsGroupIdMemberships
+func NewDeleteIdentityGroupsGroupIdMembershipsRequest(server string, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/groups/%s/memberships", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "user_id", params.UserId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
 	}
 
 	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
@@ -3857,13 +1631,13 @@ func NewDeleteServiceServiceIdRequest(server string, serviceId openapi_types.UUI
 	return req, nil
 }
 
-// NewGetServiceServiceIdRequest generates requests for GetServiceServiceId
-func NewGetServiceServiceIdRequest(server string, serviceId openapi_types.UUID) (*http.Request, error) {
+// NewGetIdentityGroupsGroupIdMembershipsRequest generates requests for GetIdentityGroupsGroupIdMemberships
+func NewGetIdentityGroupsGroupIdMembershipsRequest(server string, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "serviceId", serviceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
 	if err != nil {
 		return nil, err
 	}
@@ -3873,7 +1647,224 @@ func NewGetServiceServiceIdRequest(server string, serviceId openapi_types.UUID) 
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/service/%s", pathParam0)
+	operationPath := fmt.Sprintf("/identity/groups/%s/memberships", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Offset != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "offset", *params.Offset, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostIdentityGroupsGroupIdMembershipsRequest calls the generic PostIdentityGroupsGroupIdMemberships builder with application/json body
+func NewPostIdentityGroupsGroupIdMembershipsRequest(server string, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostIdentityGroupsGroupIdMembershipsRequestWithBody(server, groupId, "application/json", bodyReader)
+}
+
+// NewPostIdentityGroupsGroupIdMembershipsRequestWithBody generates requests for PostIdentityGroupsGroupIdMemberships with any type of body
+func NewPostIdentityGroupsGroupIdMembershipsRequestWithBody(server string, groupId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/groups/%s/memberships", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetIdentityUserRequest generates requests for GetIdentityUser
+func NewGetIdentityUserRequest(server string, params *GetIdentityUserParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/user")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.UserId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "user_id", *params.UserId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.View != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "view", *params.View, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostIdentityUserRequest calls the generic PostIdentityUser builder with application/json body
+func NewPostIdentityUserRequest(server string, body PostIdentityUserJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostIdentityUserRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostIdentityUserRequestWithBody generates requests for PostIdentityUser with any type of body
+func NewPostIdentityUserRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/user")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetIdentityUsersRequest generates requests for GetIdentityUsers
+func NewGetIdentityUsersRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/users")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -3891,34 +1882,27 @@ func NewGetServiceServiceIdRequest(server string, serviceId openapi_types.UUID) 
 	return req, nil
 }
 
-// NewPutServiceServiceIdRequest calls the generic PutServiceServiceId builder with application/json body
-func NewPutServiceServiceIdRequest(server string, serviceId openapi_types.UUID, body PutServiceServiceIdJSONRequestBody) (*http.Request, error) {
+// NewPostIdentityUsersRequest calls the generic PostIdentityUsers builder with application/json body
+func NewPostIdentityUsersRequest(server string, body PostIdentityUsersJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewPutServiceServiceIdRequestWithBody(server, serviceId, "application/json", bodyReader)
+	return NewPostIdentityUsersRequestWithBody(server, "application/json", bodyReader)
 }
 
-// NewPutServiceServiceIdRequestWithBody generates requests for PutServiceServiceId with any type of body
-func NewPutServiceServiceIdRequestWithBody(server string, serviceId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+// NewPostIdentityUsersRequestWithBody generates requests for PostIdentityUsers with any type of body
+func NewPostIdentityUsersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "serviceId", serviceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
 
 	serverURL, err := url.Parse(server)
 	if err != nil {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/service/%s", pathParam0)
+	operationPath := fmt.Sprintf("/identity/users")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -3928,7 +1912,88 @@ func NewPutServiceServiceIdRequestWithBody(server string, serviceId openapi_type
 		return nil, err
 	}
 
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetVaultsVaultIdMembershipsRequest generates requests for GetVaultsVaultIdMemberships
+func NewGetVaultsVaultIdMembershipsRequest(server string, vaultId openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "vaultId", vaultId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/vaults/%s/memberships", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostVaultsVaultIdMembershipsRequest calls the generic PostVaultsVaultIdMemberships builder with application/json body
+func NewPostVaultsVaultIdMembershipsRequest(server string, vaultId openapi_types.UUID, body PostVaultsVaultIdMembershipsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostVaultsVaultIdMembershipsRequestWithBody(server, vaultId, "application/json", bodyReader)
+}
+
+// NewPostVaultsVaultIdMembershipsRequestWithBody generates requests for PostVaultsVaultIdMemberships with any type of body
+func NewPostVaultsVaultIdMembershipsRequestWithBody(server string, vaultId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "vaultId", vaultId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/vaults/%s/memberships", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -3981,161 +2046,81 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
-	// GetActivitiesWithResponse request
-	GetActivitiesWithResponse(ctx context.Context, params *GetActivitiesParams, reqEditors ...RequestEditorFn) (*GetActivitiesResponse, error)
+	// GetAdminConfigWithResponse request
+	GetAdminConfigWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAdminConfigResponse, error)
 
-	// GetActivitiesActivityIdWithResponse request
-	GetActivitiesActivityIdWithResponse(ctx context.Context, activityId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetActivitiesActivityIdResponse, error)
+	// PatchAdminConfigWithBodyWithResponse request with any body
+	PatchAdminConfigWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchAdminConfigResponse, error)
 
-	// GetAdminAuditLogsWithResponse request
-	GetAdminAuditLogsWithResponse(ctx context.Context, params *GetAdminAuditLogsParams, reqEditors ...RequestEditorFn) (*GetAdminAuditLogsResponse, error)
+	PatchAdminConfigWithResponse(ctx context.Context, body PatchAdminConfigJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchAdminConfigResponse, error)
 
-	// GetAdminSettingsWithResponse request
-	GetAdminSettingsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAdminSettingsResponse, error)
+	// GetAssetsWithResponse request
+	GetAssetsWithResponse(ctx context.Context, params *GetAssetsParams, reqEditors ...RequestEditorFn) (*GetAssetsResponse, error)
 
-	// PutAdminSettingsWithBodyWithResponse request with any body
-	PutAdminSettingsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutAdminSettingsResponse, error)
+	// PostAssetsWithBodyWithResponse request with any body
+	PostAssetsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostAssetsResponse, error)
 
-	PutAdminSettingsWithResponse(ctx context.Context, body PutAdminSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*PutAdminSettingsResponse, error)
+	PostAssetsWithResponse(ctx context.Context, body PostAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostAssetsResponse, error)
 
-	// GetAdminSystemHealthWithResponse request
-	GetAdminSystemHealthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAdminSystemHealthResponse, error)
+	// PostAssetsIdActionsWithBodyWithResponse request with any body
+	PostAssetsIdActionsWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostAssetsIdActionsResponse, error)
 
-	// GetAlarmsWithResponse request
-	GetAlarmsWithResponse(ctx context.Context, params *GetAlarmsParams, reqEditors ...RequestEditorFn) (*GetAlarmsResponse, error)
+	PostAssetsIdActionsWithResponse(ctx context.Context, id openapi_types.UUID, body PostAssetsIdActionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostAssetsIdActionsResponse, error)
 
-	// GetAlarmsAlarmIdWithResponse request
-	GetAlarmsAlarmIdWithResponse(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetAlarmsAlarmIdResponse, error)
+	// GetAuditLogsWithResponse request
+	GetAuditLogsWithResponse(ctx context.Context, params *GetAuditLogsParams, reqEditors ...RequestEditorFn) (*GetAuditLogsResponse, error)
 
-	// PostAlarmsAlarmIdAcknowledgeWithResponse request
-	PostAlarmsAlarmIdAcknowledgeWithResponse(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*PostAlarmsAlarmIdAcknowledgeResponse, error)
+	// GetIdentityGroupsWithResponse request
+	GetIdentityGroupsWithResponse(ctx context.Context, params *GetIdentityGroupsParams, reqEditors ...RequestEditorFn) (*GetIdentityGroupsResponse, error)
 
-	// PostGroupWithBodyWithResponse request with any body
-	PostGroupWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupResponse, error)
+	// PostIdentityGroupsWithBodyWithResponse request with any body
+	PostIdentityGroupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityGroupsResponse, error)
 
-	PostGroupWithResponse(ctx context.Context, body PostGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupResponse, error)
+	PostIdentityGroupsWithResponse(ctx context.Context, body PostIdentityGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityGroupsResponse, error)
 
-	// DeleteGroupGroupIdWithResponse request
-	DeleteGroupGroupIdWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdResponse, error)
+	// DeleteIdentityGroupsGroupIdMembershipsWithResponse request
+	DeleteIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*DeleteIdentityGroupsGroupIdMembershipsResponse, error)
 
-	// GetGroupGroupIdWithResponse request
-	GetGroupGroupIdWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdResponse, error)
+	// GetIdentityGroupsGroupIdMembershipsWithResponse request
+	GetIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*GetIdentityGroupsGroupIdMembershipsResponse, error)
 
-	// GetGroupGroupIdCredentialWithResponse request
-	GetGroupGroupIdCredentialWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdCredentialResponse, error)
+	// PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse request with any body
+	PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error)
 
-	// PostGroupGroupIdCredentialWithBodyWithResponse request with any body
-	PostGroupGroupIdCredentialWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialResponse, error)
+	PostIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error)
 
-	PostGroupGroupIdCredentialWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialResponse, error)
+	// GetIdentityUserWithResponse request
+	GetIdentityUserWithResponse(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*GetIdentityUserResponse, error)
 
-	// DeleteGroupGroupIdCredentialCredentialIdWithResponse request
-	DeleteGroupGroupIdCredentialCredentialIdWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdCredentialCredentialIdResponse, error)
+	// PostIdentityUserWithBodyWithResponse request with any body
+	PostIdentityUserWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error)
 
-	// GetGroupGroupIdCredentialCredentialIdWithResponse request
-	GetGroupGroupIdCredentialCredentialIdWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdCredentialCredentialIdResponse, error)
+	PostIdentityUserWithResponse(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error)
 
-	// PutGroupGroupIdCredentialCredentialIdWithBodyWithResponse request with any body
-	PutGroupGroupIdCredentialCredentialIdWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdResponse, error)
+	// GetIdentityUsersWithResponse request
+	GetIdentityUsersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetIdentityUsersResponse, error)
 
-	PutGroupGroupIdCredentialCredentialIdWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdResponse, error)
+	// PostIdentityUsersWithBodyWithResponse request with any body
+	PostIdentityUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityUsersResponse, error)
 
-	// GetGroupGroupIdCredentialCredentialIdSecretWithResponse request
-	GetGroupGroupIdCredentialCredentialIdSecretWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdCredentialCredentialIdSecretResponse, error)
+	PostIdentityUsersWithResponse(ctx context.Context, body PostIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityUsersResponse, error)
 
-	// PostGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse request with any body
-	PostGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialCredentialIdSecretResponse, error)
+	// GetVaultsVaultIdMembershipsWithResponse request
+	GetVaultsVaultIdMembershipsWithResponse(ctx context.Context, vaultId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetVaultsVaultIdMembershipsResponse, error)
 
-	PostGroupGroupIdCredentialCredentialIdSecretWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialCredentialIdSecretResponse, error)
+	// PostVaultsVaultIdMembershipsWithBodyWithResponse request with any body
+	PostVaultsVaultIdMembershipsWithBodyWithResponse(ctx context.Context, vaultId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostVaultsVaultIdMembershipsResponse, error)
 
-	// PutGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse request with any body
-	PutGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdSecretResponse, error)
-
-	PutGroupGroupIdCredentialCredentialIdSecretWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdSecretResponse, error)
-
-	// GetGroupGroupIdMembersWithResponse request
-	GetGroupGroupIdMembersWithResponse(ctx context.Context, groupId openapi_types.UUID, params *GetGroupGroupIdMembersParams, reqEditors ...RequestEditorFn) (*GetGroupGroupIdMembersResponse, error)
-
-	// PostGroupGroupIdMembersWithBodyWithResponse request with any body
-	PostGroupGroupIdMembersWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdMembersResponse, error)
-
-	PostGroupGroupIdMembersWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdMembersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdMembersResponse, error)
-
-	// DeleteGroupGroupIdMembersUserIdWithResponse request
-	DeleteGroupGroupIdMembersUserIdWithResponse(ctx context.Context, groupId openapi_types.UUID, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdMembersUserIdResponse, error)
-
-	// GetGroupGroupIdPolicyWithResponse request
-	GetGroupGroupIdPolicyWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdPolicyResponse, error)
-
-	// PostGroupGroupIdPolicyWithBodyWithResponse request with any body
-	PostGroupGroupIdPolicyWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdPolicyResponse, error)
-
-	PostGroupGroupIdPolicyWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdPolicyJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdPolicyResponse, error)
-
-	// DeleteGroupGroupIdPolicyPolicyIdWithResponse request
-	DeleteGroupGroupIdPolicyPolicyIdWithResponse(ctx context.Context, groupId openapi_types.UUID, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdPolicyPolicyIdResponse, error)
-
-	// GetPasteWithResponse request
-	GetPasteWithResponse(ctx context.Context, params *GetPasteParams, reqEditors ...RequestEditorFn) (*GetPasteResponse, error)
-
-	// PostPasteWithBodyWithResponse request with any body
-	PostPasteWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostPasteResponse, error)
-
-	PostPasteWithResponse(ctx context.Context, body PostPasteJSONRequestBody, reqEditors ...RequestEditorFn) (*PostPasteResponse, error)
-
-	// DeletePastePasteIdWithResponse request
-	DeletePastePasteIdWithResponse(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeletePastePasteIdResponse, error)
-
-	// GetPastePasteIdWithResponse request
-	GetPastePasteIdWithResponse(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetPastePasteIdResponse, error)
-
-	// GetPoliciesWithResponse request
-	GetPoliciesWithResponse(ctx context.Context, params *GetPoliciesParams, reqEditors ...RequestEditorFn) (*GetPoliciesResponse, error)
-
-	// PostPoliciesWithBodyWithResponse request with any body
-	PostPoliciesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostPoliciesResponse, error)
-
-	PostPoliciesWithResponse(ctx context.Context, body PostPoliciesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostPoliciesResponse, error)
-
-	// DeletePoliciesPolicyIdWithResponse request
-	DeletePoliciesPolicyIdWithResponse(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeletePoliciesPolicyIdResponse, error)
-
-	// GetPoliciesPolicyIdWithResponse request
-	GetPoliciesPolicyIdWithResponse(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetPoliciesPolicyIdResponse, error)
-
-	// PutPoliciesPolicyIdWithBodyWithResponse request with any body
-	PutPoliciesPolicyIdWithBodyWithResponse(ctx context.Context, policyId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutPoliciesPolicyIdResponse, error)
-
-	PutPoliciesPolicyIdWithResponse(ctx context.Context, policyId openapi_types.UUID, body PutPoliciesPolicyIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutPoliciesPolicyIdResponse, error)
-
-	// GetSearchWithResponse request
-	GetSearchWithResponse(ctx context.Context, params *GetSearchParams, reqEditors ...RequestEditorFn) (*GetSearchResponse, error)
-
-	// PostServiceWithBodyWithResponse request with any body
-	PostServiceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostServiceResponse, error)
-
-	PostServiceWithResponse(ctx context.Context, body PostServiceJSONRequestBody, reqEditors ...RequestEditorFn) (*PostServiceResponse, error)
-
-	// DeleteServiceServiceIdWithResponse request
-	DeleteServiceServiceIdWithResponse(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteServiceServiceIdResponse, error)
-
-	// GetServiceServiceIdWithResponse request
-	GetServiceServiceIdWithResponse(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetServiceServiceIdResponse, error)
-
-	// PutServiceServiceIdWithBodyWithResponse request with any body
-	PutServiceServiceIdWithBodyWithResponse(ctx context.Context, serviceId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutServiceServiceIdResponse, error)
-
-	PutServiceServiceIdWithResponse(ctx context.Context, serviceId openapi_types.UUID, body PutServiceServiceIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutServiceServiceIdResponse, error)
+	PostVaultsVaultIdMembershipsWithResponse(ctx context.Context, vaultId openapi_types.UUID, body PostVaultsVaultIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostVaultsVaultIdMembershipsResponse, error)
 }
 
-type GetActivitiesResponse struct {
+type GetAdminConfigResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ActivityList
 }
 
 // Status returns HTTPResponse.Status
-func (r GetActivitiesResponse) Status() string {
+func (r GetAdminConfigResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4143,21 +2128,20 @@ func (r GetActivitiesResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetActivitiesResponse) StatusCode() int {
+func (r GetAdminConfigResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetActivitiesActivityIdResponse struct {
+type PatchAdminConfigResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ActivityDetail
 }
 
 // Status returns HTTPResponse.Status
-func (r GetActivitiesActivityIdResponse) Status() string {
+func (r PatchAdminConfigResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4165,21 +2149,21 @@ func (r GetActivitiesActivityIdResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetActivitiesActivityIdResponse) StatusCode() int {
+func (r PatchAdminConfigResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetAdminAuditLogsResponse struct {
+type GetAssetsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *AuditLogList
+	JSON200      *AssetList
 }
 
 // Status returns HTTPResponse.Status
-func (r GetAdminAuditLogsResponse) Status() string {
+func (r GetAssetsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4187,21 +2171,21 @@ func (r GetAdminAuditLogsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetAdminAuditLogsResponse) StatusCode() int {
+func (r GetAssetsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetAdminSettingsResponse struct {
+type PostAssetsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *SystemSettings
+	JSON201      *Asset
 }
 
 // Status returns HTTPResponse.Status
-func (r GetAdminSettingsResponse) Status() string {
+func (r PostAssetsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4209,21 +2193,20 @@ func (r GetAdminSettingsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetAdminSettingsResponse) StatusCode() int {
+func (r PostAssetsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PutAdminSettingsResponse struct {
+type PostAssetsIdActionsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *SystemSettings
 }
 
 // Status returns HTTPResponse.Status
-func (r PutAdminSettingsResponse) Status() string {
+func (r PostAssetsIdActionsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4231,21 +2214,21 @@ func (r PutAdminSettingsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PutAdminSettingsResponse) StatusCode() int {
+func (r PostAssetsIdActionsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetAdminSystemHealthResponse struct {
+type GetAuditLogsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *SystemHealth
+	JSON200      *[]AuditEntry
 }
 
 // Status returns HTTPResponse.Status
-func (r GetAdminSystemHealthResponse) Status() string {
+func (r GetAuditLogsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4253,21 +2236,21 @@ func (r GetAdminSystemHealthResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetAdminSystemHealthResponse) StatusCode() int {
+func (r GetAuditLogsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetAlarmsResponse struct {
+type GetIdentityGroupsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *AlarmList
+	JSON200      *UserGroupList
 }
 
 // Status returns HTTPResponse.Status
-func (r GetAlarmsResponse) Status() string {
+func (r GetIdentityGroupsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4275,21 +2258,20 @@ func (r GetAlarmsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetAlarmsResponse) StatusCode() int {
+func (r GetIdentityGroupsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetAlarmsAlarmIdResponse struct {
+type PostIdentityGroupsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Alarm
 }
 
 // Status returns HTTPResponse.Status
-func (r GetAlarmsAlarmIdResponse) Status() string {
+func (r PostIdentityGroupsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4297,20 +2279,20 @@ func (r GetAlarmsAlarmIdResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetAlarmsAlarmIdResponse) StatusCode() int {
+func (r PostIdentityGroupsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PostAlarmsAlarmIdAcknowledgeResponse struct {
+type DeleteIdentityGroupsGroupIdMembershipsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 }
 
 // Status returns HTTPResponse.Status
-func (r PostAlarmsAlarmIdAcknowledgeResponse) Status() string {
+func (r DeleteIdentityGroupsGroupIdMembershipsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4318,22 +2300,21 @@ func (r PostAlarmsAlarmIdAcknowledgeResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PostAlarmsAlarmIdAcknowledgeResponse) StatusCode() int {
+func (r DeleteIdentityGroupsGroupIdMembershipsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PostGroupResponse struct {
+type GetIdentityGroupsGroupIdMembershipsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *Group
-	JSON4XX      *ClientError
+	JSON200      *GroupMembershipList
 }
 
 // Status returns HTTPResponse.Status
-func (r PostGroupResponse) Status() string {
+func (r GetIdentityGroupsGroupIdMembershipsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4341,21 +2322,20 @@ func (r PostGroupResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PostGroupResponse) StatusCode() int {
+func (r GetIdentityGroupsGroupIdMembershipsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type DeleteGroupGroupIdResponse struct {
+type PostIdentityGroupsGroupIdMembershipsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON4XX      *ClientError
 }
 
 // Status returns HTTPResponse.Status
-func (r DeleteGroupGroupIdResponse) Status() string {
+func (r PostIdentityGroupsGroupIdMembershipsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4363,22 +2343,21 @@ func (r DeleteGroupGroupIdResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r DeleteGroupGroupIdResponse) StatusCode() int {
+func (r PostIdentityGroupsGroupIdMembershipsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetGroupGroupIdResponse struct {
+type GetIdentityUserResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GroupDetail
-	JSON4XX      *ClientError
+	JSON200      *User
 }
 
 // Status returns HTTPResponse.Status
-func (r GetGroupGroupIdResponse) Status() string {
+func (r GetIdentityUserResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4386,21 +2365,21 @@ func (r GetGroupGroupIdResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetGroupGroupIdResponse) StatusCode() int {
+func (r GetIdentityUserResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetGroupGroupIdCredentialResponse struct {
+type PostIdentityUserResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CredentialList
+	JSON200      *User
 }
 
 // Status returns HTTPResponse.Status
-func (r GetGroupGroupIdCredentialResponse) Status() string {
+func (r PostIdentityUserResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4408,22 +2387,21 @@ func (r GetGroupGroupIdCredentialResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetGroupGroupIdCredentialResponse) StatusCode() int {
+func (r PostIdentityUserResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PostGroupGroupIdCredentialResponse struct {
+type GetIdentityUsersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *Credential
-	JSON4XX      *ClientError
+	JSON200      *[]User
 }
 
 // Status returns HTTPResponse.Status
-func (r PostGroupGroupIdCredentialResponse) Status() string {
+func (r GetIdentityUsersResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4431,21 +2409,20 @@ func (r PostGroupGroupIdCredentialResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PostGroupGroupIdCredentialResponse) StatusCode() int {
+func (r GetIdentityUsersResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type DeleteGroupGroupIdCredentialCredentialIdResponse struct {
+type PostIdentityUsersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON4XX      *ClientError
 }
 
 // Status returns HTTPResponse.Status
-func (r DeleteGroupGroupIdCredentialCredentialIdResponse) Status() string {
+func (r PostIdentityUsersResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4453,21 +2430,20 @@ func (r DeleteGroupGroupIdCredentialCredentialIdResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r DeleteGroupGroupIdCredentialCredentialIdResponse) StatusCode() int {
+func (r PostIdentityUsersResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetGroupGroupIdCredentialCredentialIdResponse struct {
+type GetVaultsVaultIdMembershipsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Credential
 }
 
 // Status returns HTTPResponse.Status
-func (r GetGroupGroupIdCredentialCredentialIdResponse) Status() string {
+func (r GetVaultsVaultIdMembershipsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4475,22 +2451,20 @@ func (r GetGroupGroupIdCredentialCredentialIdResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetGroupGroupIdCredentialCredentialIdResponse) StatusCode() int {
+func (r GetVaultsVaultIdMembershipsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PutGroupGroupIdCredentialCredentialIdResponse struct {
+type PostVaultsVaultIdMembershipsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Credential
-	JSON4XX      *ClientError
 }
 
 // Status returns HTTPResponse.Status
-func (r PutGroupGroupIdCredentialCredentialIdResponse) Status() string {
+func (r PostVaultsVaultIdMembershipsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -4498,1007 +2472,278 @@ func (r PutGroupGroupIdCredentialCredentialIdResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PutGroupGroupIdCredentialCredentialIdResponse) StatusCode() int {
+func (r PostVaultsVaultIdMembershipsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetGroupGroupIdCredentialCredentialIdSecretResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CredentialSecret
-}
-
-// Status returns HTTPResponse.Status
-func (r GetGroupGroupIdCredentialCredentialIdSecretResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetGroupGroupIdCredentialCredentialIdSecretResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostGroupGroupIdCredentialCredentialIdSecretResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *CredentialSecret
-}
-
-// Status returns HTTPResponse.Status
-func (r PostGroupGroupIdCredentialCredentialIdSecretResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostGroupGroupIdCredentialCredentialIdSecretResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PutGroupGroupIdCredentialCredentialIdSecretResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CredentialSecret
-}
-
-// Status returns HTTPResponse.Status
-func (r PutGroupGroupIdCredentialCredentialIdSecretResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PutGroupGroupIdCredentialCredentialIdSecretResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetGroupGroupIdMembersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PaginatedResponse
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetGroupGroupIdMembersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetGroupGroupIdMembersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostGroupGroupIdMembersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r PostGroupGroupIdMembersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostGroupGroupIdMembersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteGroupGroupIdMembersUserIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteGroupGroupIdMembersUserIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteGroupGroupIdMembersUserIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetGroupGroupIdPolicyResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]Policy
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetGroupGroupIdPolicyResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetGroupGroupIdPolicyResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostGroupGroupIdPolicyResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r PostGroupGroupIdPolicyResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostGroupGroupIdPolicyResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteGroupGroupIdPolicyPolicyIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteGroupGroupIdPolicyPolicyIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteGroupGroupIdPolicyPolicyIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetPasteResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PasteList
-}
-
-// Status returns HTTPResponse.Status
-func (r GetPasteResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetPasteResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostPasteResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *Paste
-}
-
-// Status returns HTTPResponse.Status
-func (r PostPasteResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostPasteResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeletePastePasteIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r DeletePastePasteIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeletePastePasteIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetPastePasteIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *Paste
-}
-
-// Status returns HTTPResponse.Status
-func (r GetPastePasteIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetPastePasteIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetPoliciesResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PolicyList
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetPoliciesResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetPoliciesResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostPoliciesResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *Policy
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r PostPoliciesResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostPoliciesResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeletePoliciesPolicyIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r DeletePoliciesPolicyIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeletePoliciesPolicyIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetPoliciesPolicyIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *Policy
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetPoliciesPolicyIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetPoliciesPolicyIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PutPoliciesPolicyIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *Policy
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r PutPoliciesPolicyIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PutPoliciesPolicyIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetSearchResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *SearchResults
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetSearchResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetSearchResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostServiceResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *Service
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r PostServiceResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostServiceResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteServiceServiceIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteServiceServiceIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteServiceServiceIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetServiceServiceIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ServiceDetail
-}
-
-// Status returns HTTPResponse.Status
-func (r GetServiceServiceIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetServiceServiceIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PutServiceServiceIdResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *Service
-	JSON4XX      *ClientError
-}
-
-// Status returns HTTPResponse.Status
-func (r PutServiceServiceIdResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PutServiceServiceIdResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// GetActivitiesWithResponse request returning *GetActivitiesResponse
-func (c *ClientWithResponses) GetActivitiesWithResponse(ctx context.Context, params *GetActivitiesParams, reqEditors ...RequestEditorFn) (*GetActivitiesResponse, error) {
-	rsp, err := c.GetActivities(ctx, params, reqEditors...)
+// GetAdminConfigWithResponse request returning *GetAdminConfigResponse
+func (c *ClientWithResponses) GetAdminConfigWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAdminConfigResponse, error) {
+	rsp, err := c.GetAdminConfig(ctx, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetActivitiesResponse(rsp)
+	return ParseGetAdminConfigResponse(rsp)
 }
 
-// GetActivitiesActivityIdWithResponse request returning *GetActivitiesActivityIdResponse
-func (c *ClientWithResponses) GetActivitiesActivityIdWithResponse(ctx context.Context, activityId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetActivitiesActivityIdResponse, error) {
-	rsp, err := c.GetActivitiesActivityId(ctx, activityId, reqEditors...)
+// PatchAdminConfigWithBodyWithResponse request with arbitrary body returning *PatchAdminConfigResponse
+func (c *ClientWithResponses) PatchAdminConfigWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchAdminConfigResponse, error) {
+	rsp, err := c.PatchAdminConfigWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetActivitiesActivityIdResponse(rsp)
+	return ParsePatchAdminConfigResponse(rsp)
 }
 
-// GetAdminAuditLogsWithResponse request returning *GetAdminAuditLogsResponse
-func (c *ClientWithResponses) GetAdminAuditLogsWithResponse(ctx context.Context, params *GetAdminAuditLogsParams, reqEditors ...RequestEditorFn) (*GetAdminAuditLogsResponse, error) {
-	rsp, err := c.GetAdminAuditLogs(ctx, params, reqEditors...)
+func (c *ClientWithResponses) PatchAdminConfigWithResponse(ctx context.Context, body PatchAdminConfigJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchAdminConfigResponse, error) {
+	rsp, err := c.PatchAdminConfig(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetAdminAuditLogsResponse(rsp)
+	return ParsePatchAdminConfigResponse(rsp)
 }
 
-// GetAdminSettingsWithResponse request returning *GetAdminSettingsResponse
-func (c *ClientWithResponses) GetAdminSettingsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAdminSettingsResponse, error) {
-	rsp, err := c.GetAdminSettings(ctx, reqEditors...)
+// GetAssetsWithResponse request returning *GetAssetsResponse
+func (c *ClientWithResponses) GetAssetsWithResponse(ctx context.Context, params *GetAssetsParams, reqEditors ...RequestEditorFn) (*GetAssetsResponse, error) {
+	rsp, err := c.GetAssets(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetAdminSettingsResponse(rsp)
+	return ParseGetAssetsResponse(rsp)
 }
 
-// PutAdminSettingsWithBodyWithResponse request with arbitrary body returning *PutAdminSettingsResponse
-func (c *ClientWithResponses) PutAdminSettingsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutAdminSettingsResponse, error) {
-	rsp, err := c.PutAdminSettingsWithBody(ctx, contentType, body, reqEditors...)
+// PostAssetsWithBodyWithResponse request with arbitrary body returning *PostAssetsResponse
+func (c *ClientWithResponses) PostAssetsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostAssetsResponse, error) {
+	rsp, err := c.PostAssetsWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePutAdminSettingsResponse(rsp)
+	return ParsePostAssetsResponse(rsp)
 }
 
-func (c *ClientWithResponses) PutAdminSettingsWithResponse(ctx context.Context, body PutAdminSettingsJSONRequestBody, reqEditors ...RequestEditorFn) (*PutAdminSettingsResponse, error) {
-	rsp, err := c.PutAdminSettings(ctx, body, reqEditors...)
+func (c *ClientWithResponses) PostAssetsWithResponse(ctx context.Context, body PostAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostAssetsResponse, error) {
+	rsp, err := c.PostAssets(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePutAdminSettingsResponse(rsp)
+	return ParsePostAssetsResponse(rsp)
 }
 
-// GetAdminSystemHealthWithResponse request returning *GetAdminSystemHealthResponse
-func (c *ClientWithResponses) GetAdminSystemHealthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAdminSystemHealthResponse, error) {
-	rsp, err := c.GetAdminSystemHealth(ctx, reqEditors...)
+// PostAssetsIdActionsWithBodyWithResponse request with arbitrary body returning *PostAssetsIdActionsResponse
+func (c *ClientWithResponses) PostAssetsIdActionsWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostAssetsIdActionsResponse, error) {
+	rsp, err := c.PostAssetsIdActionsWithBody(ctx, id, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetAdminSystemHealthResponse(rsp)
+	return ParsePostAssetsIdActionsResponse(rsp)
 }
 
-// GetAlarmsWithResponse request returning *GetAlarmsResponse
-func (c *ClientWithResponses) GetAlarmsWithResponse(ctx context.Context, params *GetAlarmsParams, reqEditors ...RequestEditorFn) (*GetAlarmsResponse, error) {
-	rsp, err := c.GetAlarms(ctx, params, reqEditors...)
+func (c *ClientWithResponses) PostAssetsIdActionsWithResponse(ctx context.Context, id openapi_types.UUID, body PostAssetsIdActionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostAssetsIdActionsResponse, error) {
+	rsp, err := c.PostAssetsIdActions(ctx, id, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetAlarmsResponse(rsp)
+	return ParsePostAssetsIdActionsResponse(rsp)
 }
 
-// GetAlarmsAlarmIdWithResponse request returning *GetAlarmsAlarmIdResponse
-func (c *ClientWithResponses) GetAlarmsAlarmIdWithResponse(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetAlarmsAlarmIdResponse, error) {
-	rsp, err := c.GetAlarmsAlarmId(ctx, alarmId, reqEditors...)
+// GetAuditLogsWithResponse request returning *GetAuditLogsResponse
+func (c *ClientWithResponses) GetAuditLogsWithResponse(ctx context.Context, params *GetAuditLogsParams, reqEditors ...RequestEditorFn) (*GetAuditLogsResponse, error) {
+	rsp, err := c.GetAuditLogs(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetAlarmsAlarmIdResponse(rsp)
+	return ParseGetAuditLogsResponse(rsp)
 }
 
-// PostAlarmsAlarmIdAcknowledgeWithResponse request returning *PostAlarmsAlarmIdAcknowledgeResponse
-func (c *ClientWithResponses) PostAlarmsAlarmIdAcknowledgeWithResponse(ctx context.Context, alarmId openapi_types.UUID, reqEditors ...RequestEditorFn) (*PostAlarmsAlarmIdAcknowledgeResponse, error) {
-	rsp, err := c.PostAlarmsAlarmIdAcknowledge(ctx, alarmId, reqEditors...)
+// GetIdentityGroupsWithResponse request returning *GetIdentityGroupsResponse
+func (c *ClientWithResponses) GetIdentityGroupsWithResponse(ctx context.Context, params *GetIdentityGroupsParams, reqEditors ...RequestEditorFn) (*GetIdentityGroupsResponse, error) {
+	rsp, err := c.GetIdentityGroups(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePostAlarmsAlarmIdAcknowledgeResponse(rsp)
+	return ParseGetIdentityGroupsResponse(rsp)
 }
 
-// PostGroupWithBodyWithResponse request with arbitrary body returning *PostGroupResponse
-func (c *ClientWithResponses) PostGroupWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupResponse, error) {
-	rsp, err := c.PostGroupWithBody(ctx, contentType, body, reqEditors...)
+// PostIdentityGroupsWithBodyWithResponse request with arbitrary body returning *PostIdentityGroupsResponse
+func (c *ClientWithResponses) PostIdentityGroupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityGroupsResponse, error) {
+	rsp, err := c.PostIdentityGroupsWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePostGroupResponse(rsp)
+	return ParsePostIdentityGroupsResponse(rsp)
 }
 
-func (c *ClientWithResponses) PostGroupWithResponse(ctx context.Context, body PostGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupResponse, error) {
-	rsp, err := c.PostGroup(ctx, body, reqEditors...)
+func (c *ClientWithResponses) PostIdentityGroupsWithResponse(ctx context.Context, body PostIdentityGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityGroupsResponse, error) {
+	rsp, err := c.PostIdentityGroups(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePostGroupResponse(rsp)
+	return ParsePostIdentityGroupsResponse(rsp)
 }
 
-// DeleteGroupGroupIdWithResponse request returning *DeleteGroupGroupIdResponse
-func (c *ClientWithResponses) DeleteGroupGroupIdWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdResponse, error) {
-	rsp, err := c.DeleteGroupGroupId(ctx, groupId, reqEditors...)
+// DeleteIdentityGroupsGroupIdMembershipsWithResponse request returning *DeleteIdentityGroupsGroupIdMembershipsResponse
+func (c *ClientWithResponses) DeleteIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*DeleteIdentityGroupsGroupIdMembershipsResponse, error) {
+	rsp, err := c.DeleteIdentityGroupsGroupIdMemberships(ctx, groupId, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseDeleteGroupGroupIdResponse(rsp)
+	return ParseDeleteIdentityGroupsGroupIdMembershipsResponse(rsp)
 }
 
-// GetGroupGroupIdWithResponse request returning *GetGroupGroupIdResponse
-func (c *ClientWithResponses) GetGroupGroupIdWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdResponse, error) {
-	rsp, err := c.GetGroupGroupId(ctx, groupId, reqEditors...)
+// GetIdentityGroupsGroupIdMembershipsWithResponse request returning *GetIdentityGroupsGroupIdMembershipsResponse
+func (c *ClientWithResponses) GetIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*GetIdentityGroupsGroupIdMembershipsResponse, error) {
+	rsp, err := c.GetIdentityGroupsGroupIdMemberships(ctx, groupId, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetGroupGroupIdResponse(rsp)
+	return ParseGetIdentityGroupsGroupIdMembershipsResponse(rsp)
 }
 
-// GetGroupGroupIdCredentialWithResponse request returning *GetGroupGroupIdCredentialResponse
-func (c *ClientWithResponses) GetGroupGroupIdCredentialWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdCredentialResponse, error) {
-	rsp, err := c.GetGroupGroupIdCredential(ctx, groupId, reqEditors...)
+// PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse request with arbitrary body returning *PostIdentityGroupsGroupIdMembershipsResponse
+func (c *ClientWithResponses) PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error) {
+	rsp, err := c.PostIdentityGroupsGroupIdMembershipsWithBody(ctx, groupId, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetGroupGroupIdCredentialResponse(rsp)
+	return ParsePostIdentityGroupsGroupIdMembershipsResponse(rsp)
 }
 
-// PostGroupGroupIdCredentialWithBodyWithResponse request with arbitrary body returning *PostGroupGroupIdCredentialResponse
-func (c *ClientWithResponses) PostGroupGroupIdCredentialWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialResponse, error) {
-	rsp, err := c.PostGroupGroupIdCredentialWithBody(ctx, groupId, contentType, body, reqEditors...)
+func (c *ClientWithResponses) PostIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error) {
+	rsp, err := c.PostIdentityGroupsGroupIdMemberships(ctx, groupId, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePostGroupGroupIdCredentialResponse(rsp)
+	return ParsePostIdentityGroupsGroupIdMembershipsResponse(rsp)
 }
 
-func (c *ClientWithResponses) PostGroupGroupIdCredentialWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdCredentialJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialResponse, error) {
-	rsp, err := c.PostGroupGroupIdCredential(ctx, groupId, body, reqEditors...)
+// GetIdentityUserWithResponse request returning *GetIdentityUserResponse
+func (c *ClientWithResponses) GetIdentityUserWithResponse(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*GetIdentityUserResponse, error) {
+	rsp, err := c.GetIdentityUser(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePostGroupGroupIdCredentialResponse(rsp)
+	return ParseGetIdentityUserResponse(rsp)
 }
 
-// DeleteGroupGroupIdCredentialCredentialIdWithResponse request returning *DeleteGroupGroupIdCredentialCredentialIdResponse
-func (c *ClientWithResponses) DeleteGroupGroupIdCredentialCredentialIdWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdCredentialCredentialIdResponse, error) {
-	rsp, err := c.DeleteGroupGroupIdCredentialCredentialId(ctx, groupId, credentialId, reqEditors...)
+// PostIdentityUserWithBodyWithResponse request with arbitrary body returning *PostIdentityUserResponse
+func (c *ClientWithResponses) PostIdentityUserWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error) {
+	rsp, err := c.PostIdentityUserWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseDeleteGroupGroupIdCredentialCredentialIdResponse(rsp)
+	return ParsePostIdentityUserResponse(rsp)
 }
 
-// GetGroupGroupIdCredentialCredentialIdWithResponse request returning *GetGroupGroupIdCredentialCredentialIdResponse
-func (c *ClientWithResponses) GetGroupGroupIdCredentialCredentialIdWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdCredentialCredentialIdResponse, error) {
-	rsp, err := c.GetGroupGroupIdCredentialCredentialId(ctx, groupId, credentialId, reqEditors...)
+func (c *ClientWithResponses) PostIdentityUserWithResponse(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error) {
+	rsp, err := c.PostIdentityUser(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetGroupGroupIdCredentialCredentialIdResponse(rsp)
+	return ParsePostIdentityUserResponse(rsp)
 }
 
-// PutGroupGroupIdCredentialCredentialIdWithBodyWithResponse request with arbitrary body returning *PutGroupGroupIdCredentialCredentialIdResponse
-func (c *ClientWithResponses) PutGroupGroupIdCredentialCredentialIdWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdResponse, error) {
-	rsp, err := c.PutGroupGroupIdCredentialCredentialIdWithBody(ctx, groupId, credentialId, contentType, body, reqEditors...)
+// GetIdentityUsersWithResponse request returning *GetIdentityUsersResponse
+func (c *ClientWithResponses) GetIdentityUsersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetIdentityUsersResponse, error) {
+	rsp, err := c.GetIdentityUsers(ctx, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePutGroupGroupIdCredentialCredentialIdResponse(rsp)
+	return ParseGetIdentityUsersResponse(rsp)
 }
 
-func (c *ClientWithResponses) PutGroupGroupIdCredentialCredentialIdWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdResponse, error) {
-	rsp, err := c.PutGroupGroupIdCredentialCredentialId(ctx, groupId, credentialId, body, reqEditors...)
+// PostIdentityUsersWithBodyWithResponse request with arbitrary body returning *PostIdentityUsersResponse
+func (c *ClientWithResponses) PostIdentityUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityUsersResponse, error) {
+	rsp, err := c.PostIdentityUsersWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePutGroupGroupIdCredentialCredentialIdResponse(rsp)
+	return ParsePostIdentityUsersResponse(rsp)
 }
 
-// GetGroupGroupIdCredentialCredentialIdSecretWithResponse request returning *GetGroupGroupIdCredentialCredentialIdSecretResponse
-func (c *ClientWithResponses) GetGroupGroupIdCredentialCredentialIdSecretWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdCredentialCredentialIdSecretResponse, error) {
-	rsp, err := c.GetGroupGroupIdCredentialCredentialIdSecret(ctx, groupId, credentialId, reqEditors...)
+func (c *ClientWithResponses) PostIdentityUsersWithResponse(ctx context.Context, body PostIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityUsersResponse, error) {
+	rsp, err := c.PostIdentityUsers(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetGroupGroupIdCredentialCredentialIdSecretResponse(rsp)
+	return ParsePostIdentityUsersResponse(rsp)
 }
 
-// PostGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse request with arbitrary body returning *PostGroupGroupIdCredentialCredentialIdSecretResponse
-func (c *ClientWithResponses) PostGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialCredentialIdSecretResponse, error) {
-	rsp, err := c.PostGroupGroupIdCredentialCredentialIdSecretWithBody(ctx, groupId, credentialId, contentType, body, reqEditors...)
+// GetVaultsVaultIdMembershipsWithResponse request returning *GetVaultsVaultIdMembershipsResponse
+func (c *ClientWithResponses) GetVaultsVaultIdMembershipsWithResponse(ctx context.Context, vaultId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetVaultsVaultIdMembershipsResponse, error) {
+	rsp, err := c.GetVaultsVaultIdMemberships(ctx, vaultId, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePostGroupGroupIdCredentialCredentialIdSecretResponse(rsp)
+	return ParseGetVaultsVaultIdMembershipsResponse(rsp)
 }
 
-func (c *ClientWithResponses) PostGroupGroupIdCredentialCredentialIdSecretWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdCredentialCredentialIdSecretResponse, error) {
-	rsp, err := c.PostGroupGroupIdCredentialCredentialIdSecret(ctx, groupId, credentialId, body, reqEditors...)
+// PostVaultsVaultIdMembershipsWithBodyWithResponse request with arbitrary body returning *PostVaultsVaultIdMembershipsResponse
+func (c *ClientWithResponses) PostVaultsVaultIdMembershipsWithBodyWithResponse(ctx context.Context, vaultId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostVaultsVaultIdMembershipsResponse, error) {
+	rsp, err := c.PostVaultsVaultIdMembershipsWithBody(ctx, vaultId, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePostGroupGroupIdCredentialCredentialIdSecretResponse(rsp)
+	return ParsePostVaultsVaultIdMembershipsResponse(rsp)
 }
 
-// PutGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse request with arbitrary body returning *PutGroupGroupIdCredentialCredentialIdSecretResponse
-func (c *ClientWithResponses) PutGroupGroupIdCredentialCredentialIdSecretWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdSecretResponse, error) {
-	rsp, err := c.PutGroupGroupIdCredentialCredentialIdSecretWithBody(ctx, groupId, credentialId, contentType, body, reqEditors...)
+func (c *ClientWithResponses) PostVaultsVaultIdMembershipsWithResponse(ctx context.Context, vaultId openapi_types.UUID, body PostVaultsVaultIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostVaultsVaultIdMembershipsResponse, error) {
+	rsp, err := c.PostVaultsVaultIdMemberships(ctx, vaultId, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePutGroupGroupIdCredentialCredentialIdSecretResponse(rsp)
+	return ParsePostVaultsVaultIdMembershipsResponse(rsp)
 }
 
-func (c *ClientWithResponses) PutGroupGroupIdCredentialCredentialIdSecretWithResponse(ctx context.Context, groupId openapi_types.UUID, credentialId openapi_types.UUID, body PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody, reqEditors ...RequestEditorFn) (*PutGroupGroupIdCredentialCredentialIdSecretResponse, error) {
-	rsp, err := c.PutGroupGroupIdCredentialCredentialIdSecret(ctx, groupId, credentialId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutGroupGroupIdCredentialCredentialIdSecretResponse(rsp)
-}
-
-// GetGroupGroupIdMembersWithResponse request returning *GetGroupGroupIdMembersResponse
-func (c *ClientWithResponses) GetGroupGroupIdMembersWithResponse(ctx context.Context, groupId openapi_types.UUID, params *GetGroupGroupIdMembersParams, reqEditors ...RequestEditorFn) (*GetGroupGroupIdMembersResponse, error) {
-	rsp, err := c.GetGroupGroupIdMembers(ctx, groupId, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetGroupGroupIdMembersResponse(rsp)
-}
-
-// PostGroupGroupIdMembersWithBodyWithResponse request with arbitrary body returning *PostGroupGroupIdMembersResponse
-func (c *ClientWithResponses) PostGroupGroupIdMembersWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdMembersResponse, error) {
-	rsp, err := c.PostGroupGroupIdMembersWithBody(ctx, groupId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostGroupGroupIdMembersResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostGroupGroupIdMembersWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdMembersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdMembersResponse, error) {
-	rsp, err := c.PostGroupGroupIdMembers(ctx, groupId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostGroupGroupIdMembersResponse(rsp)
-}
-
-// DeleteGroupGroupIdMembersUserIdWithResponse request returning *DeleteGroupGroupIdMembersUserIdResponse
-func (c *ClientWithResponses) DeleteGroupGroupIdMembersUserIdWithResponse(ctx context.Context, groupId openapi_types.UUID, userId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdMembersUserIdResponse, error) {
-	rsp, err := c.DeleteGroupGroupIdMembersUserId(ctx, groupId, userId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteGroupGroupIdMembersUserIdResponse(rsp)
-}
-
-// GetGroupGroupIdPolicyWithResponse request returning *GetGroupGroupIdPolicyResponse
-func (c *ClientWithResponses) GetGroupGroupIdPolicyWithResponse(ctx context.Context, groupId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetGroupGroupIdPolicyResponse, error) {
-	rsp, err := c.GetGroupGroupIdPolicy(ctx, groupId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetGroupGroupIdPolicyResponse(rsp)
-}
-
-// PostGroupGroupIdPolicyWithBodyWithResponse request with arbitrary body returning *PostGroupGroupIdPolicyResponse
-func (c *ClientWithResponses) PostGroupGroupIdPolicyWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostGroupGroupIdPolicyResponse, error) {
-	rsp, err := c.PostGroupGroupIdPolicyWithBody(ctx, groupId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostGroupGroupIdPolicyResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostGroupGroupIdPolicyWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostGroupGroupIdPolicyJSONRequestBody, reqEditors ...RequestEditorFn) (*PostGroupGroupIdPolicyResponse, error) {
-	rsp, err := c.PostGroupGroupIdPolicy(ctx, groupId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostGroupGroupIdPolicyResponse(rsp)
-}
-
-// DeleteGroupGroupIdPolicyPolicyIdWithResponse request returning *DeleteGroupGroupIdPolicyPolicyIdResponse
-func (c *ClientWithResponses) DeleteGroupGroupIdPolicyPolicyIdWithResponse(ctx context.Context, groupId openapi_types.UUID, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteGroupGroupIdPolicyPolicyIdResponse, error) {
-	rsp, err := c.DeleteGroupGroupIdPolicyPolicyId(ctx, groupId, policyId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteGroupGroupIdPolicyPolicyIdResponse(rsp)
-}
-
-// GetPasteWithResponse request returning *GetPasteResponse
-func (c *ClientWithResponses) GetPasteWithResponse(ctx context.Context, params *GetPasteParams, reqEditors ...RequestEditorFn) (*GetPasteResponse, error) {
-	rsp, err := c.GetPaste(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetPasteResponse(rsp)
-}
-
-// PostPasteWithBodyWithResponse request with arbitrary body returning *PostPasteResponse
-func (c *ClientWithResponses) PostPasteWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostPasteResponse, error) {
-	rsp, err := c.PostPasteWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostPasteResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostPasteWithResponse(ctx context.Context, body PostPasteJSONRequestBody, reqEditors ...RequestEditorFn) (*PostPasteResponse, error) {
-	rsp, err := c.PostPaste(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostPasteResponse(rsp)
-}
-
-// DeletePastePasteIdWithResponse request returning *DeletePastePasteIdResponse
-func (c *ClientWithResponses) DeletePastePasteIdWithResponse(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeletePastePasteIdResponse, error) {
-	rsp, err := c.DeletePastePasteId(ctx, pasteId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeletePastePasteIdResponse(rsp)
-}
-
-// GetPastePasteIdWithResponse request returning *GetPastePasteIdResponse
-func (c *ClientWithResponses) GetPastePasteIdWithResponse(ctx context.Context, pasteId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetPastePasteIdResponse, error) {
-	rsp, err := c.GetPastePasteId(ctx, pasteId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetPastePasteIdResponse(rsp)
-}
-
-// GetPoliciesWithResponse request returning *GetPoliciesResponse
-func (c *ClientWithResponses) GetPoliciesWithResponse(ctx context.Context, params *GetPoliciesParams, reqEditors ...RequestEditorFn) (*GetPoliciesResponse, error) {
-	rsp, err := c.GetPolicies(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetPoliciesResponse(rsp)
-}
-
-// PostPoliciesWithBodyWithResponse request with arbitrary body returning *PostPoliciesResponse
-func (c *ClientWithResponses) PostPoliciesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostPoliciesResponse, error) {
-	rsp, err := c.PostPoliciesWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostPoliciesResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostPoliciesWithResponse(ctx context.Context, body PostPoliciesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostPoliciesResponse, error) {
-	rsp, err := c.PostPolicies(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostPoliciesResponse(rsp)
-}
-
-// DeletePoliciesPolicyIdWithResponse request returning *DeletePoliciesPolicyIdResponse
-func (c *ClientWithResponses) DeletePoliciesPolicyIdWithResponse(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeletePoliciesPolicyIdResponse, error) {
-	rsp, err := c.DeletePoliciesPolicyId(ctx, policyId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeletePoliciesPolicyIdResponse(rsp)
-}
-
-// GetPoliciesPolicyIdWithResponse request returning *GetPoliciesPolicyIdResponse
-func (c *ClientWithResponses) GetPoliciesPolicyIdWithResponse(ctx context.Context, policyId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetPoliciesPolicyIdResponse, error) {
-	rsp, err := c.GetPoliciesPolicyId(ctx, policyId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetPoliciesPolicyIdResponse(rsp)
-}
-
-// PutPoliciesPolicyIdWithBodyWithResponse request with arbitrary body returning *PutPoliciesPolicyIdResponse
-func (c *ClientWithResponses) PutPoliciesPolicyIdWithBodyWithResponse(ctx context.Context, policyId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutPoliciesPolicyIdResponse, error) {
-	rsp, err := c.PutPoliciesPolicyIdWithBody(ctx, policyId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutPoliciesPolicyIdResponse(rsp)
-}
-
-func (c *ClientWithResponses) PutPoliciesPolicyIdWithResponse(ctx context.Context, policyId openapi_types.UUID, body PutPoliciesPolicyIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutPoliciesPolicyIdResponse, error) {
-	rsp, err := c.PutPoliciesPolicyId(ctx, policyId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutPoliciesPolicyIdResponse(rsp)
-}
-
-// GetSearchWithResponse request returning *GetSearchResponse
-func (c *ClientWithResponses) GetSearchWithResponse(ctx context.Context, params *GetSearchParams, reqEditors ...RequestEditorFn) (*GetSearchResponse, error) {
-	rsp, err := c.GetSearch(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetSearchResponse(rsp)
-}
-
-// PostServiceWithBodyWithResponse request with arbitrary body returning *PostServiceResponse
-func (c *ClientWithResponses) PostServiceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostServiceResponse, error) {
-	rsp, err := c.PostServiceWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostServiceResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostServiceWithResponse(ctx context.Context, body PostServiceJSONRequestBody, reqEditors ...RequestEditorFn) (*PostServiceResponse, error) {
-	rsp, err := c.PostService(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostServiceResponse(rsp)
-}
-
-// DeleteServiceServiceIdWithResponse request returning *DeleteServiceServiceIdResponse
-func (c *ClientWithResponses) DeleteServiceServiceIdWithResponse(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteServiceServiceIdResponse, error) {
-	rsp, err := c.DeleteServiceServiceId(ctx, serviceId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteServiceServiceIdResponse(rsp)
-}
-
-// GetServiceServiceIdWithResponse request returning *GetServiceServiceIdResponse
-func (c *ClientWithResponses) GetServiceServiceIdWithResponse(ctx context.Context, serviceId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetServiceServiceIdResponse, error) {
-	rsp, err := c.GetServiceServiceId(ctx, serviceId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetServiceServiceIdResponse(rsp)
-}
-
-// PutServiceServiceIdWithBodyWithResponse request with arbitrary body returning *PutServiceServiceIdResponse
-func (c *ClientWithResponses) PutServiceServiceIdWithBodyWithResponse(ctx context.Context, serviceId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutServiceServiceIdResponse, error) {
-	rsp, err := c.PutServiceServiceIdWithBody(ctx, serviceId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutServiceServiceIdResponse(rsp)
-}
-
-func (c *ClientWithResponses) PutServiceServiceIdWithResponse(ctx context.Context, serviceId openapi_types.UUID, body PutServiceServiceIdJSONRequestBody, reqEditors ...RequestEditorFn) (*PutServiceServiceIdResponse, error) {
-	rsp, err := c.PutServiceServiceId(ctx, serviceId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutServiceServiceIdResponse(rsp)
-}
-
-// ParseGetActivitiesResponse parses an HTTP response from a GetActivitiesWithResponse call
-func ParseGetActivitiesResponse(rsp *http.Response) (*GetActivitiesResponse, error) {
+// ParseGetAdminConfigResponse parses an HTTP response from a GetAdminConfigWithResponse call
+func ParseGetAdminConfigResponse(rsp *http.Response) (*GetAdminConfigResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetActivitiesResponse{
+	response := &GetAdminConfigResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePatchAdminConfigResponse parses an HTTP response from a PatchAdminConfigWithResponse call
+func ParsePatchAdminConfigResponse(rsp *http.Response) (*PatchAdminConfigResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchAdminConfigResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetAssetsResponse parses an HTTP response from a GetAssetsWithResponse call
+func ParseGetAssetsResponse(rsp *http.Response) (*GetAssetsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAssetsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ActivityList
+		var dest AssetList
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -5509,482 +2754,22 @@ func ParseGetActivitiesResponse(rsp *http.Response) (*GetActivitiesResponse, err
 	return response, nil
 }
 
-// ParseGetActivitiesActivityIdResponse parses an HTTP response from a GetActivitiesActivityIdWithResponse call
-func ParseGetActivitiesActivityIdResponse(rsp *http.Response) (*GetActivitiesActivityIdResponse, error) {
+// ParsePostAssetsResponse parses an HTTP response from a PostAssetsWithResponse call
+func ParsePostAssetsResponse(rsp *http.Response) (*PostAssetsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetActivitiesActivityIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ActivityDetail
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetAdminAuditLogsResponse parses an HTTP response from a GetAdminAuditLogsWithResponse call
-func ParseGetAdminAuditLogsResponse(rsp *http.Response) (*GetAdminAuditLogsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetAdminAuditLogsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest AuditLogList
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetAdminSettingsResponse parses an HTTP response from a GetAdminSettingsWithResponse call
-func ParseGetAdminSettingsResponse(rsp *http.Response) (*GetAdminSettingsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetAdminSettingsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest SystemSettings
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePutAdminSettingsResponse parses an HTTP response from a PutAdminSettingsWithResponse call
-func ParsePutAdminSettingsResponse(rsp *http.Response) (*PutAdminSettingsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PutAdminSettingsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest SystemSettings
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetAdminSystemHealthResponse parses an HTTP response from a GetAdminSystemHealthWithResponse call
-func ParseGetAdminSystemHealthResponse(rsp *http.Response) (*GetAdminSystemHealthResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetAdminSystemHealthResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest SystemHealth
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetAlarmsResponse parses an HTTP response from a GetAlarmsWithResponse call
-func ParseGetAlarmsResponse(rsp *http.Response) (*GetAlarmsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetAlarmsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest AlarmList
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetAlarmsAlarmIdResponse parses an HTTP response from a GetAlarmsAlarmIdWithResponse call
-func ParseGetAlarmsAlarmIdResponse(rsp *http.Response) (*GetAlarmsAlarmIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetAlarmsAlarmIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Alarm
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostAlarmsAlarmIdAcknowledgeResponse parses an HTTP response from a PostAlarmsAlarmIdAcknowledgeWithResponse call
-func ParsePostAlarmsAlarmIdAcknowledgeResponse(rsp *http.Response) (*PostAlarmsAlarmIdAcknowledgeResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostAlarmsAlarmIdAcknowledgeResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParsePostGroupResponse parses an HTTP response from a PostGroupWithResponse call
-func ParsePostGroupResponse(rsp *http.Response) (*PostGroupResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostGroupResponse{
+	response := &PostAssetsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest Group
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteGroupGroupIdResponse parses an HTTP response from a DeleteGroupGroupIdWithResponse call
-func ParseDeleteGroupGroupIdResponse(rsp *http.Response) (*DeleteGroupGroupIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteGroupGroupIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetGroupGroupIdResponse parses an HTTP response from a GetGroupGroupIdWithResponse call
-func ParseGetGroupGroupIdResponse(rsp *http.Response) (*GetGroupGroupIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetGroupGroupIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GroupDetail
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetGroupGroupIdCredentialResponse parses an HTTP response from a GetGroupGroupIdCredentialWithResponse call
-func ParseGetGroupGroupIdCredentialResponse(rsp *http.Response) (*GetGroupGroupIdCredentialResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetGroupGroupIdCredentialResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CredentialList
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostGroupGroupIdCredentialResponse parses an HTTP response from a PostGroupGroupIdCredentialWithResponse call
-func ParsePostGroupGroupIdCredentialResponse(rsp *http.Response) (*PostGroupGroupIdCredentialResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostGroupGroupIdCredentialResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest Credential
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteGroupGroupIdCredentialCredentialIdResponse parses an HTTP response from a DeleteGroupGroupIdCredentialCredentialIdWithResponse call
-func ParseDeleteGroupGroupIdCredentialCredentialIdResponse(rsp *http.Response) (*DeleteGroupGroupIdCredentialCredentialIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteGroupGroupIdCredentialCredentialIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetGroupGroupIdCredentialCredentialIdResponse parses an HTTP response from a GetGroupGroupIdCredentialCredentialIdWithResponse call
-func ParseGetGroupGroupIdCredentialCredentialIdResponse(rsp *http.Response) (*GetGroupGroupIdCredentialCredentialIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetGroupGroupIdCredentialCredentialIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Credential
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePutGroupGroupIdCredentialCredentialIdResponse parses an HTTP response from a PutGroupGroupIdCredentialCredentialIdWithResponse call
-func ParsePutGroupGroupIdCredentialCredentialIdResponse(rsp *http.Response) (*PutGroupGroupIdCredentialCredentialIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PutGroupGroupIdCredentialCredentialIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Credential
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetGroupGroupIdCredentialCredentialIdSecretResponse parses an HTTP response from a GetGroupGroupIdCredentialCredentialIdSecretWithResponse call
-func ParseGetGroupGroupIdCredentialCredentialIdSecretResponse(rsp *http.Response) (*GetGroupGroupIdCredentialCredentialIdSecretResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetGroupGroupIdCredentialCredentialIdSecretResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CredentialSecret
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostGroupGroupIdCredentialCredentialIdSecretResponse parses an HTTP response from a PostGroupGroupIdCredentialCredentialIdSecretWithResponse call
-func ParsePostGroupGroupIdCredentialCredentialIdSecretResponse(rsp *http.Response) (*PostGroupGroupIdCredentialCredentialIdSecretResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostGroupGroupIdCredentialCredentialIdSecretResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest CredentialSecret
+		var dest Asset
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -5995,22 +2780,38 @@ func ParsePostGroupGroupIdCredentialCredentialIdSecretResponse(rsp *http.Respons
 	return response, nil
 }
 
-// ParsePutGroupGroupIdCredentialCredentialIdSecretResponse parses an HTTP response from a PutGroupGroupIdCredentialCredentialIdSecretWithResponse call
-func ParsePutGroupGroupIdCredentialCredentialIdSecretResponse(rsp *http.Response) (*PutGroupGroupIdCredentialCredentialIdSecretResponse, error) {
+// ParsePostAssetsIdActionsResponse parses an HTTP response from a PostAssetsIdActionsWithResponse call
+func ParsePostAssetsIdActionsResponse(rsp *http.Response) (*PostAssetsIdActionsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &PutGroupGroupIdCredentialCredentialIdSecretResponse{
+	response := &PostAssetsIdActionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetAuditLogsResponse parses an HTTP response from a GetAuditLogsWithResponse call
+func ParseGetAuditLogsResponse(rsp *http.Response) (*GetAuditLogsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAuditLogsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CredentialSecret
+		var dest []AuditEntry
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -6021,192 +2822,22 @@ func ParsePutGroupGroupIdCredentialCredentialIdSecretResponse(rsp *http.Response
 	return response, nil
 }
 
-// ParseGetGroupGroupIdMembersResponse parses an HTTP response from a GetGroupGroupIdMembersWithResponse call
-func ParseGetGroupGroupIdMembersResponse(rsp *http.Response) (*GetGroupGroupIdMembersResponse, error) {
+// ParseGetIdentityGroupsResponse parses an HTTP response from a GetIdentityGroupsWithResponse call
+func ParseGetIdentityGroupsResponse(rsp *http.Response) (*GetIdentityGroupsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetGroupGroupIdMembersResponse{
+	response := &GetIdentityGroupsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PaginatedResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostGroupGroupIdMembersResponse parses an HTTP response from a PostGroupGroupIdMembersWithResponse call
-func ParsePostGroupGroupIdMembersResponse(rsp *http.Response) (*PostGroupGroupIdMembersResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostGroupGroupIdMembersResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteGroupGroupIdMembersUserIdResponse parses an HTTP response from a DeleteGroupGroupIdMembersUserIdWithResponse call
-func ParseDeleteGroupGroupIdMembersUserIdResponse(rsp *http.Response) (*DeleteGroupGroupIdMembersUserIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteGroupGroupIdMembersUserIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetGroupGroupIdPolicyResponse parses an HTTP response from a GetGroupGroupIdPolicyWithResponse call
-func ParseGetGroupGroupIdPolicyResponse(rsp *http.Response) (*GetGroupGroupIdPolicyResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetGroupGroupIdPolicyResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []Policy
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostGroupGroupIdPolicyResponse parses an HTTP response from a PostGroupGroupIdPolicyWithResponse call
-func ParsePostGroupGroupIdPolicyResponse(rsp *http.Response) (*PostGroupGroupIdPolicyResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostGroupGroupIdPolicyResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteGroupGroupIdPolicyPolicyIdResponse parses an HTTP response from a DeleteGroupGroupIdPolicyPolicyIdWithResponse call
-func ParseDeleteGroupGroupIdPolicyPolicyIdResponse(rsp *http.Response) (*DeleteGroupGroupIdPolicyPolicyIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteGroupGroupIdPolicyPolicyIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetPasteResponse parses an HTTP response from a GetPasteWithResponse call
-func ParseGetPasteResponse(rsp *http.Response) (*GetPasteResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetPasteResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PasteList
+		var dest UserGroupList
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -6217,41 +2848,15 @@ func ParseGetPasteResponse(rsp *http.Response) (*GetPasteResponse, error) {
 	return response, nil
 }
 
-// ParsePostPasteResponse parses an HTTP response from a PostPasteWithResponse call
-func ParsePostPasteResponse(rsp *http.Response) (*PostPasteResponse, error) {
+// ParsePostIdentityGroupsResponse parses an HTTP response from a PostIdentityGroupsWithResponse call
+func ParsePostIdentityGroupsResponse(rsp *http.Response) (*PostIdentityGroupsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &PostPasteResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest Paste
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeletePastePasteIdResponse parses an HTTP response from a DeletePastePasteIdWithResponse call
-func ParseDeletePastePasteIdResponse(rsp *http.Response) (*DeletePastePasteIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeletePastePasteIdResponse{
+	response := &PostIdentityGroupsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -6259,22 +2864,38 @@ func ParseDeletePastePasteIdResponse(rsp *http.Response) (*DeletePastePasteIdRes
 	return response, nil
 }
 
-// ParseGetPastePasteIdResponse parses an HTTP response from a GetPastePasteIdWithResponse call
-func ParseGetPastePasteIdResponse(rsp *http.Response) (*GetPastePasteIdResponse, error) {
+// ParseDeleteIdentityGroupsGroupIdMembershipsResponse parses an HTTP response from a DeleteIdentityGroupsGroupIdMembershipsWithResponse call
+func ParseDeleteIdentityGroupsGroupIdMembershipsResponse(rsp *http.Response) (*DeleteIdentityGroupsGroupIdMembershipsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetPastePasteIdResponse{
+	response := &DeleteIdentityGroupsGroupIdMembershipsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetIdentityGroupsGroupIdMembershipsResponse parses an HTTP response from a GetIdentityGroupsGroupIdMembershipsWithResponse call
+func ParseGetIdentityGroupsGroupIdMembershipsResponse(rsp *http.Response) (*GetIdentityGroupsGroupIdMembershipsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetIdentityGroupsGroupIdMembershipsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Paste
+		var dest GroupMembershipList
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -6285,272 +2906,38 @@ func ParseGetPastePasteIdResponse(rsp *http.Response) (*GetPastePasteIdResponse,
 	return response, nil
 }
 
-// ParseGetPoliciesResponse parses an HTTP response from a GetPoliciesWithResponse call
-func ParseGetPoliciesResponse(rsp *http.Response) (*GetPoliciesResponse, error) {
+// ParsePostIdentityGroupsGroupIdMembershipsResponse parses an HTTP response from a PostIdentityGroupsGroupIdMembershipsWithResponse call
+func ParsePostIdentityGroupsGroupIdMembershipsResponse(rsp *http.Response) (*PostIdentityGroupsGroupIdMembershipsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetPoliciesResponse{
+	response := &PostIdentityGroupsGroupIdMembershipsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetIdentityUserResponse parses an HTTP response from a GetIdentityUserWithResponse call
+func ParseGetIdentityUserResponse(rsp *http.Response) (*GetIdentityUserResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetIdentityUserResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PolicyList
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostPoliciesResponse parses an HTTP response from a PostPoliciesWithResponse call
-func ParsePostPoliciesResponse(rsp *http.Response) (*PostPoliciesResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostPoliciesResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest Policy
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeletePoliciesPolicyIdResponse parses an HTTP response from a DeletePoliciesPolicyIdWithResponse call
-func ParseDeletePoliciesPolicyIdResponse(rsp *http.Response) (*DeletePoliciesPolicyIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeletePoliciesPolicyIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetPoliciesPolicyIdResponse parses an HTTP response from a GetPoliciesPolicyIdWithResponse call
-func ParseGetPoliciesPolicyIdResponse(rsp *http.Response) (*GetPoliciesPolicyIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetPoliciesPolicyIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Policy
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePutPoliciesPolicyIdResponse parses an HTTP response from a PutPoliciesPolicyIdWithResponse call
-func ParsePutPoliciesPolicyIdResponse(rsp *http.Response) (*PutPoliciesPolicyIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PutPoliciesPolicyIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Policy
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetSearchResponse parses an HTTP response from a GetSearchWithResponse call
-func ParseGetSearchResponse(rsp *http.Response) (*GetSearchResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetSearchResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest SearchResults
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostServiceResponse parses an HTTP response from a PostServiceWithResponse call
-func ParsePostServiceResponse(rsp *http.Response) (*PostServiceResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostServiceResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest Service
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteServiceServiceIdResponse parses an HTTP response from a DeleteServiceServiceIdWithResponse call
-func ParseDeleteServiceServiceIdResponse(rsp *http.Response) (*DeleteServiceServiceIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteServiceServiceIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON4XX = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetServiceServiceIdResponse parses an HTTP response from a GetServiceServiceIdWithResponse call
-func ParseGetServiceServiceIdResponse(rsp *http.Response) (*GetServiceServiceIdResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetServiceServiceIdResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ServiceDetail
+		var dest User
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -6561,34 +2948,101 @@ func ParseGetServiceServiceIdResponse(rsp *http.Response) (*GetServiceServiceIdR
 	return response, nil
 }
 
-// ParsePutServiceServiceIdResponse parses an HTTP response from a PutServiceServiceIdWithResponse call
-func ParsePutServiceServiceIdResponse(rsp *http.Response) (*PutServiceServiceIdResponse, error) {
+// ParsePostIdentityUserResponse parses an HTTP response from a PostIdentityUserWithResponse call
+func ParsePostIdentityUserResponse(rsp *http.Response) (*PostIdentityUserResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &PutServiceServiceIdResponse{
+	response := &PostIdentityUserResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Service
+		var dest User
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON200 = &dest
 
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode/100 == 4:
-		var dest ClientError
+	}
+
+	return response, nil
+}
+
+// ParseGetIdentityUsersResponse parses an HTTP response from a GetIdentityUsersWithResponse call
+func ParseGetIdentityUsersResponse(rsp *http.Response) (*GetIdentityUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetIdentityUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []User
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON4XX = &dest
+		response.JSON200 = &dest
 
+	}
+
+	return response, nil
+}
+
+// ParsePostIdentityUsersResponse parses an HTTP response from a PostIdentityUsersWithResponse call
+func ParsePostIdentityUsersResponse(rsp *http.Response) (*PostIdentityUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostIdentityUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetVaultsVaultIdMembershipsResponse parses an HTTP response from a GetVaultsVaultIdMembershipsWithResponse call
+func ParseGetVaultsVaultIdMembershipsResponse(rsp *http.Response) (*GetVaultsVaultIdMembershipsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetVaultsVaultIdMembershipsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePostVaultsVaultIdMembershipsResponse parses an HTTP response from a PostVaultsVaultIdMembershipsWithResponse call
+func ParsePostVaultsVaultIdMembershipsResponse(rsp *http.Response) (*PostVaultsVaultIdMembershipsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostVaultsVaultIdMembershipsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
 	}
 
 	return response, nil
@@ -6597,69 +3051,51 @@ func ParsePutServiceServiceIdResponse(rsp *http.Response) (*PutServiceServiceIdR
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+xd3W/cNrb/VwTd+5ACquW0fbjwm9u0ud5NuobdYgukxoKWzozZSKRCUuMODP/vC35J",
-	"1IjUSGNL4zZ5STzD7/M7Xzw85DzEGS0rSoAIHp89xBViqAQBTH16h0ssLuVX8lMOPGO4EpiS+Cy+EFDy",
-	"qAIWVWgNcRJj+e2nGtg2TmKCSojP4kJ2ECcxz+6gRLqTFaoLEZ99c5rEYlvJWpgIWAOLHx+T+BKtITCi",
-	"LIpIXd4CCwxnZuIZ7bV3sGtALLsLDKcLIzuEbzyuqnRGNKNwwTBZ60EoC9FQFkUrDEUeIZJHOWaQyaLo",
-	"FZysT5LodzXQGeLZ7/FXoTlQJgZn8JjEDHhFCQcF6g8FBiJ+ZIwy+TGjRAAR8k9UVQXOkJxB+geXM3xw",
-	"+v1fBqv4LP6ftOWYVJfy9C0QYDjTnaohuwvVY0a23E5Xzec8E3iDxVaxH6MVMIH1THEu/11RViIRn8V1",
-	"jfM42V1fEpfAuQS+v/Yk5rABZjoHUpfx2YcYkxWVFKuzDDiPk/geMSLrJzGoCd54BuG0Zpl/DIHLUIEo",
-	"wM8U5ht6+wdkQta1VHgDAuFCoVEU/1rFZx+GKd9Q7zHZJV8JAuVIuEzRjseBbbBe0FD316Za2+JiHCg1",
-	"Bzaqap8YNw453mEuxhPjEq0xQQLyK8PwHqpYimCpv/Yt36GunSViDG2D0y4QK/uMjLKPhN4XkK8hd9C4",
-	"pbQARGTnM7F6xrDAGSo6TK74/yg8LqlzbEQVQmPhrHMs3tG1D1Gt2TwUyZUEc6/UjYQZV+d5zqRy8g3A",
-	"YAAoW+iXPVIXBbqVgAlWQ+LHmQtUVp3WORLwtWKBgKT/WBql9Zx6oKX/sXnGssFItvmBQQ5EYFT0GSdj",
-	"IKd2LsYTeM1oXY1Uu2MZjCvNBn5lNGg4tNvh0wTqi1b3VIjze8rk+Jzf/ecjSKcFVdj8lUmarKS7IRdN",
-	"US3uvEqprvJpBPMxUovID4r+fVxe0JqVFH+qMZPG4oMe3FS6GVybFZMnsLrDuiOY3R38GjIGnuFRhf8J",
-	"Wy/1UIXbVr1Sl1je8umSlDWzHSlO8GeFGfCBMfZq1JESWSAurqiQKzp8rIb9fPSqGN4gASEw2uJLFDA8",
-	"VX1b4CzUwWRB1cYhIFtjmC0ky7Ox3H52eGGQPI2+vypEv9D3+ekbouxfxi77ltcJAvSWBv6vM5r7px3e",
-	"6uzYR9VDW79vInfq7+7xnQVIRyvosvV40seOnbDHw8HWoITy1sTgdsNWA0hXiAERB3n+jyFyhHTsvoXO",
-	"NMmeYxTEcWogRYPf3ylkd7jIGZDRLpTtaMd7sisf2dy/s+hvbfa7ez3y7M5LqpV9szIDY0rey9peftmp",
-	"05uZDgZ7WbrqSrpTIqhAxUDRJVqDV078M+Q+Xr6tGTlfCWBXgALxGSdK+hyO6AGGDueT4i9JvMFwP40y",
-	"IVnv0acJq69QwVs5HUkvs/gL0g+I/yiLFAtFmER3tGY8TnzQh6NOXdOgZ3ETWvGRAwuaH0dGFS5pgbPt",
-	"dE0MRKrUp8Ud5e7kPc3xCo+0g0H1zzNajfNTzm14/hqyWgU2k/hnEPeUfRzpkGiKHRtjDdtIkPWh0xXw",
-	"ujAHcp2RVSiIP90UmVj++J6cc4D9QYHr9mxhZ+NQYOT3swdiXHt3vXeUiyC/TWDwN1AVdPtUBq8YFTSj",
-	"/mgoF0jUvMvlyt9P4vdI6jeCSCY/XRCkC3whMSspni14IE4/gFJwE708VofRNEANfxStGd/pdCC2Zmg0",
-	"1ZdspcUrwE9yAU3fwb35XwW2VhTG8OqWCyj/H1Ah7jwbtKp2+jEZAnIzhvlHb0EJJWVbb5GrGfuHpj3x",
-	"vVNTkqYphzVDOUhy1sR+7Q9oTxFStfBrEAKTNffBXdB7yC+qK0TWO/o8ICmtFYAS4eJnarb7mBIeiDug",
-	"P9/RNSbnQkBZCR7y4XVc4T0m74CsNVDhaldaON+vkH9QDpxjSn7BJdBajPVju/QKC8kXqnXiI9y4WNdS",
-	"A2mCfA+IATuv9Yxu1aefrN74x79/sTknagKqtDWTd0JUOg1EnTWbLBOUqQmZvJXLN9rBi67rqqJM9KIn",
-	"8SXDG1zAGvLIVH2PCFpDCUREGujo/PIibrYDbZ/66w0wrrt6fXJ6cipHoBUQVOH4LP725PTkW2kGkLhT",
-	"C06RPuy3mlrHMLtTegsiqqyHGBWYi4iuorZhElFVFRXFNlrhQgCDPLrdRs2ZrZqC3uJIXSx7PG/HTToJ",
-	"WAEr01ZJ22wpaWr2VHayuUbUbtOWxlR2EqlkdX+ylMlPcJOVrB5FRWEzE6Zl5sjRuhj9pMguiW50eXTx",
-	"Jpi/ZVNa3DntPagOj6hsbHg8a4KfaTQj7EPrUxUmjnizkzD2zenpsyWKdfJ6PIlirSwo6eooJyUQrlr6",
-	"cCPnyuuyRNKax7JTRxjl0pA0mh+cbuMb2aUj6+mD+Xt7kT8OCr6tJ0mvSD4gyedNn32ZVkhJtdMChdzq",
-	"rduqvbGXhZzxhcPYbSObATMJPJfCg8jlJSYpqnMsvi7oelhXc20lVO1I1o5WlEWqC8yFBG8DEYMNhnsv",
-	"nrKizf54Wdp5hMI1qTcTlY2vJ5PtNJjnGlD6AjHxRu+hPdPw765DnQHJJ3c1q0i46Uk+gWjZ7lBl1vTg",
-	"ioTkyo40cGd/sE8WMkpWeF2bKGvTMsT9122F2ei4s8nxUNJ4e7ytMlGz8J0O+tRM4qr2UE5vISYS77L2",
-	"EO9TDVx8T/PtTHQzm53HbuRDmpDH42JnyiKTIDINvC79B/BzpEHV/fquiRbsEwldM9K7e5WJX4JgOBuQ",
-	"CjceMTt1zThhuegs4GDhuLPL8ZK2QKycvDHSjXxUtCWf9X5nSnr2vJasycz2mTGF1cEmzCLdcJX+wmWr",
-	"9EH9v9cBl5UGvG/V17nuaZzb3dR9oT63TlYPQPIEP1v1OxKS1Lm9oEJplHvwOW8rRYg0I+zYRcq7KDmt",
-	"jg2Yj8CdexuTqNwhxxC1mwMBP1n16UyEIgL3OrrgJepbUzKHl+GmAY1yLl4/79A+/lcFkU3Mekzi7377",
-	"LdRZM7vUvfk2CU2DgqW/BfKtPo11gEwfTIjnUUNZgA4/d2f/Rn0foQCgulh1/rYJGO2XjTa49Jyy8Z1H",
-	"FSvi68UtQHxDrSDxk7DB0OG4oMF4ISQ+fV55CQdoLHDGaswNXIPASJFJs869GS+qyqVo65l4TkCQdiB2",
-	"7jb8HcDeuffhu3Xr0OlA780htYOi07HeOe+3XW1Hg5A1xuzImD2/Ge1dQVrYlro3e4ZYZXGrmrkQ+zls",
-	"WFmkD+69nnGWtzPoPvPbga69QLQUQybenrPuVGa2+Q5/LG34R/DHgAvg6J1RfsDnhvXp8grm4G3rKE4Y",
-	"iuJm/Ul4QrefGTvMaeqOE5MezYlNRHpuVdbjv+cxdSlv7tqNUYC6dvTK/J8jgb46TB+aO35ftOIEXjQ0",
-	"856QaDyerhcNxJNd9fM8n8woYVf9b84pcyrMzsXmo+0Q9rJqs0eYFBP1MdnTLfk4Zq2/8Oo8XHJsE7+X",
-	"V59y7DyeXX1227nFGzTPpo46LR0Xxnpvel2QTec6lZ3T8HoucoUiohan5SKizZDeeHbYRqOo5sAiQUcH",
-	"0JbmlidonW6OPqMFdO6amkvxcdIeoqv8BHtb3n/ZYsLzU+51IdPO85jAWJPcBU/DEKE8X2K7IVnF5bOx",
-	"AXjDlemDXv5gKO0KSroBy5ErRssJB1qGK3+1GYrHNLhNmuTMITTDAkzRbQEmMAAdwgdVc9U4nOwjq2Dg",
-	"EeIcrwnkQ0ppx4KZK7F/lUOYp13zDdgcS78ljU4z5hSro+CNkG68nWJ6jgHzc1gevdJDrEbT8tnshqZh",
-	"I2QLmA6Nd4v2pBNc3Sx9sIQYZ0HMYBNtiCbNpSX5cY1I1U5jZjNiOGJpM+JiNMgSlX1jZUKeqGrjzRPV",
-	"L2QsmSbqS+XUN/kGEzlBXz9Qb5tINBdO4GxfM/FYHFV4cApAA46FW2My8txfjQW6E6/FsAjPEatwX7VZ",
-	"OJhmnnYJgNENoO2eiFti7RK8Ea/0Qf039rDbT3xdrPq+1L2N0qFVU3duRacI1Zw2H3ByHKJjMqSb5KDq",
-	"pDh6tcFwH1GSQYRX0W3NSIRWQrnwKP8qqK2OT8zTpbi4c2LRcTgHWdi6ocO53oXrr/ZJ3ZYtZBtmpXP7",
-	"UpGP2Nr2av09t73XOr+/U2gIPlLxV9b796j8tvfn8dif9ATWMZ6qGv++88JWy+xigzy4dHJYw0UeNnR1",
-	"ycgtR2sS/dxpbKLpdNLeYvEdwNJ5WENQJHsCRQN35l8SsU+XE6RFs7CHoRs6Z626s/Ucqx4Zv8/SfBxg",
-	"IxZk7aWzqvbZCPMrXSFv0/zOFyImHoEyRjlXDqh9tYdHmESYbIAIyrY+LXZtfwlsh/cn/6TYp32vLOzG",
-	"0PQMI1kzEjTSi02Vr+gfQfXpC2XYV+vsQ9g3i54FT72hG3wUR9/ifrWiLDIrCv50mr4vHQ7rIPs4Y9l5",
-	"nBGHH2cc8zjQqLkd8lTQnAat+zCpN9tC8TazNWa3awW9VWkZRvCs8BtJtKLfvkQ6JlZlBaC/Z2mFY5aX",
-	"HDpvcS7s9DevVfpA1S9oLe32t0i0sJp3GTvApg/NE17j/P4QxLqCGeTaeRZsvy/jPiI2s+dv4Vja9R+E",
-	"Y8D3tw+wBZ3/F0Xw0+eWqPBNzBbIA1N+9yAy+JTNztgen/7YsMymYI/0Rs5+Bbu0zzysYEd0CGzj93Ev",
-	"Gc3rzLyPJCvFSVyzwrwKys/SFFXVSZUjtek5yWiZogqnm9fpPfc4dm9gAwWt1Jufnv7O0rSgGSruKBdn",
-	"/3eabl6rQK1ZVEh/ls07oi37Nuvvz8G5MeJr6SaC9hubFENPO3Ns2m9i9lG+Npdt2kg/P7Dzqt2qJpl+",
-	"nbZprN/z8bS0D/cVdL3Wj9DYFu3re55m+o0MkkeoACa88zVvXfQbXzvngs1cUaE3v3ax5ucReiTdcf0a",
-	"BNXnx5vH/wYAAP//k/UfltZ6AAA=",
+	"H4sIAAAAAAAC/9xbXW/bOtL+KwTfF2gKqHaS09OLXG3atNmcthtv0rQXrWHQ0thmQpEKP5wagf/7gh+S",
+	"ZZuy5cQ5WOxVVInkDGeeeWY4dB9xKvJCcOBa4ZNHrNIJ5MQ9nioF2j4UUhQgNQX3OpVANGQD4r6NhMzt",
+	"E86Ihjea5oATrGcF4BOstKR8jOcJptnSWGNoFhvGSQ524NoH8cBBDlquUhAJXDeM5oYxMmSAT7Q0EJmt",
+	"CkhrOojhLaTafvAv1pSrvtSGOst9oSpivYxoYv9SDbl78f8SRvgE/1934YducELXe2AhgUhJZvbfOfhV",
+	"Nk3ukTHlRFPBv9rRcUVNRvVHruVsXVOS2rlRd5BUi9bukKCEkSm0Ha9MmoJSNcFDIRgQ7gxBc1Ca5EVb",
+	"7MV2/cEh2Bn3Cu4NxPxUQhF+k7ywcME9KTLjbILOiCZDoqJQL/EjOFyO8MnPzU66BjmlKVzbSfNk89jv",
+	"xDDdauQ1pBLaDe0JRtNZu6FE6Xaa/nXxzY/r1+IGuMnxyU+s/JZxUj4NxlKYAid4ajfo3lv1cYILp5x9",
+	"sKJxgm+pxv2YjyXcGyohswKc68Kg4I9+BAXnVupXyIcg1YQW+yE6t5W2SDeqLanNt+u/B7pZtcgLEk+J",
+	"kHXWKQoppiADKNqYMTPSSRvklBvtl6nC9uj4sJpCuYYxSDvn1ihNRzQljRyniRyDHhDLEq2dVIfh6gIR",
+	"RVf1iMF0xZprBmM0p7q2g9omxWgUMvj6Ny00YbFP86gOZeSviR8ayQdkpEEOJBBnpgxGLpCXM2yNxFPB",
+	"NXDtx6pU0sJ7AX8sJpCDJAwBT+Ws0JAhDb91zOtas4GCVPBs2eF/vDuMeHzFN6UGy8tEzb/gx4YMqZbi",
+	"q2S5KYUHbIUS6/lUcG4XTLAUmjgqy4CBe8gJJ2MYBK7rx7a6EoReOxVRKGBtWaWtAbS6viZjFSmBYshQ",
+	"pkkXF7/PVMQS5LOWWFd5BQiV/knlzYV9Y3iopda1LVegHRRkxkQZDXWEvycK3r2twXvIxDC2j5zmMChT",
+	"ZxVR2EZDt2CE8mipZcFlCQa4rXGzeA3l0uyTKK2amUT2GrfWoryJmCsrBPU8sCizjg47h50/O0fRyl4K",
+	"LVLBlsoJNbFhldkCYqJ1YR2Yz9Q9c/WD0mMJKh5VAeUky6g1GmG9JfWaoNWApGo3NTVjJrkpbAFxo0D2",
+	"pBhRBo0laEZVwchs0HgqgpxQFv0yolLp5omMbPrKxSIlDRRoTXlrPrD7+jt30rLS2s+GE6w00WaJ5y1r",
+	"TC2NM5HeQRZFmqWxBuErIHLaV8NLu/QbDH1elkgr1q4zzuO+D+Mxjd3QjVruoTpd7PgF69LFGauJ3S1G",
+	"GEyBLRMzAfXm+M93b8ZpHj8Ep7aqndWZeWud5Ol29fxUgFSWrezZZkKsGxKsZkpDvv1oVFuxHyM0BamR",
+	"VM+urclCgQdEgjw1erL416cSO3/9+Galu9FWd/d1sX/Lx3huF6Z8JNyZSnBNUk/5Pubdp38UGXGn/k4q",
+	"8hJQJ7h3dureomtTFEI6Dy3n0xtORxQy9P7TJ3Tau+igS5lOQGlJNCh0RpU3e4IuMuCa6hk6sFv5cf06",
+	"QYRnyKdzhQ56zvOvO7/4jQKFXvUEm+VCFhOaolNfGbxCIyHRZQG+iicMaaLuVOeXy8VUhy4BnVIGY8hQ",
+	"0P2rq+9y4BpdOzdZRe1pF6Tymzg+PH7XOeocutquAE4Kik/wH53Dzh/u7KsnzhNdkuWUd1PBR3TsSixf",
+	"3ItSo4sMn+Bz0Kd23Ac/zPVfCsGV9+bx4eF6UZIaKa16fuVwSHGbdRJRoMQlhLjORh0bP/vzfplUf2Kn",
+	"Au67bpxOJ+tq9uzrVUVdInwvslkJlXBKIEXBAj93b5WnNR/V62F6+6AHWrP4qYeDfhDybvAwoRpY4KSK",
+	"fbbWoxKGhrIs1OqDlKQTiNVYkWJhKRBtwM/beMbbBvmaIWvjAGXynMiZDQ03ySLcjUc9obSRrmux4qR5",
+	"grvu6KA2osqPcP1VkoN2pfnPR0ytovcG5GwRuPclK5BoBlnd5ifKNEg0nCGnBrIT0EFoDyVoqU+UIEdi",
+	"9q0N3QR5ZyTI9YgSdEv1a5xEtSo7Qk9RzDeVg34XZw0SFq3nupitRfaq2K/kN81NjrjJhyCRGHm5CmmB",
+	"JGgjeYN83wyoy66SzHH0VLwq+V8RieqOFg3yQochKjAmrx8HfetQ39osd3WGi7blfV1+3i14/jkbSmrT",
+	"A5HpBB18h1QL2b3odT9cnF29rseQjwrHdEJFehq+2YwInyGfpVHZEO+gbxNAr1QB6SvkiQKlE8LHoNCQ",
+	"KMiQ4EjbIdaOrzq/+KnR4s0YOPj0Rji6fOC+WYd8o8Kxtp3jmpdC+uS0Qr1CLYL5qaS7yROR/norAjza",
+	"LxZiOHAfUOjsonDVMDKMzToeIBUCgt9uOLWJmjDk14x4fkGf3Ueazbu1tlCMKm0+X0SQI4Rlw+xCHf0F",
+	"7JqcfJGdVp2N/aRYv8G1wjSdQHo3EMYayT+7LkXV8QIGU/vUj9/ZVYZ63HLSrovv7yvTXodbp3liy7H1",
+	"76dqxlNX8KF7A2bXZLxeTqKDD9ZGb4TRCbpyNkrQR2+i140wMxnVXSbGmzO1HfXFDmqVrKvbvB1zVmyt",
+	"+mXfHpYbSXcciKyz6crvuVmm3d3s4up0ve347Pzzb2sH5GSgb5JQpuqQsK8DImg413QX/dYmWJRHoHM/",
+	"shU2nlBQ/LfXCcs9iYivrlyFhYwCiYJVdzj5lFZeKgnWuXnNGfuh5nZNm4Z+TescvWwvtwXk8+WOtFgm",
+	"2aq1E7VjBOfdR/f3Ipt38+rCMnS/3L3KmtHP3Ptls5/7Nb7WVmgVFeXF7TMz94pp327ISrsY9QpyMfVG",
+	"RZZA0QbTJi3Z4qmW+h/kj9i9ezOLOJiigNHd/GhX9r5DQVyTD7eXmSFaXq7WbAGX/TDcTj+aqJNeOXFv",
+	"vLfY3dPI71QpOuY+TrVAbQnQhCuWbYHrrmLWsLHSPrWyL86seCbEHTIFOhCF724mKISYawKUPUIrvam/",
+	"sqDFZ/Q+vsAUGBIjlIEmlKGDYLDQ+HBHY5oiykciQfbkhihPmclAocJfqKERBZapJi3DzXyESSrfJIvb",
+	"xeqNFRVrsL90qdJUTSb4bSxjOI9yodFIGL4jIM/t0Tj4WUikCkjpiKbO5/jJFU7A4Us0GhrvUtufAl/U",
+	"T0ErZMr+rXVa5PD5nTCa+a47SCnkkxq99QgtQ6Elnai2fKLw33G08ubc16HqGbDdX9ZqvuAuiFIPQmbR",
+	"j+1vjtcujWsr7y3jOXL5ZQ4Pj98hd1+2nPgqRF7yoSAyQzeNxGEh6Pr4qvvo/kYq+SZAOsnqu5+1WmJs",
+	"6/P4LIKYra3EyN8loLz2m8edKzRviKAHOrgSDFRppM8wU/Vmjle9Zc0W7PJyNdtGQ+4D9d6ubX8OG0av",
+	"thVD9vE/Du5Hf/XElia4/yxQ/bDOzaXwAHL79fhC32Vtgoy9xdFnmKEfkhQFZO4W2tsenWbZzjVkVs3W",
+	"IkDxoFqe8nEUfV6EnJbgM5KF23p10u2SoujU7+O7pKDd6VH3QeF5f/6fAAAA///0x2V6MTIAAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

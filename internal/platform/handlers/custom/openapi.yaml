@@ -1,1744 +1,509 @@
 openapi: 3.0.3
 info:
-  title: PDAccess API
-  description: Privileged Access Management System API
-  version: 1.0.0
+  title: Privileged Access Management System API
+  description: |
+    Unified BFF API. Orchestrates Discovery, Identity (AuthWS), and Secrets (PVault).
+    Uses 'Polymorphic Actions' for Operational tasks.
+  version: 2026.1.0
   contact:
     name: PDAccess Support
+    email: info@pdaccess.com
 
 servers:
   - url: https://app.pdaccess.com/api/v1/ws
-    description: Production server
-  - url: http://localhost:80/v1
-    description: Development server
 
-security:
-  - BearerAuth: []
-
-tags:
-  - name: Services
-    description: Service management
-  - name: Credentials
-    description: Credential management
-  - name: Groups
-    description: Group management
-  - name: Policies
-    description: Policy management
-  - name: Admin
-    description: Administrative functions
-  - name: Activities
-    description: Activity logging
-  - name: Alarms
-    description: Alarm and alert management
-  - name: Paste
-    description: Secure paste functionality
-  - name: Search
-    description: Global search
-
-paths:
-  # ==================== Services ====================
-  /service:
-    post:
-      tags:
-        - Services
-      summary: Create service
-      description: Create a new service
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ServiceCreate'
-      responses:
-        '201':
-          description: Service created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Service'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /service/{serviceId}:
-    get:
-      tags:
-        - Services
-      summary: Get service
-      description: Get service by ID
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: serviceId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Service details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ServiceDetail'
-
-    put:
-      tags:
-        - Services
-      summary: Update service
-      description: Update service details
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: serviceId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-              schema:
-                $ref: '#/components/schemas/ServiceUpdate'
-      responses:
-        '200':
-          description: Service updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Service'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    delete:
-      tags:
-        - Services
-      summary: Delete service
-      description: Delete a service
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: serviceId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: Service deleted
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  # ==================== Credentials ====================
-  /group/{groupId}/credential:
-    post:
-      tags:
-        - Credentials
-      summary: Create credential
-      description: Create a new credential for a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CredentialCreate'
-      responses:
-        '201':
-          description: Credential created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Credential'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    get:
-      tags:
-        - Credentials
-      summary: List credentials
-      description: List credentials for a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Credentials list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CredentialList'
-
-  /group/{groupId}/credential/{credentialId}:
-    get:
-      tags:
-        - Credentials
-      summary: Get credential
-      description: Get credential by ID
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: credentialId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Credential details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Credential'
-
-    put:
-      tags:
-        - Credentials
-      summary: Update credential
-      description: Update credential details
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: credentialId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CredentialUpdate'
-      responses:
-        '200':
-          description: Credential updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Credential'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    delete:
-      tags:
-        - Credentials
-      summary: Delete credential
-      description: Delete a credential
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: credentialId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: Credential deleted
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /group/{groupId}/credential/{credentialId}/secret:
-    post:
-      tags:
-        - Credentials
-      summary: Add credential secret
-      description: Add credential secret (secret data)
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: credentialId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CredentialSecretCreate'
-      responses:
-        '201':
-          description: Secret created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CredentialSecret'
-
-    get:
-      tags:
-        - Credentials
-      summary: Get credential secret
-      description: Get credential secret (secret data)
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: credentialId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Secret details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CredentialSecret'
-
-    put:
-      tags:
-        - Credentials
-      summary: Update credential secret
-      description: Update credential secret (secret data)
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: credentialId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CredentialSecretUpdate'
-      responses:
-        '200':
-          description: Secret updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CredentialSecret'
-
-  # ==================== Groups ====================
-  /group:
-    post:
-      tags:
-        - Groups
-      summary: Create group
-      description: Create a new group
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GroupCreate'
-      responses:
-        '201':
-          description: Group created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Group'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /group/{groupId}:
-    get:
-      tags:
-        - Groups
-      summary: Get group
-      description: Get group by ID
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Group details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupDetail'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    delete:
-      tags:
-        - Groups
-      summary: Delete group
-      description: Delete a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: Group deleted
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /group/{groupId}/members:
-    get:
-      tags:
-        - Groups
-      summary: Get group members
-      description: Get members of a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-      responses:
-        '200':
-          description: Group members
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedResponse'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    post:
-      tags:
-        - Groups
-      summary: Add group member
-      description: Add a user to a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - userId
-              properties:
-                userId:
-                  type: string
-                  format: uuid
-                role:
-                  type: string
-                  enum: [admin, member]
-                  default: member
-      responses:
-        '201':
-          description: Member added
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /group/{groupId}/members/{userId}:
-    delete:
-      tags:
-        - Groups
-      summary: Remove group member
-      description: Remove a user from a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: Member removed
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /group/{groupId}/policy:
-    get:
-      tags:
-        - Groups
-      summary: Get group policies
-      description: Get policies assigned to a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Group policies
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Policy'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    post:
-      tags:
-        - Groups
-      summary: Assign policy to group
-      description: Assign a policy to a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - policyId
-              properties:
-                policyId:
-                  type: string
-                  format: uuid
-      responses:
-        '201':
-          description: Policy assigned
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /group/{groupId}/policy/{policyId}:
-    delete:
-      tags:
-        - Groups
-      summary: Remove policy from group
-      description: Remove a policy from a group
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: policyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: Policy removed
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /policies:
-    get:
-      tags:
-        - Policies
-      summary: List policies
-      description: Get all policies
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-      responses:
-        '200':
-          description: Policy list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PolicyList'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    post:
-      tags:
-        - Policies
-      summary: Create policy
-      description: Create a new policy
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - name
-                - type
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                type:
-                  type: string
-                  enum: [Access, Security, Network]
-                scope:
-                  type: string
-                enabled:
-                  type: boolean
-      responses:
-        '201':
-          description: Policy created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Policy'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  /policies/{policyId}:
-    get:
-      tags:
-        - Policies
-      summary: Get policy
-      description: Get policy by ID
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: policyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Policy details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Policy'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    put:
-      tags:
-        - Policies
-      summary: Update policy
-      description: Update policy details
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: policyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                type:
-                  type: string
-                  enum: [Access, Security, Network]
-                scope:
-                  type: string
-                enabled:
-                  type: boolean
-      responses:
-        '200':
-          description: Policy updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Policy'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-    delete:
-      tags:
-        - Policies
-      summary: Delete policy
-      description: Delete a policy
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: policyId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: Policy deleted
-        '4XX':
-          $ref: '#/components/responses/ClientError'
-
-  # ==================== Admin ====================
-  /admin/audit-logs:
-    get:
-      tags:
-        - Admin
-      summary: List audit logs
-      description: Get system audit logs for administrative review
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SearchParam'
-        - name: userId
-          in: query
-          schema:
-            type: string
-            format: uuid
-        - name: action
-          in: query
-          schema:
-            type: string
-        - name: startDate
-          in: query
-          schema:
-            type: string
-            format: date
-        - name: endDate
-          in: query
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Audit logs list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuditLogList'
-
-  /admin/system-health:
-    get:
-      tags:
-        - Admin
-      summary: Get system health
-      description: Get system health status and metrics
-      security:
-        - BearerAuth: []
-      responses:
-        '200':
-          description: System health status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SystemHealth'
-
-  /admin/settings:
-    get:
-      tags:
-        - Admin
-      summary: Get system settings
-      description: Get system configuration settings
-      security:
-        - BearerAuth: []
-      responses:
-        '200':
-          description: System settings
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SystemSettings'
-
-    put:
-      tags:
-        - Admin
-      summary: Update system settings
-      description: Update system configuration settings
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SystemSettingsUpdate'
-      responses:
-        '200':
-          description: Settings updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SystemSettings'
-
-  # ==================== Activities ====================
-  /activities:
-    get:
-      tags:
-        - Activities
-      summary: List activities
-      description: Get paginated list of activities, optionally filtered by resource
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SortParam'
-        - $ref: '#/components/parameters/SearchParam'
-        - name: severity
-          in: query
-          schema:
-            type: string
-            enum: [all, info, success, warning, error]
-        - name: serviceId
-          in: query
-          schema:
-            type: string
-            format: uuid
-          description: Filter by service ID
-        - name: groupId
-          in: query
-          schema:
-            type: string
-            format: uuid
-          description: Filter by group ID
-        - name: sessionId
-          in: query
-          schema:
-            type: string
-            format: uuid
-          description: Filter by session ID
-      responses:
-        '200':
-          description: Activities list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ActivityList'
-
-  /activities/{activityId}:
-    get:
-      tags:
-        - Activities
-      summary: Get activity
-      description: Get activity by ID
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: activityId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Activity details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ActivityDetail'
-
-  # ==================== Alarms ====================
-  /alarms:
-    get:
-      tags:
-        - Alarms
-      summary: List alarms
-      description: Get paginated list of alarms
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SortParam'
-        - $ref: '#/components/parameters/SearchParam'
-        - name: severity
-          in: query
-          schema:
-            type: string
-            enum: [all, critical, warning, info]
-      responses:
-        '200':
-          description: Alarms list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AlarmList'
-
-  /alarms/{alarmId}/acknowledge:
-    post:
-      tags:
-        - Alarms
-      summary: Acknowledge alarm
-      description: Acknowledge an alarm
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: alarmId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Alarm acknowledged
-
-  /alarms/{alarmId}:
-    get:
-      tags:
-        - Alarms
-      summary: Get alarm
-      description: Get alarm by ID
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: alarmId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Alarm details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Alarm'
-
-  # ==================== Paste ====================
-  /paste:
-    get:
-      tags:
-        - Paste
-      summary: List pastes
-      description: Get paginated list of pastes
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-        - name: filter
-          in: query
-          schema:
-            type: string
-            enum: [all, create, expiring]
-      responses:
-        '200':
-          description: Pastes list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PasteList'
-
-    post:
-      tags:
-        - Paste
-      summary: Create paste
-      description: Create a new secure paste
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PasteCreate'
-      responses:
-        '201':
-          description: Paste created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Paste'
-
-  /paste/{pasteId}:
-    get:
-      tags:
-        - Paste
-      summary: Get paste
-      description: Get paste by ID (view once if burn after read)
-      parameters:
-        - name: pasteId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Paste details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Paste'
-
-    delete:
-      tags:
-        - Paste
-      summary: Delete paste
-      description: Delete a paste
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: pasteId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          description: Paste deleted
-
-  # ==================== Search ====================
-  /search:
-    get:
-      tags:
-        - Search
-      summary: Global search
-      description: Search and list across all resources in inventory
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: q
-          in: query
-          schema:
-            type: string
-          description: Search query
-        - name: type
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: [Service, Group]
-          description: Resource type to search/list
-        - $ref: '#/components/parameters/PageParam'
-        - $ref: '#/components/parameters/LimitParam'
-        - $ref: '#/components/parameters/SortParam'
-        - name: status
-          in: query
-          schema:
-            type: string
-            enum: [all, active, maintenance, inactive]
-          description: Filter by status (for Service)
-        - name: groupId
-          in: query
-          schema:
-            type: string
-            format: uuid
-          description: Filter by group ID (for Service)
-      responses:
-        '200':
-          description: Search results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchResults'
-        '4XX':
-          $ref: '#/components/responses/ClientError'
 components:
-  parameters:
-    PageParam:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number
-    LimitParam:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        default: 20
-      description: Items per page
-    SortParam:
-      name: sort
-      in: query
-      schema:
-        type: string
-      description: Sort field and direction (e.g., "name:asc")
-    SearchParam:
-      name: search
-      in: query
-      schema:
-        type: string
-      description: Search query
-
   securitySchemes:
-    BearerAuth:
+    bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
 
-  responses:
-    ClientError:
-      description: Client Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-
   schemas:
-    # Common
-    GenericError:
+    Asset:
       type: object
-      required:
-        - error
       properties:
-        error:
-          type: object
-          required:
-            - code
-            - message
-          properties:
-            code:
-              type: string
-            message:
-              type: string
+        id: { type: string, format: uuid }
+        type: { type: string }
+        name: { type: string }
+        owner_id: { type: string, format: uuid }
+        parent_id: { type: string, format: uuid, nullable: true }
+        spec: { type: object }
+        created_at: { type: string, format: date-time }
 
-    PaginatedResponse:
+    CreateAssetRequest:
+      type: object
+      required: [name, type, spec]
+      properties:
+        name: 
+          type: string
+          example: "Production Database"
+        type: 
+          type: string
+          enum: [service, service_group, vault, secret, policy, paste, jit]
+        spec:
+          oneOf:
+            - $ref: '#/components/schemas/ServiceSpec'
+            - $ref: '#/components/schemas/VaultSpec'
+            - $ref: '#/components/schemas/SecretSpec'
+            - $ref: '#/components/schemas/PolicySpec'
+            - $ref: '#/components/schemas/PasteSpec'
+            - $ref: '#/components/schemas/JITSpec'
+
+    # --- Specific Logic Schemas ---
+
+    ServiceSpec:
+      type: object
+      required: [endpoint, protocol]
+      properties:
+        endpoint: { type: string, example: "10.0.5.1" }
+        protocol: { type: string, enum: [ssh, rdp, https, mysql, postgres] }
+        tags: { type: object, additionalProperties: { type: string } }
+
+    VaultSpec:
+      type: object
+      required: [vault_type]
+      properties:
+        vault_type: { type: string, enum: [personal, shared, system] }
+        encryption_level: { type: string, default: "aes-256-gcm" }
+        recovery_enabled: { type: boolean, default: true }
+
+    SecretSpec:
+      type: object
+      required: [vault_id, encrypted_payload]
+      properties:
+        vault_id: { type: string, format: uuid }
+        encrypted_payload: { type: string, description: "Base64 encrypted blob" }
+        mime_type: { type: string, default: "text/plain" }
+        rotation_enabled: { type: boolean }
+
+    PolicySpec:
+      type: object
+      required: [subjects, actions, objects]
+      properties:
+        subjects:
+          type: object
+          properties:
+            groups: { type: array, items: { type: string, format: uuid } }
+            users: { type: array, items: { type: string, format: uuid } }
+        actions:
+          type: array
+          items: { type: string, enum: [view, read, connect, rotate, delete, manage_policy] }
+        objects:
+          type: object
+          properties:
+            tags: { type: object }
+            asset_ids: { type: array, items: { type: string, format: uuid } }
+
+    PasteSpec:
+      type: object
+      required: [content, ttl_seconds]
+      properties:
+        content: { type: string, description: "Ephemeral encrypted text" }
+        ttl_seconds: { type: integer, example: 3600 }
+        burn_after_read: { type: boolean, default: true }
+
+    JITSpec:
+      type: object
+      required: [target_asset_id, duration_minutes, justification]
+      properties:
+        target_asset_id: { type: string, format: uuid }
+        duration_minutes: { type: integer, example: 120 }
+        justification: { type: string }
+        approver_group: { type: string, format: uuid }
+
+    User:
+      type: object
+      required: [id, username, email]
+      properties:
+        id: { type: string, format: uuid }
+        username: { type: string }
+        email: { type: string }
+        status: { type: string, enum: [active, locked] }
+        display_name: { type: string }
+        first_name: { type: string }
+        last_name: { type: string }
+        notification_settings: { type: object }
+
+    UpdateUserProfileRequest:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            type: object
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
+        display_name: { type: string }
+        first_name: { type: string }
+        last_name: { type: string }
+        email: { type: string }
+        notification_settings: { type: object }
+
+    UserGroup:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        description: { type: string }
+
+    AuditEntry:
+      type: object
+      properties:
+        timestamp: { type: string, format: date-time }
+        actor_id: { type: string, format: uuid }
+        action: { type: string }
+        resource_id: { type: string, format: uuid }
+        success: { type: boolean }
 
     PaginationMeta:
       type: object
       properties:
-        page:
-          type: integer
-        limit:
-          type: integer
-        total:
-          type: integer
-        totalPages:
-          type: integer
+        limit: { type: integer }
+        offset: { type: integer }
+        total: { type: integer }
 
-    # Services
-    Service:
+    GroupMembership:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        hostname:
-          type: string
-        alias:
-          type: string
-        protocol:
-          type: string
-        groupId:
-          type: string
-          format: uuid
-          nullable: true
-        status:
-          type: string
-          enum: [Active, Maintenance, Inactive]
-        type:
-          type: string
-        uptime:
-          type: string
-        lastDeployed:
-          type: string
-          format: date
+        group_id: { type: string, format: uuid }
+        user_id: { type: string, format: uuid }
+        created_at: { type: string, format: date-time }
 
-    ServiceDetail:
-      allOf:
-        - $ref: '#/components/schemas/Service'
-        - type: object
-          properties:
-            group:
-              $ref: '#/components/schemas/Group'
-
-    ServiceCreate:
-      type: object
-      required:
-        - name
-        - hostname
-        - protocol
-        - type
-      properties:
-        name:
-          type: string
-        hostname:
-          type: string
-        alias:
-          type: string
-        protocol:
-          type: string
-        groupId:
-          type: string
-          format: uuid
-          nullable: true
-        type:
-          type: string
-
-    ServiceUpdate:
+    UserGroupList:
       type: object
       properties:
-        name:
-          type: string
-        hostname:
-          type: string
-        alias:
-          type: string
-        protocol:
-          type: string
-        groupId:
-          type: string
-          format: uuid
-          nullable: true
-        status:
-          type: string
+        data: { type: array, items: { $ref: '#/components/schemas/UserGroup' } }
+        meta: { $ref: '#/components/schemas/PaginationMeta' }
 
-    # Credentials
-    Credential:
+    GroupMembershipList:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        groupId:
-          type: string
-          format: uuid
-        name:
-          type: string
-        type:
-          type: string
-          enum: [password, ssh_key, api_key, certificate, oauth]
-        metadata:
-          type: object
-        isActive:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
+        data: { type: array, items: { $ref: '#/components/schemas/GroupMembership' } }
+        meta: { $ref: '#/components/schemas/PaginationMeta' }
 
-    CredentialList:
+    AssetList:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Credential'
+        data: { type: array, items: { $ref: '#/components/schemas/Asset' } }
+        meta: { $ref: '#/components/schemas/PaginationMeta' }
 
-    CredentialCreate:
-      type: object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          enum: [password, ssh_key, api_key, certificate, oauth]
-        metadata:
-          type: object
+paths:
+  # --- ASSET DISCOVERY & ACTIONS ---
+  /assets:
+    get:
+      tags: [Assets]
+      security: [{ bearerAuth: [] }]
+      summary: Hybrid Search (Vector/IP/CIDR)
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string }
+        - name: type
+          in: query
+          schema: { type: string }
+          description: Filter by asset type (service, service_group, vault, secret, policy, paste, jit)
+        - name: parent_id
+          in: query
+          schema: { type: string, format: uuid }
+          description: Filter by parent asset ID
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+          description: Maximum number of assets to return
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+          description: Number of assets to skip
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetList'
+    post:
+      tags: [Assets]
+      summary: Create Universal Asset
+      description: |
+        Create any system resource. The 'spec' object changes based on the 'type'.
+        Auto-generates an Ownership Policy for the creator.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssetRequest'
+      responses:
+        '201':
+          description: Asset created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
 
-    CredentialUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          enum: [password, ssh_key, api_key, certificate, oauth]
-        metadata:
-          type: object
-        isActive:
-          type: boolean
-
-    CredentialSecret:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        credentialId:
-          type: string
-          format: uuid
-        username:
-          type: string
-        password:
-          type: string
-        privateKey:
-          type: string
-        publicKey:
-          type: string
-        apiKey:
-          type: string
-        apiSecret:
-          type: string
-        certificate:
-          type: string
-        privateKeyPass:
-          type: string
-        expiresAt:
-          type: string
-          format: date-time
-          nullable: true
-        lastRotated:
-          type: string
-          format: date-time
-          nullable: true
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-
-    CredentialSecretCreate:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-        privateKey:
-          type: string
-        publicKey:
-          type: string
-        apiKey:
-          type: string
-        apiSecret:
-          type: string
-        certificate:
-          type: string
-        privateKeyPass:
-          type: string
-        expiresAt:
-          type: string
-          format: date-time
-
-    CredentialSecretUpdate:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-        privateKey:
-          type: string
-        publicKey:
-          type: string
-        apiKey:
-          type: string
-        apiSecret:
-          type: string
-        certificate:
-          type: string
-        privateKeyPass:
-          type: string
-        expiresAt:
-          type: string
-          format: date-time
-
-    # Groups
-    Group:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        parentId:
-          type: string
-          format: uuid
-          nullable: true
-        members:
-          type: integer
-        description:
-          type: string
-        created:
-          type: string
-          format: date
-
-    GroupDetail:
-      allOf:
-        - $ref: '#/components/schemas/Group'
-        - type: object
-          properties:
-            parent:
-              $ref: '#/components/schemas/Group'
-            children:
-              type: array
-              items:
-                $ref: '#/components/schemas/Group'
-
-    GroupCreate:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-        parentId:
-          type: string
-          format: uuid
-          nullable: true
-        description:
-          type: string
-
-    # Policies
-    Policy:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-          enum: [Access, Security, Network]
-        scope:
-          type: string
-        enabled:
-          type: boolean
-        lastModified:
-          type: string
-          format: date
-
-    PolicyList:
-      allOf:
-        - $ref: '#/components/schemas/PaginatedResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Policy'
-
-    # Admin
-    AuditLog:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        userId:
-          type: string
-          format: uuid
-        userEmail:
-          type: string
-        action:
-          type: string
-        resource:
-          type: string
-        resourceId:
-          type: string
-          format: uuid
-          nullable: true
-        details:
-          type: object
-        ipAddress:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-
-    AuditLogList:
-      allOf:
-        - $ref: '#/components/schemas/PaginatedResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/AuditLog'
-
-    SystemHealth:
-      type: object
-      properties:
-        status:
-          type: string
-          enum: [healthy, degraded, unhealthy]
-        uptime:
-          type: string
-        cpu:
-          type: number
-        memory:
-          type: number
-        disk:
-          type: number
-        services:
-          type: object
-
-    SystemSettings:
-      type: object
-      properties:
-        sessionTimeout:
-          type: integer
-        maxLoginAttempts:
-          type: integer
-        passwordMinLength:
-          type: integer
-        passwordRequireMfa:
-          type: boolean
-        allowedIpRanges:
-          type: array
-          items:
-            type: string
-        emailNotifications:
-          type: boolean
-
-    SystemSettingsUpdate:
-      type: object
-      properties:
-        sessionTimeout:
-          type: integer
-        maxLoginAttempts:
-          type: integer
-        passwordMinLength:
-          type: integer
-        passwordRequireMfa:
-          type: boolean
-        allowedIpRanges:
-          type: array
-          items:
-            type: string
-        emailNotifications:
-          type: boolean
-
-    # Activities
-    Activity:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        message:
-          type: string
-        severity:
-          type: string
-          enum: [info, success, warning, error]
-        source:
-          type: string
-        time:
-          type: string
-
-    ActivityDetail:
-      allOf:
-        - $ref: '#/components/schemas/Activity'
-        - type: object
-          properties:
-            userId:
-              type: string
-              format: uuid
-            serviceId:
-              type: string
-              format: uuid
-            service:
-              $ref: '#/components/schemas/Service'
-            metadata:
+  /assets/{id}/actions:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      tags: [Assets]
+      security: [{ bearerAuth: [] }]
+      summary: Polymorphic Action (Check-out, Rotate, Elevate)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
               type: object
-              
-    ActivityList:
-      allOf:
-        - $ref: '#/components/schemas/PaginatedResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Activity'
+              required: [action_type]
+              properties:
+                action_type: { type: string, enum: [check_out, check_in, rotate, elevate] }
+                parameters: { type: object }
+      responses:
+        '200':
+          description: Success
+        '202':
+          description: Async task queued
 
-    # Alarms
-    Alarm:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        message:
-          type: string
-        severity:
-          type: string
-          enum: [critical, warning, info]
-        source:
-          type: string
-        time:
-          type: string
-        acknowledged:
-          type: boolean
-
-    AlarmList:
-      allOf:
-        - $ref: '#/components/schemas/PaginatedResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Alarm'
-
-    # Paste
-    Paste:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
+  # --- IDENTITY MANAGEMENT (AuthWS) ---
+  /identity/user:
+    get:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      summary: Get current or specific user
+      parameters:
+        - name: user_id
+          in: query
+          schema: { type: string, format: uuid }
+          description: User ID to look up (optional, defaults to current user)
+        - name: view
+          in: query
+          schema: { type: string, enum: [summary, full], default: summary }
+          description: Level of detail (summary returns basic info, full includes profile fields)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+    post:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      summary: Update current user profile
+      requestBody:
+        required: true
         content:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        expiresAt:
-          type: string
-          format: date-time
-        views:
-          type: integer
-        burnAfterRead:
-          type: boolean
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserProfileRequest'
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Validation error
 
-    PasteCreate:
-      type: object
-      required:
-        - content
-      properties:
-        title:
-          type: string
+  /identity/users:
+    get:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/User' }
+    post:
+      tags: [Identity]
+      summary: Onboard User
+      requestBody:
+        required: true
         content:
-          type: string
-        expiresIn:
-          type: integer
-          description: Expiration in hours
-        burnAfterRead:
-          type: boolean
-          default: false
+          application/json:
+            schema:
+              type: object
+              required: [username, email, password]
+              properties:
+                username: { type: string }
+                email: { type: string }
+                password: { type: string }
+      responses:
+        '201':
+          description: User & Vault Created
 
-    PasteList:
-      allOf:
-        - $ref: '#/components/schemas/PaginatedResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Paste'
+  /identity/groups:
+    get:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Return user groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupList'
+    post:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      summary: Create UserGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+      responses:
+        '201':
+          description: Group Created
 
-    # Search
-    SearchResults:
-      type: object
-      properties:
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/Service'
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group'
-      
+  /identity/groups/{groupId}/memberships:
+    parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      summary: List Group Members
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Return group members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMembershipList'
+    post:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      summary: Assign User to Group
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id]
+              properties:
+                user_id: { type: string, format: uuid }
+      responses:
+        '201':
+          description: Membership Created
+    delete:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      summary: Remove User from Group
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '204':
+          description: Success
+
+  # --- VAULT CRYPTOGRAPHY (PVault) ---
+  /vaults/{vaultId}/memberships:
+    parameters:
+      - name: vaultId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Vaults]
+      security: [{ bearerAuth: [] }]
+      summary: List Vault Members (Roles & Keys)
+      responses:
+        '200':
+          description: return list of vault membership
+    post:
+      tags: [Vaults]
+      security: [{ bearerAuth: [] }]
+      summary: Add Member to Vault (Key Wrapping)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [member_id, member_type, role]
+              properties:
+                member_id: { type: string, format: uuid }
+                member_type: { type: string, enum: [user, vault] }
+                role: { type: string, enum: [owner, manager, viewer] }
+      responses:
+        '201':
+          description: Key Wrapped and Member Added
+
+  # --- GOVERNANCE & ADMIN ---
+  /admin/config:
+    get:
+      tags: [Admin]
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: current configuration for admin setting
+    patch:
+      tags: [Admin]
+      security: [{ bearerAuth: [] }]
+      summary: Update Security Posture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jwt_ttl: { type: integer }
+                network_whitelist: { type: array, items: { type: string } }
+                rebuild_policy_cache: { type: boolean }
+      responses:
+        '200':
+          description: Config Updated
+
+  /audit/logs:
+    get:
+      tags: [Audit]
+      security: [{ bearerAuth: [] }]
+      summary: Query Audit Trails
+      parameters:
+        - name: actor_id
+          in: query
+          schema: { type: string, format: uuid }
+        - name: resource_id
+          in: query
+          schema: { type: string, format: uuid }
+        - name: from
+          in: query
+          schema: { type: string, format: date-time }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AuditEntry' }

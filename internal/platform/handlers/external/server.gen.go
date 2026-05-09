@@ -24,1350 +24,823 @@ import (
 )
 
 const (
-	BearerAuthScopes = "BearerAuth.Scopes"
+	BearerAuthScopes = "bearerAuth.Scopes"
 )
 
-// Defines values for ActivitySeverity.
+// Defines values for CreateAssetRequestType.
 const (
-	ActivitySeverityError   ActivitySeverity = "error"
-	ActivitySeverityInfo    ActivitySeverity = "info"
-	ActivitySeveritySuccess ActivitySeverity = "success"
-	ActivitySeverityWarning ActivitySeverity = "warning"
+	CreateAssetRequestTypeJit          CreateAssetRequestType = "jit"
+	CreateAssetRequestTypePaste        CreateAssetRequestType = "paste"
+	CreateAssetRequestTypePolicy       CreateAssetRequestType = "policy"
+	CreateAssetRequestTypeSecret       CreateAssetRequestType = "secret"
+	CreateAssetRequestTypeService      CreateAssetRequestType = "service"
+	CreateAssetRequestTypeServiceGroup CreateAssetRequestType = "service_group"
+	CreateAssetRequestTypeVault        CreateAssetRequestType = "vault"
 )
 
-// Valid indicates whether the value is a known member of the ActivitySeverity enum.
-func (e ActivitySeverity) Valid() bool {
+// Valid indicates whether the value is a known member of the CreateAssetRequestType enum.
+func (e CreateAssetRequestType) Valid() bool {
 	switch e {
-	case ActivitySeverityError:
+	case CreateAssetRequestTypeJit:
 		return true
-	case ActivitySeverityInfo:
+	case CreateAssetRequestTypePaste:
 		return true
-	case ActivitySeveritySuccess:
+	case CreateAssetRequestTypePolicy:
 		return true
-	case ActivitySeverityWarning:
+	case CreateAssetRequestTypeSecret:
+		return true
+	case CreateAssetRequestTypeService:
+		return true
+	case CreateAssetRequestTypeServiceGroup:
+		return true
+	case CreateAssetRequestTypeVault:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for ActivityDetailSeverity.
+// Defines values for PolicySpecActions.
 const (
-	ActivityDetailSeverityError   ActivityDetailSeverity = "error"
-	ActivityDetailSeverityInfo    ActivityDetailSeverity = "info"
-	ActivityDetailSeveritySuccess ActivityDetailSeverity = "success"
-	ActivityDetailSeverityWarning ActivityDetailSeverity = "warning"
+	PolicySpecActionsConnect      PolicySpecActions = "connect"
+	PolicySpecActionsDelete       PolicySpecActions = "delete"
+	PolicySpecActionsManagePolicy PolicySpecActions = "manage_policy"
+	PolicySpecActionsRead         PolicySpecActions = "read"
+	PolicySpecActionsRotate       PolicySpecActions = "rotate"
+	PolicySpecActionsView         PolicySpecActions = "view"
 )
 
-// Valid indicates whether the value is a known member of the ActivityDetailSeverity enum.
-func (e ActivityDetailSeverity) Valid() bool {
+// Valid indicates whether the value is a known member of the PolicySpecActions enum.
+func (e PolicySpecActions) Valid() bool {
 	switch e {
-	case ActivityDetailSeverityError:
+	case PolicySpecActionsConnect:
 		return true
-	case ActivityDetailSeverityInfo:
+	case PolicySpecActionsDelete:
 		return true
-	case ActivityDetailSeveritySuccess:
+	case PolicySpecActionsManagePolicy:
 		return true
-	case ActivityDetailSeverityWarning:
+	case PolicySpecActionsRead:
+		return true
+	case PolicySpecActionsRotate:
+		return true
+	case PolicySpecActionsView:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for AlarmSeverity.
+// Defines values for ServiceSpecProtocol.
 const (
-	AlarmSeverityCritical AlarmSeverity = "critical"
-	AlarmSeverityInfo     AlarmSeverity = "info"
-	AlarmSeverityWarning  AlarmSeverity = "warning"
+	Https    ServiceSpecProtocol = "https"
+	Mysql    ServiceSpecProtocol = "mysql"
+	Postgres ServiceSpecProtocol = "postgres"
+	Rdp      ServiceSpecProtocol = "rdp"
+	Ssh      ServiceSpecProtocol = "ssh"
 )
 
-// Valid indicates whether the value is a known member of the AlarmSeverity enum.
-func (e AlarmSeverity) Valid() bool {
+// Valid indicates whether the value is a known member of the ServiceSpecProtocol enum.
+func (e ServiceSpecProtocol) Valid() bool {
 	switch e {
-	case AlarmSeverityCritical:
+	case Https:
 		return true
-	case AlarmSeverityInfo:
+	case Mysql:
 		return true
-	case AlarmSeverityWarning:
+	case Postgres:
+		return true
+	case Rdp:
+		return true
+	case Ssh:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CredentialType.
+// Defines values for UserStatus.
 const (
-	CredentialTypeApiKey      CredentialType = "api_key"
-	CredentialTypeCertificate CredentialType = "certificate"
-	CredentialTypeOauth       CredentialType = "oauth"
-	CredentialTypePassword    CredentialType = "password"
-	CredentialTypeSshKey      CredentialType = "ssh_key"
+	Active UserStatus = "active"
+	Locked UserStatus = "locked"
 )
 
-// Valid indicates whether the value is a known member of the CredentialType enum.
-func (e CredentialType) Valid() bool {
-	switch e {
-	case CredentialTypeApiKey:
-		return true
-	case CredentialTypeCertificate:
-		return true
-	case CredentialTypeOauth:
-		return true
-	case CredentialTypePassword:
-		return true
-	case CredentialTypeSshKey:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CredentialCreateType.
-const (
-	CredentialCreateTypeApiKey      CredentialCreateType = "api_key"
-	CredentialCreateTypeCertificate CredentialCreateType = "certificate"
-	CredentialCreateTypeOauth       CredentialCreateType = "oauth"
-	CredentialCreateTypePassword    CredentialCreateType = "password"
-	CredentialCreateTypeSshKey      CredentialCreateType = "ssh_key"
-)
-
-// Valid indicates whether the value is a known member of the CredentialCreateType enum.
-func (e CredentialCreateType) Valid() bool {
-	switch e {
-	case CredentialCreateTypeApiKey:
-		return true
-	case CredentialCreateTypeCertificate:
-		return true
-	case CredentialCreateTypeOauth:
-		return true
-	case CredentialCreateTypePassword:
-		return true
-	case CredentialCreateTypeSshKey:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CredentialUpdateType.
-const (
-	ApiKey      CredentialUpdateType = "api_key"
-	Certificate CredentialUpdateType = "certificate"
-	Oauth       CredentialUpdateType = "oauth"
-	Password    CredentialUpdateType = "password"
-	SshKey      CredentialUpdateType = "ssh_key"
-)
-
-// Valid indicates whether the value is a known member of the CredentialUpdateType enum.
-func (e CredentialUpdateType) Valid() bool {
-	switch e {
-	case ApiKey:
-		return true
-	case Certificate:
-		return true
-	case Oauth:
-		return true
-	case Password:
-		return true
-	case SshKey:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PolicyType.
-const (
-	PolicyTypeAccess   PolicyType = "Access"
-	PolicyTypeNetwork  PolicyType = "Network"
-	PolicyTypeSecurity PolicyType = "Security"
-)
-
-// Valid indicates whether the value is a known member of the PolicyType enum.
-func (e PolicyType) Valid() bool {
-	switch e {
-	case PolicyTypeAccess:
-		return true
-	case PolicyTypeNetwork:
-		return true
-	case PolicyTypeSecurity:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for ServiceStatus.
-const (
-	ServiceStatusActive      ServiceStatus = "Active"
-	ServiceStatusInactive    ServiceStatus = "Inactive"
-	ServiceStatusMaintenance ServiceStatus = "Maintenance"
-)
-
-// Valid indicates whether the value is a known member of the ServiceStatus enum.
-func (e ServiceStatus) Valid() bool {
-	switch e {
-	case ServiceStatusActive:
-		return true
-	case ServiceStatusInactive:
-		return true
-	case ServiceStatusMaintenance:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for ServiceDetailStatus.
-const (
-	ServiceDetailStatusActive      ServiceDetailStatus = "Active"
-	ServiceDetailStatusInactive    ServiceDetailStatus = "Inactive"
-	ServiceDetailStatusMaintenance ServiceDetailStatus = "Maintenance"
-)
-
-// Valid indicates whether the value is a known member of the ServiceDetailStatus enum.
-func (e ServiceDetailStatus) Valid() bool {
-	switch e {
-	case ServiceDetailStatusActive:
-		return true
-	case ServiceDetailStatusInactive:
-		return true
-	case ServiceDetailStatusMaintenance:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for SystemHealthStatus.
-const (
-	Degraded  SystemHealthStatus = "degraded"
-	Healthy   SystemHealthStatus = "healthy"
-	Unhealthy SystemHealthStatus = "unhealthy"
-)
-
-// Valid indicates whether the value is a known member of the SystemHealthStatus enum.
-func (e SystemHealthStatus) Valid() bool {
-	switch e {
-	case Degraded:
-		return true
-	case Healthy:
-		return true
-	case Unhealthy:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetActivitiesParamsSeverity.
-const (
-	GetActivitiesParamsSeverityAll     GetActivitiesParamsSeverity = "all"
-	GetActivitiesParamsSeverityError   GetActivitiesParamsSeverity = "error"
-	GetActivitiesParamsSeverityInfo    GetActivitiesParamsSeverity = "info"
-	GetActivitiesParamsSeveritySuccess GetActivitiesParamsSeverity = "success"
-	GetActivitiesParamsSeverityWarning GetActivitiesParamsSeverity = "warning"
-)
-
-// Valid indicates whether the value is a known member of the GetActivitiesParamsSeverity enum.
-func (e GetActivitiesParamsSeverity) Valid() bool {
-	switch e {
-	case GetActivitiesParamsSeverityAll:
-		return true
-	case GetActivitiesParamsSeverityError:
-		return true
-	case GetActivitiesParamsSeverityInfo:
-		return true
-	case GetActivitiesParamsSeveritySuccess:
-		return true
-	case GetActivitiesParamsSeverityWarning:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetAlarmsParamsSeverity.
-const (
-	GetAlarmsParamsSeverityAll      GetAlarmsParamsSeverity = "all"
-	GetAlarmsParamsSeverityCritical GetAlarmsParamsSeverity = "critical"
-	GetAlarmsParamsSeverityInfo     GetAlarmsParamsSeverity = "info"
-	GetAlarmsParamsSeverityWarning  GetAlarmsParamsSeverity = "warning"
-)
-
-// Valid indicates whether the value is a known member of the GetAlarmsParamsSeverity enum.
-func (e GetAlarmsParamsSeverity) Valid() bool {
-	switch e {
-	case GetAlarmsParamsSeverityAll:
-		return true
-	case GetAlarmsParamsSeverityCritical:
-		return true
-	case GetAlarmsParamsSeverityInfo:
-		return true
-	case GetAlarmsParamsSeverityWarning:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PostGroupGroupIdMembersJSONBodyRole.
-const (
-	Admin  PostGroupGroupIdMembersJSONBodyRole = "admin"
-	Member PostGroupGroupIdMembersJSONBodyRole = "member"
-)
-
-// Valid indicates whether the value is a known member of the PostGroupGroupIdMembersJSONBodyRole enum.
-func (e PostGroupGroupIdMembersJSONBodyRole) Valid() bool {
-	switch e {
-	case Admin:
-		return true
-	case Member:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetPasteParamsFilter.
-const (
-	GetPasteParamsFilterAll      GetPasteParamsFilter = "all"
-	GetPasteParamsFilterCreate   GetPasteParamsFilter = "create"
-	GetPasteParamsFilterExpiring GetPasteParamsFilter = "expiring"
-)
-
-// Valid indicates whether the value is a known member of the GetPasteParamsFilter enum.
-func (e GetPasteParamsFilter) Valid() bool {
-	switch e {
-	case GetPasteParamsFilterAll:
-		return true
-	case GetPasteParamsFilterCreate:
-		return true
-	case GetPasteParamsFilterExpiring:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PostPoliciesJSONBodyType.
-const (
-	PostPoliciesJSONBodyTypeAccess   PostPoliciesJSONBodyType = "Access"
-	PostPoliciesJSONBodyTypeNetwork  PostPoliciesJSONBodyType = "Network"
-	PostPoliciesJSONBodyTypeSecurity PostPoliciesJSONBodyType = "Security"
-)
-
-// Valid indicates whether the value is a known member of the PostPoliciesJSONBodyType enum.
-func (e PostPoliciesJSONBodyType) Valid() bool {
-	switch e {
-	case PostPoliciesJSONBodyTypeAccess:
-		return true
-	case PostPoliciesJSONBodyTypeNetwork:
-		return true
-	case PostPoliciesJSONBodyTypeSecurity:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PutPoliciesPolicyIdJSONBodyType.
-const (
-	Access   PutPoliciesPolicyIdJSONBodyType = "Access"
-	Network  PutPoliciesPolicyIdJSONBodyType = "Network"
-	Security PutPoliciesPolicyIdJSONBodyType = "Security"
-)
-
-// Valid indicates whether the value is a known member of the PutPoliciesPolicyIdJSONBodyType enum.
-func (e PutPoliciesPolicyIdJSONBodyType) Valid() bool {
-	switch e {
-	case Access:
-		return true
-	case Network:
-		return true
-	case Security:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetSearchParamsType.
-const (
-	GetSearchParamsTypeGroup   GetSearchParamsType = "Group"
-	GetSearchParamsTypeService GetSearchParamsType = "Service"
-)
-
-// Valid indicates whether the value is a known member of the GetSearchParamsType enum.
-func (e GetSearchParamsType) Valid() bool {
-	switch e {
-	case GetSearchParamsTypeGroup:
-		return true
-	case GetSearchParamsTypeService:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GetSearchParamsStatus.
-const (
-	Active      GetSearchParamsStatus = "active"
-	All         GetSearchParamsStatus = "all"
-	Inactive    GetSearchParamsStatus = "inactive"
-	Maintenance GetSearchParamsStatus = "maintenance"
-)
-
-// Valid indicates whether the value is a known member of the GetSearchParamsStatus enum.
-func (e GetSearchParamsStatus) Valid() bool {
+// Valid indicates whether the value is a known member of the UserStatus enum.
+func (e UserStatus) Valid() bool {
 	switch e {
 	case Active:
 		return true
-	case All:
-		return true
-	case Inactive:
-		return true
-	case Maintenance:
+	case Locked:
 		return true
 	default:
 		return false
 	}
 }
 
-// Activity defines model for Activity.
-type Activity struct {
-	Id       *openapi_types.UUID `json:"id,omitempty"`
-	Message  *string             `json:"message,omitempty"`
-	Severity *ActivitySeverity   `json:"severity,omitempty"`
-	Source   *string             `json:"source,omitempty"`
-	Time     *string             `json:"time,omitempty"`
-	Title    *string             `json:"title,omitempty"`
+// Defines values for VaultSpecVaultType.
+const (
+	Personal VaultSpecVaultType = "personal"
+	Shared   VaultSpecVaultType = "shared"
+	System   VaultSpecVaultType = "system"
+)
+
+// Valid indicates whether the value is a known member of the VaultSpecVaultType enum.
+func (e VaultSpecVaultType) Valid() bool {
+	switch e {
+	case Personal:
+		return true
+	case Shared:
+		return true
+	case System:
+		return true
+	default:
+		return false
+	}
 }
 
-// ActivitySeverity defines model for Activity.Severity.
-type ActivitySeverity string
+// Defines values for PostAssetsIdActionsJSONBodyActionType.
+const (
+	PostAssetsIdActionsJSONBodyActionTypeCheckIn  PostAssetsIdActionsJSONBodyActionType = "check_in"
+	PostAssetsIdActionsJSONBodyActionTypeCheckOut PostAssetsIdActionsJSONBodyActionType = "check_out"
+	PostAssetsIdActionsJSONBodyActionTypeElevate  PostAssetsIdActionsJSONBodyActionType = "elevate"
+	PostAssetsIdActionsJSONBodyActionTypeRotate   PostAssetsIdActionsJSONBodyActionType = "rotate"
+)
 
-// ActivityDetail defines model for ActivityDetail.
-type ActivityDetail struct {
+// Valid indicates whether the value is a known member of the PostAssetsIdActionsJSONBodyActionType enum.
+func (e PostAssetsIdActionsJSONBodyActionType) Valid() bool {
+	switch e {
+	case PostAssetsIdActionsJSONBodyActionTypeCheckIn:
+		return true
+	case PostAssetsIdActionsJSONBodyActionTypeCheckOut:
+		return true
+	case PostAssetsIdActionsJSONBodyActionTypeElevate:
+		return true
+	case PostAssetsIdActionsJSONBodyActionTypeRotate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetIdentityUserParamsView.
+const (
+	Full    GetIdentityUserParamsView = "full"
+	Summary GetIdentityUserParamsView = "summary"
+)
+
+// Valid indicates whether the value is a known member of the GetIdentityUserParamsView enum.
+func (e GetIdentityUserParamsView) Valid() bool {
+	switch e {
+	case Full:
+		return true
+	case Summary:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PostVaultsVaultIdMembershipsJSONBodyMemberType.
+const (
+	PostVaultsVaultIdMembershipsJSONBodyMemberTypeUser  PostVaultsVaultIdMembershipsJSONBodyMemberType = "user"
+	PostVaultsVaultIdMembershipsJSONBodyMemberTypeVault PostVaultsVaultIdMembershipsJSONBodyMemberType = "vault"
+)
+
+// Valid indicates whether the value is a known member of the PostVaultsVaultIdMembershipsJSONBodyMemberType enum.
+func (e PostVaultsVaultIdMembershipsJSONBodyMemberType) Valid() bool {
+	switch e {
+	case PostVaultsVaultIdMembershipsJSONBodyMemberTypeUser:
+		return true
+	case PostVaultsVaultIdMembershipsJSONBodyMemberTypeVault:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PostVaultsVaultIdMembershipsJSONBodyRole.
+const (
+	Manager PostVaultsVaultIdMembershipsJSONBodyRole = "manager"
+	Owner   PostVaultsVaultIdMembershipsJSONBodyRole = "owner"
+	Viewer  PostVaultsVaultIdMembershipsJSONBodyRole = "viewer"
+)
+
+// Valid indicates whether the value is a known member of the PostVaultsVaultIdMembershipsJSONBodyRole enum.
+func (e PostVaultsVaultIdMembershipsJSONBodyRole) Valid() bool {
+	switch e {
+	case Manager:
+		return true
+	case Owner:
+		return true
+	case Viewer:
+		return true
+	default:
+		return false
+	}
+}
+
+// Asset defines model for Asset.
+type Asset struct {
+	CreatedAt *time.Time              `json:"created_at,omitempty"`
 	Id        *openapi_types.UUID     `json:"id,omitempty"`
-	Message   *string                 `json:"message,omitempty"`
-	Metadata  *map[string]interface{} `json:"metadata,omitempty"`
-	Service   *Service                `json:"service,omitempty"`
-	ServiceId *openapi_types.UUID     `json:"serviceId,omitempty"`
-	Severity  *ActivityDetailSeverity `json:"severity,omitempty"`
-	Source    *string                 `json:"source,omitempty"`
-	Time      *string                 `json:"time,omitempty"`
-	Title     *string                 `json:"title,omitempty"`
-	UserId    *openapi_types.UUID     `json:"userId,omitempty"`
-}
-
-// ActivityDetailSeverity defines model for ActivityDetail.Severity.
-type ActivityDetailSeverity string
-
-// ActivityList defines model for ActivityList.
-type ActivityList struct {
-	Data *[]Activity     `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// Alarm defines model for Alarm.
-type Alarm struct {
-	Acknowledged *bool               `json:"acknowledged,omitempty"`
-	Id           *openapi_types.UUID `json:"id,omitempty"`
-	Message      *string             `json:"message,omitempty"`
-	Severity     *AlarmSeverity      `json:"severity,omitempty"`
-	Source       *string             `json:"source,omitempty"`
-	Time         *string             `json:"time,omitempty"`
-	Title        *string             `json:"title,omitempty"`
-}
-
-// AlarmSeverity defines model for Alarm.Severity.
-type AlarmSeverity string
-
-// AlarmList defines model for AlarmList.
-type AlarmList struct {
-	Data *[]Alarm        `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// AuditLog defines model for AuditLog.
-type AuditLog struct {
-	Action     *string                 `json:"action,omitempty"`
-	Details    *map[string]interface{} `json:"details,omitempty"`
-	Id         *openapi_types.UUID     `json:"id,omitempty"`
-	IpAddress  *string                 `json:"ipAddress,omitempty"`
-	Resource   *string                 `json:"resource,omitempty"`
-	ResourceId *openapi_types.UUID     `json:"resourceId,omitempty"`
-	Timestamp  *time.Time              `json:"timestamp,omitempty"`
-	UserEmail  *string                 `json:"userEmail,omitempty"`
-	UserId     *openapi_types.UUID     `json:"userId,omitempty"`
-}
-
-// AuditLogList defines model for AuditLogList.
-type AuditLogList struct {
-	Data *[]AuditLog     `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
-}
-
-// Credential defines model for Credential.
-type Credential struct {
-	CreatedAt *time.Time              `json:"createdAt,omitempty"`
-	GroupId   *openapi_types.UUID     `json:"groupId,omitempty"`
-	Id        *openapi_types.UUID     `json:"id,omitempty"`
-	IsActive  *bool                   `json:"isActive,omitempty"`
-	Metadata  *map[string]interface{} `json:"metadata,omitempty"`
 	Name      *string                 `json:"name,omitempty"`
-	Type      *CredentialType         `json:"type,omitempty"`
-	UpdatedAt *time.Time              `json:"updatedAt,omitempty"`
+	OwnerId   *openapi_types.UUID     `json:"owner_id,omitempty"`
+	ParentId  *openapi_types.UUID     `json:"parent_id,omitempty"`
+	Spec      *map[string]interface{} `json:"spec,omitempty"`
+	Type      *string                 `json:"type,omitempty"`
 }
 
-// CredentialType defines model for Credential.Type.
-type CredentialType string
-
-// CredentialCreate defines model for CredentialCreate.
-type CredentialCreate struct {
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
-	Name     string                  `json:"name"`
-	Type     CredentialCreateType    `json:"type"`
+// AssetList defines model for AssetList.
+type AssetList struct {
+	Data *[]Asset        `json:"data,omitempty"`
+	Meta *PaginationMeta `json:"meta,omitempty"`
 }
 
-// CredentialCreateType defines model for CredentialCreate.Type.
-type CredentialCreateType string
-
-// CredentialList defines model for CredentialList.
-type CredentialList struct {
-	Data *[]Credential `json:"data,omitempty"`
+// AuditEntry defines model for AuditEntry.
+type AuditEntry struct {
+	Action     *string             `json:"action,omitempty"`
+	ActorId    *openapi_types.UUID `json:"actor_id,omitempty"`
+	ResourceId *openapi_types.UUID `json:"resource_id,omitempty"`
+	Success    *bool               `json:"success,omitempty"`
+	Timestamp  *time.Time          `json:"timestamp,omitempty"`
 }
 
-// CredentialSecret defines model for CredentialSecret.
-type CredentialSecret struct {
-	ApiKey         *string             `json:"apiKey,omitempty"`
-	ApiSecret      *string             `json:"apiSecret,omitempty"`
-	Certificate    *string             `json:"certificate,omitempty"`
-	CreatedAt      *time.Time          `json:"createdAt,omitempty"`
-	CredentialId   *openapi_types.UUID `json:"credentialId,omitempty"`
-	ExpiresAt      *time.Time          `json:"expiresAt,omitempty"`
-	Id             *openapi_types.UUID `json:"id,omitempty"`
-	LastRotated    *time.Time          `json:"lastRotated,omitempty"`
-	Password       *string             `json:"password,omitempty"`
-	PrivateKey     *string             `json:"privateKey,omitempty"`
-	PrivateKeyPass *string             `json:"privateKeyPass,omitempty"`
-	PublicKey      *string             `json:"publicKey,omitempty"`
-	UpdatedAt      *time.Time          `json:"updatedAt,omitempty"`
-	Username       *string             `json:"username,omitempty"`
+// CreateAssetRequest defines model for CreateAssetRequest.
+type CreateAssetRequest struct {
+	Name string                  `json:"name"`
+	Spec CreateAssetRequest_Spec `json:"spec"`
+	Type CreateAssetRequestType  `json:"type"`
 }
 
-// CredentialSecretCreate defines model for CredentialSecretCreate.
-type CredentialSecretCreate struct {
-	ApiKey         *string    `json:"apiKey,omitempty"`
-	ApiSecret      *string    `json:"apiSecret,omitempty"`
-	Certificate    *string    `json:"certificate,omitempty"`
-	ExpiresAt      *time.Time `json:"expiresAt,omitempty"`
-	Password       *string    `json:"password,omitempty"`
-	PrivateKey     *string    `json:"privateKey,omitempty"`
-	PrivateKeyPass *string    `json:"privateKeyPass,omitempty"`
-	PublicKey      *string    `json:"publicKey,omitempty"`
-	Username       *string    `json:"username,omitempty"`
+// CreateAssetRequest_Spec defines model for CreateAssetRequest.Spec.
+type CreateAssetRequest_Spec struct {
+	union json.RawMessage
 }
 
-// CredentialSecretUpdate defines model for CredentialSecretUpdate.
-type CredentialSecretUpdate struct {
-	ApiKey         *string    `json:"apiKey,omitempty"`
-	ApiSecret      *string    `json:"apiSecret,omitempty"`
-	Certificate    *string    `json:"certificate,omitempty"`
-	ExpiresAt      *time.Time `json:"expiresAt,omitempty"`
-	Password       *string    `json:"password,omitempty"`
-	PrivateKey     *string    `json:"privateKey,omitempty"`
-	PrivateKeyPass *string    `json:"privateKeyPass,omitempty"`
-	PublicKey      *string    `json:"publicKey,omitempty"`
-	Username       *string    `json:"username,omitempty"`
+// CreateAssetRequestType defines model for CreateAssetRequest.Type.
+type CreateAssetRequestType string
+
+// GroupMembership defines model for GroupMembership.
+type GroupMembership struct {
+	CreatedAt *time.Time          `json:"created_at,omitempty"`
+	GroupId   *openapi_types.UUID `json:"group_id,omitempty"`
+	UserId    *openapi_types.UUID `json:"user_id,omitempty"`
 }
 
-// CredentialUpdate defines model for CredentialUpdate.
-type CredentialUpdate struct {
-	IsActive *bool                   `json:"isActive,omitempty"`
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
-	Name     *string                 `json:"name,omitempty"`
-	Type     *CredentialUpdateType   `json:"type,omitempty"`
+// GroupMembershipList defines model for GroupMembershipList.
+type GroupMembershipList struct {
+	Data *[]GroupMembership `json:"data,omitempty"`
+	Meta *PaginationMeta    `json:"meta,omitempty"`
 }
 
-// CredentialUpdateType defines model for CredentialUpdate.Type.
-type CredentialUpdateType string
-
-// GenericError defines model for GenericError.
-type GenericError struct {
-	Error struct {
-		Code    string `json:"code"`
-		Message string `json:"message"`
-	} `json:"error"`
-}
-
-// Group defines model for Group.
-type Group struct {
-	Created     *openapi_types.Date `json:"created,omitempty"`
-	Description *string             `json:"description,omitempty"`
-	Id          *openapi_types.UUID `json:"id,omitempty"`
-	Members     *int                `json:"members,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
-}
-
-// GroupCreate defines model for GroupCreate.
-type GroupCreate struct {
-	Description *string             `json:"description,omitempty"`
-	Name        string              `json:"name"`
-	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
-}
-
-// GroupDetail defines model for GroupDetail.
-type GroupDetail struct {
-	Children    *[]Group            `json:"children,omitempty"`
-	Created     *openapi_types.Date `json:"created,omitempty"`
-	Description *string             `json:"description,omitempty"`
-	Id          *openapi_types.UUID `json:"id,omitempty"`
-	Members     *int                `json:"members,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	Parent      *Group              `json:"parent,omitempty"`
-	ParentId    *openapi_types.UUID `json:"parentId,omitempty"`
-}
-
-// PaginatedResponse defines model for PaginatedResponse.
-type PaginatedResponse struct {
-	Data *[]map[string]interface{} `json:"data,omitempty"`
-	Meta *PaginationMeta           `json:"meta,omitempty"`
+// JITSpec defines model for JITSpec.
+type JITSpec struct {
+	ApproverGroup   *openapi_types.UUID `json:"approver_group,omitempty"`
+	DurationMinutes int                 `json:"duration_minutes"`
+	Justification   string              `json:"justification"`
+	TargetAssetId   openapi_types.UUID  `json:"target_asset_id"`
 }
 
 // PaginationMeta defines model for PaginationMeta.
 type PaginationMeta struct {
-	Limit      *int `json:"limit,omitempty"`
-	Page       *int `json:"page,omitempty"`
-	Total      *int `json:"total,omitempty"`
-	TotalPages *int `json:"totalPages,omitempty"`
+	Limit  *int `json:"limit,omitempty"`
+	Offset *int `json:"offset,omitempty"`
+	Total  *int `json:"total,omitempty"`
 }
 
-// Paste defines model for Paste.
-type Paste struct {
-	BurnAfterRead *bool      `json:"burnAfterRead,omitempty"`
-	Content       *string    `json:"content,omitempty"`
-	CreatedAt     *time.Time `json:"createdAt,omitempty"`
-	ExpiresAt     *time.Time `json:"expiresAt,omitempty"`
-	Id            *string    `json:"id,omitempty"`
-	Title         *string    `json:"title,omitempty"`
-	Views         *int       `json:"views,omitempty"`
+// PasteSpec defines model for PasteSpec.
+type PasteSpec struct {
+	BurnAfterRead *bool `json:"burn_after_read,omitempty"`
+
+	// Content Ephemeral encrypted text
+	Content    string `json:"content"`
+	TtlSeconds int    `json:"ttl_seconds"`
 }
 
-// PasteCreate defines model for PasteCreate.
-type PasteCreate struct {
-	BurnAfterRead *bool  `json:"burnAfterRead,omitempty"`
-	Content       string `json:"content"`
-
-	// ExpiresIn Expiration in hours
-	ExpiresIn *int    `json:"expiresIn,omitempty"`
-	Title     *string `json:"title,omitempty"`
+// PolicySpec defines model for PolicySpec.
+type PolicySpec struct {
+	Actions []PolicySpecActions `json:"actions"`
+	Objects struct {
+		AssetIds *[]openapi_types.UUID   `json:"asset_ids,omitempty"`
+		Tags     *map[string]interface{} `json:"tags,omitempty"`
+	} `json:"objects"`
+	Subjects struct {
+		Groups *[]openapi_types.UUID `json:"groups,omitempty"`
+		Users  *[]openapi_types.UUID `json:"users,omitempty"`
+	} `json:"subjects"`
 }
 
-// PasteList defines model for PasteList.
-type PasteList struct {
-	Data *[]Paste        `json:"data,omitempty"`
+// PolicySpecActions defines model for PolicySpec.Actions.
+type PolicySpecActions string
+
+// SecretSpec defines model for SecretSpec.
+type SecretSpec struct {
+	// EncryptedPayload Base64 encrypted blob
+	EncryptedPayload string             `json:"encrypted_payload"`
+	MimeType         *string            `json:"mime_type,omitempty"`
+	RotationEnabled  *bool              `json:"rotation_enabled,omitempty"`
+	VaultId          openapi_types.UUID `json:"vault_id"`
+}
+
+// ServiceSpec defines model for ServiceSpec.
+type ServiceSpec struct {
+	Endpoint string              `json:"endpoint"`
+	Protocol ServiceSpecProtocol `json:"protocol"`
+	Tags     *map[string]string  `json:"tags,omitempty"`
+}
+
+// ServiceSpecProtocol defines model for ServiceSpec.Protocol.
+type ServiceSpecProtocol string
+
+// UpdateUserProfileRequest defines model for UpdateUserProfileRequest.
+type UpdateUserProfileRequest struct {
+	DisplayName          *string                 `json:"display_name,omitempty"`
+	Email                *string                 `json:"email,omitempty"`
+	FirstName            *string                 `json:"first_name,omitempty"`
+	LastName             *string                 `json:"last_name,omitempty"`
+	NotificationSettings *map[string]interface{} `json:"notification_settings,omitempty"`
+}
+
+// User defines model for User.
+type User struct {
+	DisplayName          *string                 `json:"display_name,omitempty"`
+	Email                string                  `json:"email"`
+	FirstName            *string                 `json:"first_name,omitempty"`
+	Id                   openapi_types.UUID      `json:"id"`
+	LastName             *string                 `json:"last_name,omitempty"`
+	NotificationSettings *map[string]interface{} `json:"notification_settings,omitempty"`
+	Status               *UserStatus             `json:"status,omitempty"`
+	Username             string                  `json:"username"`
+}
+
+// UserStatus defines model for User.Status.
+type UserStatus string
+
+// UserGroup defines model for UserGroup.
+type UserGroup struct {
+	Description *string            `json:"description,omitempty"`
+	Id          openapi_types.UUID `json:"id"`
+	Name        string             `json:"name"`
+}
+
+// UserGroupList defines model for UserGroupList.
+type UserGroupList struct {
+	Data *[]UserGroup    `json:"data,omitempty"`
 	Meta *PaginationMeta `json:"meta,omitempty"`
 }
 
-// Policy defines model for Policy.
-type Policy struct {
-	Description  *string             `json:"description,omitempty"`
-	Enabled      *bool               `json:"enabled,omitempty"`
-	Id           *openapi_types.UUID `json:"id,omitempty"`
-	LastModified *openapi_types.Date `json:"lastModified,omitempty"`
-	Name         *string             `json:"name,omitempty"`
-	Scope        *string             `json:"scope,omitempty"`
-	Type         *PolicyType         `json:"type,omitempty"`
+// VaultSpec defines model for VaultSpec.
+type VaultSpec struct {
+	EncryptionLevel *string            `json:"encryption_level,omitempty"`
+	RecoveryEnabled *bool              `json:"recovery_enabled,omitempty"`
+	VaultType       VaultSpecVaultType `json:"vault_type"`
 }
 
-// PolicyType defines model for Policy.Type.
-type PolicyType string
+// VaultSpecVaultType defines model for VaultSpec.VaultType.
+type VaultSpecVaultType string
 
-// PolicyList defines model for PolicyList.
-type PolicyList struct {
-	Data *[]Policy       `json:"data,omitempty"`
-	Meta *PaginationMeta `json:"meta,omitempty"`
+// PatchAdminConfigJSONBody defines parameters for PatchAdminConfig.
+type PatchAdminConfigJSONBody struct {
+	JwtTtl             *int      `json:"jwt_ttl,omitempty"`
+	NetworkWhitelist   *[]string `json:"network_whitelist,omitempty"`
+	RebuildPolicyCache *bool     `json:"rebuild_policy_cache,omitempty"`
 }
 
-// SearchResults defines model for SearchResults.
-type SearchResults struct {
-	Groups   *[]Group   `json:"groups,omitempty"`
-	Services *[]Service `json:"services,omitempty"`
-}
-
-// Service defines model for Service.
-type Service struct {
-	Alias        *string             `json:"alias,omitempty"`
-	GroupId      *openapi_types.UUID `json:"groupId,omitempty"`
-	Hostname     *string             `json:"hostname,omitempty"`
-	Id           *openapi_types.UUID `json:"id,omitempty"`
-	LastDeployed *openapi_types.Date `json:"lastDeployed,omitempty"`
-	Name         *string             `json:"name,omitempty"`
-	Protocol     *string             `json:"protocol,omitempty"`
-	Status       *ServiceStatus      `json:"status,omitempty"`
-	Type         *string             `json:"type,omitempty"`
-	Uptime       *string             `json:"uptime,omitempty"`
-}
-
-// ServiceStatus defines model for Service.Status.
-type ServiceStatus string
-
-// ServiceCreate defines model for ServiceCreate.
-type ServiceCreate struct {
-	Alias    *string             `json:"alias,omitempty"`
-	GroupId  *openapi_types.UUID `json:"groupId,omitempty"`
-	Hostname string              `json:"hostname"`
-	Name     string              `json:"name"`
-	Protocol string              `json:"protocol"`
-	Type     string              `json:"type"`
-}
-
-// ServiceDetail defines model for ServiceDetail.
-type ServiceDetail struct {
-	Alias        *string              `json:"alias,omitempty"`
-	Group        *Group               `json:"group,omitempty"`
-	GroupId      *openapi_types.UUID  `json:"groupId,omitempty"`
-	Hostname     *string              `json:"hostname,omitempty"`
-	Id           *openapi_types.UUID  `json:"id,omitempty"`
-	LastDeployed *openapi_types.Date  `json:"lastDeployed,omitempty"`
-	Name         *string              `json:"name,omitempty"`
-	Protocol     *string              `json:"protocol,omitempty"`
-	Status       *ServiceDetailStatus `json:"status,omitempty"`
-	Type         *string              `json:"type,omitempty"`
-	Uptime       *string              `json:"uptime,omitempty"`
-}
-
-// ServiceDetailStatus defines model for ServiceDetail.Status.
-type ServiceDetailStatus string
-
-// ServiceUpdate defines model for ServiceUpdate.
-type ServiceUpdate struct {
-	Alias    *string             `json:"alias,omitempty"`
-	GroupId  *openapi_types.UUID `json:"groupId,omitempty"`
-	Hostname *string             `json:"hostname,omitempty"`
-	Name     *string             `json:"name,omitempty"`
-	Protocol *string             `json:"protocol,omitempty"`
-	Status   *string             `json:"status,omitempty"`
-}
-
-// SystemHealth defines model for SystemHealth.
-type SystemHealth struct {
-	Cpu      *float32                `json:"cpu,omitempty"`
-	Disk     *float32                `json:"disk,omitempty"`
-	Memory   *float32                `json:"memory,omitempty"`
-	Services *map[string]interface{} `json:"services,omitempty"`
-	Status   *SystemHealthStatus     `json:"status,omitempty"`
-	Uptime   *string                 `json:"uptime,omitempty"`
-}
-
-// SystemHealthStatus defines model for SystemHealth.Status.
-type SystemHealthStatus string
-
-// SystemSettings defines model for SystemSettings.
-type SystemSettings struct {
-	AllowedIpRanges    *[]string `json:"allowedIpRanges,omitempty"`
-	EmailNotifications *bool     `json:"emailNotifications,omitempty"`
-	MaxLoginAttempts   *int      `json:"maxLoginAttempts,omitempty"`
-	PasswordMinLength  *int      `json:"passwordMinLength,omitempty"`
-	PasswordRequireMfa *bool     `json:"passwordRequireMfa,omitempty"`
-	SessionTimeout     *int      `json:"sessionTimeout,omitempty"`
-}
-
-// SystemSettingsUpdate defines model for SystemSettingsUpdate.
-type SystemSettingsUpdate struct {
-	AllowedIpRanges    *[]string `json:"allowedIpRanges,omitempty"`
-	EmailNotifications *bool     `json:"emailNotifications,omitempty"`
-	MaxLoginAttempts   *int      `json:"maxLoginAttempts,omitempty"`
-	PasswordMinLength  *int      `json:"passwordMinLength,omitempty"`
-	PasswordRequireMfa *bool     `json:"passwordRequireMfa,omitempty"`
-	SessionTimeout     *int      `json:"sessionTimeout,omitempty"`
-}
-
-// LimitParam defines model for LimitParam.
-type LimitParam = int
-
-// PageParam defines model for PageParam.
-type PageParam = int
-
-// SearchParam defines model for SearchParam.
-type SearchParam = string
-
-// SortParam defines model for SortParam.
-type SortParam = string
-
-// ClientError defines model for ClientError.
-type ClientError = GenericError
-
-// GetActivitiesParams defines parameters for GetActivities.
-type GetActivitiesParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Sort Sort field and direction (e.g., "name:asc")
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Search Search query
-	Search   *SearchParam                 `form:"search,omitempty" json:"search,omitempty"`
-	Severity *GetActivitiesParamsSeverity `form:"severity,omitempty" json:"severity,omitempty"`
-
-	// ServiceId Filter by service ID
-	ServiceId *openapi_types.UUID `form:"serviceId,omitempty" json:"serviceId,omitempty"`
-
-	// GroupId Filter by group ID
-	GroupId *openapi_types.UUID `form:"groupId,omitempty" json:"groupId,omitempty"`
-
-	// SessionId Filter by session ID
-	SessionId *openapi_types.UUID `form:"sessionId,omitempty" json:"sessionId,omitempty"`
-}
-
-// GetActivitiesParamsSeverity defines parameters for GetActivities.
-type GetActivitiesParamsSeverity string
-
-// GetAdminAuditLogsParams defines parameters for GetAdminAuditLogs.
-type GetAdminAuditLogsParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Search Search query
-	Search    *SearchParam        `form:"search,omitempty" json:"search,omitempty"`
-	UserId    *openapi_types.UUID `form:"userId,omitempty" json:"userId,omitempty"`
-	Action    *string             `form:"action,omitempty" json:"action,omitempty"`
-	StartDate *openapi_types.Date `form:"startDate,omitempty" json:"startDate,omitempty"`
-	EndDate   *openapi_types.Date `form:"endDate,omitempty" json:"endDate,omitempty"`
-}
-
-// GetAlarmsParams defines parameters for GetAlarms.
-type GetAlarmsParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-
-	// Sort Sort field and direction (e.g., "name:asc")
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Search Search query
-	Search   *SearchParam             `form:"search,omitempty" json:"search,omitempty"`
-	Severity *GetAlarmsParamsSeverity `form:"severity,omitempty" json:"severity,omitempty"`
-}
-
-// GetAlarmsParamsSeverity defines parameters for GetAlarms.
-type GetAlarmsParamsSeverity string
-
-// GetGroupGroupIdMembersParams defines parameters for GetGroupGroupIdMembers.
-type GetGroupGroupIdMembersParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-}
-
-// PostGroupGroupIdMembersJSONBody defines parameters for PostGroupGroupIdMembers.
-type PostGroupGroupIdMembersJSONBody struct {
-	Role   *PostGroupGroupIdMembersJSONBodyRole `json:"role,omitempty"`
-	UserId openapi_types.UUID                   `json:"userId"`
-}
-
-// PostGroupGroupIdMembersJSONBodyRole defines parameters for PostGroupGroupIdMembers.
-type PostGroupGroupIdMembersJSONBodyRole string
-
-// PostGroupGroupIdPolicyJSONBody defines parameters for PostGroupGroupIdPolicy.
-type PostGroupGroupIdPolicyJSONBody struct {
-	PolicyId openapi_types.UUID `json:"policyId"`
-}
-
-// GetPasteParams defines parameters for GetPaste.
-type GetPasteParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit  *LimitParam           `form:"limit,omitempty" json:"limit,omitempty"`
-	Filter *GetPasteParamsFilter `form:"filter,omitempty" json:"filter,omitempty"`
-}
-
-// GetPasteParamsFilter defines parameters for GetPaste.
-type GetPasteParamsFilter string
-
-// GetPoliciesParams defines parameters for GetPolicies.
-type GetPoliciesParams struct {
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
-
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
-}
-
-// PostPoliciesJSONBody defines parameters for PostPolicies.
-type PostPoliciesJSONBody struct {
-	Description *string                  `json:"description,omitempty"`
-	Enabled     *bool                    `json:"enabled,omitempty"`
-	Name        string                   `json:"name"`
-	Scope       *string                  `json:"scope,omitempty"`
-	Type        PostPoliciesJSONBodyType `json:"type"`
-}
-
-// PostPoliciesJSONBodyType defines parameters for PostPolicies.
-type PostPoliciesJSONBodyType string
-
-// PutPoliciesPolicyIdJSONBody defines parameters for PutPoliciesPolicyId.
-type PutPoliciesPolicyIdJSONBody struct {
-	Description *string                          `json:"description,omitempty"`
-	Enabled     *bool                            `json:"enabled,omitempty"`
-	Name        *string                          `json:"name,omitempty"`
-	Scope       *string                          `json:"scope,omitempty"`
-	Type        *PutPoliciesPolicyIdJSONBodyType `json:"type,omitempty"`
-}
-
-// PutPoliciesPolicyIdJSONBodyType defines parameters for PutPoliciesPolicyId.
-type PutPoliciesPolicyIdJSONBodyType string
-
-// GetSearchParams defines parameters for GetSearch.
-type GetSearchParams struct {
-	// Q Search query
+// GetAssetsParams defines parameters for GetAssets.
+type GetAssetsParams struct {
 	Q *string `form:"q,omitempty" json:"q,omitempty"`
 
-	// Type Resource type to search/list
-	Type *GetSearchParamsType `form:"type,omitempty" json:"type,omitempty"`
+	// Type Filter by asset type (service, service_group, vault, secret, policy, paste, jit)
+	Type *string `form:"type,omitempty" json:"type,omitempty"`
 
-	// Page Page number
-	Page *PageParam `form:"page,omitempty" json:"page,omitempty"`
+	// ParentId Filter by parent asset ID
+	ParentId *openapi_types.UUID `form:"parent_id,omitempty" json:"parent_id,omitempty"`
 
-	// Limit Items per page
-	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
+	// Limit Maximum number of assets to return
+	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
 
-	// Sort Sort field and direction (e.g., "name:asc")
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Status Filter by status (for Service)
-	Status *GetSearchParamsStatus `form:"status,omitempty" json:"status,omitempty"`
-
-	// GroupId Filter by group ID (for Service)
-	GroupId *openapi_types.UUID `form:"groupId,omitempty" json:"groupId,omitempty"`
+	// Offset Number of assets to skip
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
 }
 
-// GetSearchParamsType defines parameters for GetSearch.
-type GetSearchParamsType string
+// PostAssetsIdActionsJSONBody defines parameters for PostAssetsIdActions.
+type PostAssetsIdActionsJSONBody struct {
+	ActionType PostAssetsIdActionsJSONBodyActionType `json:"action_type"`
+	Parameters *map[string]interface{}               `json:"parameters,omitempty"`
+}
 
-// GetSearchParamsStatus defines parameters for GetSearch.
-type GetSearchParamsStatus string
+// PostAssetsIdActionsJSONBodyActionType defines parameters for PostAssetsIdActions.
+type PostAssetsIdActionsJSONBodyActionType string
 
-// PutAdminSettingsJSONRequestBody defines body for PutAdminSettings for application/json ContentType.
-type PutAdminSettingsJSONRequestBody = SystemSettingsUpdate
+// GetAuditLogsParams defines parameters for GetAuditLogs.
+type GetAuditLogsParams struct {
+	ActorId    *openapi_types.UUID `form:"actor_id,omitempty" json:"actor_id,omitempty"`
+	ResourceId *openapi_types.UUID `form:"resource_id,omitempty" json:"resource_id,omitempty"`
+	From       *time.Time          `form:"from,omitempty" json:"from,omitempty"`
+}
 
-// PostGroupJSONRequestBody defines body for PostGroup for application/json ContentType.
-type PostGroupJSONRequestBody = GroupCreate
+// GetIdentityGroupsParams defines parameters for GetIdentityGroups.
+type GetIdentityGroupsParams struct {
+	Limit  *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
+}
 
-// PostGroupGroupIdCredentialJSONRequestBody defines body for PostGroupGroupIdCredential for application/json ContentType.
-type PostGroupGroupIdCredentialJSONRequestBody = CredentialCreate
+// PostIdentityGroupsJSONBody defines parameters for PostIdentityGroups.
+type PostIdentityGroupsJSONBody struct {
+	Name string `json:"name"`
+}
 
-// PutGroupGroupIdCredentialCredentialIdJSONRequestBody defines body for PutGroupGroupIdCredentialCredentialId for application/json ContentType.
-type PutGroupGroupIdCredentialCredentialIdJSONRequestBody = CredentialUpdate
+// DeleteIdentityGroupsGroupIdMembershipsParams defines parameters for DeleteIdentityGroupsGroupIdMemberships.
+type DeleteIdentityGroupsGroupIdMembershipsParams struct {
+	UserId openapi_types.UUID `form:"user_id" json:"user_id"`
+}
 
-// PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody defines body for PostGroupGroupIdCredentialCredentialIdSecret for application/json ContentType.
-type PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody = CredentialSecretCreate
+// GetIdentityGroupsGroupIdMembershipsParams defines parameters for GetIdentityGroupsGroupIdMemberships.
+type GetIdentityGroupsGroupIdMembershipsParams struct {
+	Limit  *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
+}
 
-// PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody defines body for PutGroupGroupIdCredentialCredentialIdSecret for application/json ContentType.
-type PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody = CredentialSecretUpdate
+// PostIdentityGroupsGroupIdMembershipsJSONBody defines parameters for PostIdentityGroupsGroupIdMemberships.
+type PostIdentityGroupsGroupIdMembershipsJSONBody struct {
+	UserId openapi_types.UUID `json:"user_id"`
+}
 
-// PostGroupGroupIdMembersJSONRequestBody defines body for PostGroupGroupIdMembers for application/json ContentType.
-type PostGroupGroupIdMembersJSONRequestBody PostGroupGroupIdMembersJSONBody
+// GetIdentityUserParams defines parameters for GetIdentityUser.
+type GetIdentityUserParams struct {
+	// UserId User ID to look up (optional, defaults to current user)
+	UserId *openapi_types.UUID `form:"user_id,omitempty" json:"user_id,omitempty"`
 
-// PostGroupGroupIdPolicyJSONRequestBody defines body for PostGroupGroupIdPolicy for application/json ContentType.
-type PostGroupGroupIdPolicyJSONRequestBody PostGroupGroupIdPolicyJSONBody
+	// View Level of detail (summary returns basic info, full includes profile fields)
+	View *GetIdentityUserParamsView `form:"view,omitempty" json:"view,omitempty"`
+}
 
-// PostPasteJSONRequestBody defines body for PostPaste for application/json ContentType.
-type PostPasteJSONRequestBody = PasteCreate
+// GetIdentityUserParamsView defines parameters for GetIdentityUser.
+type GetIdentityUserParamsView string
 
-// PostPoliciesJSONRequestBody defines body for PostPolicies for application/json ContentType.
-type PostPoliciesJSONRequestBody PostPoliciesJSONBody
+// PostIdentityUsersJSONBody defines parameters for PostIdentityUsers.
+type PostIdentityUsersJSONBody struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Username string `json:"username"`
+}
 
-// PutPoliciesPolicyIdJSONRequestBody defines body for PutPoliciesPolicyId for application/json ContentType.
-type PutPoliciesPolicyIdJSONRequestBody PutPoliciesPolicyIdJSONBody
+// PostVaultsVaultIdMembershipsJSONBody defines parameters for PostVaultsVaultIdMemberships.
+type PostVaultsVaultIdMembershipsJSONBody struct {
+	MemberId   openapi_types.UUID                             `json:"member_id"`
+	MemberType PostVaultsVaultIdMembershipsJSONBodyMemberType `json:"member_type"`
+	Role       PostVaultsVaultIdMembershipsJSONBodyRole       `json:"role"`
+}
 
-// PostServiceJSONRequestBody defines body for PostService for application/json ContentType.
-type PostServiceJSONRequestBody = ServiceCreate
+// PostVaultsVaultIdMembershipsJSONBodyMemberType defines parameters for PostVaultsVaultIdMemberships.
+type PostVaultsVaultIdMembershipsJSONBodyMemberType string
 
-// PutServiceServiceIdJSONRequestBody defines body for PutServiceServiceId for application/json ContentType.
-type PutServiceServiceIdJSONRequestBody = ServiceUpdate
+// PostVaultsVaultIdMembershipsJSONBodyRole defines parameters for PostVaultsVaultIdMemberships.
+type PostVaultsVaultIdMembershipsJSONBodyRole string
+
+// PatchAdminConfigJSONRequestBody defines body for PatchAdminConfig for application/json ContentType.
+type PatchAdminConfigJSONRequestBody PatchAdminConfigJSONBody
+
+// PostAssetsJSONRequestBody defines body for PostAssets for application/json ContentType.
+type PostAssetsJSONRequestBody = CreateAssetRequest
+
+// PostAssetsIdActionsJSONRequestBody defines body for PostAssetsIdActions for application/json ContentType.
+type PostAssetsIdActionsJSONRequestBody PostAssetsIdActionsJSONBody
+
+// PostIdentityGroupsJSONRequestBody defines body for PostIdentityGroups for application/json ContentType.
+type PostIdentityGroupsJSONRequestBody PostIdentityGroupsJSONBody
+
+// PostIdentityGroupsGroupIdMembershipsJSONRequestBody defines body for PostIdentityGroupsGroupIdMemberships for application/json ContentType.
+type PostIdentityGroupsGroupIdMembershipsJSONRequestBody PostIdentityGroupsGroupIdMembershipsJSONBody
+
+// PostIdentityUserJSONRequestBody defines body for PostIdentityUser for application/json ContentType.
+type PostIdentityUserJSONRequestBody = UpdateUserProfileRequest
+
+// PostIdentityUsersJSONRequestBody defines body for PostIdentityUsers for application/json ContentType.
+type PostIdentityUsersJSONRequestBody PostIdentityUsersJSONBody
+
+// PostVaultsVaultIdMembershipsJSONRequestBody defines body for PostVaultsVaultIdMemberships for application/json ContentType.
+type PostVaultsVaultIdMembershipsJSONRequestBody PostVaultsVaultIdMembershipsJSONBody
+
+// AsServiceSpec returns the union data inside the CreateAssetRequest_Spec as a ServiceSpec
+func (t CreateAssetRequest_Spec) AsServiceSpec() (ServiceSpec, error) {
+	var body ServiceSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServiceSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided ServiceSpec
+func (t *CreateAssetRequest_Spec) FromServiceSpec(v ServiceSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServiceSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided ServiceSpec
+func (t *CreateAssetRequest_Spec) MergeServiceSpec(v ServiceSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVaultSpec returns the union data inside the CreateAssetRequest_Spec as a VaultSpec
+func (t CreateAssetRequest_Spec) AsVaultSpec() (VaultSpec, error) {
+	var body VaultSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVaultSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided VaultSpec
+func (t *CreateAssetRequest_Spec) FromVaultSpec(v VaultSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVaultSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided VaultSpec
+func (t *CreateAssetRequest_Spec) MergeVaultSpec(v VaultSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSecretSpec returns the union data inside the CreateAssetRequest_Spec as a SecretSpec
+func (t CreateAssetRequest_Spec) AsSecretSpec() (SecretSpec, error) {
+	var body SecretSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSecretSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided SecretSpec
+func (t *CreateAssetRequest_Spec) FromSecretSpec(v SecretSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSecretSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided SecretSpec
+func (t *CreateAssetRequest_Spec) MergeSecretSpec(v SecretSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPolicySpec returns the union data inside the CreateAssetRequest_Spec as a PolicySpec
+func (t CreateAssetRequest_Spec) AsPolicySpec() (PolicySpec, error) {
+	var body PolicySpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPolicySpec overwrites any union data inside the CreateAssetRequest_Spec as the provided PolicySpec
+func (t *CreateAssetRequest_Spec) FromPolicySpec(v PolicySpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePolicySpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided PolicySpec
+func (t *CreateAssetRequest_Spec) MergePolicySpec(v PolicySpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPasteSpec returns the union data inside the CreateAssetRequest_Spec as a PasteSpec
+func (t CreateAssetRequest_Spec) AsPasteSpec() (PasteSpec, error) {
+	var body PasteSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPasteSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided PasteSpec
+func (t *CreateAssetRequest_Spec) FromPasteSpec(v PasteSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePasteSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided PasteSpec
+func (t *CreateAssetRequest_Spec) MergePasteSpec(v PasteSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsJITSpec returns the union data inside the CreateAssetRequest_Spec as a JITSpec
+func (t CreateAssetRequest_Spec) AsJITSpec() (JITSpec, error) {
+	var body JITSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromJITSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided JITSpec
+func (t *CreateAssetRequest_Spec) FromJITSpec(v JITSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeJITSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided JITSpec
+func (t *CreateAssetRequest_Spec) MergeJITSpec(v JITSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CreateAssetRequest_Spec) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CreateAssetRequest_Spec) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
-	// List activities
-	// (GET /activities)
-	GetActivities(w http.ResponseWriter, r *http.Request, params GetActivitiesParams)
-	// Get activity
-	// (GET /activities/{activityId})
-	GetActivitiesActivityId(w http.ResponseWriter, r *http.Request, activityId openapi_types.UUID)
-	// List audit logs
-	// (GET /admin/audit-logs)
-	GetAdminAuditLogs(w http.ResponseWriter, r *http.Request, params GetAdminAuditLogsParams)
-	// Get system settings
-	// (GET /admin/settings)
-	GetAdminSettings(w http.ResponseWriter, r *http.Request)
-	// Update system settings
-	// (PUT /admin/settings)
-	PutAdminSettings(w http.ResponseWriter, r *http.Request)
-	// Get system health
-	// (GET /admin/system-health)
-	GetAdminSystemHealth(w http.ResponseWriter, r *http.Request)
-	// List alarms
-	// (GET /alarms)
-	GetAlarms(w http.ResponseWriter, r *http.Request, params GetAlarmsParams)
-	// Get alarm
-	// (GET /alarms/{alarmId})
-	GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID)
-	// Acknowledge alarm
-	// (POST /alarms/{alarmId}/acknowledge)
-	PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID)
-	// Create group
-	// (POST /group)
-	PostGroup(w http.ResponseWriter, r *http.Request)
-	// Delete group
-	// (DELETE /group/{groupId})
-	DeleteGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// Get group
-	// (GET /group/{groupId})
-	GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// List credentials
-	// (GET /group/{groupId}/credential)
-	GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// Create credential
-	// (POST /group/{groupId}/credential)
-	PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// Delete credential
-	// (DELETE /group/{groupId}/credential/{credentialId})
-	DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
-	// Get credential
-	// (GET /group/{groupId}/credential/{credentialId})
-	GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
-	// Update credential
-	// (PUT /group/{groupId}/credential/{credentialId})
-	PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
-	// Get credential secret
-	// (GET /group/{groupId}/credential/{credentialId}/secret)
-	GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
-	// Add credential secret
-	// (POST /group/{groupId}/credential/{credentialId}/secret)
-	PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
-	// Update credential secret
-	// (PUT /group/{groupId}/credential/{credentialId}/secret)
-	PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID)
-	// Get group members
-	// (GET /group/{groupId}/members)
-	GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetGroupGroupIdMembersParams)
-	// Add group member
-	// (POST /group/{groupId}/members)
-	PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// Remove group member
-	// (DELETE /group/{groupId}/members/{userId})
-	DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, userId openapi_types.UUID)
-	// Get group policies
-	// (GET /group/{groupId}/policy)
-	GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// Assign policy to group
-	// (POST /group/{groupId}/policy)
-	PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// Remove policy from group
-	// (DELETE /group/{groupId}/policy/{policyId})
-	DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, policyId openapi_types.UUID)
-	// List pastes
-	// (GET /paste)
-	GetPaste(w http.ResponseWriter, r *http.Request, params GetPasteParams)
-	// Create paste
-	// (POST /paste)
-	PostPaste(w http.ResponseWriter, r *http.Request)
-	// Delete paste
-	// (DELETE /paste/{pasteId})
-	DeletePastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID)
-	// Get paste
-	// (GET /paste/{pasteId})
-	GetPastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID)
-	// List policies
-	// (GET /policies)
-	GetPolicies(w http.ResponseWriter, r *http.Request, params GetPoliciesParams)
-	// Create policy
-	// (POST /policies)
-	PostPolicies(w http.ResponseWriter, r *http.Request)
-	// Delete policy
-	// (DELETE /policies/{policyId})
-	DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID)
-	// Get policy
-	// (GET /policies/{policyId})
-	GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID)
-	// Update policy
-	// (PUT /policies/{policyId})
-	PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID)
-	// Global search
-	// (GET /search)
-	GetSearch(w http.ResponseWriter, r *http.Request, params GetSearchParams)
-	// Create service
-	// (POST /service)
-	PostService(w http.ResponseWriter, r *http.Request)
-	// Delete service
-	// (DELETE /service/{serviceId})
-	DeleteServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID)
-	// Get service
-	// (GET /service/{serviceId})
-	GetServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID)
-	// Update service
-	// (PUT /service/{serviceId})
-	PutServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID)
+
+	// (GET /admin/config)
+	GetAdminConfig(w http.ResponseWriter, r *http.Request)
+	// Update Security Posture
+	// (PATCH /admin/config)
+	PatchAdminConfig(w http.ResponseWriter, r *http.Request)
+	// Hybrid Search (Vector/IP/CIDR)
+	// (GET /assets)
+	GetAssets(w http.ResponseWriter, r *http.Request, params GetAssetsParams)
+	// Create Universal Asset
+	// (POST /assets)
+	PostAssets(w http.ResponseWriter, r *http.Request)
+	// Polymorphic Action (Check-out, Rotate, Elevate)
+	// (POST /assets/{id}/actions)
+	PostAssetsIdActions(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
+	// Query Audit Trails
+	// (GET /audit/logs)
+	GetAuditLogs(w http.ResponseWriter, r *http.Request, params GetAuditLogsParams)
+
+	// (GET /identity/groups)
+	GetIdentityGroups(w http.ResponseWriter, r *http.Request, params GetIdentityGroupsParams)
+	// Create UserGroup
+	// (POST /identity/groups)
+	PostIdentityGroups(w http.ResponseWriter, r *http.Request)
+	// Remove User from Group
+	// (DELETE /identity/groups/{groupId}/memberships)
+	DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params DeleteIdentityGroupsGroupIdMembershipsParams)
+	// List Group Members
+	// (GET /identity/groups/{groupId}/memberships)
+	GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetIdentityGroupsGroupIdMembershipsParams)
+	// Assign User to Group
+	// (POST /identity/groups/{groupId}/memberships)
+	PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
+	// Get current or specific user
+	// (GET /identity/user)
+	GetIdentityUser(w http.ResponseWriter, r *http.Request, params GetIdentityUserParams)
+	// Update current user profile
+	// (POST /identity/user)
+	PostIdentityUser(w http.ResponseWriter, r *http.Request)
+
+	// (GET /identity/users)
+	GetIdentityUsers(w http.ResponseWriter, r *http.Request)
+	// Onboard User
+	// (POST /identity/users)
+	PostIdentityUsers(w http.ResponseWriter, r *http.Request)
+	// List Vault Members (Roles & Keys)
+	// (GET /vaults/{vaultId}/memberships)
+	GetVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request, vaultId openapi_types.UUID)
+	// Add Member to Vault (Key Wrapping)
+	// (POST /vaults/{vaultId}/memberships)
+	PostVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request, vaultId openapi_types.UUID)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
 
 type Unimplemented struct{}
 
-// List activities
-// (GET /activities)
-func (_ Unimplemented) GetActivities(w http.ResponseWriter, r *http.Request, params GetActivitiesParams) {
+// (GET /admin/config)
+func (_ Unimplemented) GetAdminConfig(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Get activity
-// (GET /activities/{activityId})
-func (_ Unimplemented) GetActivitiesActivityId(w http.ResponseWriter, r *http.Request, activityId openapi_types.UUID) {
+// Update Security Posture
+// (PATCH /admin/config)
+func (_ Unimplemented) PatchAdminConfig(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// List audit logs
-// (GET /admin/audit-logs)
-func (_ Unimplemented) GetAdminAuditLogs(w http.ResponseWriter, r *http.Request, params GetAdminAuditLogsParams) {
+// Hybrid Search (Vector/IP/CIDR)
+// (GET /assets)
+func (_ Unimplemented) GetAssets(w http.ResponseWriter, r *http.Request, params GetAssetsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Get system settings
-// (GET /admin/settings)
-func (_ Unimplemented) GetAdminSettings(w http.ResponseWriter, r *http.Request) {
+// Create Universal Asset
+// (POST /assets)
+func (_ Unimplemented) PostAssets(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Update system settings
-// (PUT /admin/settings)
-func (_ Unimplemented) PutAdminSettings(w http.ResponseWriter, r *http.Request) {
+// Polymorphic Action (Check-out, Rotate, Elevate)
+// (POST /assets/{id}/actions)
+func (_ Unimplemented) PostAssetsIdActions(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Get system health
-// (GET /admin/system-health)
-func (_ Unimplemented) GetAdminSystemHealth(w http.ResponseWriter, r *http.Request) {
+// Query Audit Trails
+// (GET /audit/logs)
+func (_ Unimplemented) GetAuditLogs(w http.ResponseWriter, r *http.Request, params GetAuditLogsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// List alarms
-// (GET /alarms)
-func (_ Unimplemented) GetAlarms(w http.ResponseWriter, r *http.Request, params GetAlarmsParams) {
+// (GET /identity/groups)
+func (_ Unimplemented) GetIdentityGroups(w http.ResponseWriter, r *http.Request, params GetIdentityGroupsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Get alarm
-// (GET /alarms/{alarmId})
-func (_ Unimplemented) GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
+// Create UserGroup
+// (POST /identity/groups)
+func (_ Unimplemented) PostIdentityGroups(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Acknowledge alarm
-// (POST /alarms/{alarmId}/acknowledge)
-func (_ Unimplemented) PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
+// Remove User from Group
+// (DELETE /identity/groups/{groupId}/memberships)
+func (_ Unimplemented) DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params DeleteIdentityGroupsGroupIdMembershipsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Create group
-// (POST /group)
-func (_ Unimplemented) PostGroup(w http.ResponseWriter, r *http.Request) {
+// List Group Members
+// (GET /identity/groups/{groupId}/memberships)
+func (_ Unimplemented) GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetIdentityGroupsGroupIdMembershipsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Delete group
-// (DELETE /group/{groupId})
-func (_ Unimplemented) DeleteGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+// Assign User to Group
+// (POST /identity/groups/{groupId}/memberships)
+func (_ Unimplemented) PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Get group
-// (GET /group/{groupId})
-func (_ Unimplemented) GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+// Get current or specific user
+// (GET /identity/user)
+func (_ Unimplemented) GetIdentityUser(w http.ResponseWriter, r *http.Request, params GetIdentityUserParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// List credentials
-// (GET /group/{groupId}/credential)
-func (_ Unimplemented) GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+// Update current user profile
+// (POST /identity/user)
+func (_ Unimplemented) PostIdentityUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Create credential
-// (POST /group/{groupId}/credential)
-func (_ Unimplemented) PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+// (GET /identity/users)
+func (_ Unimplemented) GetIdentityUsers(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Delete credential
-// (DELETE /group/{groupId}/credential/{credentialId})
-func (_ Unimplemented) DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+// Onboard User
+// (POST /identity/users)
+func (_ Unimplemented) PostIdentityUsers(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Get credential
-// (GET /group/{groupId}/credential/{credentialId})
-func (_ Unimplemented) GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
+// List Vault Members (Roles & Keys)
+// (GET /vaults/{vaultId}/memberships)
+func (_ Unimplemented) GetVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request, vaultId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Update credential
-// (PUT /group/{groupId}/credential/{credentialId})
-func (_ Unimplemented) PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get credential secret
-// (GET /group/{groupId}/credential/{credentialId}/secret)
-func (_ Unimplemented) GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Add credential secret
-// (POST /group/{groupId}/credential/{credentialId}/secret)
-func (_ Unimplemented) PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update credential secret
-// (PUT /group/{groupId}/credential/{credentialId}/secret)
-func (_ Unimplemented) PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get group members
-// (GET /group/{groupId}/members)
-func (_ Unimplemented) GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetGroupGroupIdMembersParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Add group member
-// (POST /group/{groupId}/members)
-func (_ Unimplemented) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Remove group member
-// (DELETE /group/{groupId}/members/{userId})
-func (_ Unimplemented) DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, userId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get group policies
-// (GET /group/{groupId}/policy)
-func (_ Unimplemented) GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Assign policy to group
-// (POST /group/{groupId}/policy)
-func (_ Unimplemented) PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Remove policy from group
-// (DELETE /group/{groupId}/policy/{policyId})
-func (_ Unimplemented) DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, policyId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// List pastes
-// (GET /paste)
-func (_ Unimplemented) GetPaste(w http.ResponseWriter, r *http.Request, params GetPasteParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Create paste
-// (POST /paste)
-func (_ Unimplemented) PostPaste(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete paste
-// (DELETE /paste/{pasteId})
-func (_ Unimplemented) DeletePastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get paste
-// (GET /paste/{pasteId})
-func (_ Unimplemented) GetPastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// List policies
-// (GET /policies)
-func (_ Unimplemented) GetPolicies(w http.ResponseWriter, r *http.Request, params GetPoliciesParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Create policy
-// (POST /policies)
-func (_ Unimplemented) PostPolicies(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete policy
-// (DELETE /policies/{policyId})
-func (_ Unimplemented) DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get policy
-// (GET /policies/{policyId})
-func (_ Unimplemented) GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update policy
-// (PUT /policies/{policyId})
-func (_ Unimplemented) PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Global search
-// (GET /search)
-func (_ Unimplemented) GetSearch(w http.ResponseWriter, r *http.Request, params GetSearchParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Create service
-// (POST /service)
-func (_ Unimplemented) PostService(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete service
-// (DELETE /service/{serviceId})
-func (_ Unimplemented) DeleteServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get service
-// (GET /service/{serviceId})
-func (_ Unimplemented) GetServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update service
-// (PUT /service/{serviceId})
-func (_ Unimplemented) PutServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
+// Add Member to Vault (Key Wrapping)
+// (POST /vaults/{vaultId}/memberships)
+func (_ Unimplemented) PostVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request, vaultId openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1380,8 +853,48 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(http.Handler) http.Handler
 
-// GetActivities operation middleware
-func (siw *ServerInterfaceWrapper) GetActivities(w http.ResponseWriter, r *http.Request) {
+// GetAdminConfig operation middleware
+func (siw *ServerInterfaceWrapper) GetAdminConfig(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetAdminConfig(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PatchAdminConfig operation middleware
+func (siw *ServerInterfaceWrapper) PatchAdminConfig(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PatchAdminConfig(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetAssets operation middleware
+func (siw *ServerInterfaceWrapper) GetAssets(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
@@ -1392,1287 +905,7 @@ func (siw *ServerInterfaceWrapper) GetActivities(w http.ResponseWriter, r *http.
 	r = r.WithContext(ctx)
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params GetActivitiesParams
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "sort" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "sort", r.URL.Query(), &params.Sort, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "search" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "search", r.URL.Query(), &params.Search, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "severity" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "severity", r.URL.Query(), &params.Severity, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "severity", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "serviceId" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "serviceId", r.URL.Query(), &params.ServiceId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "groupId" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "groupId", r.URL.Query(), &params.GroupId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "sessionId" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "sessionId", r.URL.Query(), &params.SessionId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sessionId", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetActivities(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetActivitiesActivityId operation middleware
-func (siw *ServerInterfaceWrapper) GetActivitiesActivityId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "activityId" -------------
-	var activityId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "activityId", chi.URLParam(r, "activityId"), &activityId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "activityId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetActivitiesActivityId(w, r, activityId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetAdminAuditLogs operation middleware
-func (siw *ServerInterfaceWrapper) GetAdminAuditLogs(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetAdminAuditLogsParams
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "search" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "search", r.URL.Query(), &params.Search, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "userId" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "userId", r.URL.Query(), &params.UserId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "action" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "action", r.URL.Query(), &params.Action, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "action", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "startDate" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "startDate", r.URL.Query(), &params.StartDate, runtime.BindQueryParameterOptions{Type: "string", Format: "date"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "startDate", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "endDate" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "endDate", r.URL.Query(), &params.EndDate, runtime.BindQueryParameterOptions{Type: "string", Format: "date"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "endDate", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAdminAuditLogs(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetAdminSettings operation middleware
-func (siw *ServerInterfaceWrapper) GetAdminSettings(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAdminSettings(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PutAdminSettings operation middleware
-func (siw *ServerInterfaceWrapper) PutAdminSettings(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutAdminSettings(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetAdminSystemHealth operation middleware
-func (siw *ServerInterfaceWrapper) GetAdminSystemHealth(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAdminSystemHealth(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetAlarms operation middleware
-func (siw *ServerInterfaceWrapper) GetAlarms(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetAlarmsParams
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "sort" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "sort", r.URL.Query(), &params.Sort, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "search" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "search", r.URL.Query(), &params.Search, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "search", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "severity" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "severity", r.URL.Query(), &params.Severity, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "severity", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAlarms(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetAlarmsAlarmId operation middleware
-func (siw *ServerInterfaceWrapper) GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "alarmId" -------------
-	var alarmId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "alarmId", chi.URLParam(r, "alarmId"), &alarmId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "alarmId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAlarmsAlarmId(w, r, alarmId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostAlarmsAlarmIdAcknowledge operation middleware
-func (siw *ServerInterfaceWrapper) PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "alarmId" -------------
-	var alarmId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "alarmId", chi.URLParam(r, "alarmId"), &alarmId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "alarmId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostAlarmsAlarmIdAcknowledge(w, r, alarmId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostGroup operation middleware
-func (siw *ServerInterfaceWrapper) PostGroup(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroup(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// DeleteGroupGroupId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteGroupGroupId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteGroupGroupId(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetGroupGroupId operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupGroupId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupGroupId(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetGroupGroupIdCredential operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupGroupIdCredential(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostGroupGroupIdCredential operation middleware
-func (siw *ServerInterfaceWrapper) PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroupGroupIdCredential(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// DeleteGroupGroupIdCredentialCredentialId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "credentialId" -------------
-	var credentialId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteGroupGroupIdCredentialCredentialId(w, r, groupId, credentialId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetGroupGroupIdCredentialCredentialId operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "credentialId" -------------
-	var credentialId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupGroupIdCredentialCredentialId(w, r, groupId, credentialId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PutGroupGroupIdCredentialCredentialId operation middleware
-func (siw *ServerInterfaceWrapper) PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "credentialId" -------------
-	var credentialId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutGroupGroupIdCredentialCredentialId(w, r, groupId, credentialId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetGroupGroupIdCredentialCredentialIdSecret operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "credentialId" -------------
-	var credentialId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupGroupIdCredentialCredentialIdSecret(w, r, groupId, credentialId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostGroupGroupIdCredentialCredentialIdSecret operation middleware
-func (siw *ServerInterfaceWrapper) PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "credentialId" -------------
-	var credentialId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroupGroupIdCredentialCredentialIdSecret(w, r, groupId, credentialId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PutGroupGroupIdCredentialCredentialIdSecret operation middleware
-func (siw *ServerInterfaceWrapper) PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "credentialId" -------------
-	var credentialId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "credentialId", chi.URLParam(r, "credentialId"), &credentialId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "credentialId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutGroupGroupIdCredentialCredentialIdSecret(w, r, groupId, credentialId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetGroupGroupIdMembers operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetGroupGroupIdMembersParams
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupGroupIdMembers(w, r, groupId, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostGroupGroupIdMembers operation middleware
-func (siw *ServerInterfaceWrapper) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroupGroupIdMembers(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// DeleteGroupGroupIdMembersUserId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "userId" -------------
-	var userId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteGroupGroupIdMembersUserId(w, r, groupId, userId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetGroupGroupIdPolicy operation middleware
-func (siw *ServerInterfaceWrapper) GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetGroupGroupIdPolicy(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostGroupGroupIdPolicy operation middleware
-func (siw *ServerInterfaceWrapper) PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostGroupGroupIdPolicy(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// DeleteGroupGroupIdPolicyPolicyId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	// ------------- Path parameter "policyId" -------------
-	var policyId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteGroupGroupIdPolicyPolicyId(w, r, groupId, policyId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetPaste operation middleware
-func (siw *ServerInterfaceWrapper) GetPaste(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetPasteParams
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "filter" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "filter", r.URL.Query(), &params.Filter, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filter", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetPaste(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostPaste operation middleware
-func (siw *ServerInterfaceWrapper) PostPaste(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostPaste(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// DeletePastePasteId operation middleware
-func (siw *ServerInterfaceWrapper) DeletePastePasteId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "pasteId" -------------
-	var pasteId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "pasteId", chi.URLParam(r, "pasteId"), &pasteId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "pasteId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeletePastePasteId(w, r, pasteId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetPastePasteId operation middleware
-func (siw *ServerInterfaceWrapper) GetPastePasteId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "pasteId" -------------
-	var pasteId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "pasteId", chi.URLParam(r, "pasteId"), &pasteId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "pasteId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetPastePasteId(w, r, pasteId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetPolicies operation middleware
-func (siw *ServerInterfaceWrapper) GetPolicies(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetPoliciesParams
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetPolicies(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostPolicies operation middleware
-func (siw *ServerInterfaceWrapper) PostPolicies(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostPolicies(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// DeletePoliciesPolicyId operation middleware
-func (siw *ServerInterfaceWrapper) DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "policyId" -------------
-	var policyId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeletePoliciesPolicyId(w, r, policyId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetPoliciesPolicyId operation middleware
-func (siw *ServerInterfaceWrapper) GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "policyId" -------------
-	var policyId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetPoliciesPolicyId(w, r, policyId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PutPoliciesPolicyId operation middleware
-func (siw *ServerInterfaceWrapper) PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "policyId" -------------
-	var policyId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "policyId", chi.URLParam(r, "policyId"), &policyId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "policyId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutPoliciesPolicyId(w, r, policyId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetSearch operation middleware
-func (siw *ServerInterfaceWrapper) GetSearch(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetSearchParams
+	var params GetAssetsParams
 
 	// ------------- Optional query parameter "q" -------------
 
@@ -2690,11 +923,11 @@ func (siw *ServerInterfaceWrapper) GetSearch(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// ------------- Optional query parameter "page" -------------
+	// ------------- Optional query parameter "parent_id" -------------
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "page", r.URL.Query(), &params.Page, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "parent_id", r.URL.Query(), &params.ParentId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "page", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "parent_id", Err: err})
 		return
 	}
 
@@ -2706,32 +939,220 @@ func (siw *ServerInterfaceWrapper) GetSearch(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// ------------- Optional query parameter "sort" -------------
+	// ------------- Optional query parameter "offset" -------------
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "sort", r.URL.Query(), &params.Sort, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "offset", r.URL.Query(), &params.Offset, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
 		return
 	}
 
-	// ------------- Optional query parameter "status" -------------
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetAssets(w, r, params)
+	}))
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "status", r.URL.Query(), &params.Status, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PostAssets operation middleware
+func (siw *ServerInterfaceWrapper) PostAssets(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostAssets(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PostAssetsIdActions operation middleware
+func (siw *ServerInterfaceWrapper) PostAssetsIdActions(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "status", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
 		return
 	}
 
-	// ------------- Optional query parameter "groupId" -------------
+	ctx := r.Context()
 
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "groupId", r.URL.Query(), &params.GroupId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostAssetsIdActions(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetAuditLogs operation middleware
+func (siw *ServerInterfaceWrapper) GetAuditLogs(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetAuditLogsParams
+
+	// ------------- Optional query parameter "actor_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "actor_id", r.URL.Query(), &params.ActorId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "actor_id", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "resource_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "resource_id", r.URL.Query(), &params.ResourceId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "resource_id", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "from" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "from", r.URL.Query(), &params.From, runtime.BindQueryParameterOptions{Type: "string", Format: "date-time"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "from", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetAuditLogs(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetIdentityGroups operation middleware
+func (siw *ServerInterfaceWrapper) GetIdentityGroups(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetIdentityGroupsParams
+
+	// ------------- Optional query parameter "limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "offset" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "offset", r.URL.Query(), &params.Offset, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetIdentityGroups(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PostIdentityGroups operation middleware
+func (siw *ServerInterfaceWrapper) PostIdentityGroups(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostIdentityGroups(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// DeleteIdentityGroupsGroupIdMemberships operation middleware
+func (siw *ServerInterfaceWrapper) DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params DeleteIdentityGroupsGroupIdMembershipsParams
+
+	// ------------- Required query parameter "user_id" -------------
+
+	if paramValue := r.URL.Query().Get("user_id"); paramValue != "" {
+
+	} else {
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "user_id"})
+		return
+	}
+
+	err = runtime.BindQueryParameterWithOptions("form", true, true, "user_id", r.URL.Query(), &params.UserId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "user_id", Err: err})
+		return
+	}
+
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetSearch(w, r, params)
+		siw.Handler.DeleteIdentityGroupsGroupIdMemberships(w, r, groupId, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2741,8 +1162,19 @@ func (siw *ServerInterfaceWrapper) GetSearch(w http.ResponseWriter, r *http.Requ
 	handler.ServeHTTP(w, r)
 }
 
-// PostService operation middleware
-func (siw *ServerInterfaceWrapper) PostService(w http.ResponseWriter, r *http.Request) {
+// GetIdentityGroupsGroupIdMemberships operation middleware
+func (siw *ServerInterfaceWrapper) GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
 
 	ctx := r.Context()
 
@@ -2750,8 +1182,27 @@ func (siw *ServerInterfaceWrapper) PostService(w http.ResponseWriter, r *http.Re
 
 	r = r.WithContext(ctx)
 
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetIdentityGroupsGroupIdMembershipsParams
+
+	// ------------- Optional query parameter "limit" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "offset" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "offset", r.URL.Query(), &params.Offset, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
+		return
+	}
+
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostService(w, r)
+		siw.Handler.GetIdentityGroupsGroupIdMemberships(w, r, groupId, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2761,17 +1212,17 @@ func (siw *ServerInterfaceWrapper) PostService(w http.ResponseWriter, r *http.Re
 	handler.ServeHTTP(w, r)
 }
 
-// DeleteServiceServiceId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteServiceServiceId(w http.ResponseWriter, r *http.Request) {
+// PostIdentityGroupsGroupIdMemberships operation middleware
+func (siw *ServerInterfaceWrapper) PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "serviceId" -------------
-	var serviceId openapi_types.UUID
+	// ------------- Path parameter "groupId" -------------
+	var groupId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "serviceId", chi.URLParam(r, "serviceId"), &serviceId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
 		return
 	}
 
@@ -2782,7 +1233,7 @@ func (siw *ServerInterfaceWrapper) DeleteServiceServiceId(w http.ResponseWriter,
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteServiceServiceId(w, r, serviceId)
+		siw.Handler.PostIdentityGroupsGroupIdMemberships(w, r, groupId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2792,17 +1243,112 @@ func (siw *ServerInterfaceWrapper) DeleteServiceServiceId(w http.ResponseWriter,
 	handler.ServeHTTP(w, r)
 }
 
-// GetServiceServiceId operation middleware
-func (siw *ServerInterfaceWrapper) GetServiceServiceId(w http.ResponseWriter, r *http.Request) {
+// GetIdentityUser operation middleware
+func (siw *ServerInterfaceWrapper) GetIdentityUser(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "serviceId" -------------
-	var serviceId openapi_types.UUID
+	ctx := r.Context()
 
-	err = runtime.BindStyledParameterWithOptions("simple", "serviceId", chi.URLParam(r, "serviceId"), &serviceId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetIdentityUserParams
+
+	// ------------- Optional query parameter "user_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "user_id", r.URL.Query(), &params.UserId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "user_id", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "view" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "view", r.URL.Query(), &params.View, runtime.BindQueryParameterOptions{Type: "string", Format: ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "view", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetIdentityUser(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PostIdentityUser operation middleware
+func (siw *ServerInterfaceWrapper) PostIdentityUser(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostIdentityUser(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetIdentityUsers operation middleware
+func (siw *ServerInterfaceWrapper) GetIdentityUsers(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetIdentityUsers(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PostIdentityUsers operation middleware
+func (siw *ServerInterfaceWrapper) PostIdentityUsers(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostIdentityUsers(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetVaultsVaultIdMemberships operation middleware
+func (siw *ServerInterfaceWrapper) GetVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "vaultId" -------------
+	var vaultId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "vaultId", chi.URLParam(r, "vaultId"), &vaultId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vaultId", Err: err})
 		return
 	}
 
@@ -2813,7 +1359,7 @@ func (siw *ServerInterfaceWrapper) GetServiceServiceId(w http.ResponseWriter, r 
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetServiceServiceId(w, r, serviceId)
+		siw.Handler.GetVaultsVaultIdMemberships(w, r, vaultId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2823,17 +1369,17 @@ func (siw *ServerInterfaceWrapper) GetServiceServiceId(w http.ResponseWriter, r 
 	handler.ServeHTTP(w, r)
 }
 
-// PutServiceServiceId operation middleware
-func (siw *ServerInterfaceWrapper) PutServiceServiceId(w http.ResponseWriter, r *http.Request) {
+// PostVaultsVaultIdMemberships operation middleware
+func (siw *ServerInterfaceWrapper) PostVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	// ------------- Path parameter "serviceId" -------------
-	var serviceId openapi_types.UUID
+	// ------------- Path parameter "vaultId" -------------
+	var vaultId openapi_types.UUID
 
-	err = runtime.BindStyledParameterWithOptions("simple", "serviceId", chi.URLParam(r, "serviceId"), &serviceId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
+	err = runtime.BindStyledParameterWithOptions("simple", "vaultId", chi.URLParam(r, "vaultId"), &vaultId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "serviceId", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vaultId", Err: err})
 		return
 	}
 
@@ -2844,7 +1390,7 @@ func (siw *ServerInterfaceWrapper) PutServiceServiceId(w http.ResponseWriter, r 
 	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutServiceServiceId(w, r, serviceId)
+		siw.Handler.PostVaultsVaultIdMemberships(w, r, vaultId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -2968,1190 +1514,420 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/activities", wrapper.GetActivities)
+		r.Get(options.BaseURL+"/admin/config", wrapper.GetAdminConfig)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/activities/{activityId}", wrapper.GetActivitiesActivityId)
+		r.Patch(options.BaseURL+"/admin/config", wrapper.PatchAdminConfig)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/admin/audit-logs", wrapper.GetAdminAuditLogs)
+		r.Get(options.BaseURL+"/assets", wrapper.GetAssets)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/admin/settings", wrapper.GetAdminSettings)
+		r.Post(options.BaseURL+"/assets", wrapper.PostAssets)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/admin/settings", wrapper.PutAdminSettings)
+		r.Post(options.BaseURL+"/assets/{id}/actions", wrapper.PostAssetsIdActions)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/admin/system-health", wrapper.GetAdminSystemHealth)
+		r.Get(options.BaseURL+"/audit/logs", wrapper.GetAuditLogs)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/alarms", wrapper.GetAlarms)
+		r.Get(options.BaseURL+"/identity/groups", wrapper.GetIdentityGroups)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/alarms/{alarmId}", wrapper.GetAlarmsAlarmId)
+		r.Post(options.BaseURL+"/identity/groups", wrapper.PostIdentityGroups)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/alarms/{alarmId}/acknowledge", wrapper.PostAlarmsAlarmIdAcknowledge)
+		r.Delete(options.BaseURL+"/identity/groups/{groupId}/memberships", wrapper.DeleteIdentityGroupsGroupIdMemberships)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/group", wrapper.PostGroup)
+		r.Get(options.BaseURL+"/identity/groups/{groupId}/memberships", wrapper.GetIdentityGroupsGroupIdMemberships)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/group/{groupId}", wrapper.DeleteGroupGroupId)
+		r.Post(options.BaseURL+"/identity/groups/{groupId}/memberships", wrapper.PostIdentityGroupsGroupIdMemberships)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/group/{groupId}", wrapper.GetGroupGroupId)
+		r.Get(options.BaseURL+"/identity/user", wrapper.GetIdentityUser)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/group/{groupId}/credential", wrapper.GetGroupGroupIdCredential)
+		r.Post(options.BaseURL+"/identity/user", wrapper.PostIdentityUser)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/group/{groupId}/credential", wrapper.PostGroupGroupIdCredential)
+		r.Get(options.BaseURL+"/identity/users", wrapper.GetIdentityUsers)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/group/{groupId}/credential/{credentialId}", wrapper.DeleteGroupGroupIdCredentialCredentialId)
+		r.Post(options.BaseURL+"/identity/users", wrapper.PostIdentityUsers)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/group/{groupId}/credential/{credentialId}", wrapper.GetGroupGroupIdCredentialCredentialId)
+		r.Get(options.BaseURL+"/vaults/{vaultId}/memberships", wrapper.GetVaultsVaultIdMemberships)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/group/{groupId}/credential/{credentialId}", wrapper.PutGroupGroupIdCredentialCredentialId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/group/{groupId}/credential/{credentialId}/secret", wrapper.GetGroupGroupIdCredentialCredentialIdSecret)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/group/{groupId}/credential/{credentialId}/secret", wrapper.PostGroupGroupIdCredentialCredentialIdSecret)
-	})
-	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/group/{groupId}/credential/{credentialId}/secret", wrapper.PutGroupGroupIdCredentialCredentialIdSecret)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/group/{groupId}/members", wrapper.GetGroupGroupIdMembers)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/group/{groupId}/members", wrapper.PostGroupGroupIdMembers)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/group/{groupId}/members/{userId}", wrapper.DeleteGroupGroupIdMembersUserId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/group/{groupId}/policy", wrapper.GetGroupGroupIdPolicy)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/group/{groupId}/policy", wrapper.PostGroupGroupIdPolicy)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/group/{groupId}/policy/{policyId}", wrapper.DeleteGroupGroupIdPolicyPolicyId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/paste", wrapper.GetPaste)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/paste", wrapper.PostPaste)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/paste/{pasteId}", wrapper.DeletePastePasteId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/paste/{pasteId}", wrapper.GetPastePasteId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/policies", wrapper.GetPolicies)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/policies", wrapper.PostPolicies)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/policies/{policyId}", wrapper.DeletePoliciesPolicyId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/policies/{policyId}", wrapper.GetPoliciesPolicyId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/policies/{policyId}", wrapper.PutPoliciesPolicyId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/search", wrapper.GetSearch)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/service", wrapper.PostService)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/service/{serviceId}", wrapper.DeleteServiceServiceId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/service/{serviceId}", wrapper.GetServiceServiceId)
-	})
-	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/service/{serviceId}", wrapper.PutServiceServiceId)
+		r.Post(options.BaseURL+"/vaults/{vaultId}/memberships", wrapper.PostVaultsVaultIdMemberships)
 	})
 
 	return r
 }
 
-type ClientErrorJSONResponse GenericError
-
-type GetActivitiesRequestObject struct {
-	Params GetActivitiesParams
+type GetAdminConfigRequestObject struct {
 }
 
-type GetActivitiesResponseObject interface {
-	VisitGetActivitiesResponse(w http.ResponseWriter) error
+type GetAdminConfigResponseObject interface {
+	VisitGetAdminConfigResponse(w http.ResponseWriter) error
 }
 
-type GetActivities200JSONResponse ActivityList
-
-func (response GetActivities200JSONResponse) VisitGetActivitiesResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
+type GetAdminConfig200Response struct {
 }
 
-type GetActivitiesActivityIdRequestObject struct {
-	ActivityId openapi_types.UUID `json:"activityId"`
-}
-
-type GetActivitiesActivityIdResponseObject interface {
-	VisitGetActivitiesActivityIdResponse(w http.ResponseWriter) error
-}
-
-type GetActivitiesActivityId200JSONResponse ActivityDetail
-
-func (response GetActivitiesActivityId200JSONResponse) VisitGetActivitiesActivityIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetAdminAuditLogsRequestObject struct {
-	Params GetAdminAuditLogsParams
-}
-
-type GetAdminAuditLogsResponseObject interface {
-	VisitGetAdminAuditLogsResponse(w http.ResponseWriter) error
-}
-
-type GetAdminAuditLogs200JSONResponse AuditLogList
-
-func (response GetAdminAuditLogs200JSONResponse) VisitGetAdminAuditLogsResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetAdminSettingsRequestObject struct {
-}
-
-type GetAdminSettingsResponseObject interface {
-	VisitGetAdminSettingsResponse(w http.ResponseWriter) error
-}
-
-type GetAdminSettings200JSONResponse SystemSettings
-
-func (response GetAdminSettings200JSONResponse) VisitGetAdminSettingsResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutAdminSettingsRequestObject struct {
-	Body *PutAdminSettingsJSONRequestBody
-}
-
-type PutAdminSettingsResponseObject interface {
-	VisitPutAdminSettingsResponse(w http.ResponseWriter) error
-}
-
-type PutAdminSettings200JSONResponse SystemSettings
-
-func (response PutAdminSettings200JSONResponse) VisitPutAdminSettingsResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetAdminSystemHealthRequestObject struct {
-}
-
-type GetAdminSystemHealthResponseObject interface {
-	VisitGetAdminSystemHealthResponse(w http.ResponseWriter) error
-}
-
-type GetAdminSystemHealth200JSONResponse SystemHealth
-
-func (response GetAdminSystemHealth200JSONResponse) VisitGetAdminSystemHealthResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetAlarmsRequestObject struct {
-	Params GetAlarmsParams
-}
-
-type GetAlarmsResponseObject interface {
-	VisitGetAlarmsResponse(w http.ResponseWriter) error
-}
-
-type GetAlarms200JSONResponse AlarmList
-
-func (response GetAlarms200JSONResponse) VisitGetAlarmsResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetAlarmsAlarmIdRequestObject struct {
-	AlarmId openapi_types.UUID `json:"alarmId"`
-}
-
-type GetAlarmsAlarmIdResponseObject interface {
-	VisitGetAlarmsAlarmIdResponse(w http.ResponseWriter) error
-}
-
-type GetAlarmsAlarmId200JSONResponse Alarm
-
-func (response GetAlarmsAlarmId200JSONResponse) VisitGetAlarmsAlarmIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostAlarmsAlarmIdAcknowledgeRequestObject struct {
-	AlarmId openapi_types.UUID `json:"alarmId"`
-}
-
-type PostAlarmsAlarmIdAcknowledgeResponseObject interface {
-	VisitPostAlarmsAlarmIdAcknowledgeResponse(w http.ResponseWriter) error
-}
-
-type PostAlarmsAlarmIdAcknowledge200Response struct {
-}
-
-func (response PostAlarmsAlarmIdAcknowledge200Response) VisitPostAlarmsAlarmIdAcknowledgeResponse(w http.ResponseWriter) error {
+func (response GetAdminConfig200Response) VisitGetAdminConfigResponse(w http.ResponseWriter) error {
 	w.WriteHeader(200)
 	return nil
 }
 
-type PostGroupRequestObject struct {
-	Body *PostGroupJSONRequestBody
+type PatchAdminConfigRequestObject struct {
+	Body *PatchAdminConfigJSONRequestBody
 }
 
-type PostGroupResponseObject interface {
-	VisitPostGroupResponse(w http.ResponseWriter) error
+type PatchAdminConfigResponseObject interface {
+	VisitPatchAdminConfigResponse(w http.ResponseWriter) error
 }
 
-type PostGroup201JSONResponse Group
+type PatchAdminConfig200Response struct {
+}
 
-func (response PostGroup201JSONResponse) VisitPostGroupResponse(w http.ResponseWriter) error {
+func (response PatchAdminConfig200Response) VisitPatchAdminConfigResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type GetAssetsRequestObject struct {
+	Params GetAssetsParams
+}
+
+type GetAssetsResponseObject interface {
+	VisitGetAssetsResponse(w http.ResponseWriter) error
+}
+
+type GetAssets200JSONResponse AssetList
+
+func (response GetAssets200JSONResponse) VisitGetAssetsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostAssetsRequestObject struct {
+	Body *PostAssetsJSONRequestBody
+}
+
+type PostAssetsResponseObject interface {
+	VisitPostAssetsResponse(w http.ResponseWriter) error
+}
+
+type PostAssets201JSONResponse Asset
+
+func (response PostAssets201JSONResponse) VisitPostAssetsResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(201)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostGroup4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
+type PostAssetsIdActionsRequestObject struct {
+	Id   openapi_types.UUID `json:"id"`
+	Body *PostAssetsIdActionsJSONRequestBody
 }
 
-func (response PostGroup4XXJSONResponse) VisitPostGroupResponse(w http.ResponseWriter) error {
+type PostAssetsIdActionsResponseObject interface {
+	VisitPostAssetsIdActionsResponse(w http.ResponseWriter) error
+}
+
+type PostAssetsIdActions200Response struct {
+}
+
+func (response PostAssetsIdActions200Response) VisitPostAssetsIdActionsResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type PostAssetsIdActions202Response struct {
+}
+
+func (response PostAssetsIdActions202Response) VisitPostAssetsIdActionsResponse(w http.ResponseWriter) error {
+	w.WriteHeader(202)
+	return nil
+}
+
+type GetAuditLogsRequestObject struct {
+	Params GetAuditLogsParams
+}
+
+type GetAuditLogsResponseObject interface {
+	VisitGetAuditLogsResponse(w http.ResponseWriter) error
+}
+
+type GetAuditLogs200JSONResponse []AuditEntry
+
+func (response GetAuditLogs200JSONResponse) VisitGetAuditLogsResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
+	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(response)
 }
 
-type DeleteGroupGroupIdRequestObject struct {
+type GetIdentityGroupsRequestObject struct {
+	Params GetIdentityGroupsParams
+}
+
+type GetIdentityGroupsResponseObject interface {
+	VisitGetIdentityGroupsResponse(w http.ResponseWriter) error
+}
+
+type GetIdentityGroups200JSONResponse UserGroupList
+
+func (response GetIdentityGroups200JSONResponse) VisitGetIdentityGroupsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostIdentityGroupsRequestObject struct {
+	Body *PostIdentityGroupsJSONRequestBody
+}
+
+type PostIdentityGroupsResponseObject interface {
+	VisitPostIdentityGroupsResponse(w http.ResponseWriter) error
+}
+
+type PostIdentityGroups201Response struct {
+}
+
+func (response PostIdentityGroups201Response) VisitPostIdentityGroupsResponse(w http.ResponseWriter) error {
+	w.WriteHeader(201)
+	return nil
+}
+
+type DeleteIdentityGroupsGroupIdMembershipsRequestObject struct {
 	GroupId openapi_types.UUID `json:"groupId"`
+	Params  DeleteIdentityGroupsGroupIdMembershipsParams
 }
 
-type DeleteGroupGroupIdResponseObject interface {
-	VisitDeleteGroupGroupIdResponse(w http.ResponseWriter) error
+type DeleteIdentityGroupsGroupIdMembershipsResponseObject interface {
+	VisitDeleteIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error
 }
 
-type DeleteGroupGroupId204Response struct {
+type DeleteIdentityGroupsGroupIdMemberships204Response struct {
 }
 
-func (response DeleteGroupGroupId204Response) VisitDeleteGroupGroupIdResponse(w http.ResponseWriter) error {
+func (response DeleteIdentityGroupsGroupIdMemberships204Response) VisitDeleteIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error {
 	w.WriteHeader(204)
 	return nil
 }
 
-type DeleteGroupGroupId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response DeleteGroupGroupId4XXJSONResponse) VisitDeleteGroupGroupIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetGroupGroupIdRequestObject struct {
+type GetIdentityGroupsGroupIdMembershipsRequestObject struct {
 	GroupId openapi_types.UUID `json:"groupId"`
+	Params  GetIdentityGroupsGroupIdMembershipsParams
 }
 
-type GetGroupGroupIdResponseObject interface {
-	VisitGetGroupGroupIdResponse(w http.ResponseWriter) error
+type GetIdentityGroupsGroupIdMembershipsResponseObject interface {
+	VisitGetIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error
 }
 
-type GetGroupGroupId200JSONResponse GroupDetail
+type GetIdentityGroupsGroupIdMemberships200JSONResponse GroupMembershipList
 
-func (response GetGroupGroupId200JSONResponse) VisitGetGroupGroupIdResponse(w http.ResponseWriter) error {
+func (response GetIdentityGroupsGroupIdMemberships200JSONResponse) VisitGetIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetGroupGroupId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response GetGroupGroupId4XXJSONResponse) VisitGetGroupGroupIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetGroupGroupIdCredentialRequestObject struct {
+type PostIdentityGroupsGroupIdMembershipsRequestObject struct {
 	GroupId openapi_types.UUID `json:"groupId"`
+	Body    *PostIdentityGroupsGroupIdMembershipsJSONRequestBody
 }
 
-type GetGroupGroupIdCredentialResponseObject interface {
-	VisitGetGroupGroupIdCredentialResponse(w http.ResponseWriter) error
+type PostIdentityGroupsGroupIdMembershipsResponseObject interface {
+	VisitPostIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error
 }
 
-type GetGroupGroupIdCredential200JSONResponse CredentialList
-
-func (response GetGroupGroupIdCredential200JSONResponse) VisitGetGroupGroupIdCredentialResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
+type PostIdentityGroupsGroupIdMemberships201Response struct {
 }
 
-type PostGroupGroupIdCredentialRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	Body    *PostGroupGroupIdCredentialJSONRequestBody
-}
-
-type PostGroupGroupIdCredentialResponseObject interface {
-	VisitPostGroupGroupIdCredentialResponse(w http.ResponseWriter) error
-}
-
-type PostGroupGroupIdCredential201JSONResponse Credential
-
-func (response PostGroupGroupIdCredential201JSONResponse) VisitPostGroupGroupIdCredentialResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(201)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostGroupGroupIdCredential4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response PostGroupGroupIdCredential4XXJSONResponse) VisitPostGroupGroupIdCredentialResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type DeleteGroupGroupIdCredentialCredentialIdRequestObject struct {
-	GroupId      openapi_types.UUID `json:"groupId"`
-	CredentialId openapi_types.UUID `json:"credentialId"`
-}
-
-type DeleteGroupGroupIdCredentialCredentialIdResponseObject interface {
-	VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error
-}
-
-type DeleteGroupGroupIdCredentialCredentialId204Response struct {
-}
-
-func (response DeleteGroupGroupIdCredentialCredentialId204Response) VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
-	return nil
-}
-
-type DeleteGroupGroupIdCredentialCredentialId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response DeleteGroupGroupIdCredentialCredentialId4XXJSONResponse) VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetGroupGroupIdCredentialCredentialIdRequestObject struct {
-	GroupId      openapi_types.UUID `json:"groupId"`
-	CredentialId openapi_types.UUID `json:"credentialId"`
-}
-
-type GetGroupGroupIdCredentialCredentialIdResponseObject interface {
-	VisitGetGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error
-}
-
-type GetGroupGroupIdCredentialCredentialId200JSONResponse Credential
-
-func (response GetGroupGroupIdCredentialCredentialId200JSONResponse) VisitGetGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutGroupGroupIdCredentialCredentialIdRequestObject struct {
-	GroupId      openapi_types.UUID `json:"groupId"`
-	CredentialId openapi_types.UUID `json:"credentialId"`
-	Body         *PutGroupGroupIdCredentialCredentialIdJSONRequestBody
-}
-
-type PutGroupGroupIdCredentialCredentialIdResponseObject interface {
-	VisitPutGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error
-}
-
-type PutGroupGroupIdCredentialCredentialId200JSONResponse Credential
-
-func (response PutGroupGroupIdCredentialCredentialId200JSONResponse) VisitPutGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutGroupGroupIdCredentialCredentialId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response PutGroupGroupIdCredentialCredentialId4XXJSONResponse) VisitPutGroupGroupIdCredentialCredentialIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetGroupGroupIdCredentialCredentialIdSecretRequestObject struct {
-	GroupId      openapi_types.UUID `json:"groupId"`
-	CredentialId openapi_types.UUID `json:"credentialId"`
-}
-
-type GetGroupGroupIdCredentialCredentialIdSecretResponseObject interface {
-	VisitGetGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error
-}
-
-type GetGroupGroupIdCredentialCredentialIdSecret200JSONResponse CredentialSecret
-
-func (response GetGroupGroupIdCredentialCredentialIdSecret200JSONResponse) VisitGetGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostGroupGroupIdCredentialCredentialIdSecretRequestObject struct {
-	GroupId      openapi_types.UUID `json:"groupId"`
-	CredentialId openapi_types.UUID `json:"credentialId"`
-	Body         *PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
-}
-
-type PostGroupGroupIdCredentialCredentialIdSecretResponseObject interface {
-	VisitPostGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error
-}
-
-type PostGroupGroupIdCredentialCredentialIdSecret201JSONResponse CredentialSecret
-
-func (response PostGroupGroupIdCredentialCredentialIdSecret201JSONResponse) VisitPostGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(201)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutGroupGroupIdCredentialCredentialIdSecretRequestObject struct {
-	GroupId      openapi_types.UUID `json:"groupId"`
-	CredentialId openapi_types.UUID `json:"credentialId"`
-	Body         *PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
-}
-
-type PutGroupGroupIdCredentialCredentialIdSecretResponseObject interface {
-	VisitPutGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error
-}
-
-type PutGroupGroupIdCredentialCredentialIdSecret200JSONResponse CredentialSecret
-
-func (response PutGroupGroupIdCredentialCredentialIdSecret200JSONResponse) VisitPutGroupGroupIdCredentialCredentialIdSecretResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetGroupGroupIdMembersRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	Params  GetGroupGroupIdMembersParams
-}
-
-type GetGroupGroupIdMembersResponseObject interface {
-	VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error
-}
-
-type GetGroupGroupIdMembers200JSONResponse PaginatedResponse
-
-func (response GetGroupGroupIdMembers200JSONResponse) VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetGroupGroupIdMembers4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response GetGroupGroupIdMembers4XXJSONResponse) VisitGetGroupGroupIdMembersResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type PostGroupGroupIdMembersRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	Body    *PostGroupGroupIdMembersJSONRequestBody
-}
-
-type PostGroupGroupIdMembersResponseObject interface {
-	VisitPostGroupGroupIdMembersResponse(w http.ResponseWriter) error
-}
-
-type PostGroupGroupIdMembers201Response struct {
-}
-
-func (response PostGroupGroupIdMembers201Response) VisitPostGroupGroupIdMembersResponse(w http.ResponseWriter) error {
+func (response PostIdentityGroupsGroupIdMemberships201Response) VisitPostIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error {
 	w.WriteHeader(201)
 	return nil
 }
 
-type PostGroupGroupIdMembers4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
+type GetIdentityUserRequestObject struct {
+	Params GetIdentityUserParams
 }
 
-func (response PostGroupGroupIdMembers4XXJSONResponse) VisitPostGroupGroupIdMembersResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
+type GetIdentityUserResponseObject interface {
+	VisitGetIdentityUserResponse(w http.ResponseWriter) error
 }
 
-type DeleteGroupGroupIdMembersUserIdRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	UserId  openapi_types.UUID `json:"userId"`
-}
+type GetIdentityUser200JSONResponse User
 
-type DeleteGroupGroupIdMembersUserIdResponseObject interface {
-	VisitDeleteGroupGroupIdMembersUserIdResponse(w http.ResponseWriter) error
-}
-
-type DeleteGroupGroupIdMembersUserId204Response struct {
-}
-
-func (response DeleteGroupGroupIdMembersUserId204Response) VisitDeleteGroupGroupIdMembersUserIdResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
-	return nil
-}
-
-type DeleteGroupGroupIdMembersUserId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response DeleteGroupGroupIdMembersUserId4XXJSONResponse) VisitDeleteGroupGroupIdMembersUserIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetGroupGroupIdPolicyRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-}
-
-type GetGroupGroupIdPolicyResponseObject interface {
-	VisitGetGroupGroupIdPolicyResponse(w http.ResponseWriter) error
-}
-
-type GetGroupGroupIdPolicy200JSONResponse []Policy
-
-func (response GetGroupGroupIdPolicy200JSONResponse) VisitGetGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
+func (response GetIdentityUser200JSONResponse) VisitGetIdentityUserResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetGroupGroupIdPolicy4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
+type GetIdentityUser404Response struct {
 }
 
-func (response GetGroupGroupIdPolicy4XXJSONResponse) VisitGetGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
+func (response GetIdentityUser404Response) VisitGetIdentityUserResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type PostIdentityUserRequestObject struct {
+	Body *PostIdentityUserJSONRequestBody
+}
+
+type PostIdentityUserResponseObject interface {
+	VisitPostIdentityUserResponse(w http.ResponseWriter) error
+}
+
+type PostIdentityUser200JSONResponse User
+
+func (response PostIdentityUser200JSONResponse) VisitPostIdentityUserResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
+	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(response)
 }
 
-type PostGroupGroupIdPolicyRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	Body    *PostGroupGroupIdPolicyJSONRequestBody
+type PostIdentityUser400Response struct {
 }
 
-type PostGroupGroupIdPolicyResponseObject interface {
-	VisitPostGroupGroupIdPolicyResponse(w http.ResponseWriter) error
+func (response PostIdentityUser400Response) VisitPostIdentityUserResponse(w http.ResponseWriter) error {
+	w.WriteHeader(400)
+	return nil
 }
 
-type PostGroupGroupIdPolicy201Response struct {
+type GetIdentityUsersRequestObject struct {
 }
 
-func (response PostGroupGroupIdPolicy201Response) VisitPostGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
+type GetIdentityUsersResponseObject interface {
+	VisitGetIdentityUsersResponse(w http.ResponseWriter) error
+}
+
+type GetIdentityUsers200JSONResponse []User
+
+func (response GetIdentityUsers200JSONResponse) VisitGetIdentityUsersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostIdentityUsersRequestObject struct {
+	Body *PostIdentityUsersJSONRequestBody
+}
+
+type PostIdentityUsersResponseObject interface {
+	VisitPostIdentityUsersResponse(w http.ResponseWriter) error
+}
+
+type PostIdentityUsers201Response struct {
+}
+
+func (response PostIdentityUsers201Response) VisitPostIdentityUsersResponse(w http.ResponseWriter) error {
 	w.WriteHeader(201)
 	return nil
 }
 
-type PostGroupGroupIdPolicy4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
+type GetVaultsVaultIdMembershipsRequestObject struct {
+	VaultId openapi_types.UUID `json:"vaultId"`
 }
 
-func (response PostGroupGroupIdPolicy4XXJSONResponse) VisitPostGroupGroupIdPolicyResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
+type GetVaultsVaultIdMembershipsResponseObject interface {
+	VisitGetVaultsVaultIdMembershipsResponse(w http.ResponseWriter) error
 }
 
-type DeleteGroupGroupIdPolicyPolicyIdRequestObject struct {
-	GroupId  openapi_types.UUID `json:"groupId"`
-	PolicyId openapi_types.UUID `json:"policyId"`
+type GetVaultsVaultIdMemberships200Response struct {
 }
 
-type DeleteGroupGroupIdPolicyPolicyIdResponseObject interface {
-	VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w http.ResponseWriter) error
-}
-
-type DeleteGroupGroupIdPolicyPolicyId204Response struct {
-}
-
-func (response DeleteGroupGroupIdPolicyPolicyId204Response) VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
+func (response GetVaultsVaultIdMemberships200Response) VisitGetVaultsVaultIdMembershipsResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
 	return nil
 }
 
-type DeleteGroupGroupIdPolicyPolicyId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
+type PostVaultsVaultIdMembershipsRequestObject struct {
+	VaultId openapi_types.UUID `json:"vaultId"`
+	Body    *PostVaultsVaultIdMembershipsJSONRequestBody
 }
 
-func (response DeleteGroupGroupIdPolicyPolicyId4XXJSONResponse) VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
+type PostVaultsVaultIdMembershipsResponseObject interface {
+	VisitPostVaultsVaultIdMembershipsResponse(w http.ResponseWriter) error
 }
 
-type GetPasteRequestObject struct {
-	Params GetPasteParams
+type PostVaultsVaultIdMemberships201Response struct {
 }
 
-type GetPasteResponseObject interface {
-	VisitGetPasteResponse(w http.ResponseWriter) error
-}
-
-type GetPaste200JSONResponse PasteList
-
-func (response GetPaste200JSONResponse) VisitGetPasteResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostPasteRequestObject struct {
-	Body *PostPasteJSONRequestBody
-}
-
-type PostPasteResponseObject interface {
-	VisitPostPasteResponse(w http.ResponseWriter) error
-}
-
-type PostPaste201JSONResponse Paste
-
-func (response PostPaste201JSONResponse) VisitPostPasteResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
+func (response PostVaultsVaultIdMemberships201Response) VisitPostVaultsVaultIdMembershipsResponse(w http.ResponseWriter) error {
 	w.WriteHeader(201)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type DeletePastePasteIdRequestObject struct {
-	PasteId openapi_types.UUID `json:"pasteId"`
-}
-
-type DeletePastePasteIdResponseObject interface {
-	VisitDeletePastePasteIdResponse(w http.ResponseWriter) error
-}
-
-type DeletePastePasteId204Response struct {
-}
-
-func (response DeletePastePasteId204Response) VisitDeletePastePasteIdResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
 	return nil
-}
-
-type GetPastePasteIdRequestObject struct {
-	PasteId openapi_types.UUID `json:"pasteId"`
-}
-
-type GetPastePasteIdResponseObject interface {
-	VisitGetPastePasteIdResponse(w http.ResponseWriter) error
-}
-
-type GetPastePasteId200JSONResponse Paste
-
-func (response GetPastePasteId200JSONResponse) VisitGetPastePasteIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetPoliciesRequestObject struct {
-	Params GetPoliciesParams
-}
-
-type GetPoliciesResponseObject interface {
-	VisitGetPoliciesResponse(w http.ResponseWriter) error
-}
-
-type GetPolicies200JSONResponse PolicyList
-
-func (response GetPolicies200JSONResponse) VisitGetPoliciesResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetPolicies4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response GetPolicies4XXJSONResponse) VisitGetPoliciesResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type PostPoliciesRequestObject struct {
-	Body *PostPoliciesJSONRequestBody
-}
-
-type PostPoliciesResponseObject interface {
-	VisitPostPoliciesResponse(w http.ResponseWriter) error
-}
-
-type PostPolicies201JSONResponse Policy
-
-func (response PostPolicies201JSONResponse) VisitPostPoliciesResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(201)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostPolicies4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response PostPolicies4XXJSONResponse) VisitPostPoliciesResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type DeletePoliciesPolicyIdRequestObject struct {
-	PolicyId openapi_types.UUID `json:"policyId"`
-}
-
-type DeletePoliciesPolicyIdResponseObject interface {
-	VisitDeletePoliciesPolicyIdResponse(w http.ResponseWriter) error
-}
-
-type DeletePoliciesPolicyId204Response struct {
-}
-
-func (response DeletePoliciesPolicyId204Response) VisitDeletePoliciesPolicyIdResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
-	return nil
-}
-
-type DeletePoliciesPolicyId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response DeletePoliciesPolicyId4XXJSONResponse) VisitDeletePoliciesPolicyIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetPoliciesPolicyIdRequestObject struct {
-	PolicyId openapi_types.UUID `json:"policyId"`
-}
-
-type GetPoliciesPolicyIdResponseObject interface {
-	VisitGetPoliciesPolicyIdResponse(w http.ResponseWriter) error
-}
-
-type GetPoliciesPolicyId200JSONResponse Policy
-
-func (response GetPoliciesPolicyId200JSONResponse) VisitGetPoliciesPolicyIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetPoliciesPolicyId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response GetPoliciesPolicyId4XXJSONResponse) VisitGetPoliciesPolicyIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type PutPoliciesPolicyIdRequestObject struct {
-	PolicyId openapi_types.UUID `json:"policyId"`
-	Body     *PutPoliciesPolicyIdJSONRequestBody
-}
-
-type PutPoliciesPolicyIdResponseObject interface {
-	VisitPutPoliciesPolicyIdResponse(w http.ResponseWriter) error
-}
-
-type PutPoliciesPolicyId200JSONResponse Policy
-
-func (response PutPoliciesPolicyId200JSONResponse) VisitPutPoliciesPolicyIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutPoliciesPolicyId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response PutPoliciesPolicyId4XXJSONResponse) VisitPutPoliciesPolicyIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetSearchRequestObject struct {
-	Params GetSearchParams
-}
-
-type GetSearchResponseObject interface {
-	VisitGetSearchResponse(w http.ResponseWriter) error
-}
-
-type GetSearch200JSONResponse SearchResults
-
-func (response GetSearch200JSONResponse) VisitGetSearchResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetSearch4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response GetSearch4XXJSONResponse) VisitGetSearchResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type PostServiceRequestObject struct {
-	Body *PostServiceJSONRequestBody
-}
-
-type PostServiceResponseObject interface {
-	VisitPostServiceResponse(w http.ResponseWriter) error
-}
-
-type PostService201JSONResponse Service
-
-func (response PostService201JSONResponse) VisitPostServiceResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(201)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostService4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response PostService4XXJSONResponse) VisitPostServiceResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type DeleteServiceServiceIdRequestObject struct {
-	ServiceId openapi_types.UUID `json:"serviceId"`
-}
-
-type DeleteServiceServiceIdResponseObject interface {
-	VisitDeleteServiceServiceIdResponse(w http.ResponseWriter) error
-}
-
-type DeleteServiceServiceId204Response struct {
-}
-
-func (response DeleteServiceServiceId204Response) VisitDeleteServiceServiceIdResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
-	return nil
-}
-
-type DeleteServiceServiceId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response DeleteServiceServiceId4XXJSONResponse) VisitDeleteServiceServiceIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
-}
-
-type GetServiceServiceIdRequestObject struct {
-	ServiceId openapi_types.UUID `json:"serviceId"`
-}
-
-type GetServiceServiceIdResponseObject interface {
-	VisitGetServiceServiceIdResponse(w http.ResponseWriter) error
-}
-
-type GetServiceServiceId200JSONResponse ServiceDetail
-
-func (response GetServiceServiceId200JSONResponse) VisitGetServiceServiceIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutServiceServiceIdRequestObject struct {
-	ServiceId openapi_types.UUID `json:"serviceId"`
-	Body      *PutServiceServiceIdJSONRequestBody
-}
-
-type PutServiceServiceIdResponseObject interface {
-	VisitPutServiceServiceIdResponse(w http.ResponseWriter) error
-}
-
-type PutServiceServiceId200JSONResponse Service
-
-func (response PutServiceServiceId200JSONResponse) VisitPutServiceServiceIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PutServiceServiceId4XXJSONResponse struct {
-	Body       GenericError
-	StatusCode int
-}
-
-func (response PutServiceServiceId4XXJSONResponse) VisitPutServiceServiceIdResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(response.StatusCode)
-
-	return json.NewEncoder(w).Encode(response.Body)
 }
 
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
-	// List activities
-	// (GET /activities)
-	GetActivities(ctx context.Context, request GetActivitiesRequestObject) (GetActivitiesResponseObject, error)
-	// Get activity
-	// (GET /activities/{activityId})
-	GetActivitiesActivityId(ctx context.Context, request GetActivitiesActivityIdRequestObject) (GetActivitiesActivityIdResponseObject, error)
-	// List audit logs
-	// (GET /admin/audit-logs)
-	GetAdminAuditLogs(ctx context.Context, request GetAdminAuditLogsRequestObject) (GetAdminAuditLogsResponseObject, error)
-	// Get system settings
-	// (GET /admin/settings)
-	GetAdminSettings(ctx context.Context, request GetAdminSettingsRequestObject) (GetAdminSettingsResponseObject, error)
-	// Update system settings
-	// (PUT /admin/settings)
-	PutAdminSettings(ctx context.Context, request PutAdminSettingsRequestObject) (PutAdminSettingsResponseObject, error)
-	// Get system health
-	// (GET /admin/system-health)
-	GetAdminSystemHealth(ctx context.Context, request GetAdminSystemHealthRequestObject) (GetAdminSystemHealthResponseObject, error)
-	// List alarms
-	// (GET /alarms)
-	GetAlarms(ctx context.Context, request GetAlarmsRequestObject) (GetAlarmsResponseObject, error)
-	// Get alarm
-	// (GET /alarms/{alarmId})
-	GetAlarmsAlarmId(ctx context.Context, request GetAlarmsAlarmIdRequestObject) (GetAlarmsAlarmIdResponseObject, error)
-	// Acknowledge alarm
-	// (POST /alarms/{alarmId}/acknowledge)
-	PostAlarmsAlarmIdAcknowledge(ctx context.Context, request PostAlarmsAlarmIdAcknowledgeRequestObject) (PostAlarmsAlarmIdAcknowledgeResponseObject, error)
-	// Create group
-	// (POST /group)
-	PostGroup(ctx context.Context, request PostGroupRequestObject) (PostGroupResponseObject, error)
-	// Delete group
-	// (DELETE /group/{groupId})
-	DeleteGroupGroupId(ctx context.Context, request DeleteGroupGroupIdRequestObject) (DeleteGroupGroupIdResponseObject, error)
-	// Get group
-	// (GET /group/{groupId})
-	GetGroupGroupId(ctx context.Context, request GetGroupGroupIdRequestObject) (GetGroupGroupIdResponseObject, error)
-	// List credentials
-	// (GET /group/{groupId}/credential)
-	GetGroupGroupIdCredential(ctx context.Context, request GetGroupGroupIdCredentialRequestObject) (GetGroupGroupIdCredentialResponseObject, error)
-	// Create credential
-	// (POST /group/{groupId}/credential)
-	PostGroupGroupIdCredential(ctx context.Context, request PostGroupGroupIdCredentialRequestObject) (PostGroupGroupIdCredentialResponseObject, error)
-	// Delete credential
-	// (DELETE /group/{groupId}/credential/{credentialId})
-	DeleteGroupGroupIdCredentialCredentialId(ctx context.Context, request DeleteGroupGroupIdCredentialCredentialIdRequestObject) (DeleteGroupGroupIdCredentialCredentialIdResponseObject, error)
-	// Get credential
-	// (GET /group/{groupId}/credential/{credentialId})
-	GetGroupGroupIdCredentialCredentialId(ctx context.Context, request GetGroupGroupIdCredentialCredentialIdRequestObject) (GetGroupGroupIdCredentialCredentialIdResponseObject, error)
-	// Update credential
-	// (PUT /group/{groupId}/credential/{credentialId})
-	PutGroupGroupIdCredentialCredentialId(ctx context.Context, request PutGroupGroupIdCredentialCredentialIdRequestObject) (PutGroupGroupIdCredentialCredentialIdResponseObject, error)
-	// Get credential secret
-	// (GET /group/{groupId}/credential/{credentialId}/secret)
-	GetGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request GetGroupGroupIdCredentialCredentialIdSecretRequestObject) (GetGroupGroupIdCredentialCredentialIdSecretResponseObject, error)
-	// Add credential secret
-	// (POST /group/{groupId}/credential/{credentialId}/secret)
-	PostGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request PostGroupGroupIdCredentialCredentialIdSecretRequestObject) (PostGroupGroupIdCredentialCredentialIdSecretResponseObject, error)
-	// Update credential secret
-	// (PUT /group/{groupId}/credential/{credentialId}/secret)
-	PutGroupGroupIdCredentialCredentialIdSecret(ctx context.Context, request PutGroupGroupIdCredentialCredentialIdSecretRequestObject) (PutGroupGroupIdCredentialCredentialIdSecretResponseObject, error)
-	// Get group members
-	// (GET /group/{groupId}/members)
-	GetGroupGroupIdMembers(ctx context.Context, request GetGroupGroupIdMembersRequestObject) (GetGroupGroupIdMembersResponseObject, error)
-	// Add group member
-	// (POST /group/{groupId}/members)
-	PostGroupGroupIdMembers(ctx context.Context, request PostGroupGroupIdMembersRequestObject) (PostGroupGroupIdMembersResponseObject, error)
-	// Remove group member
-	// (DELETE /group/{groupId}/members/{userId})
-	DeleteGroupGroupIdMembersUserId(ctx context.Context, request DeleteGroupGroupIdMembersUserIdRequestObject) (DeleteGroupGroupIdMembersUserIdResponseObject, error)
-	// Get group policies
-	// (GET /group/{groupId}/policy)
-	GetGroupGroupIdPolicy(ctx context.Context, request GetGroupGroupIdPolicyRequestObject) (GetGroupGroupIdPolicyResponseObject, error)
-	// Assign policy to group
-	// (POST /group/{groupId}/policy)
-	PostGroupGroupIdPolicy(ctx context.Context, request PostGroupGroupIdPolicyRequestObject) (PostGroupGroupIdPolicyResponseObject, error)
-	// Remove policy from group
-	// (DELETE /group/{groupId}/policy/{policyId})
-	DeleteGroupGroupIdPolicyPolicyId(ctx context.Context, request DeleteGroupGroupIdPolicyPolicyIdRequestObject) (DeleteGroupGroupIdPolicyPolicyIdResponseObject, error)
-	// List pastes
-	// (GET /paste)
-	GetPaste(ctx context.Context, request GetPasteRequestObject) (GetPasteResponseObject, error)
-	// Create paste
-	// (POST /paste)
-	PostPaste(ctx context.Context, request PostPasteRequestObject) (PostPasteResponseObject, error)
-	// Delete paste
-	// (DELETE /paste/{pasteId})
-	DeletePastePasteId(ctx context.Context, request DeletePastePasteIdRequestObject) (DeletePastePasteIdResponseObject, error)
-	// Get paste
-	// (GET /paste/{pasteId})
-	GetPastePasteId(ctx context.Context, request GetPastePasteIdRequestObject) (GetPastePasteIdResponseObject, error)
-	// List policies
-	// (GET /policies)
-	GetPolicies(ctx context.Context, request GetPoliciesRequestObject) (GetPoliciesResponseObject, error)
-	// Create policy
-	// (POST /policies)
-	PostPolicies(ctx context.Context, request PostPoliciesRequestObject) (PostPoliciesResponseObject, error)
-	// Delete policy
-	// (DELETE /policies/{policyId})
-	DeletePoliciesPolicyId(ctx context.Context, request DeletePoliciesPolicyIdRequestObject) (DeletePoliciesPolicyIdResponseObject, error)
-	// Get policy
-	// (GET /policies/{policyId})
-	GetPoliciesPolicyId(ctx context.Context, request GetPoliciesPolicyIdRequestObject) (GetPoliciesPolicyIdResponseObject, error)
-	// Update policy
-	// (PUT /policies/{policyId})
-	PutPoliciesPolicyId(ctx context.Context, request PutPoliciesPolicyIdRequestObject) (PutPoliciesPolicyIdResponseObject, error)
-	// Global search
-	// (GET /search)
-	GetSearch(ctx context.Context, request GetSearchRequestObject) (GetSearchResponseObject, error)
-	// Create service
-	// (POST /service)
-	PostService(ctx context.Context, request PostServiceRequestObject) (PostServiceResponseObject, error)
-	// Delete service
-	// (DELETE /service/{serviceId})
-	DeleteServiceServiceId(ctx context.Context, request DeleteServiceServiceIdRequestObject) (DeleteServiceServiceIdResponseObject, error)
-	// Get service
-	// (GET /service/{serviceId})
-	GetServiceServiceId(ctx context.Context, request GetServiceServiceIdRequestObject) (GetServiceServiceIdResponseObject, error)
-	// Update service
-	// (PUT /service/{serviceId})
-	PutServiceServiceId(ctx context.Context, request PutServiceServiceIdRequestObject) (PutServiceServiceIdResponseObject, error)
+
+	// (GET /admin/config)
+	GetAdminConfig(ctx context.Context, request GetAdminConfigRequestObject) (GetAdminConfigResponseObject, error)
+	// Update Security Posture
+	// (PATCH /admin/config)
+	PatchAdminConfig(ctx context.Context, request PatchAdminConfigRequestObject) (PatchAdminConfigResponseObject, error)
+	// Hybrid Search (Vector/IP/CIDR)
+	// (GET /assets)
+	GetAssets(ctx context.Context, request GetAssetsRequestObject) (GetAssetsResponseObject, error)
+	// Create Universal Asset
+	// (POST /assets)
+	PostAssets(ctx context.Context, request PostAssetsRequestObject) (PostAssetsResponseObject, error)
+	// Polymorphic Action (Check-out, Rotate, Elevate)
+	// (POST /assets/{id}/actions)
+	PostAssetsIdActions(ctx context.Context, request PostAssetsIdActionsRequestObject) (PostAssetsIdActionsResponseObject, error)
+	// Query Audit Trails
+	// (GET /audit/logs)
+	GetAuditLogs(ctx context.Context, request GetAuditLogsRequestObject) (GetAuditLogsResponseObject, error)
+
+	// (GET /identity/groups)
+	GetIdentityGroups(ctx context.Context, request GetIdentityGroupsRequestObject) (GetIdentityGroupsResponseObject, error)
+	// Create UserGroup
+	// (POST /identity/groups)
+	PostIdentityGroups(ctx context.Context, request PostIdentityGroupsRequestObject) (PostIdentityGroupsResponseObject, error)
+	// Remove User from Group
+	// (DELETE /identity/groups/{groupId}/memberships)
+	DeleteIdentityGroupsGroupIdMemberships(ctx context.Context, request DeleteIdentityGroupsGroupIdMembershipsRequestObject) (DeleteIdentityGroupsGroupIdMembershipsResponseObject, error)
+	// List Group Members
+	// (GET /identity/groups/{groupId}/memberships)
+	GetIdentityGroupsGroupIdMemberships(ctx context.Context, request GetIdentityGroupsGroupIdMembershipsRequestObject) (GetIdentityGroupsGroupIdMembershipsResponseObject, error)
+	// Assign User to Group
+	// (POST /identity/groups/{groupId}/memberships)
+	PostIdentityGroupsGroupIdMemberships(ctx context.Context, request PostIdentityGroupsGroupIdMembershipsRequestObject) (PostIdentityGroupsGroupIdMembershipsResponseObject, error)
+	// Get current or specific user
+	// (GET /identity/user)
+	GetIdentityUser(ctx context.Context, request GetIdentityUserRequestObject) (GetIdentityUserResponseObject, error)
+	// Update current user profile
+	// (POST /identity/user)
+	PostIdentityUser(ctx context.Context, request PostIdentityUserRequestObject) (PostIdentityUserResponseObject, error)
+
+	// (GET /identity/users)
+	GetIdentityUsers(ctx context.Context, request GetIdentityUsersRequestObject) (GetIdentityUsersResponseObject, error)
+	// Onboard User
+	// (POST /identity/users)
+	PostIdentityUsers(ctx context.Context, request PostIdentityUsersRequestObject) (PostIdentityUsersResponseObject, error)
+	// List Vault Members (Roles & Keys)
+	// (GET /vaults/{vaultId}/memberships)
+	GetVaultsVaultIdMemberships(ctx context.Context, request GetVaultsVaultIdMembershipsRequestObject) (GetVaultsVaultIdMembershipsResponseObject, error)
+	// Add Member to Vault (Key Wrapping)
+	// (POST /vaults/{vaultId}/memberships)
+	PostVaultsVaultIdMemberships(ctx context.Context, request PostVaultsVaultIdMembershipsRequestObject) (PostVaultsVaultIdMembershipsResponseObject, error)
 }
 
 type StrictHandlerFunc = strictnethttp.StrictHTTPHandlerFunc
@@ -4183,25 +1959,80 @@ type strictHandler struct {
 	options     StrictHTTPServerOptions
 }
 
-// GetActivities operation middleware
-func (sh *strictHandler) GetActivities(w http.ResponseWriter, r *http.Request, params GetActivitiesParams) {
-	var request GetActivitiesRequestObject
+// GetAdminConfig operation middleware
+func (sh *strictHandler) GetAdminConfig(w http.ResponseWriter, r *http.Request) {
+	var request GetAdminConfigRequestObject
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.GetAdminConfig(ctx, request.(GetAdminConfigRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetAdminConfig")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(GetAdminConfigResponseObject); ok {
+		if err := validResponse.VisitGetAdminConfigResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PatchAdminConfig operation middleware
+func (sh *strictHandler) PatchAdminConfig(w http.ResponseWriter, r *http.Request) {
+	var request PatchAdminConfigRequestObject
+
+	var body PatchAdminConfigJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PatchAdminConfig(ctx, request.(PatchAdminConfigRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PatchAdminConfig")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PatchAdminConfigResponseObject); ok {
+		if err := validResponse.VisitPatchAdminConfigResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetAssets operation middleware
+func (sh *strictHandler) GetAssets(w http.ResponseWriter, r *http.Request, params GetAssetsParams) {
+	var request GetAssetsRequestObject
 
 	request.Params = params
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetActivities(ctx, request.(GetActivitiesRequestObject))
+		return sh.ssi.GetAssets(ctx, request.(GetAssetsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetActivities")
+		handler = middleware(handler, "GetAssets")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetActivitiesResponseObject); ok {
-		if err := validResponse.VisitGetActivitiesResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetAssetsResponseObject); ok {
+		if err := validResponse.VisitGetAssetsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4209,25 +2040,30 @@ func (sh *strictHandler) GetActivities(w http.ResponseWriter, r *http.Request, p
 	}
 }
 
-// GetActivitiesActivityId operation middleware
-func (sh *strictHandler) GetActivitiesActivityId(w http.ResponseWriter, r *http.Request, activityId openapi_types.UUID) {
-	var request GetActivitiesActivityIdRequestObject
+// PostAssets operation middleware
+func (sh *strictHandler) PostAssets(w http.ResponseWriter, r *http.Request) {
+	var request PostAssetsRequestObject
 
-	request.ActivityId = activityId
+	var body PostAssetsJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetActivitiesActivityId(ctx, request.(GetActivitiesActivityIdRequestObject))
+		return sh.ssi.PostAssets(ctx, request.(PostAssetsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetActivitiesActivityId")
+		handler = middleware(handler, "PostAssets")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetActivitiesActivityIdResponseObject); ok {
-		if err := validResponse.VisitGetActivitiesActivityIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostAssetsResponseObject); ok {
+		if err := validResponse.VisitPostAssetsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4235,25 +2071,58 @@ func (sh *strictHandler) GetActivitiesActivityId(w http.ResponseWriter, r *http.
 	}
 }
 
-// GetAdminAuditLogs operation middleware
-func (sh *strictHandler) GetAdminAuditLogs(w http.ResponseWriter, r *http.Request, params GetAdminAuditLogsParams) {
-	var request GetAdminAuditLogsRequestObject
+// PostAssetsIdActions operation middleware
+func (sh *strictHandler) PostAssetsIdActions(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	var request PostAssetsIdActionsRequestObject
+
+	request.Id = id
+
+	var body PostAssetsIdActionsJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PostAssetsIdActions(ctx, request.(PostAssetsIdActionsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostAssetsIdActions")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PostAssetsIdActionsResponseObject); ok {
+		if err := validResponse.VisitPostAssetsIdActionsResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetAuditLogs operation middleware
+func (sh *strictHandler) GetAuditLogs(w http.ResponseWriter, r *http.Request, params GetAuditLogsParams) {
+	var request GetAuditLogsRequestObject
 
 	request.Params = params
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAdminAuditLogs(ctx, request.(GetAdminAuditLogsRequestObject))
+		return sh.ssi.GetAuditLogs(ctx, request.(GetAuditLogsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAdminAuditLogs")
+		handler = middleware(handler, "GetAuditLogs")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAdminAuditLogsResponseObject); ok {
-		if err := validResponse.VisitGetAdminAuditLogsResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetAuditLogsResponseObject); ok {
+		if err := validResponse.VisitGetAuditLogsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4261,104 +2130,25 @@ func (sh *strictHandler) GetAdminAuditLogs(w http.ResponseWriter, r *http.Reques
 	}
 }
 
-// GetAdminSettings operation middleware
-func (sh *strictHandler) GetAdminSettings(w http.ResponseWriter, r *http.Request) {
-	var request GetAdminSettingsRequestObject
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAdminSettings(ctx, request.(GetAdminSettingsRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAdminSettings")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAdminSettingsResponseObject); ok {
-		if err := validResponse.VisitGetAdminSettingsResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PutAdminSettings operation middleware
-func (sh *strictHandler) PutAdminSettings(w http.ResponseWriter, r *http.Request) {
-	var request PutAdminSettingsRequestObject
-
-	var body PutAdminSettingsJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutAdminSettings(ctx, request.(PutAdminSettingsRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutAdminSettings")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutAdminSettingsResponseObject); ok {
-		if err := validResponse.VisitPutAdminSettingsResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetAdminSystemHealth operation middleware
-func (sh *strictHandler) GetAdminSystemHealth(w http.ResponseWriter, r *http.Request) {
-	var request GetAdminSystemHealthRequestObject
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAdminSystemHealth(ctx, request.(GetAdminSystemHealthRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAdminSystemHealth")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAdminSystemHealthResponseObject); ok {
-		if err := validResponse.VisitGetAdminSystemHealthResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetAlarms operation middleware
-func (sh *strictHandler) GetAlarms(w http.ResponseWriter, r *http.Request, params GetAlarmsParams) {
-	var request GetAlarmsRequestObject
+// GetIdentityGroups operation middleware
+func (sh *strictHandler) GetIdentityGroups(w http.ResponseWriter, r *http.Request, params GetIdentityGroupsParams) {
+	var request GetIdentityGroupsRequestObject
 
 	request.Params = params
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAlarms(ctx, request.(GetAlarmsRequestObject))
+		return sh.ssi.GetIdentityGroups(ctx, request.(GetIdentityGroupsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAlarms")
+		handler = middleware(handler, "GetIdentityGroups")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAlarmsResponseObject); ok {
-		if err := validResponse.VisitGetAlarmsResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetIdentityGroupsResponseObject); ok {
+		if err := validResponse.VisitGetIdentityGroupsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4366,63 +2156,11 @@ func (sh *strictHandler) GetAlarms(w http.ResponseWriter, r *http.Request, param
 	}
 }
 
-// GetAlarmsAlarmId operation middleware
-func (sh *strictHandler) GetAlarmsAlarmId(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
-	var request GetAlarmsAlarmIdRequestObject
+// PostIdentityGroups operation middleware
+func (sh *strictHandler) PostIdentityGroups(w http.ResponseWriter, r *http.Request) {
+	var request PostIdentityGroupsRequestObject
 
-	request.AlarmId = alarmId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetAlarmsAlarmId(ctx, request.(GetAlarmsAlarmIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetAlarmsAlarmId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetAlarmsAlarmIdResponseObject); ok {
-		if err := validResponse.VisitGetAlarmsAlarmIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostAlarmsAlarmIdAcknowledge operation middleware
-func (sh *strictHandler) PostAlarmsAlarmIdAcknowledge(w http.ResponseWriter, r *http.Request, alarmId openapi_types.UUID) {
-	var request PostAlarmsAlarmIdAcknowledgeRequestObject
-
-	request.AlarmId = alarmId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostAlarmsAlarmIdAcknowledge(ctx, request.(PostAlarmsAlarmIdAcknowledgeRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostAlarmsAlarmIdAcknowledge")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostAlarmsAlarmIdAcknowledgeResponseObject); ok {
-		if err := validResponse.VisitPostAlarmsAlarmIdAcknowledgeResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostGroup operation middleware
-func (sh *strictHandler) PostGroup(w http.ResponseWriter, r *http.Request) {
-	var request PostGroupRequestObject
-
-	var body PostGroupJSONRequestBody
+	var body PostIdentityGroupsJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4430,18 +2168,18 @@ func (sh *strictHandler) PostGroup(w http.ResponseWriter, r *http.Request) {
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroup(ctx, request.(PostGroupRequestObject))
+		return sh.ssi.PostIdentityGroups(ctx, request.(PostIdentityGroupsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroup")
+		handler = middleware(handler, "PostIdentityGroups")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupResponseObject); ok {
-		if err := validResponse.VisitPostGroupResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostIdentityGroupsResponseObject); ok {
+		if err := validResponse.VisitPostIdentityGroupsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4449,320 +2187,26 @@ func (sh *strictHandler) PostGroup(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeleteGroupGroupId operation middleware
-func (sh *strictHandler) DeleteGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request DeleteGroupGroupIdRequestObject
-
-	request.GroupId = groupId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteGroupGroupId(ctx, request.(DeleteGroupGroupIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteGroupGroupId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteGroupGroupIdResponseObject); ok {
-		if err := validResponse.VisitDeleteGroupGroupIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetGroupGroupId operation middleware
-func (sh *strictHandler) GetGroupGroupId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request GetGroupGroupIdRequestObject
-
-	request.GroupId = groupId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupGroupId(ctx, request.(GetGroupGroupIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupGroupId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupGroupIdResponseObject); ok {
-		if err := validResponse.VisitGetGroupGroupIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetGroupGroupIdCredential operation middleware
-func (sh *strictHandler) GetGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request GetGroupGroupIdCredentialRequestObject
-
-	request.GroupId = groupId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupGroupIdCredential(ctx, request.(GetGroupGroupIdCredentialRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupGroupIdCredential")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupGroupIdCredentialResponseObject); ok {
-		if err := validResponse.VisitGetGroupGroupIdCredentialResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostGroupGroupIdCredential operation middleware
-func (sh *strictHandler) PostGroupGroupIdCredential(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request PostGroupGroupIdCredentialRequestObject
-
-	request.GroupId = groupId
-
-	var body PostGroupGroupIdCredentialJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroupGroupIdCredential(ctx, request.(PostGroupGroupIdCredentialRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroupGroupIdCredential")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupGroupIdCredentialResponseObject); ok {
-		if err := validResponse.VisitPostGroupGroupIdCredentialResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// DeleteGroupGroupIdCredentialCredentialId operation middleware
-func (sh *strictHandler) DeleteGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	var request DeleteGroupGroupIdCredentialCredentialIdRequestObject
-
-	request.GroupId = groupId
-	request.CredentialId = credentialId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteGroupGroupIdCredentialCredentialId(ctx, request.(DeleteGroupGroupIdCredentialCredentialIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteGroupGroupIdCredentialCredentialId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteGroupGroupIdCredentialCredentialIdResponseObject); ok {
-		if err := validResponse.VisitDeleteGroupGroupIdCredentialCredentialIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetGroupGroupIdCredentialCredentialId operation middleware
-func (sh *strictHandler) GetGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	var request GetGroupGroupIdCredentialCredentialIdRequestObject
-
-	request.GroupId = groupId
-	request.CredentialId = credentialId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupGroupIdCredentialCredentialId(ctx, request.(GetGroupGroupIdCredentialCredentialIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupGroupIdCredentialCredentialId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupGroupIdCredentialCredentialIdResponseObject); ok {
-		if err := validResponse.VisitGetGroupGroupIdCredentialCredentialIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PutGroupGroupIdCredentialCredentialId operation middleware
-func (sh *strictHandler) PutGroupGroupIdCredentialCredentialId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	var request PutGroupGroupIdCredentialCredentialIdRequestObject
-
-	request.GroupId = groupId
-	request.CredentialId = credentialId
-
-	var body PutGroupGroupIdCredentialCredentialIdJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutGroupGroupIdCredentialCredentialId(ctx, request.(PutGroupGroupIdCredentialCredentialIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutGroupGroupIdCredentialCredentialId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutGroupGroupIdCredentialCredentialIdResponseObject); ok {
-		if err := validResponse.VisitPutGroupGroupIdCredentialCredentialIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetGroupGroupIdCredentialCredentialIdSecret operation middleware
-func (sh *strictHandler) GetGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	var request GetGroupGroupIdCredentialCredentialIdSecretRequestObject
-
-	request.GroupId = groupId
-	request.CredentialId = credentialId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupGroupIdCredentialCredentialIdSecret(ctx, request.(GetGroupGroupIdCredentialCredentialIdSecretRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupGroupIdCredentialCredentialIdSecret")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupGroupIdCredentialCredentialIdSecretResponseObject); ok {
-		if err := validResponse.VisitGetGroupGroupIdCredentialCredentialIdSecretResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostGroupGroupIdCredentialCredentialIdSecret operation middleware
-func (sh *strictHandler) PostGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	var request PostGroupGroupIdCredentialCredentialIdSecretRequestObject
-
-	request.GroupId = groupId
-	request.CredentialId = credentialId
-
-	var body PostGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroupGroupIdCredentialCredentialIdSecret(ctx, request.(PostGroupGroupIdCredentialCredentialIdSecretRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroupGroupIdCredentialCredentialIdSecret")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupGroupIdCredentialCredentialIdSecretResponseObject); ok {
-		if err := validResponse.VisitPostGroupGroupIdCredentialCredentialIdSecretResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PutGroupGroupIdCredentialCredentialIdSecret operation middleware
-func (sh *strictHandler) PutGroupGroupIdCredentialCredentialIdSecret(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, credentialId openapi_types.UUID) {
-	var request PutGroupGroupIdCredentialCredentialIdSecretRequestObject
-
-	request.GroupId = groupId
-	request.CredentialId = credentialId
-
-	var body PutGroupGroupIdCredentialCredentialIdSecretJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutGroupGroupIdCredentialCredentialIdSecret(ctx, request.(PutGroupGroupIdCredentialCredentialIdSecretRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutGroupGroupIdCredentialCredentialIdSecret")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutGroupGroupIdCredentialCredentialIdSecretResponseObject); ok {
-		if err := validResponse.VisitPutGroupGroupIdCredentialCredentialIdSecretResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetGroupGroupIdMembers operation middleware
-func (sh *strictHandler) GetGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetGroupGroupIdMembersParams) {
-	var request GetGroupGroupIdMembersRequestObject
+// DeleteIdentityGroupsGroupIdMemberships operation middleware
+func (sh *strictHandler) DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params DeleteIdentityGroupsGroupIdMembershipsParams) {
+	var request DeleteIdentityGroupsGroupIdMembershipsRequestObject
 
 	request.GroupId = groupId
 	request.Params = params
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupGroupIdMembers(ctx, request.(GetGroupGroupIdMembersRequestObject))
+		return sh.ssi.DeleteIdentityGroupsGroupIdMemberships(ctx, request.(DeleteIdentityGroupsGroupIdMembershipsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupGroupIdMembers")
+		handler = middleware(handler, "DeleteIdentityGroupsGroupIdMemberships")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupGroupIdMembersResponseObject); ok {
-		if err := validResponse.VisitGetGroupGroupIdMembersResponse(w); err != nil {
+	} else if validResponse, ok := response.(DeleteIdentityGroupsGroupIdMembershipsResponseObject); ok {
+		if err := validResponse.VisitDeleteIdentityGroupsGroupIdMembershipsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4770,13 +2214,40 @@ func (sh *strictHandler) GetGroupGroupIdMembers(w http.ResponseWriter, r *http.R
 	}
 }
 
-// PostGroupGroupIdMembers operation middleware
-func (sh *strictHandler) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request PostGroupGroupIdMembersRequestObject
+// GetIdentityGroupsGroupIdMemberships operation middleware
+func (sh *strictHandler) GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetIdentityGroupsGroupIdMembershipsParams) {
+	var request GetIdentityGroupsGroupIdMembershipsRequestObject
+
+	request.GroupId = groupId
+	request.Params = params
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.GetIdentityGroupsGroupIdMemberships(ctx, request.(GetIdentityGroupsGroupIdMembershipsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetIdentityGroupsGroupIdMemberships")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(GetIdentityGroupsGroupIdMembershipsResponseObject); ok {
+		if err := validResponse.VisitGetIdentityGroupsGroupIdMembershipsResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostIdentityGroupsGroupIdMemberships operation middleware
+func (sh *strictHandler) PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
+	var request PostIdentityGroupsGroupIdMembershipsRequestObject
 
 	request.GroupId = groupId
 
-	var body PostGroupGroupIdMembersJSONRequestBody
+	var body PostIdentityGroupsGroupIdMembershipsJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4784,18 +2255,18 @@ func (sh *strictHandler) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroupGroupIdMembers(ctx, request.(PostGroupGroupIdMembersRequestObject))
+		return sh.ssi.PostIdentityGroupsGroupIdMemberships(ctx, request.(PostIdentityGroupsGroupIdMembershipsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroupGroupIdMembers")
+		handler = middleware(handler, "PostIdentityGroupsGroupIdMemberships")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupGroupIdMembersResponseObject); ok {
-		if err := validResponse.VisitPostGroupGroupIdMembersResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostIdentityGroupsGroupIdMembershipsResponseObject); ok {
+		if err := validResponse.VisitPostIdentityGroupsGroupIdMembershipsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4803,138 +2274,25 @@ func (sh *strictHandler) PostGroupGroupIdMembers(w http.ResponseWriter, r *http.
 	}
 }
 
-// DeleteGroupGroupIdMembersUserId operation middleware
-func (sh *strictHandler) DeleteGroupGroupIdMembersUserId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, userId openapi_types.UUID) {
-	var request DeleteGroupGroupIdMembersUserIdRequestObject
-
-	request.GroupId = groupId
-	request.UserId = userId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteGroupGroupIdMembersUserId(ctx, request.(DeleteGroupGroupIdMembersUserIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteGroupGroupIdMembersUserId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteGroupGroupIdMembersUserIdResponseObject); ok {
-		if err := validResponse.VisitDeleteGroupGroupIdMembersUserIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetGroupGroupIdPolicy operation middleware
-func (sh *strictHandler) GetGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request GetGroupGroupIdPolicyRequestObject
-
-	request.GroupId = groupId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetGroupGroupIdPolicy(ctx, request.(GetGroupGroupIdPolicyRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetGroupGroupIdPolicy")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetGroupGroupIdPolicyResponseObject); ok {
-		if err := validResponse.VisitGetGroupGroupIdPolicyResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostGroupGroupIdPolicy operation middleware
-func (sh *strictHandler) PostGroupGroupIdPolicy(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request PostGroupGroupIdPolicyRequestObject
-
-	request.GroupId = groupId
-
-	var body PostGroupGroupIdPolicyJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostGroupGroupIdPolicy(ctx, request.(PostGroupGroupIdPolicyRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostGroupGroupIdPolicy")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostGroupGroupIdPolicyResponseObject); ok {
-		if err := validResponse.VisitPostGroupGroupIdPolicyResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// DeleteGroupGroupIdPolicyPolicyId operation middleware
-func (sh *strictHandler) DeleteGroupGroupIdPolicyPolicyId(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, policyId openapi_types.UUID) {
-	var request DeleteGroupGroupIdPolicyPolicyIdRequestObject
-
-	request.GroupId = groupId
-	request.PolicyId = policyId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteGroupGroupIdPolicyPolicyId(ctx, request.(DeleteGroupGroupIdPolicyPolicyIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteGroupGroupIdPolicyPolicyId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteGroupGroupIdPolicyPolicyIdResponseObject); ok {
-		if err := validResponse.VisitDeleteGroupGroupIdPolicyPolicyIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetPaste operation middleware
-func (sh *strictHandler) GetPaste(w http.ResponseWriter, r *http.Request, params GetPasteParams) {
-	var request GetPasteRequestObject
+// GetIdentityUser operation middleware
+func (sh *strictHandler) GetIdentityUser(w http.ResponseWriter, r *http.Request, params GetIdentityUserParams) {
+	var request GetIdentityUserRequestObject
 
 	request.Params = params
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetPaste(ctx, request.(GetPasteRequestObject))
+		return sh.ssi.GetIdentityUser(ctx, request.(GetIdentityUserRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetPaste")
+		handler = middleware(handler, "GetIdentityUser")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetPasteResponseObject); ok {
-		if err := validResponse.VisitGetPasteResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetIdentityUserResponseObject); ok {
+		if err := validResponse.VisitGetIdentityUserResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4942,11 +2300,11 @@ func (sh *strictHandler) GetPaste(w http.ResponseWriter, r *http.Request, params
 	}
 }
 
-// PostPaste operation middleware
-func (sh *strictHandler) PostPaste(w http.ResponseWriter, r *http.Request) {
-	var request PostPasteRequestObject
+// PostIdentityUser operation middleware
+func (sh *strictHandler) PostIdentityUser(w http.ResponseWriter, r *http.Request) {
+	var request PostIdentityUserRequestObject
 
-	var body PostPasteJSONRequestBody
+	var body PostIdentityUserJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -4954,18 +2312,18 @@ func (sh *strictHandler) PostPaste(w http.ResponseWriter, r *http.Request) {
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostPaste(ctx, request.(PostPasteRequestObject))
+		return sh.ssi.PostIdentityUser(ctx, request.(PostIdentityUserRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostPaste")
+		handler = middleware(handler, "PostIdentityUser")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostPasteResponseObject); ok {
-		if err := validResponse.VisitPostPasteResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostIdentityUserResponseObject); ok {
+		if err := validResponse.VisitPostIdentityUserResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4973,25 +2331,23 @@ func (sh *strictHandler) PostPaste(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeletePastePasteId operation middleware
-func (sh *strictHandler) DeletePastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
-	var request DeletePastePasteIdRequestObject
-
-	request.PasteId = pasteId
+// GetIdentityUsers operation middleware
+func (sh *strictHandler) GetIdentityUsers(w http.ResponseWriter, r *http.Request) {
+	var request GetIdentityUsersRequestObject
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeletePastePasteId(ctx, request.(DeletePastePasteIdRequestObject))
+		return sh.ssi.GetIdentityUsers(ctx, request.(GetIdentityUsersRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeletePastePasteId")
+		handler = middleware(handler, "GetIdentityUsers")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeletePastePasteIdResponseObject); ok {
-		if err := validResponse.VisitDeletePastePasteIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetIdentityUsersResponseObject); ok {
+		if err := validResponse.VisitGetIdentityUsersResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -4999,63 +2355,11 @@ func (sh *strictHandler) DeletePastePasteId(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-// GetPastePasteId operation middleware
-func (sh *strictHandler) GetPastePasteId(w http.ResponseWriter, r *http.Request, pasteId openapi_types.UUID) {
-	var request GetPastePasteIdRequestObject
+// PostIdentityUsers operation middleware
+func (sh *strictHandler) PostIdentityUsers(w http.ResponseWriter, r *http.Request) {
+	var request PostIdentityUsersRequestObject
 
-	request.PasteId = pasteId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetPastePasteId(ctx, request.(GetPastePasteIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetPastePasteId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetPastePasteIdResponseObject); ok {
-		if err := validResponse.VisitGetPastePasteIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetPolicies operation middleware
-func (sh *strictHandler) GetPolicies(w http.ResponseWriter, r *http.Request, params GetPoliciesParams) {
-	var request GetPoliciesRequestObject
-
-	request.Params = params
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetPolicies(ctx, request.(GetPoliciesRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetPolicies")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetPoliciesResponseObject); ok {
-		if err := validResponse.VisitGetPoliciesResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostPolicies operation middleware
-func (sh *strictHandler) PostPolicies(w http.ResponseWriter, r *http.Request) {
-	var request PostPoliciesRequestObject
-
-	var body PostPoliciesJSONRequestBody
+	var body PostIdentityUsersJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -5063,18 +2367,18 @@ func (sh *strictHandler) PostPolicies(w http.ResponseWriter, r *http.Request) {
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostPolicies(ctx, request.(PostPoliciesRequestObject))
+		return sh.ssi.PostIdentityUsers(ctx, request.(PostIdentityUsersRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostPolicies")
+		handler = middleware(handler, "PostIdentityUsers")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostPoliciesResponseObject); ok {
-		if err := validResponse.VisitPostPoliciesResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostIdentityUsersResponseObject); ok {
+		if err := validResponse.VisitPostIdentityUsersResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5082,25 +2386,25 @@ func (sh *strictHandler) PostPolicies(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeletePoliciesPolicyId operation middleware
-func (sh *strictHandler) DeletePoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
-	var request DeletePoliciesPolicyIdRequestObject
+// GetVaultsVaultIdMemberships operation middleware
+func (sh *strictHandler) GetVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request, vaultId openapi_types.UUID) {
+	var request GetVaultsVaultIdMembershipsRequestObject
 
-	request.PolicyId = policyId
+	request.VaultId = vaultId
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeletePoliciesPolicyId(ctx, request.(DeletePoliciesPolicyIdRequestObject))
+		return sh.ssi.GetVaultsVaultIdMemberships(ctx, request.(GetVaultsVaultIdMembershipsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeletePoliciesPolicyId")
+		handler = middleware(handler, "GetVaultsVaultIdMemberships")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeletePoliciesPolicyIdResponseObject); ok {
-		if err := validResponse.VisitDeletePoliciesPolicyIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(GetVaultsVaultIdMembershipsResponseObject); ok {
+		if err := validResponse.VisitGetVaultsVaultIdMembershipsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5108,39 +2412,13 @@ func (sh *strictHandler) DeletePoliciesPolicyId(w http.ResponseWriter, r *http.R
 	}
 }
 
-// GetPoliciesPolicyId operation middleware
-func (sh *strictHandler) GetPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
-	var request GetPoliciesPolicyIdRequestObject
+// PostVaultsVaultIdMemberships operation middleware
+func (sh *strictHandler) PostVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request, vaultId openapi_types.UUID) {
+	var request PostVaultsVaultIdMembershipsRequestObject
 
-	request.PolicyId = policyId
+	request.VaultId = vaultId
 
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetPoliciesPolicyId(ctx, request.(GetPoliciesPolicyIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetPoliciesPolicyId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetPoliciesPolicyIdResponseObject); ok {
-		if err := validResponse.VisitGetPoliciesPolicyIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PutPoliciesPolicyId operation middleware
-func (sh *strictHandler) PutPoliciesPolicyId(w http.ResponseWriter, r *http.Request, policyId openapi_types.UUID) {
-	var request PutPoliciesPolicyIdRequestObject
-
-	request.PolicyId = policyId
-
-	var body PutPoliciesPolicyIdJSONRequestBody
+	var body PostVaultsVaultIdMembershipsJSONRequestBody
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
 		return
@@ -5148,160 +2426,18 @@ func (sh *strictHandler) PutPoliciesPolicyId(w http.ResponseWriter, r *http.Requ
 	request.Body = &body
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutPoliciesPolicyId(ctx, request.(PutPoliciesPolicyIdRequestObject))
+		return sh.ssi.PostVaultsVaultIdMemberships(ctx, request.(PostVaultsVaultIdMembershipsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutPoliciesPolicyId")
+		handler = middleware(handler, "PostVaultsVaultIdMemberships")
 	}
 
 	response, err := handler(r.Context(), w, r, request)
 
 	if err != nil {
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutPoliciesPolicyIdResponseObject); ok {
-		if err := validResponse.VisitPutPoliciesPolicyIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetSearch operation middleware
-func (sh *strictHandler) GetSearch(w http.ResponseWriter, r *http.Request, params GetSearchParams) {
-	var request GetSearchRequestObject
-
-	request.Params = params
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetSearch(ctx, request.(GetSearchRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetSearch")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetSearchResponseObject); ok {
-		if err := validResponse.VisitGetSearchResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostService operation middleware
-func (sh *strictHandler) PostService(w http.ResponseWriter, r *http.Request) {
-	var request PostServiceRequestObject
-
-	var body PostServiceJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostService(ctx, request.(PostServiceRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostService")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostServiceResponseObject); ok {
-		if err := validResponse.VisitPostServiceResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// DeleteServiceServiceId operation middleware
-func (sh *strictHandler) DeleteServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
-	var request DeleteServiceServiceIdRequestObject
-
-	request.ServiceId = serviceId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteServiceServiceId(ctx, request.(DeleteServiceServiceIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteServiceServiceId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteServiceServiceIdResponseObject); ok {
-		if err := validResponse.VisitDeleteServiceServiceIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetServiceServiceId operation middleware
-func (sh *strictHandler) GetServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
-	var request GetServiceServiceIdRequestObject
-
-	request.ServiceId = serviceId
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetServiceServiceId(ctx, request.(GetServiceServiceIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetServiceServiceId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetServiceServiceIdResponseObject); ok {
-		if err := validResponse.VisitGetServiceServiceIdResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PutServiceServiceId operation middleware
-func (sh *strictHandler) PutServiceServiceId(w http.ResponseWriter, r *http.Request, serviceId openapi_types.UUID) {
-	var request PutServiceServiceIdRequestObject
-
-	request.ServiceId = serviceId
-
-	var body PutServiceServiceIdJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PutServiceServiceId(ctx, request.(PutServiceServiceIdRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PutServiceServiceId")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PutServiceServiceIdResponseObject); ok {
-		if err := validResponse.VisitPutServiceServiceIdResponse(w); err != nil {
+	} else if validResponse, ok := response.(PostVaultsVaultIdMembershipsResponseObject); ok {
+		if err := validResponse.VisitPostVaultsVaultIdMembershipsResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -5312,69 +2448,51 @@ func (sh *strictHandler) PutServiceServiceId(w http.ResponseWriter, r *http.Requ
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+xd3W/cNrb/VwTd+5ACquW0fbjwm9u0ud5NuobdYgukxoKWzozZSKRCUuMODP/vC35J",
-	"1IjUSGNL4zZ5STzD7/M7Xzw85DzEGS0rSoAIHp89xBViqAQBTH16h0ssLuVX8lMOPGO4EpiS+Cy+EFDy",
-	"qAIWVWgNcRJj+e2nGtg2TmKCSojP4kJ2ECcxz+6gRLqTFaoLEZ99c5rEYlvJWpgIWAOLHx+T+BKtITCi",
-	"LIpIXd4CCwxnZuIZ7bV3sGtALLsLDKcLIzuEbzyuqnRGNKNwwTBZ60EoC9FQFkUrDEUeIZJHOWaQyaLo",
-	"FZysT5LodzXQGeLZ7/FXoTlQJgZn8JjEDHhFCQcF6g8FBiJ+ZIwy+TGjRAAR8k9UVQXOkJxB+geXM3xw",
-	"+v1fBqv4LP6ftOWYVJfy9C0QYDjTnaohuwvVY0a23E5Xzec8E3iDxVaxH6MVMIH1THEu/11RViIRn8V1",
-	"jfM42V1fEpfAuQS+v/Yk5rABZjoHUpfx2YcYkxWVFKuzDDiPk/geMSLrJzGoCd54BuG0Zpl/DIHLUIEo",
-	"wM8U5ht6+wdkQta1VHgDAuFCoVEU/1rFZx+GKd9Q7zHZJV8JAuVIuEzRjseBbbBe0FD316Za2+JiHCg1",
-	"Bzaqap8YNw453mEuxhPjEq0xQQLyK8PwHqpYimCpv/Yt36GunSViDG2D0y4QK/uMjLKPhN4XkK8hd9C4",
-	"pbQARGTnM7F6xrDAGSo6TK74/yg8LqlzbEQVQmPhrHMs3tG1D1Gt2TwUyZUEc6/UjYQZV+d5zqRy8g3A",
-	"YAAoW+iXPVIXBbqVgAlWQ+LHmQtUVp3WORLwtWKBgKT/WBql9Zx6oKX/sXnGssFItvmBQQ5EYFT0GSdj",
-	"IKd2LsYTeM1oXY1Uu2MZjCvNBn5lNGg4tNvh0wTqi1b3VIjze8rk+Jzf/ecjSKcFVdj8lUmarKS7IRdN",
-	"US3uvEqprvJpBPMxUovID4r+fVxe0JqVFH+qMZPG4oMe3FS6GVybFZMnsLrDuiOY3R38GjIGnuFRhf8J",
-	"Wy/1UIXbVr1Sl1je8umSlDWzHSlO8GeFGfCBMfZq1JESWSAurqiQKzp8rIb9fPSqGN4gASEw2uJLFDA8",
-	"VX1b4CzUwWRB1cYhIFtjmC0ky7Ox3H52eGGQPI2+vypEv9D3+ekbouxfxi77ltcJAvSWBv6vM5r7px3e",
-	"6uzYR9VDW79vInfq7+7xnQVIRyvosvV40seOnbDHw8HWoITy1sTgdsNWA0hXiAERB3n+jyFyhHTsvoXO",
-	"NMmeYxTEcWogRYPf3ylkd7jIGZDRLpTtaMd7sisf2dy/s+hvbfa7ez3y7M5LqpV9szIDY0rey9peftmp",
-	"05uZDgZ7WbrqSrpTIqhAxUDRJVqDV078M+Q+Xr6tGTlfCWBXgALxGSdK+hyO6AGGDueT4i9JvMFwP40y",
-	"IVnv0acJq69QwVs5HUkvs/gL0g+I/yiLFAtFmER3tGY8TnzQh6NOXdOgZ3ETWvGRAwuaH0dGFS5pgbPt",
-	"dE0MRKrUp8Ud5e7kPc3xCo+0g0H1zzNajfNTzm14/hqyWgU2k/hnEPeUfRzpkGiKHRtjDdtIkPWh0xXw",
-	"ujAHcp2RVSiIP90UmVj++J6cc4D9QYHr9mxhZ+NQYOT3swdiXHt3vXeUiyC/TWDwN1AVdPtUBq8YFTSj",
-	"/mgoF0jUvMvlyt9P4vdI6jeCSCY/XRCkC3whMSspni14IE4/gFJwE708VofRNEANfxStGd/pdCC2Zmg0",
-	"1ZdspcUrwE9yAU3fwb35XwW2VhTG8OqWCyj/H1Ah7jwbtKp2+jEZAnIzhvlHb0EJJWVbb5GrGfuHpj3x",
-	"vVNTkqYphzVDOUhy1sR+7Q9oTxFStfBrEAKTNffBXdB7yC+qK0TWO/o8ICmtFYAS4eJnarb7mBIeiDug",
-	"P9/RNSbnQkBZCR7y4XVc4T0m74CsNVDhaldaON+vkH9QDpxjSn7BJdBajPVju/QKC8kXqnXiI9y4WNdS",
-	"A2mCfA+IATuv9Yxu1aefrN74x79/sTknagKqtDWTd0JUOg1EnTWbLBOUqQmZvJXLN9rBi67rqqJM9KIn",
-	"8SXDG1zAGvLIVH2PCFpDCUREGujo/PIibrYDbZ/66w0wrrt6fXJ6cipHoBUQVOH4LP725PTkW2kGkLhT",
-	"C06RPuy3mlrHMLtTegsiqqyHGBWYi4iuorZhElFVFRXFNlrhQgCDPLrdRs2ZrZqC3uJIXSx7PG/HTToJ",
-	"WAEr01ZJ22wpaWr2VHayuUbUbtOWxlR2EqlkdX+ylMlPcJOVrB5FRWEzE6Zl5sjRuhj9pMguiW50eXTx",
-	"Jpi/ZVNa3DntPagOj6hsbHg8a4KfaTQj7EPrUxUmjnizkzD2zenpsyWKdfJ6PIlirSwo6eooJyUQrlr6",
-	"cCPnyuuyRNKax7JTRxjl0pA0mh+cbuMb2aUj6+mD+Xt7kT8OCr6tJ0mvSD4gyedNn32ZVkhJtdMChdzq",
-	"rduqvbGXhZzxhcPYbSObATMJPJfCg8jlJSYpqnMsvi7oelhXc20lVO1I1o5WlEWqC8yFBG8DEYMNhnsv",
-	"nrKizf54Wdp5hMI1qTcTlY2vJ5PtNJjnGlD6AjHxRu+hPdPw765DnQHJJ3c1q0i46Uk+gWjZ7lBl1vTg",
-	"ioTkyo40cGd/sE8WMkpWeF2bKGvTMsT9122F2ei4s8nxUNJ4e7ytMlGz8J0O+tRM4qr2UE5vISYS77L2",
-	"EO9TDVx8T/PtTHQzm53HbuRDmpDH42JnyiKTIDINvC79B/BzpEHV/fquiRbsEwldM9K7e5WJX4JgOBuQ",
-	"CjceMTt1zThhuegs4GDhuLPL8ZK2QKycvDHSjXxUtCWf9X5nSnr2vJasycz2mTGF1cEmzCLdcJX+wmWr",
-	"9EH9v9cBl5UGvG/V17nuaZzb3dR9oT63TlYPQPIEP1v1OxKS1Lm9oEJplHvwOW8rRYg0I+zYRcq7KDmt",
-	"jg2Yj8CdexuTqNwhxxC1mwMBP1n16UyEIgL3OrrgJepbUzKHl+GmAY1yLl4/79A+/lcFkU3Mekzi7377",
-	"LdRZM7vUvfk2CU2DgqW/BfKtPo11gEwfTIjnUUNZgA4/d2f/Rn0foQCgulh1/rYJGO2XjTa49Jyy8Z1H",
-	"FSvi68UtQHxDrSDxk7DB0OG4oMF4ISQ+fV55CQdoLHDGaswNXIPASJFJs869GS+qyqVo65l4TkCQdiB2",
-	"7jb8HcDeuffhu3Xr0OlA780htYOi07HeOe+3XW1Hg5A1xuzImD2/Ge1dQVrYlro3e4ZYZXGrmrkQ+zls",
-	"WFmkD+69nnGWtzPoPvPbga69QLQUQybenrPuVGa2+Q5/LG34R/DHgAvg6J1RfsDnhvXp8grm4G3rKE4Y",
-	"iuJm/Ul4QrefGTvMaeqOE5MezYlNRHpuVdbjv+cxdSlv7tqNUYC6dvTK/J8jgb46TB+aO35ftOIEXjQ0",
-	"856QaDyerhcNxJNd9fM8n8woYVf9b84pcyrMzsXmo+0Q9rJqs0eYFBP1MdnTLfk4Zq2/8Oo8XHJsE7+X",
-	"V59y7DyeXX1227nFGzTPpo46LR0Xxnpvel2QTec6lZ3T8HoucoUiohan5SKizZDeeHbYRqOo5sAiQUcH",
-	"0JbmlidonW6OPqMFdO6amkvxcdIeoqv8BHtb3n/ZYsLzU+51IdPO85jAWJPcBU/DEKE8X2K7IVnF5bOx",
-	"AXjDlemDXv5gKO0KSroBy5ErRssJB1qGK3+1GYrHNLhNmuTMITTDAkzRbQEmMAAdwgdVc9U4nOwjq2Dg",
-	"EeIcrwnkQ0ppx4KZK7F/lUOYp13zDdgcS78ljU4z5hSro+CNkG68nWJ6jgHzc1gevdJDrEbT8tnshqZh",
-	"I2QLmA6Nd4v2pBNc3Sx9sIQYZ0HMYBNtiCbNpSX5cY1I1U5jZjNiOGJpM+JiNMgSlX1jZUKeqGrjzRPV",
-	"L2QsmSbqS+XUN/kGEzlBXz9Qb5tINBdO4GxfM/FYHFV4cApAA46FW2My8txfjQW6E6/FsAjPEatwX7VZ",
-	"OJhmnnYJgNENoO2eiFti7RK8Ea/0Qf039rDbT3xdrPq+1L2N0qFVU3duRacI1Zw2H3ByHKJjMqSb5KDq",
-	"pDh6tcFwH1GSQYRX0W3NSIRWQrnwKP8qqK2OT8zTpbi4c2LRcTgHWdi6ocO53oXrr/ZJ3ZYtZBtmpXP7",
-	"UpGP2Nr2av09t73XOr+/U2gIPlLxV9b796j8tvfn8dif9ATWMZ6qGv++88JWy+xigzy4dHJYw0UeNnR1",
-	"ycgtR2sS/dxpbKLpdNLeYvEdwNJ5WENQJHsCRQN35l8SsU+XE6RFs7CHoRs6Z626s/Ucqx4Zv8/SfBxg",
-	"IxZk7aWzqvbZCPMrXSFv0/zOFyImHoEyRjlXDqh9tYdHmESYbIAIyrY+LXZtfwlsh/cn/6TYp32vLOzG",
-	"0PQMI1kzEjTSi02Vr+gfQfXpC2XYV+vsQ9g3i54FT72hG3wUR9/ifrWiLDIrCv50mr4vHQ7rIPs4Y9l5",
-	"nBGHH2cc8zjQqLkd8lTQnAat+zCpN9tC8TazNWa3awW9VWkZRvCs8BtJtKLfvkQ6JlZlBaC/Z2mFY5aX",
-	"HDpvcS7s9DevVfpA1S9oLe32t0i0sJp3GTvApg/NE17j/P4QxLqCGeTaeRZsvy/jPiI2s+dv4Vja9R+E",
-	"Y8D3tw+wBZ3/F0Xw0+eWqPBNzBbIA1N+9yAy+JTNztgen/7YsMymYI/0Rs5+Bbu0zzysYEd0CGzj93Ev",
-	"Gc3rzLyPJCvFSVyzwrwKys/SFFXVSZUjtek5yWiZogqnm9fpPfc4dm9gAwWt1Jufnv7O0rSgGSruKBdn",
-	"/3eabl6rQK1ZVEh/ls07oi37Nuvvz8G5MeJr6SaC9hubFENPO3Ns2m9i9lG+Npdt2kg/P7Dzqt2qJpl+",
-	"nbZprN/z8bS0D/cVdL3Wj9DYFu3re55m+o0MkkeoACa88zVvXfQbXzvngs1cUaE3v3ax5ucReiTdcf0a",
-	"BNXnx5vH/wYAAP//k/UfltZ6AAA=",
+	"H4sIAAAAAAAC/9xbXW/bOtL+KwTfF2gKqHaS09OLXG3atNmcthtv0rQXrWHQ0thmQpEKP5wagf/7gh+S",
+	"ZZuy5cQ5WOxVVInkDGeeeWY4dB9xKvJCcOBa4ZNHrNIJ5MQ9nioF2j4UUhQgNQX3OpVANGQD4r6NhMzt",
+	"E86Ihjea5oATrGcF4BOstKR8jOcJptnSWGNoFhvGSQ524NoH8cBBDlquUhAJXDeM5oYxMmSAT7Q0EJmt",
+	"CkhrOojhLaTafvAv1pSrvtSGOst9oSpivYxoYv9SDbl78f8SRvgE/1934YducELXe2AhgUhJZvbfOfhV",
+	"Nk3ukTHlRFPBv9rRcUVNRvVHruVsXVOS2rlRd5BUi9bukKCEkSm0Ha9MmoJSNcFDIRgQ7gxBc1Ca5EVb",
+	"7MV2/cEh2Bn3Cu4NxPxUQhF+k7ywcME9KTLjbILOiCZDoqJQL/EjOFyO8MnPzU66BjmlKVzbSfNk89jv",
+	"xDDdauQ1pBLaDe0JRtNZu6FE6Xaa/nXxzY/r1+IGuMnxyU+s/JZxUj4NxlKYAid4ajfo3lv1cYILp5x9",
+	"sKJxgm+pxv2YjyXcGyohswKc68Kg4I9+BAXnVupXyIcg1YQW+yE6t5W2SDeqLanNt+u/B7pZtcgLEk+J",
+	"kHXWKQoppiADKNqYMTPSSRvklBvtl6nC9uj4sJpCuYYxSDvn1ihNRzQljRyniRyDHhDLEq2dVIfh6gIR",
+	"RVf1iMF0xZprBmM0p7q2g9omxWgUMvj6Ny00YbFP86gOZeSviR8ayQdkpEEOJBBnpgxGLpCXM2yNxFPB",
+	"NXDtx6pU0sJ7AX8sJpCDJAwBT+Ws0JAhDb91zOtas4GCVPBs2eF/vDuMeHzFN6UGy8tEzb/gx4YMqZbi",
+	"q2S5KYUHbIUS6/lUcG4XTLAUmjgqy4CBe8gJJ2MYBK7rx7a6EoReOxVRKGBtWaWtAbS6viZjFSmBYshQ",
+	"pkkXF7/PVMQS5LOWWFd5BQiV/knlzYV9Y3iopda1LVegHRRkxkQZDXWEvycK3r2twXvIxDC2j5zmMChT",
+	"ZxVR2EZDt2CE8mipZcFlCQa4rXGzeA3l0uyTKK2amUT2GrfWoryJmCsrBPU8sCizjg47h50/O0fRyl4K",
+	"LVLBlsoJNbFhldkCYqJ1YR2Yz9Q9c/WD0mMJKh5VAeUky6g1GmG9JfWaoNWApGo3NTVjJrkpbAFxo0D2",
+	"pBhRBo0laEZVwchs0HgqgpxQFv0yolLp5omMbPrKxSIlDRRoTXlrPrD7+jt30rLS2s+GE6w00WaJ5y1r",
+	"TC2NM5HeQRZFmqWxBuErIHLaV8NLu/QbDH1elkgr1q4zzuO+D+Mxjd3QjVruoTpd7PgF69LFGauJ3S1G",
+	"GEyBLRMzAfXm+M93b8ZpHj8Ep7aqndWZeWud5Ol29fxUgFSWrezZZkKsGxKsZkpDvv1oVFuxHyM0BamR",
+	"VM+urclCgQdEgjw1erL416cSO3/9+Galu9FWd/d1sX/Lx3huF6Z8JNyZSnBNUk/5Pubdp38UGXGn/k4q",
+	"8hJQJ7h3dureomtTFEI6Dy3n0xtORxQy9P7TJ3Tau+igS5lOQGlJNCh0RpU3e4IuMuCa6hk6sFv5cf06",
+	"QYRnyKdzhQ56zvOvO7/4jQKFXvUEm+VCFhOaolNfGbxCIyHRZQG+iicMaaLuVOeXy8VUhy4BnVIGY8hQ",
+	"0P2rq+9y4BpdOzdZRe1pF6Tymzg+PH7XOeocutquAE4Kik/wH53Dzh/u7KsnzhNdkuWUd1PBR3TsSixf",
+	"3ItSo4sMn+Bz0Kd23Ac/zPVfCsGV9+bx4eF6UZIaKa16fuVwSHGbdRJRoMQlhLjORh0bP/vzfplUf2Kn",
+	"Au67bpxOJ+tq9uzrVUVdInwvslkJlXBKIEXBAj93b5WnNR/V62F6+6AHWrP4qYeDfhDybvAwoRpY4KSK",
+	"fbbWoxKGhrIs1OqDlKQTiNVYkWJhKRBtwM/beMbbBvmaIWvjAGXynMiZDQ03ySLcjUc9obSRrmux4qR5",
+	"grvu6KA2osqPcP1VkoN2pfnPR0ytovcG5GwRuPclK5BoBlnd5ifKNEg0nCGnBrIT0EFoDyVoqU+UIEdi",
+	"9q0N3QR5ZyTI9YgSdEv1a5xEtSo7Qk9RzDeVg34XZw0SFq3nupitRfaq2K/kN81NjrjJhyCRGHm5CmmB",
+	"JGgjeYN83wyoy66SzHH0VLwq+V8RieqOFg3yQochKjAmrx8HfetQ39osd3WGi7blfV1+3i14/jkbSmrT",
+	"A5HpBB18h1QL2b3odT9cnF29rseQjwrHdEJFehq+2YwInyGfpVHZEO+gbxNAr1QB6SvkiQKlE8LHoNCQ",
+	"KMiQ4EjbIdaOrzq/+KnR4s0YOPj0Rji6fOC+WYd8o8Kxtp3jmpdC+uS0Qr1CLYL5qaS7yROR/norAjza",
+	"LxZiOHAfUOjsonDVMDKMzToeIBUCgt9uOLWJmjDk14x4fkGf3Ueazbu1tlCMKm0+X0SQI4Rlw+xCHf0F",
+	"7JqcfJGdVp2N/aRYv8G1wjSdQHo3EMYayT+7LkXV8QIGU/vUj9/ZVYZ63HLSrovv7yvTXodbp3liy7H1",
+	"76dqxlNX8KF7A2bXZLxeTqKDD9ZGb4TRCbpyNkrQR2+i140wMxnVXSbGmzO1HfXFDmqVrKvbvB1zVmyt",
+	"+mXfHpYbSXcciKyz6crvuVmm3d3s4up0ve347Pzzb2sH5GSgb5JQpuqQsK8DImg413QX/dYmWJRHoHM/",
+	"shU2nlBQ/LfXCcs9iYivrlyFhYwCiYJVdzj5lFZeKgnWuXnNGfuh5nZNm4Z+TescvWwvtwXk8+WOtFgm",
+	"2aq1E7VjBOfdR/f3Ipt38+rCMnS/3L3KmtHP3Ptls5/7Nb7WVmgVFeXF7TMz94pp327ISrsY9QpyMfVG",
+	"RZZA0QbTJi3Z4qmW+h/kj9i9ezOLOJiigNHd/GhX9r5DQVyTD7eXmSFaXq7WbAGX/TDcTj+aqJNeOXFv",
+	"vLfY3dPI71QpOuY+TrVAbQnQhCuWbYHrrmLWsLHSPrWyL86seCbEHTIFOhCF724mKISYawKUPUIrvam/",
+	"sqDFZ/Q+vsAUGBIjlIEmlKGDYLDQ+HBHY5oiykciQfbkhihPmclAocJfqKERBZapJi3DzXyESSrfJIvb",
+	"xeqNFRVrsL90qdJUTSb4bSxjOI9yodFIGL4jIM/t0Tj4WUikCkjpiKbO5/jJFU7A4Us0GhrvUtufAl/U",
+	"T0ErZMr+rXVa5PD5nTCa+a47SCnkkxq99QgtQ6Elnai2fKLw33G08ubc16HqGbDdX9ZqvuAuiFIPQmbR",
+	"j+1vjtcujWsr7y3jOXL5ZQ4Pj98hd1+2nPgqRF7yoSAyQzeNxGEh6Pr4qvvo/kYq+SZAOsnqu5+1WmJs",
+	"6/P4LIKYra3EyN8loLz2m8edKzRviKAHOrgSDFRppM8wU/Vmjle9Zc0W7PJyNdtGQ+4D9d6ubX8OG0av",
+	"thVD9vE/Du5Hf/XElia4/yxQ/bDOzaXwAHL79fhC32Vtgoy9xdFnmKEfkhQFZO4W2tsenWbZzjVkVs3W",
+	"IkDxoFqe8nEUfV6EnJbgM5KF23p10u2SoujU7+O7pKDd6VH3QeF5f/6fAAAA///0x2V6MTIAAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

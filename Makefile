@@ -21,7 +21,7 @@ unit-tests: format
 	@go test github.com/pdaccess/ws/internal...
 
 cicd-tests: format
-	@LOG_LEVEL=${LOG_LEVEL} CGO_LDFLAGS="-L/usr/lib" ginkgo -tags ORT -v cicd/tests
+	@LOG_LEVEL=${LOG_LEVEL} CGO_LDFLAGS="-L/usr/lib" go tool ginkgo -tags ORT -v cicd/tests
 	
 build: format cmd/main.go
 	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t ghcr.io/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .

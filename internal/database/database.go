@@ -117,6 +117,22 @@ CREATE TABLE IF NOT EXISTS ws_audit_logs (
 );
 
 CREATE INDEX IF NOT EXISTS idx_ws_audit_logs_actor_id ON ws_audit_logs(actor_id);
+
+-- Effective policies (pre-computed access grants)
+CREATE TABLE IF NOT EXISTS ws_effective_policies (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL,
+    group_id UUID,
+    asset_id UUID NOT NULL REFERENCES ws_assets(id) ON DELETE CASCADE,
+    actions TEXT[] NOT NULL DEFAULT '{}',
+    policy_id UUID NOT NULL REFERENCES ws_assets(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE (user_id, asset_id, policy_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ws_effective_policies_user_id ON ws_effective_policies(user_id);
+CREATE INDEX IF NOT EXISTS idx_ws_effective_policies_asset_id ON ws_effective_policies(asset_id);
+
 CREATE INDEX IF NOT EXISTS idx_ws_audit_logs_resource_id ON ws_audit_logs(resource_id);
 CREATE INDEX IF NOT EXISTS idx_ws_audit_logs_timestamp ON ws_audit_logs(timestamp);
 `

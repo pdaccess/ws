@@ -179,14 +179,14 @@ func (e PostAssetsIdActionsJSONBodyActionType) Valid() bool {
 	}
 }
 
-// Defines values for GetIdentityUserParamsView.
+// Defines values for GetIdentityUsersParamsView.
 const (
-	Full    GetIdentityUserParamsView = "full"
-	Summary GetIdentityUserParamsView = "summary"
+	Full    GetIdentityUsersParamsView = "full"
+	Summary GetIdentityUsersParamsView = "summary"
 )
 
-// Valid indicates whether the value is a known member of the GetIdentityUserParamsView enum.
-func (e GetIdentityUserParamsView) Valid() bool {
+// Valid indicates whether the value is a known member of the GetIdentityUsersParamsView enum.
+func (e GetIdentityUsersParamsView) Valid() bool {
 	switch e {
 	case Full:
 		return true
@@ -277,19 +277,6 @@ type CreateAssetRequest_Spec struct {
 // CreateAssetRequestType defines model for CreateAssetRequest.Type.
 type CreateAssetRequestType string
 
-// GroupMembership defines model for GroupMembership.
-type GroupMembership struct {
-	CreatedAt *time.Time          `json:"created_at,omitempty"`
-	GroupId   *openapi_types.UUID `json:"group_id,omitempty"`
-	UserId    *openapi_types.UUID `json:"user_id,omitempty"`
-}
-
-// GroupMembershipList defines model for GroupMembershipList.
-type GroupMembershipList struct {
-	Data *[]GroupMembership `json:"data,omitempty"`
-	Meta *PaginationMeta    `json:"meta,omitempty"`
-}
-
 // JITSpec defines model for JITSpec.
 type JITSpec struct {
 	ApproverGroup   *openapi_types.UUID `json:"approver_group,omitempty"`
@@ -339,11 +326,19 @@ type SecretSpec struct {
 	VaultId          openapi_types.UUID `json:"vault_id"`
 }
 
+// ServiceGroupSpec defines model for ServiceGroupSpec.
+type ServiceGroupSpec struct {
+	// Tags List of tags
+	Tags *[]string `json:"tags,omitempty"`
+}
+
 // ServiceSpec defines model for ServiceSpec.
 type ServiceSpec struct {
 	Endpoint string              `json:"endpoint"`
 	Protocol ServiceSpecProtocol `json:"protocol"`
-	Tags     *map[string]string  `json:"tags,omitempty"`
+
+	// Tags Comma-separated list of tags
+	Tags *string `json:"tags,omitempty"`
 }
 
 // ServiceSpecProtocol defines model for ServiceSpec.Protocol.
@@ -354,6 +349,7 @@ type UpdateUserProfileRequest struct {
 	DisplayName          *string                 `json:"display_name,omitempty"`
 	Email                *string                 `json:"email,omitempty"`
 	FirstName            *string                 `json:"first_name,omitempty"`
+	GroupIds             *[]openapi_types.UUID   `json:"group_ids,omitempty"`
 	LastName             *string                 `json:"last_name,omitempty"`
 	NotificationSettings *map[string]interface{} `json:"notification_settings,omitempty"`
 }
@@ -413,6 +409,9 @@ type GetAssetsParams struct {
 	// ParentId Filter by parent asset ID
 	ParentId *openapi_types.UUID `form:"parent_id,omitempty" json:"parent_id,omitempty"`
 
+	// AssetId Filter by specific asset ID
+	AssetId *openapi_types.UUID `form:"asset_id,omitempty" json:"asset_id,omitempty"`
+
 	// Limit Maximum number of assets to return
 	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
 
@@ -447,39 +446,27 @@ type PostIdentityGroupsJSONBody struct {
 	Name string `json:"name"`
 }
 
-// DeleteIdentityGroupsGroupIdMembershipsParams defines parameters for DeleteIdentityGroupsGroupIdMemberships.
-type DeleteIdentityGroupsGroupIdMembershipsParams struct {
-	UserId openapi_types.UUID `form:"user_id" json:"user_id"`
-}
-
-// GetIdentityGroupsGroupIdMembershipsParams defines parameters for GetIdentityGroupsGroupIdMemberships.
-type GetIdentityGroupsGroupIdMembershipsParams struct {
-	Limit  *int `form:"limit,omitempty" json:"limit,omitempty"`
-	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
-}
-
-// PostIdentityGroupsGroupIdMembershipsJSONBody defines parameters for PostIdentityGroupsGroupIdMemberships.
-type PostIdentityGroupsGroupIdMembershipsJSONBody struct {
-	UserId openapi_types.UUID `json:"user_id"`
-}
-
-// GetIdentityUserParams defines parameters for GetIdentityUser.
-type GetIdentityUserParams struct {
-	// UserId User ID to look up (optional, defaults to current user)
+// GetIdentityUsersParams defines parameters for GetIdentityUsers.
+type GetIdentityUsersParams struct {
+	// UserId Filter by specific user ID
 	UserId *openapi_types.UUID `form:"user_id,omitempty" json:"user_id,omitempty"`
 
+	// CurrentUser Return current authenticated user
+	CurrentUser *bool `form:"current_user,omitempty" json:"current_user,omitempty"`
+
 	// View Level of detail (summary returns basic info, full includes profile fields)
-	View *GetIdentityUserParamsView `form:"view,omitempty" json:"view,omitempty"`
+	View *GetIdentityUsersParamsView `form:"view,omitempty" json:"view,omitempty"`
 }
 
-// GetIdentityUserParamsView defines parameters for GetIdentityUser.
-type GetIdentityUserParamsView string
+// GetIdentityUsersParamsView defines parameters for GetIdentityUsers.
+type GetIdentityUsersParamsView string
 
 // PostIdentityUsersJSONBody defines parameters for PostIdentityUsers.
 type PostIdentityUsersJSONBody struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Username string `json:"username"`
+	Email    string                `json:"email"`
+	GroupIds *[]openapi_types.UUID `json:"group_ids,omitempty"`
+	Password string                `json:"password"`
+	Username string                `json:"username"`
 }
 
 // PostVaultsVaultIdMembershipsJSONBody defines parameters for PostVaultsVaultIdMemberships.
@@ -507,14 +494,11 @@ type PostAssetsIdActionsJSONRequestBody PostAssetsIdActionsJSONBody
 // PostIdentityGroupsJSONRequestBody defines body for PostIdentityGroups for application/json ContentType.
 type PostIdentityGroupsJSONRequestBody PostIdentityGroupsJSONBody
 
-// PostIdentityGroupsGroupIdMembershipsJSONRequestBody defines body for PostIdentityGroupsGroupIdMemberships for application/json ContentType.
-type PostIdentityGroupsGroupIdMembershipsJSONRequestBody PostIdentityGroupsGroupIdMembershipsJSONBody
-
-// PostIdentityUserJSONRequestBody defines body for PostIdentityUser for application/json ContentType.
-type PostIdentityUserJSONRequestBody = UpdateUserProfileRequest
-
 // PostIdentityUsersJSONRequestBody defines body for PostIdentityUsers for application/json ContentType.
 type PostIdentityUsersJSONRequestBody PostIdentityUsersJSONBody
+
+// PutIdentityUsersJSONRequestBody defines body for PutIdentityUsers for application/json ContentType.
+type PutIdentityUsersJSONRequestBody = UpdateUserProfileRequest
 
 // PostVaultsVaultIdMembershipsJSONRequestBody defines body for PostVaultsVaultIdMemberships for application/json ContentType.
 type PostVaultsVaultIdMembershipsJSONRequestBody PostVaultsVaultIdMembershipsJSONBody
@@ -535,6 +519,32 @@ func (t *CreateAssetRequest_Spec) FromServiceSpec(v ServiceSpec) error {
 
 // MergeServiceSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided ServiceSpec
 func (t *CreateAssetRequest_Spec) MergeServiceSpec(v ServiceSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServiceGroupSpec returns the union data inside the CreateAssetRequest_Spec as a ServiceGroupSpec
+func (t CreateAssetRequest_Spec) AsServiceGroupSpec() (ServiceGroupSpec, error) {
+	var body ServiceGroupSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServiceGroupSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided ServiceGroupSpec
+func (t *CreateAssetRequest_Spec) FromServiceGroupSpec(v ServiceGroupSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServiceGroupSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided ServiceGroupSpec
+func (t *CreateAssetRequest_Spec) MergeServiceGroupSpec(v ServiceGroupSpec) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -790,32 +800,18 @@ type ClientInterface interface {
 
 	PostIdentityGroups(ctx context.Context, body PostIdentityGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// DeleteIdentityGroupsGroupIdMemberships request
-	DeleteIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetIdentityGroupsGroupIdMemberships request
-	GetIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostIdentityGroupsGroupIdMembershipsWithBody request with any body
-	PostIdentityGroupsGroupIdMembershipsWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetIdentityUser request
-	GetIdentityUser(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostIdentityUserWithBody request with any body
-	PostIdentityUserWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostIdentityUser(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// GetIdentityUsers request
-	GetIdentityUsers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetIdentityUsers(ctx context.Context, params *GetIdentityUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PostIdentityUsersWithBody request with any body
 	PostIdentityUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PostIdentityUsers(ctx context.Context, body PostIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutIdentityUsersWithBody request with any body
+	PutIdentityUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PutIdentityUsers(ctx context.Context, body PutIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetVaultsVaultIdMemberships request
 	GetVaultsVaultIdMemberships(ctx context.Context, vaultId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -970,92 +966,8 @@ func (c *Client) PostIdentityGroups(ctx context.Context, body PostIdentityGroups
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteIdentityGroupsGroupIdMembershipsRequest(c.Server, groupId, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetIdentityGroupsGroupIdMembershipsRequest(c.Server, groupId, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostIdentityGroupsGroupIdMembershipsWithBody(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostIdentityGroupsGroupIdMembershipsRequestWithBody(c.Server, groupId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostIdentityGroupsGroupIdMemberships(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostIdentityGroupsGroupIdMembershipsRequest(c.Server, groupId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetIdentityUser(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetIdentityUserRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostIdentityUserWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostIdentityUserRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostIdentityUser(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostIdentityUserRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetIdentityUsers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetIdentityUsersRequest(c.Server)
+func (c *Client) GetIdentityUsers(ctx context.Context, params *GetIdentityUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetIdentityUsersRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1080,6 +992,30 @@ func (c *Client) PostIdentityUsersWithBody(ctx context.Context, contentType stri
 
 func (c *Client) PostIdentityUsers(ctx context.Context, body PostIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostIdentityUsersRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutIdentityUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutIdentityUsersRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutIdentityUsers(ctx context.Context, body PutIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutIdentityUsersRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1250,6 +1186,22 @@ func NewGetAssetsRequest(server string, params *GetAssetsParams) (*http.Request,
 		if params.ParentId != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "parent_id", *params.ParentId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.AssetId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "asset_id", *params.AssetId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -1579,179 +1531,8 @@ func NewPostIdentityGroupsRequestWithBody(server string, contentType string, bod
 	return req, nil
 }
 
-// NewDeleteIdentityGroupsGroupIdMembershipsRequest generates requests for DeleteIdentityGroupsGroupIdMemberships
-func NewDeleteIdentityGroupsGroupIdMembershipsRequest(server string, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/identity/groups/%s/memberships", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "user_id", params.UserId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetIdentityGroupsGroupIdMembershipsRequest generates requests for GetIdentityGroupsGroupIdMemberships
-func NewGetIdentityGroupsGroupIdMembershipsRequest(server string, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/identity/groups/%s/memberships", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Limit != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Offset != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "offset", *params.Offset, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostIdentityGroupsGroupIdMembershipsRequest calls the generic PostIdentityGroupsGroupIdMemberships builder with application/json body
-func NewPostIdentityGroupsGroupIdMembershipsRequest(server string, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostIdentityGroupsGroupIdMembershipsRequestWithBody(server, groupId, "application/json", bodyReader)
-}
-
-// NewPostIdentityGroupsGroupIdMembershipsRequestWithBody generates requests for PostIdentityGroupsGroupIdMemberships with any type of body
-func NewPostIdentityGroupsGroupIdMembershipsRequestWithBody(server string, groupId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "groupId", groupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/identity/groups/%s/memberships", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetIdentityUserRequest generates requests for GetIdentityUser
-func NewGetIdentityUserRequest(server string, params *GetIdentityUserParams) (*http.Request, error) {
+// NewGetIdentityUsersRequest generates requests for GetIdentityUsers
+func NewGetIdentityUsersRequest(server string, params *GetIdentityUsersParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -1759,7 +1540,7 @@ func NewGetIdentityUserRequest(server string, params *GetIdentityUserParams) (*h
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/identity/user")
+	operationPath := fmt.Sprintf("/identity/users")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -1775,6 +1556,22 @@ func NewGetIdentityUserRequest(server string, params *GetIdentityUserParams) (*h
 		if params.UserId != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "user_id", *params.UserId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.CurrentUser != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "current_user", *params.CurrentUser, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -1805,73 +1602,6 @@ func NewGetIdentityUserRequest(server string, params *GetIdentityUserParams) (*h
 		}
 
 		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostIdentityUserRequest calls the generic PostIdentityUser builder with application/json body
-func NewPostIdentityUserRequest(server string, body PostIdentityUserJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostIdentityUserRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPostIdentityUserRequestWithBody generates requests for PostIdentityUser with any type of body
-func NewPostIdentityUserRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/identity/user")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetIdentityUsersRequest generates requests for GetIdentityUsers
-func NewGetIdentityUsersRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/identity/users")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -1913,6 +1643,46 @@ func NewPostIdentityUsersRequestWithBody(server string, contentType string, body
 	}
 
 	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPutIdentityUsersRequest calls the generic PutIdentityUsers builder with application/json body
+func NewPutIdentityUsersRequest(server string, body PutIdentityUsersJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPutIdentityUsersRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPutIdentityUsersRequestWithBody generates requests for PutIdentityUsers with any type of body
+func NewPutIdentityUsersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/identity/users")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -2078,32 +1848,18 @@ type ClientWithResponsesInterface interface {
 
 	PostIdentityGroupsWithResponse(ctx context.Context, body PostIdentityGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityGroupsResponse, error)
 
-	// DeleteIdentityGroupsGroupIdMembershipsWithResponse request
-	DeleteIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*DeleteIdentityGroupsGroupIdMembershipsResponse, error)
-
-	// GetIdentityGroupsGroupIdMembershipsWithResponse request
-	GetIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*GetIdentityGroupsGroupIdMembershipsResponse, error)
-
-	// PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse request with any body
-	PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error)
-
-	PostIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error)
-
-	// GetIdentityUserWithResponse request
-	GetIdentityUserWithResponse(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*GetIdentityUserResponse, error)
-
-	// PostIdentityUserWithBodyWithResponse request with any body
-	PostIdentityUserWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error)
-
-	PostIdentityUserWithResponse(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error)
-
 	// GetIdentityUsersWithResponse request
-	GetIdentityUsersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetIdentityUsersResponse, error)
+	GetIdentityUsersWithResponse(ctx context.Context, params *GetIdentityUsersParams, reqEditors ...RequestEditorFn) (*GetIdentityUsersResponse, error)
 
 	// PostIdentityUsersWithBodyWithResponse request with any body
 	PostIdentityUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityUsersResponse, error)
 
 	PostIdentityUsersWithResponse(ctx context.Context, body PostIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityUsersResponse, error)
+
+	// PutIdentityUsersWithBodyWithResponse request with any body
+	PutIdentityUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutIdentityUsersResponse, error)
+
+	PutIdentityUsersWithResponse(ctx context.Context, body PutIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PutIdentityUsersResponse, error)
 
 	// GetVaultsVaultIdMembershipsWithResponse request
 	GetVaultsVaultIdMembershipsWithResponse(ctx context.Context, vaultId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetVaultsVaultIdMembershipsResponse, error)
@@ -2286,114 +2042,6 @@ func (r PostIdentityGroupsResponse) StatusCode() int {
 	return 0
 }
 
-type DeleteIdentityGroupsGroupIdMembershipsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteIdentityGroupsGroupIdMembershipsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteIdentityGroupsGroupIdMembershipsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetIdentityGroupsGroupIdMembershipsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *GroupMembershipList
-}
-
-// Status returns HTTPResponse.Status
-func (r GetIdentityGroupsGroupIdMembershipsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetIdentityGroupsGroupIdMembershipsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostIdentityGroupsGroupIdMembershipsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r PostIdentityGroupsGroupIdMembershipsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostIdentityGroupsGroupIdMembershipsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetIdentityUserResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *User
-}
-
-// Status returns HTTPResponse.Status
-func (r GetIdentityUserResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetIdentityUserResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostIdentityUserResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *User
-}
-
-// Status returns HTTPResponse.Status
-func (r PostIdentityUserResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostIdentityUserResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type GetIdentityUsersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -2431,6 +2079,28 @@ func (r PostIdentityUsersResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PostIdentityUsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PutIdentityUsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *User
+}
+
+// Status returns HTTPResponse.Status
+func (r PutIdentityUsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PutIdentityUsersResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -2583,70 +2253,9 @@ func (c *ClientWithResponses) PostIdentityGroupsWithResponse(ctx context.Context
 	return ParsePostIdentityGroupsResponse(rsp)
 }
 
-// DeleteIdentityGroupsGroupIdMembershipsWithResponse request returning *DeleteIdentityGroupsGroupIdMembershipsResponse
-func (c *ClientWithResponses) DeleteIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *DeleteIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*DeleteIdentityGroupsGroupIdMembershipsResponse, error) {
-	rsp, err := c.DeleteIdentityGroupsGroupIdMemberships(ctx, groupId, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteIdentityGroupsGroupIdMembershipsResponse(rsp)
-}
-
-// GetIdentityGroupsGroupIdMembershipsWithResponse request returning *GetIdentityGroupsGroupIdMembershipsResponse
-func (c *ClientWithResponses) GetIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, params *GetIdentityGroupsGroupIdMembershipsParams, reqEditors ...RequestEditorFn) (*GetIdentityGroupsGroupIdMembershipsResponse, error) {
-	rsp, err := c.GetIdentityGroupsGroupIdMemberships(ctx, groupId, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetIdentityGroupsGroupIdMembershipsResponse(rsp)
-}
-
-// PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse request with arbitrary body returning *PostIdentityGroupsGroupIdMembershipsResponse
-func (c *ClientWithResponses) PostIdentityGroupsGroupIdMembershipsWithBodyWithResponse(ctx context.Context, groupId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error) {
-	rsp, err := c.PostIdentityGroupsGroupIdMembershipsWithBody(ctx, groupId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostIdentityGroupsGroupIdMembershipsResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostIdentityGroupsGroupIdMembershipsWithResponse(ctx context.Context, groupId openapi_types.UUID, body PostIdentityGroupsGroupIdMembershipsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityGroupsGroupIdMembershipsResponse, error) {
-	rsp, err := c.PostIdentityGroupsGroupIdMemberships(ctx, groupId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostIdentityGroupsGroupIdMembershipsResponse(rsp)
-}
-
-// GetIdentityUserWithResponse request returning *GetIdentityUserResponse
-func (c *ClientWithResponses) GetIdentityUserWithResponse(ctx context.Context, params *GetIdentityUserParams, reqEditors ...RequestEditorFn) (*GetIdentityUserResponse, error) {
-	rsp, err := c.GetIdentityUser(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetIdentityUserResponse(rsp)
-}
-
-// PostIdentityUserWithBodyWithResponse request with arbitrary body returning *PostIdentityUserResponse
-func (c *ClientWithResponses) PostIdentityUserWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error) {
-	rsp, err := c.PostIdentityUserWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostIdentityUserResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostIdentityUserWithResponse(ctx context.Context, body PostIdentityUserJSONRequestBody, reqEditors ...RequestEditorFn) (*PostIdentityUserResponse, error) {
-	rsp, err := c.PostIdentityUser(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostIdentityUserResponse(rsp)
-}
-
 // GetIdentityUsersWithResponse request returning *GetIdentityUsersResponse
-func (c *ClientWithResponses) GetIdentityUsersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetIdentityUsersResponse, error) {
-	rsp, err := c.GetIdentityUsers(ctx, reqEditors...)
+func (c *ClientWithResponses) GetIdentityUsersWithResponse(ctx context.Context, params *GetIdentityUsersParams, reqEditors ...RequestEditorFn) (*GetIdentityUsersResponse, error) {
+	rsp, err := c.GetIdentityUsers(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -2668,6 +2277,23 @@ func (c *ClientWithResponses) PostIdentityUsersWithResponse(ctx context.Context,
 		return nil, err
 	}
 	return ParsePostIdentityUsersResponse(rsp)
+}
+
+// PutIdentityUsersWithBodyWithResponse request with arbitrary body returning *PutIdentityUsersResponse
+func (c *ClientWithResponses) PutIdentityUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutIdentityUsersResponse, error) {
+	rsp, err := c.PutIdentityUsersWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutIdentityUsersResponse(rsp)
+}
+
+func (c *ClientWithResponses) PutIdentityUsersWithResponse(ctx context.Context, body PutIdentityUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PutIdentityUsersResponse, error) {
+	rsp, err := c.PutIdentityUsers(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutIdentityUsersResponse(rsp)
 }
 
 // GetVaultsVaultIdMembershipsWithResponse request returning *GetVaultsVaultIdMembershipsResponse
@@ -2864,116 +2490,6 @@ func ParsePostIdentityGroupsResponse(rsp *http.Response) (*PostIdentityGroupsRes
 	return response, nil
 }
 
-// ParseDeleteIdentityGroupsGroupIdMembershipsResponse parses an HTTP response from a DeleteIdentityGroupsGroupIdMembershipsWithResponse call
-func ParseDeleteIdentityGroupsGroupIdMembershipsResponse(rsp *http.Response) (*DeleteIdentityGroupsGroupIdMembershipsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteIdentityGroupsGroupIdMembershipsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseGetIdentityGroupsGroupIdMembershipsResponse parses an HTTP response from a GetIdentityGroupsGroupIdMembershipsWithResponse call
-func ParseGetIdentityGroupsGroupIdMembershipsResponse(rsp *http.Response) (*GetIdentityGroupsGroupIdMembershipsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetIdentityGroupsGroupIdMembershipsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GroupMembershipList
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostIdentityGroupsGroupIdMembershipsResponse parses an HTTP response from a PostIdentityGroupsGroupIdMembershipsWithResponse call
-func ParsePostIdentityGroupsGroupIdMembershipsResponse(rsp *http.Response) (*PostIdentityGroupsGroupIdMembershipsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostIdentityGroupsGroupIdMembershipsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseGetIdentityUserResponse parses an HTTP response from a GetIdentityUserWithResponse call
-func ParseGetIdentityUserResponse(rsp *http.Response) (*GetIdentityUserResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetIdentityUserResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest User
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostIdentityUserResponse parses an HTTP response from a PostIdentityUserWithResponse call
-func ParsePostIdentityUserResponse(rsp *http.Response) (*PostIdentityUserResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostIdentityUserResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest User
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
 // ParseGetIdentityUsersResponse parses an HTTP response from a GetIdentityUsersWithResponse call
 func ParseGetIdentityUsersResponse(rsp *http.Response) (*GetIdentityUsersResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -3016,6 +2532,32 @@ func ParsePostIdentityUsersResponse(rsp *http.Response) (*PostIdentityUsersRespo
 	return response, nil
 }
 
+// ParsePutIdentityUsersResponse parses an HTTP response from a PutIdentityUsersWithResponse call
+func ParsePutIdentityUsersResponse(rsp *http.Response) (*PutIdentityUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PutIdentityUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest User
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetVaultsVaultIdMembershipsResponse parses an HTTP response from a GetVaultsVaultIdMembershipsWithResponse call
 func ParseGetVaultsVaultIdMembershipsResponse(rsp *http.Response) (*GetVaultsVaultIdMembershipsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -3051,51 +2593,49 @@ func ParsePostVaultsVaultIdMembershipsResponse(rsp *http.Response) (*PostVaultsV
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

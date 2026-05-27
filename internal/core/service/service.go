@@ -2,6 +2,9 @@ package service
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/pdaccess/ws/internal/core/domain"
@@ -10,16 +13,245 @@ import (
 // --- Asset Operations ---
 
 func (s *Impl) CreateAsset(ctx context.Context, asset *domain.Asset) error {
+	if asset.Type == domain.AssetTypePolicy {
+		if err := s.validatePolicyRefs(ctx, asset); err != nil {
+			return err
+		}
+	}
+
 	if err := s.assetRepo.CreateAsset(ctx, asset); err != nil {
 		return err
 	}
-	if s.vecGen != nil {
-		vec, err := s.vecGen.Generate(ctx, asset.Name)
-		if err == nil {
-			s.assetRepo.UpdateAssetEmbedding(ctx, asset.ID, vec)
+
+	if asset.Type == domain.AssetTypePolicy {
+		return s.reconcilePolicyForAllAssets(ctx, asset)
+	}
+
+	return s.reconcileEffectivePolicies(ctx, asset)
+}
+
+func (s *Impl) validatePolicyRefs(ctx context.Context, asset *domain.Asset) error {
+	var ps struct {
+		Subjects struct {
+			Users  []string `json:"users"`
+			Groups []string `json:"groups"`
+		} `json:"subjects"`
+		Objects struct {
+			AssetIDs []string `json:"asset_ids"`
+		} `json:"objects"`
+	}
+	if err := json.Unmarshal(asset.Spec, &ps); err != nil {
+		return domain.ValidationError{Field: "spec", Message: "invalid policy spec format", Code: domain.ErrCodeValidation}
+	}
+
+	var missing []string
+
+	for _, uidStr := range ps.Subjects.Users {
+		uid, err := uuid.Parse(uidStr)
+		if err != nil {
+			missing = append(missing, fmt.Sprintf("user(%s)", uidStr))
+			continue
+		}
+		u, err := s.assetRepo.GetUser(ctx, uid)
+		if err != nil {
+			return err
+		}
+		if u == nil {
+			missing = append(missing, fmt.Sprintf("user(%s)", uidStr))
 		}
 	}
+
+	for _, gidStr := range ps.Subjects.Groups {
+		gid, err := uuid.Parse(gidStr)
+		if err != nil {
+			missing = append(missing, fmt.Sprintf("group(%s)", gidStr))
+			continue
+		}
+		g, err := s.assetRepo.GetGroup(ctx, gid)
+		if err != nil {
+			return err
+		}
+		if g == nil {
+			missing = append(missing, fmt.Sprintf("group(%s)", gidStr))
+		}
+	}
+
+	for _, aidStr := range ps.Objects.AssetIDs {
+		aid, err := uuid.Parse(aidStr)
+		if err != nil {
+			missing = append(missing, fmt.Sprintf("asset(%s)", aidStr))
+			continue
+		}
+		a, err := s.assetRepo.GetAsset(ctx, aid)
+		if err != nil {
+			return err
+		}
+		if a == nil {
+			missing = append(missing, fmt.Sprintf("asset(%s)", aidStr))
+		}
+	}
+
+	if len(missing) > 0 {
+		return domain.ValidationError{
+			Field:   "spec",
+			Message: fmt.Sprintf("referenced resources not found: %s", strings.Join(missing, ", ")),
+			Code:    domain.ErrCodeValidation,
+		}
+	}
+
 	return nil
+}
+
+func (s *Impl) processPolicyForAsset(ctx context.Context, policy *domain.Asset, asset *domain.Asset) []domain.EffectivePolicy {
+	var effective []domain.EffectivePolicy
+
+	var ps struct {
+		Subjects struct {
+			Users  []string `json:"users"`
+			Groups []string `json:"groups"`
+		} `json:"subjects"`
+		Actions []string `json:"actions"`
+		Objects struct {
+			AssetIDs []string       `json:"asset_ids"`
+			Tags     map[string]any `json:"tags"`
+		} `json:"objects"`
+	}
+	if err := json.Unmarshal(policy.Spec, &ps); err != nil {
+		return nil
+	}
+
+	if !matchesPolicyObjects(asset, ps.Objects) {
+		return nil
+	}
+
+	for _, uidStr := range ps.Subjects.Users {
+		uid, err := uuid.Parse(uidStr)
+		if err != nil {
+			continue
+		}
+		effective = append(effective, domain.EffectivePolicy{
+			UserID:   uid,
+			AssetID:  asset.ID,
+			Actions:  ps.Actions,
+			PolicyID: policy.ID,
+		})
+	}
+
+	for _, gidStr := range ps.Subjects.Groups {
+		gid, err := uuid.Parse(gidStr)
+		if err != nil {
+			continue
+		}
+		members, err := s.assetRepo.ListGroupMemberships(ctx, gid)
+		if err != nil {
+			continue
+		}
+		for _, m := range members {
+			groupID := gid
+			effective = append(effective, domain.EffectivePolicy{
+				UserID:   m.MemberID,
+				GroupID:  &groupID,
+				AssetID:  asset.ID,
+				Actions:  ps.Actions,
+				PolicyID: policy.ID,
+			})
+		}
+	}
+
+	return effective
+}
+
+func (s *Impl) reconcileEffectivePolicies(ctx context.Context, asset *domain.Asset) error {
+	policies, err := s.assetRepo.ListPolicies(ctx)
+	if err != nil {
+		return nil
+	}
+
+	var effective []domain.EffectivePolicy
+	for i := range policies {
+		effective = append(effective, s.processPolicyForAsset(ctx, &policies[i], asset)...)
+	}
+
+	if len(effective) > 0 {
+		return s.assetRepo.SetAssetEffectivePolicies(ctx, asset.ID, effective)
+	}
+	return nil
+}
+
+func (s *Impl) reconcilePolicyForAllAssets(ctx context.Context, policy *domain.Asset) error {
+	assets, err := s.assetRepo.ListNonPolicyAssets(ctx)
+	if err != nil {
+		return nil
+	}
+
+	for i := range assets {
+		effective := s.processPolicyForAsset(ctx, policy, &assets[i])
+		if len(effective) > 0 {
+			if err := s.assetRepo.AddAssetEffectivePolicies(ctx, assets[i].ID, effective); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+func matchesPolicyObjects(asset *domain.Asset, objs struct {
+	AssetIDs []string       `json:"asset_ids"`
+	Tags     map[string]any `json:"tags"`
+}) bool {
+	for _, idStr := range objs.AssetIDs {
+		id, err := uuid.Parse(idStr)
+		if err == nil && id == asset.ID {
+			return true
+		}
+	}
+
+	if len(objs.Tags) > 0 && len(asset.Spec) > 0 {
+		var specMap map[string]any
+		if err := json.Unmarshal(asset.Spec, &specMap); err != nil {
+			return false
+		}
+		assetTags, ok := specMap["tags"].(string)
+		if !ok {
+			return false
+		}
+		for _, v := range objs.Tags {
+			tagVal, ok := v.(string)
+			if !ok {
+				continue
+			}
+			if containsTag(assetTags, tagVal) {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+func containsTag(tagList, tag string) bool {
+	for i := 0; i < len(tagList); {
+		end := i + 1
+		for end < len(tagList) && tagList[end] != ',' {
+			end++
+		}
+		part := tagList[i:end]
+		if end < len(tagList) {
+			end++
+		}
+		i = end
+		for len(part) > 0 && part[0] == ' ' {
+			part = part[1:]
+		}
+		for len(part) > 0 && part[len(part)-1] == ' ' {
+			part = part[:len(part)-1]
+		}
+		if part == tag {
+			return true
+		}
+	}
+	return false
 }
 
 func (s *Impl) GetAsset(ctx context.Context, id uuid.UUID) (*domain.Asset, error) {

@@ -63,8 +63,28 @@ func (h *httpHandler) GetAssets(ctx context.Context, request external.GetAssetsR
 	var assets []domain.Asset
 	var err error
 
-	if request.Params.Q != nil && *request.Params.Q != "" {
-		assets, err = h.svc.HybridSearchAssets(ctx, *request.Params.Q, limit, offset)
+	if request.Params.AssetId != nil {
+		id := uuid.UUID(*request.Params.AssetId)
+		var asset *domain.Asset
+		asset, err = h.svc.GetAsset(ctx, id)
+		if err == nil && asset != nil {
+			assets = []domain.Asset{*asset}
+		}
+	} else if request.Params.Q != nil && *request.Params.Q != "" {
+		if id, parseErr := uuid.Parse(*request.Params.Q); parseErr == nil {
+			var asset *domain.Asset
+			asset, err = h.svc.GetAsset(ctx, id)
+			if err == nil && asset != nil {
+				assets = append(assets, *asset)
+			}
+			children, childErr := h.svc.SearchAssets(ctx, "", &id, limit, offset)
+			if childErr == nil {
+				assets = append(assets, children...)
+			}
+		}
+		if len(assets) == 0 {
+			assets, err = h.svc.HybridSearchAssets(ctx, *request.Params.Q, limit, offset)
+		}
 	} else {
 		var assetType string
 		if request.Params.Type != nil {
@@ -112,6 +132,17 @@ func (h *httpHandler) PostAssets(ctx context.Context, request external.PostAsset
 		return nil, domain.ValidationError{Field: "spec", Message: "invalid spec", Code: domain.ErrCodeValidation}
 	}
 	asset.Spec = specBytes
+
+	if asset.Type == domain.AssetTypeSecret && asset.ParentID == nil {
+		var spec struct {
+			VaultID string `json:"vault_id"`
+		}
+		if json.Unmarshal(specBytes, &spec) == nil && spec.VaultID != "" {
+			if id, err := uuid.Parse(spec.VaultID); err == nil {
+				asset.ParentID = &id
+			}
+		}
+	}
 
 	if err := h.svc.CreateAsset(ctx, asset); err != nil {
 		return nil, err
@@ -209,120 +240,9 @@ func (h *httpHandler) PostIdentityGroups(ctx context.Context, request external.P
 	return external.PostIdentityGroups201Response{}, nil
 }
 
-func (h *httpHandler) DeleteIdentityGroupsGroupIdMemberships(ctx context.Context, request external.DeleteIdentityGroupsGroupIdMembershipsRequestObject) (external.DeleteIdentityGroupsGroupIdMembershipsResponseObject, error) {
-	if err := h.svc.RemoveGroupMember(ctx, uuid.UUID(request.GroupId), uuid.UUID(request.Params.UserId)); err != nil {
-		return nil, err
-	}
-	return external.DeleteIdentityGroupsGroupIdMemberships204Response{}, nil
-}
-
-func (h *httpHandler) GetIdentityGroupsGroupIdMemberships(ctx context.Context, request external.GetIdentityGroupsGroupIdMembershipsRequestObject) (external.GetIdentityGroupsGroupIdMembershipsResponseObject, error) {
-	groupID := uuid.UUID(request.GroupId)
-	limit := 20
-	offset := 0
-	if request.Params.Limit != nil {
-		limit = *request.Params.Limit
-	}
-	if request.Params.Offset != nil {
-		offset = *request.Params.Offset
-	}
-
-	members, err := h.svc.ListGroupMemberships(ctx, groupID)
-	if err != nil {
-		return nil, err
-	}
-
-	start := min(offset, len(members))
-	end := min(start+limit, len(members))
-	paginated := members[start:end]
-
-	data := make([]external.GroupMembership, 0, len(paginated))
-	for _, m := range paginated {
-		groupID := openapiUUID(m.GroupID)
-		userID := openapiUUID(m.MemberID)
-		data = append(data, external.GroupMembership{
-			GroupId:   &groupID,
-			UserId:    &userID,
-			CreatedAt: &m.CreatedAt,
-		})
-	}
-	total := len(members)
-	return external.GetIdentityGroupsGroupIdMemberships200JSONResponse(external.GroupMembershipList{
-		Data: &data,
-		Meta: &external.PaginationMeta{
-			Limit:  &limit,
-			Offset: &offset,
-			Total:  &total,
-		},
-	}), nil
-}
-
-func (h *httpHandler) PostIdentityGroupsGroupIdMemberships(ctx context.Context, request external.PostIdentityGroupsGroupIdMembershipsRequestObject) (external.PostIdentityGroupsGroupIdMembershipsResponseObject, error) {
-	if request.Body == nil {
-		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
-	}
-	if err := h.svc.AddGroupMember(ctx, uuid.UUID(request.GroupId), uuid.UUID(request.Body.UserId)); err != nil {
-		return nil, err
-	}
-	return external.PostIdentityGroupsGroupIdMemberships201Response{}, nil
-}
-
 // --- Identity: Users ---
 
-func (h *httpHandler) GetIdentityUser(ctx context.Context, request external.GetIdentityUserRequestObject) (external.GetIdentityUserResponseObject, error) {
-	var id uuid.UUID
-	if request.Params.UserId != nil {
-		id = uuid.UUID(*request.Params.UserId)
-	} else {
-		id = userIDFromCtx(ctx)
-	}
-
-	user, err := h.svc.GetUser(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	if user == nil {
-		if request.Params.UserId != nil {
-			return external.GetIdentityUser404Response{}, nil
-		}
-		user = &domain.User{ID: id, Username: id.String(), Email: id.String() + "@pdaccess.io"}
-		if err := h.svc.CreateUser(ctx, user); err != nil {
-			return nil, err
-		}
-	}
-
-	status := external.Active
-	if user.Status != "" {
-		status = external.UserStatus(user.Status)
-	}
-
-	extUser := external.User{
-		Id:       openapiUUID(user.ID),
-		Username: user.Username,
-		Email:    user.Email,
-		Status:   &status,
-	}
-
-	if request.Params.View != nil && *request.Params.View == external.Full {
-		displayName := user.DisplayName
-		firstName := user.FirstName
-		lastName := user.LastName
-		extUser.DisplayName = &displayName
-		extUser.FirstName = &firstName
-		extUser.LastName = &lastName
-		if len(user.NotificationSettings) > 0 {
-			var notif map[string]any
-			if json.Unmarshal(user.NotificationSettings, &notif) == nil {
-				extUser.NotificationSettings = &notif
-			}
-		}
-	}
-
-	return external.GetIdentityUser200JSONResponse(extUser), nil
-}
-
-func (h *httpHandler) PostIdentityUser(ctx context.Context, request external.PostIdentityUserRequestObject) (external.PostIdentityUserResponseObject, error) {
+func (h *httpHandler) PutIdentityUsers(ctx context.Context, request external.PutIdentityUsersRequestObject) (external.PutIdentityUsersResponseObject, error) {
 	if request.Body == nil {
 		return nil, domain.ValidationError{Field: "body", Message: "missing request body", Code: domain.ErrCodeValidation}
 	}
@@ -366,6 +286,17 @@ func (h *httpHandler) PostIdentityUser(ctx context.Context, request external.Pos
 		return nil, err
 	}
 
+	if request.Body.GroupIds != nil {
+		for _, gid := range *request.Body.GroupIds {
+			if uuid.UUID(gid) == uuid.Nil {
+				return nil, domain.ValidationError{Field: "group_ids", Message: "group_ids must not contain empty IDs", Code: domain.ErrCodeValidation}
+			}
+			if err := h.svc.AddGroupMember(ctx, uuid.UUID(gid), id); err != nil {
+				return nil, err
+			}
+		}
+	}
+
 	user, err = h.svc.GetUser(ctx, id)
 	if err != nil {
 		return nil, err
@@ -395,21 +326,77 @@ func (h *httpHandler) PostIdentityUser(ctx context.Context, request external.Pos
 		}
 	}
 
-	return external.PostIdentityUser200JSONResponse(extUser), nil
+	return external.PutIdentityUsers200JSONResponse(extUser), nil
 }
 
 func (h *httpHandler) GetIdentityUsers(ctx context.Context, request external.GetIdentityUsersRequestObject) (external.GetIdentityUsersResponseObject, error) {
-	userID := userIDFromCtx(ctx)
+	var users []external.User
+
+	if request.Params.CurrentUser != nil && *request.Params.CurrentUser {
+		id := userIDFromCtx(ctx)
+		user, err := h.svc.GetUser(ctx, id)
+		if err != nil {
+			return nil, err
+		}
+		if user == nil {
+			user = &domain.User{ID: id, Username: id.String(), Email: id.String() + "@pdaccess.io"}
+			if err := h.svc.CreateUser(ctx, user); err != nil {
+				return nil, err
+			}
+		}
+		users = append(users, domainUserToExternal(*user, request.Params.View))
+	} else if request.Params.UserId != nil {
+		id := uuid.UUID(*request.Params.UserId)
+		user, err := h.svc.GetUser(ctx, id)
+		if err != nil {
+			return nil, err
+		}
+		if user != nil {
+			users = append(users, domainUserToExternal(*user, request.Params.View))
+		}
+	} else {
+		id := userIDFromCtx(ctx)
+		status := external.Active
+		userIdStr := id.String()
+		users = []external.User{
+			{
+				Id:       openapiUUID(id),
+				Username: userIdStr,
+				Email:    userIdStr + "@pdaccess.io",
+				Status:   &status,
+			},
+		}
+	}
+
+	return external.GetIdentityUsers200JSONResponse(users), nil
+}
+
+func domainUserToExternal(user domain.User, view *external.GetIdentityUsersParamsView) external.User {
 	status := external.Active
-	userIdStr := userID.String()
-	return external.GetIdentityUsers200JSONResponse{
-		external.User{
-			Id:       openapiUUID(userID),
-			Username: userIdStr,
-			Email:    userIdStr + "@pdaccess.io",
-			Status:   &status,
-		},
-	}, nil
+	if user.Status != "" {
+		status = external.UserStatus(user.Status)
+	}
+
+	extUser := external.User{
+		Id:       openapiUUID(user.ID),
+		Username: user.Username,
+		Email:    user.Email,
+		Status:   &status,
+	}
+
+	if view != nil && *view == external.Full {
+		extUser.DisplayName = &user.DisplayName
+		extUser.FirstName = &user.FirstName
+		extUser.LastName = &user.LastName
+		if len(user.NotificationSettings) > 0 {
+			var notif map[string]any
+			if json.Unmarshal(user.NotificationSettings, &notif) == nil {
+				extUser.NotificationSettings = &notif
+			}
+		}
+	}
+
+	return extUser
 }
 
 func (h *httpHandler) PostIdentityUsers(ctx context.Context, request external.PostIdentityUsersRequestObject) (external.PostIdentityUsersResponseObject, error) {
@@ -423,6 +410,18 @@ func (h *httpHandler) PostIdentityUsers(ctx context.Context, request external.Po
 	if err := h.svc.CreateUser(ctx, user); err != nil {
 		return nil, err
 	}
+
+	if request.Body.GroupIds != nil {
+		for _, gid := range *request.Body.GroupIds {
+			if uuid.UUID(gid) == uuid.Nil {
+				return nil, domain.ValidationError{Field: "group_ids", Message: "group_ids must not contain empty IDs", Code: domain.ErrCodeValidation}
+			}
+			if err := h.svc.AddGroupMember(ctx, uuid.UUID(gid), user.ID); err != nil {
+				return nil, err
+			}
+		}
+	}
+
 	return external.PostIdentityUsers201Response{}, nil
 }
 

@@ -74,3 +74,11 @@ type AdminConfig struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
+
+type EffectivePolicy struct {
+	UserID   uuid.UUID  `json:"user_id"`
+	GroupID  *uuid.UUID `json:"group_id,omitempty"`
+	AssetID  uuid.UUID  `json:"asset_id"`
+	Actions  []string   `json:"actions"`
+	PolicyID uuid.UUID  `json:"policy_id"`
+}

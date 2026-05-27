@@ -180,14 +180,14 @@ func (e PostAssetsIdActionsJSONBodyActionType) Valid() bool {
 	}
 }
 
-// Defines values for GetIdentityUserParamsView.
+// Defines values for GetIdentityUsersParamsView.
 const (
-	Full    GetIdentityUserParamsView = "full"
-	Summary GetIdentityUserParamsView = "summary"
+	Full    GetIdentityUsersParamsView = "full"
+	Summary GetIdentityUsersParamsView = "summary"
 )
 
-// Valid indicates whether the value is a known member of the GetIdentityUserParamsView enum.
-func (e GetIdentityUserParamsView) Valid() bool {
+// Valid indicates whether the value is a known member of the GetIdentityUsersParamsView enum.
+func (e GetIdentityUsersParamsView) Valid() bool {
 	switch e {
 	case Full:
 		return true
@@ -278,19 +278,6 @@ type CreateAssetRequest_Spec struct {
 // CreateAssetRequestType defines model for CreateAssetRequest.Type.
 type CreateAssetRequestType string
 
-// GroupMembership defines model for GroupMembership.
-type GroupMembership struct {
-	CreatedAt *time.Time          `json:"created_at,omitempty"`
-	GroupId   *openapi_types.UUID `json:"group_id,omitempty"`
-	UserId    *openapi_types.UUID `json:"user_id,omitempty"`
-}
-
-// GroupMembershipList defines model for GroupMembershipList.
-type GroupMembershipList struct {
-	Data *[]GroupMembership `json:"data,omitempty"`
-	Meta *PaginationMeta    `json:"meta,omitempty"`
-}
-
 // JITSpec defines model for JITSpec.
 type JITSpec struct {
 	ApproverGroup   *openapi_types.UUID `json:"approver_group,omitempty"`
@@ -340,11 +327,19 @@ type SecretSpec struct {
 	VaultId          openapi_types.UUID `json:"vault_id"`
 }
 
+// ServiceGroupSpec defines model for ServiceGroupSpec.
+type ServiceGroupSpec struct {
+	// Tags List of tags
+	Tags *[]string `json:"tags,omitempty"`
+}
+
 // ServiceSpec defines model for ServiceSpec.
 type ServiceSpec struct {
 	Endpoint string              `json:"endpoint"`
 	Protocol ServiceSpecProtocol `json:"protocol"`
-	Tags     *map[string]string  `json:"tags,omitempty"`
+
+	// Tags Comma-separated list of tags
+	Tags *string `json:"tags,omitempty"`
 }
 
 // ServiceSpecProtocol defines model for ServiceSpec.Protocol.
@@ -355,6 +350,7 @@ type UpdateUserProfileRequest struct {
 	DisplayName          *string                 `json:"display_name,omitempty"`
 	Email                *string                 `json:"email,omitempty"`
 	FirstName            *string                 `json:"first_name,omitempty"`
+	GroupIds             *[]openapi_types.UUID   `json:"group_ids,omitempty"`
 	LastName             *string                 `json:"last_name,omitempty"`
 	NotificationSettings *map[string]interface{} `json:"notification_settings,omitempty"`
 }
@@ -414,6 +410,9 @@ type GetAssetsParams struct {
 	// ParentId Filter by parent asset ID
 	ParentId *openapi_types.UUID `form:"parent_id,omitempty" json:"parent_id,omitempty"`
 
+	// AssetId Filter by specific asset ID
+	AssetId *openapi_types.UUID `form:"asset_id,omitempty" json:"asset_id,omitempty"`
+
 	// Limit Maximum number of assets to return
 	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
 
@@ -448,39 +447,27 @@ type PostIdentityGroupsJSONBody struct {
 	Name string `json:"name"`
 }
 
-// DeleteIdentityGroupsGroupIdMembershipsParams defines parameters for DeleteIdentityGroupsGroupIdMemberships.
-type DeleteIdentityGroupsGroupIdMembershipsParams struct {
-	UserId openapi_types.UUID `form:"user_id" json:"user_id"`
-}
-
-// GetIdentityGroupsGroupIdMembershipsParams defines parameters for GetIdentityGroupsGroupIdMemberships.
-type GetIdentityGroupsGroupIdMembershipsParams struct {
-	Limit  *int `form:"limit,omitempty" json:"limit,omitempty"`
-	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
-}
-
-// PostIdentityGroupsGroupIdMembershipsJSONBody defines parameters for PostIdentityGroupsGroupIdMemberships.
-type PostIdentityGroupsGroupIdMembershipsJSONBody struct {
-	UserId openapi_types.UUID `json:"user_id"`
-}
-
-// GetIdentityUserParams defines parameters for GetIdentityUser.
-type GetIdentityUserParams struct {
-	// UserId User ID to look up (optional, defaults to current user)
+// GetIdentityUsersParams defines parameters for GetIdentityUsers.
+type GetIdentityUsersParams struct {
+	// UserId Filter by specific user ID
 	UserId *openapi_types.UUID `form:"user_id,omitempty" json:"user_id,omitempty"`
 
+	// CurrentUser Return current authenticated user
+	CurrentUser *bool `form:"current_user,omitempty" json:"current_user,omitempty"`
+
 	// View Level of detail (summary returns basic info, full includes profile fields)
-	View *GetIdentityUserParamsView `form:"view,omitempty" json:"view,omitempty"`
+	View *GetIdentityUsersParamsView `form:"view,omitempty" json:"view,omitempty"`
 }
 
-// GetIdentityUserParamsView defines parameters for GetIdentityUser.
-type GetIdentityUserParamsView string
+// GetIdentityUsersParamsView defines parameters for GetIdentityUsers.
+type GetIdentityUsersParamsView string
 
 // PostIdentityUsersJSONBody defines parameters for PostIdentityUsers.
 type PostIdentityUsersJSONBody struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Username string `json:"username"`
+	Email    string                `json:"email"`
+	GroupIds *[]openapi_types.UUID `json:"group_ids,omitempty"`
+	Password string                `json:"password"`
+	Username string                `json:"username"`
 }
 
 // PostVaultsVaultIdMembershipsJSONBody defines parameters for PostVaultsVaultIdMemberships.
@@ -508,14 +495,11 @@ type PostAssetsIdActionsJSONRequestBody PostAssetsIdActionsJSONBody
 // PostIdentityGroupsJSONRequestBody defines body for PostIdentityGroups for application/json ContentType.
 type PostIdentityGroupsJSONRequestBody PostIdentityGroupsJSONBody
 
-// PostIdentityGroupsGroupIdMembershipsJSONRequestBody defines body for PostIdentityGroupsGroupIdMemberships for application/json ContentType.
-type PostIdentityGroupsGroupIdMembershipsJSONRequestBody PostIdentityGroupsGroupIdMembershipsJSONBody
-
-// PostIdentityUserJSONRequestBody defines body for PostIdentityUser for application/json ContentType.
-type PostIdentityUserJSONRequestBody = UpdateUserProfileRequest
-
 // PostIdentityUsersJSONRequestBody defines body for PostIdentityUsers for application/json ContentType.
 type PostIdentityUsersJSONRequestBody PostIdentityUsersJSONBody
+
+// PutIdentityUsersJSONRequestBody defines body for PutIdentityUsers for application/json ContentType.
+type PutIdentityUsersJSONRequestBody = UpdateUserProfileRequest
 
 // PostVaultsVaultIdMembershipsJSONRequestBody defines body for PostVaultsVaultIdMemberships for application/json ContentType.
 type PostVaultsVaultIdMembershipsJSONRequestBody PostVaultsVaultIdMembershipsJSONBody
@@ -536,6 +520,32 @@ func (t *CreateAssetRequest_Spec) FromServiceSpec(v ServiceSpec) error {
 
 // MergeServiceSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided ServiceSpec
 func (t *CreateAssetRequest_Spec) MergeServiceSpec(v ServiceSpec) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServiceGroupSpec returns the union data inside the CreateAssetRequest_Spec as a ServiceGroupSpec
+func (t CreateAssetRequest_Spec) AsServiceGroupSpec() (ServiceGroupSpec, error) {
+	var body ServiceGroupSpec
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServiceGroupSpec overwrites any union data inside the CreateAssetRequest_Spec as the provided ServiceGroupSpec
+func (t *CreateAssetRequest_Spec) FromServiceGroupSpec(v ServiceGroupSpec) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServiceGroupSpec performs a merge with any union data inside the CreateAssetRequest_Spec, using the provided ServiceGroupSpec
+func (t *CreateAssetRequest_Spec) MergeServiceGroupSpec(v ServiceGroupSpec) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -712,27 +722,15 @@ type ServerInterface interface {
 	// Create UserGroup
 	// (POST /identity/groups)
 	PostIdentityGroups(w http.ResponseWriter, r *http.Request)
-	// Remove User from Group
-	// (DELETE /identity/groups/{groupId}/memberships)
-	DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params DeleteIdentityGroupsGroupIdMembershipsParams)
-	// List Group Members
-	// (GET /identity/groups/{groupId}/memberships)
-	GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetIdentityGroupsGroupIdMembershipsParams)
-	// Assign User to Group
-	// (POST /identity/groups/{groupId}/memberships)
-	PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID)
-	// Get current or specific user
-	// (GET /identity/user)
-	GetIdentityUser(w http.ResponseWriter, r *http.Request, params GetIdentityUserParams)
-	// Update current user profile
-	// (POST /identity/user)
-	PostIdentityUser(w http.ResponseWriter, r *http.Request)
-
+	// Get users
 	// (GET /identity/users)
-	GetIdentityUsers(w http.ResponseWriter, r *http.Request)
+	GetIdentityUsers(w http.ResponseWriter, r *http.Request, params GetIdentityUsersParams)
 	// Onboard User
 	// (POST /identity/users)
 	PostIdentityUsers(w http.ResponseWriter, r *http.Request)
+	// Update current user profile
+	// (PUT /identity/users)
+	PutIdentityUsers(w http.ResponseWriter, r *http.Request)
 	// List Vault Members (Roles & Keys)
 	// (GET /vaults/{vaultId}/memberships)
 	GetVaultsVaultIdMemberships(w http.ResponseWriter, r *http.Request, vaultId openapi_types.UUID)
@@ -791,44 +789,21 @@ func (_ Unimplemented) PostIdentityGroups(w http.ResponseWriter, r *http.Request
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Remove User from Group
-// (DELETE /identity/groups/{groupId}/memberships)
-func (_ Unimplemented) DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params DeleteIdentityGroupsGroupIdMembershipsParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// List Group Members
-// (GET /identity/groups/{groupId}/memberships)
-func (_ Unimplemented) GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetIdentityGroupsGroupIdMembershipsParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Assign User to Group
-// (POST /identity/groups/{groupId}/memberships)
-func (_ Unimplemented) PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get current or specific user
-// (GET /identity/user)
-func (_ Unimplemented) GetIdentityUser(w http.ResponseWriter, r *http.Request, params GetIdentityUserParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update current user profile
-// (POST /identity/user)
-func (_ Unimplemented) PostIdentityUser(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
+// Get users
 // (GET /identity/users)
-func (_ Unimplemented) GetIdentityUsers(w http.ResponseWriter, r *http.Request) {
+func (_ Unimplemented) GetIdentityUsers(w http.ResponseWriter, r *http.Request, params GetIdentityUsersParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Onboard User
 // (POST /identity/users)
 func (_ Unimplemented) PostIdentityUsers(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Update current user profile
+// (PUT /identity/users)
+func (_ Unimplemented) PutIdentityUsers(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -928,6 +903,14 @@ func (siw *ServerInterfaceWrapper) GetAssets(w http.ResponseWriter, r *http.Requ
 	err = runtime.BindQueryParameterWithOptions("form", true, false, "parent_id", r.URL.Query(), &params.ParentId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "parent_id", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "asset_id" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "asset_id", r.URL.Query(), &params.AssetId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "asset_id", Err: err})
 		return
 	}
 
@@ -1113,138 +1096,8 @@ func (siw *ServerInterfaceWrapper) PostIdentityGroups(w http.ResponseWriter, r *
 	handler.ServeHTTP(w, r)
 }
 
-// DeleteIdentityGroupsGroupIdMemberships operation middleware
-func (siw *ServerInterfaceWrapper) DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params DeleteIdentityGroupsGroupIdMembershipsParams
-
-	// ------------- Required query parameter "user_id" -------------
-
-	if paramValue := r.URL.Query().Get("user_id"); paramValue != "" {
-
-	} else {
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "user_id"})
-		return
-	}
-
-	err = runtime.BindQueryParameterWithOptions("form", true, true, "user_id", r.URL.Query(), &params.UserId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "user_id", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteIdentityGroupsGroupIdMemberships(w, r, groupId, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetIdentityGroupsGroupIdMemberships operation middleware
-func (siw *ServerInterfaceWrapper) GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetIdentityGroupsGroupIdMembershipsParams
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "limit", r.URL.Query(), &params.Limit, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
-		return
-	}
-
-	// ------------- Optional query parameter "offset" -------------
-
-	err = runtime.BindQueryParameterWithOptions("form", true, false, "offset", r.URL.Query(), &params.Offset, runtime.BindQueryParameterOptions{Type: "integer", Format: ""})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
-		return
-	}
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetIdentityGroupsGroupIdMemberships(w, r, groupId, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostIdentityGroupsGroupIdMemberships operation middleware
-func (siw *ServerInterfaceWrapper) PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true, Type: "string", Format: "uuid"})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostIdentityGroupsGroupIdMemberships(w, r, groupId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetIdentityUser operation middleware
-func (siw *ServerInterfaceWrapper) GetIdentityUser(w http.ResponseWriter, r *http.Request) {
+// GetIdentityUsers operation middleware
+func (siw *ServerInterfaceWrapper) GetIdentityUsers(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
@@ -1255,13 +1108,21 @@ func (siw *ServerInterfaceWrapper) GetIdentityUser(w http.ResponseWriter, r *htt
 	r = r.WithContext(ctx)
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params GetIdentityUserParams
+	var params GetIdentityUsersParams
 
 	// ------------- Optional query parameter "user_id" -------------
 
 	err = runtime.BindQueryParameterWithOptions("form", true, false, "user_id", r.URL.Query(), &params.UserId, runtime.BindQueryParameterOptions{Type: "string", Format: "uuid"})
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "user_id", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "current_user" -------------
+
+	err = runtime.BindQueryParameterWithOptions("form", true, false, "current_user", r.URL.Query(), &params.CurrentUser, runtime.BindQueryParameterOptions{Type: "boolean", Format: ""})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "current_user", Err: err})
 		return
 	}
 
@@ -1274,47 +1135,7 @@ func (siw *ServerInterfaceWrapper) GetIdentityUser(w http.ResponseWriter, r *htt
 	}
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetIdentityUser(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// PostIdentityUser operation middleware
-func (siw *ServerInterfaceWrapper) PostIdentityUser(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostIdentityUser(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
-
-// GetIdentityUsers operation middleware
-func (siw *ServerInterfaceWrapper) GetIdentityUsers(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetIdentityUsers(w, r)
+		siw.Handler.GetIdentityUsers(w, r, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1329,6 +1150,26 @@ func (siw *ServerInterfaceWrapper) PostIdentityUsers(w http.ResponseWriter, r *h
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.PostIdentityUsers(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// PutIdentityUsers operation middleware
+func (siw *ServerInterfaceWrapper) PutIdentityUsers(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PutIdentityUsers(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1538,25 +1379,13 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/identity/groups", wrapper.PostIdentityGroups)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/identity/groups/{groupId}/memberships", wrapper.DeleteIdentityGroupsGroupIdMemberships)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/identity/groups/{groupId}/memberships", wrapper.GetIdentityGroupsGroupIdMemberships)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/identity/groups/{groupId}/memberships", wrapper.PostIdentityGroupsGroupIdMemberships)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/identity/user", wrapper.GetIdentityUser)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/identity/user", wrapper.PostIdentityUser)
-	})
-	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/identity/users", wrapper.GetIdentityUsers)
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/identity/users", wrapper.PostIdentityUsers)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/identity/users", wrapper.PutIdentityUsers)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/vaults/{vaultId}/memberships", wrapper.GetVaultsVaultIdMemberships)
@@ -1708,109 +1537,8 @@ func (response PostIdentityGroups201Response) VisitPostIdentityGroupsResponse(w 
 	return nil
 }
 
-type DeleteIdentityGroupsGroupIdMembershipsRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	Params  DeleteIdentityGroupsGroupIdMembershipsParams
-}
-
-type DeleteIdentityGroupsGroupIdMembershipsResponseObject interface {
-	VisitDeleteIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error
-}
-
-type DeleteIdentityGroupsGroupIdMemberships204Response struct {
-}
-
-func (response DeleteIdentityGroupsGroupIdMemberships204Response) VisitDeleteIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error {
-	w.WriteHeader(204)
-	return nil
-}
-
-type GetIdentityGroupsGroupIdMembershipsRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	Params  GetIdentityGroupsGroupIdMembershipsParams
-}
-
-type GetIdentityGroupsGroupIdMembershipsResponseObject interface {
-	VisitGetIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error
-}
-
-type GetIdentityGroupsGroupIdMemberships200JSONResponse GroupMembershipList
-
-func (response GetIdentityGroupsGroupIdMemberships200JSONResponse) VisitGetIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostIdentityGroupsGroupIdMembershipsRequestObject struct {
-	GroupId openapi_types.UUID `json:"groupId"`
-	Body    *PostIdentityGroupsGroupIdMembershipsJSONRequestBody
-}
-
-type PostIdentityGroupsGroupIdMembershipsResponseObject interface {
-	VisitPostIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error
-}
-
-type PostIdentityGroupsGroupIdMemberships201Response struct {
-}
-
-func (response PostIdentityGroupsGroupIdMemberships201Response) VisitPostIdentityGroupsGroupIdMembershipsResponse(w http.ResponseWriter) error {
-	w.WriteHeader(201)
-	return nil
-}
-
-type GetIdentityUserRequestObject struct {
-	Params GetIdentityUserParams
-}
-
-type GetIdentityUserResponseObject interface {
-	VisitGetIdentityUserResponse(w http.ResponseWriter) error
-}
-
-type GetIdentityUser200JSONResponse User
-
-func (response GetIdentityUser200JSONResponse) VisitGetIdentityUserResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type GetIdentityUser404Response struct {
-}
-
-func (response GetIdentityUser404Response) VisitGetIdentityUserResponse(w http.ResponseWriter) error {
-	w.WriteHeader(404)
-	return nil
-}
-
-type PostIdentityUserRequestObject struct {
-	Body *PostIdentityUserJSONRequestBody
-}
-
-type PostIdentityUserResponseObject interface {
-	VisitPostIdentityUserResponse(w http.ResponseWriter) error
-}
-
-type PostIdentityUser200JSONResponse User
-
-func (response PostIdentityUser200JSONResponse) VisitPostIdentityUserResponse(w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	return json.NewEncoder(w).Encode(response)
-}
-
-type PostIdentityUser400Response struct {
-}
-
-func (response PostIdentityUser400Response) VisitPostIdentityUserResponse(w http.ResponseWriter) error {
-	w.WriteHeader(400)
-	return nil
-}
-
 type GetIdentityUsersRequestObject struct {
+	Params GetIdentityUsersParams
 }
 
 type GetIdentityUsersResponseObject interface {
@@ -1839,6 +1567,31 @@ type PostIdentityUsers201Response struct {
 
 func (response PostIdentityUsers201Response) VisitPostIdentityUsersResponse(w http.ResponseWriter) error {
 	w.WriteHeader(201)
+	return nil
+}
+
+type PutIdentityUsersRequestObject struct {
+	Body *PutIdentityUsersJSONRequestBody
+}
+
+type PutIdentityUsersResponseObject interface {
+	VisitPutIdentityUsersResponse(w http.ResponseWriter) error
+}
+
+type PutIdentityUsers200JSONResponse User
+
+func (response PutIdentityUsers200JSONResponse) VisitPutIdentityUsersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutIdentityUsers400Response struct {
+}
+
+func (response PutIdentityUsers400Response) VisitPutIdentityUsersResponse(w http.ResponseWriter) error {
+	w.WriteHeader(400)
 	return nil
 }
 
@@ -1901,27 +1654,15 @@ type StrictServerInterface interface {
 	// Create UserGroup
 	// (POST /identity/groups)
 	PostIdentityGroups(ctx context.Context, request PostIdentityGroupsRequestObject) (PostIdentityGroupsResponseObject, error)
-	// Remove User from Group
-	// (DELETE /identity/groups/{groupId}/memberships)
-	DeleteIdentityGroupsGroupIdMemberships(ctx context.Context, request DeleteIdentityGroupsGroupIdMembershipsRequestObject) (DeleteIdentityGroupsGroupIdMembershipsResponseObject, error)
-	// List Group Members
-	// (GET /identity/groups/{groupId}/memberships)
-	GetIdentityGroupsGroupIdMemberships(ctx context.Context, request GetIdentityGroupsGroupIdMembershipsRequestObject) (GetIdentityGroupsGroupIdMembershipsResponseObject, error)
-	// Assign User to Group
-	// (POST /identity/groups/{groupId}/memberships)
-	PostIdentityGroupsGroupIdMemberships(ctx context.Context, request PostIdentityGroupsGroupIdMembershipsRequestObject) (PostIdentityGroupsGroupIdMembershipsResponseObject, error)
-	// Get current or specific user
-	// (GET /identity/user)
-	GetIdentityUser(ctx context.Context, request GetIdentityUserRequestObject) (GetIdentityUserResponseObject, error)
-	// Update current user profile
-	// (POST /identity/user)
-	PostIdentityUser(ctx context.Context, request PostIdentityUserRequestObject) (PostIdentityUserResponseObject, error)
-
+	// Get users
 	// (GET /identity/users)
 	GetIdentityUsers(ctx context.Context, request GetIdentityUsersRequestObject) (GetIdentityUsersResponseObject, error)
 	// Onboard User
 	// (POST /identity/users)
 	PostIdentityUsers(ctx context.Context, request PostIdentityUsersRequestObject) (PostIdentityUsersResponseObject, error)
+	// Update current user profile
+	// (PUT /identity/users)
+	PutIdentityUsers(ctx context.Context, request PutIdentityUsersRequestObject) (PutIdentityUsersResponseObject, error)
 	// List Vault Members (Roles & Keys)
 	// (GET /vaults/{vaultId}/memberships)
 	GetVaultsVaultIdMemberships(ctx context.Context, request GetVaultsVaultIdMembershipsRequestObject) (GetVaultsVaultIdMembershipsResponseObject, error)
@@ -2187,153 +1928,11 @@ func (sh *strictHandler) PostIdentityGroups(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-// DeleteIdentityGroupsGroupIdMemberships operation middleware
-func (sh *strictHandler) DeleteIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params DeleteIdentityGroupsGroupIdMembershipsParams) {
-	var request DeleteIdentityGroupsGroupIdMembershipsRequestObject
-
-	request.GroupId = groupId
-	request.Params = params
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.DeleteIdentityGroupsGroupIdMemberships(ctx, request.(DeleteIdentityGroupsGroupIdMembershipsRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "DeleteIdentityGroupsGroupIdMemberships")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(DeleteIdentityGroupsGroupIdMembershipsResponseObject); ok {
-		if err := validResponse.VisitDeleteIdentityGroupsGroupIdMembershipsResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetIdentityGroupsGroupIdMemberships operation middleware
-func (sh *strictHandler) GetIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID, params GetIdentityGroupsGroupIdMembershipsParams) {
-	var request GetIdentityGroupsGroupIdMembershipsRequestObject
-
-	request.GroupId = groupId
-	request.Params = params
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetIdentityGroupsGroupIdMemberships(ctx, request.(GetIdentityGroupsGroupIdMembershipsRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetIdentityGroupsGroupIdMemberships")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetIdentityGroupsGroupIdMembershipsResponseObject); ok {
-		if err := validResponse.VisitGetIdentityGroupsGroupIdMembershipsResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostIdentityGroupsGroupIdMemberships operation middleware
-func (sh *strictHandler) PostIdentityGroupsGroupIdMemberships(w http.ResponseWriter, r *http.Request, groupId openapi_types.UUID) {
-	var request PostIdentityGroupsGroupIdMembershipsRequestObject
-
-	request.GroupId = groupId
-
-	var body PostIdentityGroupsGroupIdMembershipsJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostIdentityGroupsGroupIdMemberships(ctx, request.(PostIdentityGroupsGroupIdMembershipsRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostIdentityGroupsGroupIdMemberships")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostIdentityGroupsGroupIdMembershipsResponseObject); ok {
-		if err := validResponse.VisitPostIdentityGroupsGroupIdMembershipsResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// GetIdentityUser operation middleware
-func (sh *strictHandler) GetIdentityUser(w http.ResponseWriter, r *http.Request, params GetIdentityUserParams) {
-	var request GetIdentityUserRequestObject
-
-	request.Params = params
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.GetIdentityUser(ctx, request.(GetIdentityUserRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetIdentityUser")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(GetIdentityUserResponseObject); ok {
-		if err := validResponse.VisitGetIdentityUserResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
-// PostIdentityUser operation middleware
-func (sh *strictHandler) PostIdentityUser(w http.ResponseWriter, r *http.Request) {
-	var request PostIdentityUserRequestObject
-
-	var body PostIdentityUserJSONRequestBody
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
-		return
-	}
-	request.Body = &body
-
-	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
-		return sh.ssi.PostIdentityUser(ctx, request.(PostIdentityUserRequestObject))
-	}
-	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostIdentityUser")
-	}
-
-	response, err := handler(r.Context(), w, r, request)
-
-	if err != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, err)
-	} else if validResponse, ok := response.(PostIdentityUserResponseObject); ok {
-		if err := validResponse.VisitPostIdentityUserResponse(w); err != nil {
-			sh.options.ResponseErrorHandlerFunc(w, r, err)
-		}
-	} else if response != nil {
-		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
-	}
-}
-
 // GetIdentityUsers operation middleware
-func (sh *strictHandler) GetIdentityUsers(w http.ResponseWriter, r *http.Request) {
+func (sh *strictHandler) GetIdentityUsers(w http.ResponseWriter, r *http.Request, params GetIdentityUsersParams) {
 	var request GetIdentityUsersRequestObject
+
+	request.Params = params
 
 	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
 		return sh.ssi.GetIdentityUsers(ctx, request.(GetIdentityUsersRequestObject))
@@ -2379,6 +1978,37 @@ func (sh *strictHandler) PostIdentityUsers(w http.ResponseWriter, r *http.Reques
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
 	} else if validResponse, ok := response.(PostIdentityUsersResponseObject); ok {
 		if err := validResponse.VisitPostIdentityUsersResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutIdentityUsers operation middleware
+func (sh *strictHandler) PutIdentityUsers(w http.ResponseWriter, r *http.Request) {
+	var request PutIdentityUsersRequestObject
+
+	var body PutIdentityUsersJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PutIdentityUsers(ctx, request.(PutIdentityUsersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutIdentityUsers")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PutIdentityUsersResponseObject); ok {
+		if err := validResponse.VisitPutIdentityUsersResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -2448,51 +2078,49 @@ func (sh *strictHandler) PostVaultsVaultIdMemberships(w http.ResponseWriter, r *
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

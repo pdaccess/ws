@@ -112,6 +112,14 @@ func (r *AssetRepository) VectorSearchAssets(ctx context.Context, embedding doma
 // --- Identity: Users ---
 
 func (r *AssetRepository) CreateUser(ctx context.Context, user *domain.User) error {
+	existing, err := r.GetUserByEmail(ctx, user.Email)
+	if err != nil {
+		return err
+	}
+	if existing != nil {
+		return domain.ValidationError{Field: "email", Message: "email already exists", Code: domain.ErrCodeValidation}
+	}
+
 	query := `INSERT INTO ws_users (id, username, email, status, display_name, first_name, last_name, notification_settings) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 	if user.ID == uuid.Nil {
 		user.ID = uuid.New()
@@ -123,7 +131,7 @@ func (r *AssetRepository) CreateUser(ctx context.Context, user *domain.User) err
 	if notif == nil {
 		notif = json.RawMessage(`{}`)
 	}
-	_, err := r.db.ExecContext(ctx, query, user.ID, user.Username, user.Email, user.Status, user.DisplayName, user.FirstName, user.LastName, notif)
+	_, err = r.db.ExecContext(ctx, query, user.ID, user.Username, user.Email, user.Status, user.DisplayName, user.FirstName, user.LastName, notif)
 	return err
 }
 
@@ -131,6 +139,22 @@ func (r *AssetRepository) GetUser(ctx context.Context, id uuid.UUID) (*domain.Us
 	u := &domain.User{}
 	var notif []byte
 	err := r.db.QueryRowContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings FROM ws_users WHERE id = $1`, id).Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	if len(notif) > 0 {
+		u.NotificationSettings = notif
+	}
+	return u, nil
+}
+
+func (r *AssetRepository) GetUserByEmail(ctx context.Context, email string) (*domain.User, error) {
+	u := &domain.User{}
+	var notif []byte
+	err := r.db.QueryRowContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings FROM ws_users WHERE email = $1`, email).Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
@@ -196,6 +220,18 @@ func (r *AssetRepository) CreateGroup(ctx context.Context, group *domain.UserGro
 	}
 	_, err := r.db.ExecContext(ctx, query, group.ID, group.Name, group.Description)
 	return err
+}
+
+func (r *AssetRepository) GetGroup(ctx context.Context, id uuid.UUID) (*domain.UserGroup, error) {
+	group := &domain.UserGroup{}
+	err := r.db.QueryRowContext(ctx, `SELECT id, name, description FROM ws_groups WHERE id = $1`, id).Scan(&group.ID, &group.Name, &group.Description)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return group, nil
 }
 
 func (r *AssetRepository) ListGroups(ctx context.Context) ([]domain.UserGroup, error) {
@@ -297,7 +333,72 @@ func (r *AssetRepository) UpsertAdminConfig(ctx context.Context, key, value stri
 	return err
 }
 
-// --- Row scanning helpers ---
+// --- Effective Policies ---
+
+func (r *AssetRepository) AddAssetEffectivePolicies(ctx context.Context, assetID uuid.UUID, policies []domain.EffectivePolicy) error {
+	for _, p := range policies {
+		var groupID *uuid.UUID
+		if p.GroupID != nil {
+			gid := *p.GroupID
+			groupID = &gid
+		}
+		actions := pq.Array(p.Actions)
+		if _, err := r.db.ExecContext(ctx,
+			`INSERT INTO ws_effective_policies (user_id, group_id, asset_id, actions, policy_id) VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING`,
+			p.UserID, groupID, assetID, actions, p.PolicyID,
+		); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (r *AssetRepository) SetAssetEffectivePolicies(ctx context.Context, assetID uuid.UUID, policies []domain.EffectivePolicy) error {
+	tx, err := r.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if _, err := tx.ExecContext(ctx, `DELETE FROM ws_effective_policies WHERE asset_id = $1`, assetID); err != nil {
+		return err
+	}
+
+	for _, p := range policies {
+		var groupID *uuid.UUID
+		if p.GroupID != nil {
+			gid := *p.GroupID
+			groupID = &gid
+		}
+		actions := pq.Array(p.Actions)
+		if _, err := tx.ExecContext(ctx,
+			`INSERT INTO ws_effective_policies (user_id, group_id, asset_id, actions, policy_id) VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING`,
+			p.UserID, groupID, assetID, actions, p.PolicyID,
+		); err != nil {
+			return err
+		}
+	}
+
+	return tx.Commit()
+}
+
+func (r *AssetRepository) ListNonPolicyAssets(ctx context.Context) ([]domain.Asset, error) {
+	rows, err := r.db.QueryContext(ctx, `SELECT id, type, name, owner_id, parent_id, spec, embedding, created_at FROM ws_assets WHERE type != 'policy' ORDER BY created_at DESC`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	return scanAssets(rows)
+}
+
+func (r *AssetRepository) ListPolicies(ctx context.Context) ([]domain.Asset, error) {
+	rows, err := r.db.QueryContext(ctx, `SELECT id, type, name, owner_id, parent_id, spec, embedding, created_at FROM ws_assets WHERE type = 'policy' ORDER BY created_at DESC`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	return scanAssets(rows)
+}
 
 type scannable interface {
 	Scan(dest ...any) error

@@ -10,7 +10,7 @@ info:
     email: info@pdaccess.com
 
 servers:
-  - url: https://app.pdaccess.com/api/v1/ws
+  - url: /api/v1/ws
 
 components:
   securitySchemes:
@@ -44,6 +44,7 @@ components:
         spec:
           oneOf:
             - $ref: '#/components/schemas/ServiceSpec'
+            - $ref: '#/components/schemas/ServiceGroupSpec'
             - $ref: '#/components/schemas/VaultSpec'
             - $ref: '#/components/schemas/SecretSpec'
             - $ref: '#/components/schemas/PolicySpec'
@@ -52,13 +53,22 @@ components:
 
     # --- Specific Logic Schemas ---
 
+    ServiceGroupSpec:
+      type: object
+      properties:
+        tags:
+          type: array
+          items: { type: string }
+          description: "List of tags"
+          example: ["prod", "db", "primary"]
+
     ServiceSpec:
       type: object
       required: [endpoint, protocol]
       properties:
         endpoint: { type: string, example: "10.0.5.1" }
         protocol: { type: string, enum: [ssh, rdp, https, mysql, postgres] }
-        tags: { type: object, additionalProperties: { type: string } }
+        tags: { type: string, description: "Comma-separated list of tags", example: "prod,db,primary" }
 
     VaultSpec:
       type: object
@@ -132,6 +142,7 @@ components:
         first_name: { type: string }
         last_name: { type: string }
         email: { type: string }
+        group_ids: { type: array, items: { type: string, format: uuid } }
         notification_settings: { type: object }
 
     UserGroup:
@@ -158,23 +169,10 @@ components:
         offset: { type: integer }
         total: { type: integer }
 
-    GroupMembership:
-      type: object
-      properties:
-        group_id: { type: string, format: uuid }
-        user_id: { type: string, format: uuid }
-        created_at: { type: string, format: date-time }
-
     UserGroupList:
       type: object
       properties:
         data: { type: array, items: { $ref: '#/components/schemas/UserGroup' } }
-        meta: { $ref: '#/components/schemas/PaginationMeta' }
-
-    GroupMembershipList:
-      type: object
-      properties:
-        data: { type: array, items: { $ref: '#/components/schemas/GroupMembership' } }
         meta: { $ref: '#/components/schemas/PaginationMeta' }
 
     AssetList:
@@ -202,6 +200,10 @@ paths:
           in: query
           schema: { type: string, format: uuid }
           description: Filter by parent asset ID
+        - name: asset_id
+          in: query
+          schema: { type: string, format: uuid }
+          description: Filter by specific asset ID
         - name: limit
           in: query
           schema: { type: integer, default: 20 }
@@ -264,16 +266,20 @@ paths:
           description: Async task queued
 
   # --- IDENTITY MANAGEMENT (AuthWS) ---
-  /identity/user:
+  /identity/users:
     get:
       tags: [Identity]
       security: [{ bearerAuth: [] }]
-      summary: Get current or specific user
+      summary: Get users
       parameters:
         - name: user_id
           in: query
           schema: { type: string, format: uuid }
-          description: User ID to look up (optional, defaults to current user)
+          description: Filter by specific user ID
+        - name: current_user
+          in: query
+          schema: { type: boolean }
+          description: Return current authenticated user
         - name: view
           in: query
           schema: { type: string, enum: [summary, full], default: summary }
@@ -284,10 +290,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: User not found
-    post:
+                type: array
+                items: { $ref: '#/components/schemas/User' }
+    put:
       tags: [Identity]
       security: [{ bearerAuth: [] }]
       summary: Update current user profile
@@ -306,19 +311,6 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Validation error
-
-  /identity/users:
-    get:
-      tags: [Identity]
-      security: [{ bearerAuth: [] }]
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items: { $ref: '#/components/schemas/User' }
     post:
       tags: [Identity]
       summary: Onboard User
@@ -333,6 +325,7 @@ paths:
                 username: { type: string }
                 email: { type: string }
                 password: { type: string }
+                group_ids: { type: array, items: { type: string, format: uuid } }
       responses:
         '201':
           description: User & Vault Created
@@ -371,59 +364,6 @@ paths:
       responses:
         '201':
           description: Group Created
-
-  /identity/groups/{groupId}/memberships:
-    parameters:
-      - name: groupId
-        in: path
-        required: true
-        schema: { type: string, format: uuid }
-    get:
-      tags: [Identity]
-      security: [{ bearerAuth: [] }]
-      summary: List Group Members
-      parameters:
-        - name: limit
-          in: query
-          schema: { type: integer, default: 20 }
-        - name: offset
-          in: query
-          schema: { type: integer, default: 0 }
-      responses:
-        '200':
-          description: Return group members
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupMembershipList'
-    post:
-      tags: [Identity]
-      security: [{ bearerAuth: [] }]
-      summary: Assign User to Group
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [user_id]
-              properties:
-                user_id: { type: string, format: uuid }
-      responses:
-        '201':
-          description: Membership Created
-    delete:
-      tags: [Identity]
-      security: [{ bearerAuth: [] }]
-      summary: Remove User from Group
-      parameters:
-        - name: user_id
-          in: query
-          required: true
-          schema: { type: string, format: uuid }
-      responses:
-        '204':
-          description: Success
 
   # --- VAULT CRYPTOGRAPHY (PVault) ---
   /vaults/{vaultId}/memberships:

@@ -23,7 +23,7 @@ jobs:
         run: make unit-tests
 
       - name: Run CI/CD tests
-        run: make cicd-tests
+        run: make ci-cicd-tests
 
   docker:
       runs-on: ubuntu-latest

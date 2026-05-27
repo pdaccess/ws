@@ -22,6 +22,9 @@ unit-tests: format
 
 cicd-tests: format
 	@LOG_LEVEL=${LOG_LEVEL} CGO_LDFLAGS="-L/usr/lib" go tool ginkgo -tags ORT -v cicd/tests
+
+ci-cicd-tests: install-onnx cicd-tests
+
 	
 build: format cmd/main.go
 	docker build --no-cache --build-arg COMMIT_TXT="${COMMIT_TXT}" --build-arg BUILD_DATE="${BUILD_DATE}" --build-arg BUILD_ENV="${BUILD_ENV}" -t ghcr.io/pdaccess/ws:${GIT_COMMIT} -f Dockerfile .
@@ -63,4 +66,5 @@ install-onnx:
     && tar -xzf onnxruntime-linux-x64-1.24.4.tgz \
     && sudo cp onnxruntime-linux-x64-1.24.4/lib/libonnxruntime.so /usr/lib/ \
     && sudo ldconfig \
-	&& rm onnxruntime-linux-x64-1.24.4.tgz
+	&& rm onnxruntime-linux-x64-1.24.4.tgz \
+	&& rm -rf onnxruntime-linux-x64-1.24.4

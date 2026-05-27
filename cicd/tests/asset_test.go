@@ -245,11 +245,22 @@ var _ = Describe("Assets API", func() {
 		})
 
 		It("should succeed creating a policy with no matching assets", func() {
+			// Fetch current user first
+			currentUser := true
+			userResp, err := GetAPIClient().GetIdentityUsersWithResponse(context.Background(), &pdhttp.GetIdentityUsersParams{
+				CurrentUser: &currentUser,
+			})
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(userResp.StatusCode()).Should(Equal(200))
+			Expect(userResp.JSON200).ShouldNot(BeNil())
+			Expect(len(*userResp.JSON200)).Should(BeNumerically(">=", 1))
+			userID := uuid.UUID((*userResp.JSON200)[0].Id)
+
 			// Create a policy with no matching objects
 			policySpec := map[string]any{
 				"actions": []string{"admin"},
 				"subjects": map[string]any{
-					"users": []string{uuid.New().String()},
+					"users": []string{userID.String()},
 				},
 				"objects": map[string]any{
 					"tags": map[string]any{

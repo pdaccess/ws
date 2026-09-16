@@ -223,20 +223,16 @@ func getErrorInfo(err error) (int, string, string) {
 		return http.StatusUnauthorized, pdws_domain.ErrCodeUnauthorized, "unauthorized"
 	}
 
-	var ve pdws_domain.ValidationError
-	if errors.As(err, &ve) {
+	if ve, ok := errors.AsType[pdws_domain.ValidationError](err); ok {
 		return http.StatusBadRequest, ve.Code, ve.Message
 	}
-	var ie pdws_domain.InvalidIDError
-	if errors.As(err, &ie) {
+	if ie, ok := errors.AsType[pdws_domain.InvalidIDError](err); ok {
 		return http.StatusBadRequest, ie.Code, ie.Message
 	}
-	var nfe pdws_domain.NotFoundError
-	if errors.As(err, &nfe) {
+	if nfe, ok := errors.AsType[pdws_domain.NotFoundError](err); ok {
 		return http.StatusNotFound, nfe.Code, nfe.Error()
 	}
-	var ine pdws_domain.InternalError
-	if errors.As(err, &ine) {
+	if ine, ok := errors.AsType[pdws_domain.InternalError](err); ok {
 		return http.StatusInternalServerError, ine.Code, ine.Message
 	}
 

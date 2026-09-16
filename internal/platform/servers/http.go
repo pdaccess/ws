@@ -61,6 +61,7 @@ func NewHttpServer(svc ports.Service) http.Handler {
 	})
 	external.HandlerWithOptions(handler, external.ChiServerOptions{
 		BaseRouter:  apiCall,
+		BaseURL:     "/api/v1/ws",
 		Middlewares: []external.MiddlewareFunc{},
 	})
 

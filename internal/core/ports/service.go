@@ -18,6 +18,7 @@ type IdentityOperations interface {
 	CreateUser(ctx context.Context, user *domain.User) error
 	GetUser(ctx context.Context, id uuid.UUID) (*domain.User, error)
 	UpdateUser(ctx context.Context, id uuid.UUID, updates map[string]any) error
+	UpdateUserMfa(ctx context.Context, id uuid.UUID, mfaEnabled bool) error
 	ListUsers(ctx context.Context) ([]domain.User, error)
 	CreateGroup(ctx context.Context, group *domain.UserGroup) error
 	ListGroups(ctx context.Context) ([]domain.UserGroup, error)

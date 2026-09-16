@@ -120,7 +120,7 @@ func (r *AssetRepository) CreateUser(ctx context.Context, user *domain.User) err
 		return domain.ValidationError{Field: "email", Message: "email already exists", Code: domain.ErrCodeValidation}
 	}
 
-	query := `INSERT INTO ws_users (id, username, email, status, display_name, first_name, last_name, notification_settings) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+	query := `INSERT INTO ws_users (id, username, email, status, display_name, first_name, last_name, notification_settings, mfa) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 	if user.ID == uuid.Nil {
 		user.ID = uuid.New()
 	}
@@ -131,14 +131,14 @@ func (r *AssetRepository) CreateUser(ctx context.Context, user *domain.User) err
 	if notif == nil {
 		notif = json.RawMessage(`{}`)
 	}
-	_, err = r.db.ExecContext(ctx, query, user.ID, user.Username, user.Email, user.Status, user.DisplayName, user.FirstName, user.LastName, notif)
+	_, err = r.db.ExecContext(ctx, query, user.ID, user.Username, user.Email, user.Status, user.DisplayName, user.FirstName, user.LastName, notif, user.Mfa)
 	return err
 }
 
 func (r *AssetRepository) GetUser(ctx context.Context, id uuid.UUID) (*domain.User, error) {
 	u := &domain.User{}
 	var notif []byte
-	err := r.db.QueryRowContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings FROM ws_users WHERE id = $1`, id).Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif)
+	err := r.db.QueryRowContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings, mfa FROM ws_users WHERE id = $1`, id).Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif, &u.Mfa)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
@@ -154,7 +154,7 @@ func (r *AssetRepository) GetUser(ctx context.Context, id uuid.UUID) (*domain.Us
 func (r *AssetRepository) GetUserByEmail(ctx context.Context, email string) (*domain.User, error) {
 	u := &domain.User{}
 	var notif []byte
-	err := r.db.QueryRowContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings FROM ws_users WHERE email = $1`, email).Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif)
+	err := r.db.QueryRowContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings, mfa FROM ws_users WHERE email = $1`, email).Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif, &u.Mfa)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
@@ -168,7 +168,7 @@ func (r *AssetRepository) GetUserByEmail(ctx context.Context, email string) (*do
 }
 
 func (r *AssetRepository) ListUsers(ctx context.Context) ([]domain.User, error) {
-	rows, err := r.db.QueryContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings FROM ws_users ORDER BY username`)
+	rows, err := r.db.QueryContext(ctx, `SELECT id, username, email, status, display_name, first_name, last_name, notification_settings, mfa FROM ws_users ORDER BY username`)
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +178,7 @@ func (r *AssetRepository) ListUsers(ctx context.Context) ([]domain.User, error) 
 	for rows.Next() {
 		var u domain.User
 		var notif []byte
-		if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif); err != nil {
+		if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.Status, &u.DisplayName, &u.FirstName, &u.LastName, &notif, &u.Mfa); err != nil {
 			return nil, err
 		}
 		if len(notif) > 0 {

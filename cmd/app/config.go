@@ -59,7 +59,7 @@ func ParseConfig() (*ServerConfig, error) {
 }
 
 func setupLog(debug, console bool) {
-	zerolog.TimeFieldFormat = "2006-01-10,10:01:02"
+	zerolog.TimeFieldFormat = "2006-01-02,15:04:05"
 
 	zerolog.TimestampFunc = func() time.Time {
 		return time.Now()

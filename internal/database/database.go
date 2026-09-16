@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS ws_users (
     first_name VARCHAR(255) DEFAULT '',
     last_name VARCHAR(255) DEFAULT '',
     notification_settings JSONB DEFAULT '{}',
+    mfa BOOLEAN DEFAULT false NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

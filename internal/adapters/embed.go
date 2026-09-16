@@ -44,7 +44,7 @@ func NewVectorGenerator() (ports.VectorGenerator, error) {
 		return nil, fmt.Errorf("failed to extract model: %w", err)
 	}
 
-	session, err := hugot.NewGoSession()
+	session, err := hugot.NewGoSession(context.Background())
 	if err != nil {
 		os.RemoveAll(modelDir)
 		return nil, fmt.Errorf("failed to create hugot session: %w", err)
@@ -54,7 +54,7 @@ func NewVectorGenerator() (ports.VectorGenerator, error) {
 		ModelPath: modelDir,
 		Name:      "feature-extraction",
 	}
-	pipeline, err := hugot.NewPipeline(session, config)
+	pipeline, err := hugot.NewPipeline[*pipelines.FeatureExtractionPipeline](session, config)
 	if err != nil {
 		session.Destroy()
 		os.RemoveAll(modelDir)
@@ -69,7 +69,7 @@ func NewVectorGenerator() (ports.VectorGenerator, error) {
 }
 
 func (v *VectorGenerator) Generate(ctx context.Context, queryTerm string) (domain.Vector, error) {
-	result, err := v.pipeline.Run([]string{queryTerm})
+	result, err := v.pipeline.Run(ctx, []string{queryTerm})
 	if err != nil {
 		return nil, fmt.Errorf("generate: %w", err)
 	}

@@ -134,6 +134,7 @@ components:
         first_name: { type: string }
         last_name: { type: string }
         notification_settings: { type: object }
+        mfa: { type: boolean }
 
     UpdateUserProfileRequest:
       type: object
@@ -329,6 +330,35 @@ paths:
       responses:
         '201':
           description: User & Vault Created
+
+  /identity/users/{userId}/mfa:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    patch:
+      tags: [Identity]
+      security: [{ bearerAuth: [] }]
+      summary: Toggle MFA for user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mfa_enabled]
+              properties:
+                mfa_enabled: { type: boolean }
+      responses:
+        '200':
+          description: MFA toggled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
 
   /identity/groups:
     get:

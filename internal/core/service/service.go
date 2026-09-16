@@ -286,6 +286,19 @@ func (s *Impl) UpdateUser(ctx context.Context, id uuid.UUID, updates map[string]
 	return s.assetRepo.UpdateUser(ctx, id, updates)
 }
 
+func (s *Impl) UpdateUserMfa(ctx context.Context, id uuid.UUID, mfaEnabled bool) error {
+	user, err := s.assetRepo.GetUser(ctx, id)
+	if err != nil {
+		return err
+	}
+	if user == nil {
+		return domain.NotFoundError{Resource: "user", ID: id, Code: domain.ErrCodeNotFound}
+	}
+
+	updates := map[string]any{"mfa": mfaEnabled}
+	return s.assetRepo.UpdateUser(ctx, id, updates)
+}
+
 func (s *Impl) ListUsers(ctx context.Context) ([]domain.User, error) {
 	return s.assetRepo.ListUsers(ctx)
 }

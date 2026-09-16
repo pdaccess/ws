@@ -1,4 +1,4 @@
-FROM golang:1.26-alpine AS build
+FROM golang:1.26.5-alpine AS build
 
 ARG COMMIT_TXT
 ARG BUILD_DATE
@@ -35,3 +35,4 @@ EXPOSE 8080
 USER nonroot:nonroot
 
 ENTRYPOINT ["/ws"]
+CMD ["server"]

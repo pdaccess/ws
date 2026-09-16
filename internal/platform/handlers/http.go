@@ -452,6 +452,51 @@ func (h *httpHandler) PostVaultsVaultIdMemberships(ctx context.Context, request 
 	return external.PostVaultsVaultIdMemberships201Response{}, nil
 }
 
+// --- Identity: MFA Toggle ---
+
+func (h *httpHandler) PatchIdentityUsersUserIdMfa(ctx context.Context, request external.PatchIdentityUsersUserIdMfaRequestObject) (external.PatchIdentityUsersUserIdMfaResponseObject, error) {
+	mfaEnabled := request.Body.MfaEnabled
+
+	if err := h.svc.UpdateUserMfa(ctx, uuid.UUID(request.UserId), mfaEnabled); err != nil {
+		return nil, err
+	}
+
+	user, err := h.svc.GetUser(ctx, uuid.UUID(request.UserId))
+	if err != nil {
+		return nil, err
+	}
+	if user == nil {
+		return external.PatchIdentityUsersUserIdMfa404Response{}, nil
+	}
+
+	status := external.Active
+	if user.Status != "" {
+		status = external.UserStatus(user.Status)
+	}
+
+	extUser := external.User{
+		Id:       openapiUUID(user.ID),
+		Username: user.Username,
+		Email:    user.Email,
+		Status:   &status,
+		Mfa:      &user.Mfa,
+	}
+	displayName := user.DisplayName
+	firstName := user.FirstName
+	lastName := user.LastName
+	extUser.DisplayName = &displayName
+	extUser.FirstName = &firstName
+	extUser.LastName = &lastName
+	if len(user.NotificationSettings) > 0 {
+		var notif map[string]any
+		if json.Unmarshal(user.NotificationSettings, &notif) == nil {
+			extUser.NotificationSettings = &notif
+		}
+	}
+
+	return external.PatchIdentityUsersUserIdMfa200JSONResponse(extUser), nil
+}
+
 func userIDFromCtx(ctx context.Context) uuid.UUID {
 	client := middleware.ClientFromCtx(ctx)
 	if client == nil {

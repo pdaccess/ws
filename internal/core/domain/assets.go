@@ -39,6 +39,7 @@ type User struct {
 	FirstName            string          `json:"first_name,omitempty"`
 	LastName             string          `json:"last_name,omitempty"`
 	NotificationSettings json.RawMessage `json:"notification_settings,omitempty"`
+	Mfa                  bool           `json:"mfa,omitempty"`
 }
 
 type UserGroup struct {
